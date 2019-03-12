@@ -6,6 +6,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "WindowsStore")
   set(PLATFORM UWP)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /await")
 else()
   set(PLATFORM WIN32)
 endif()
