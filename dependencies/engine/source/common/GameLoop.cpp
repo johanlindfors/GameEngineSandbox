@@ -1,5 +1,7 @@
 #include "GameLoop.h"
 
+using namespace Engine;
+
 GameLoop::GameLoop() 
 {
 

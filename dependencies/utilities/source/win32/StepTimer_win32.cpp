@@ -54,8 +54,8 @@ void StepTimer::ResetElapsedTime()
 }
 
 // Update timer state, calling the specified Update function the appropriate number of times.
-template<typename TUpdate>
-void Tick(const TUpdate& update)
+//template<typename TUpdate>
+void StepTimer::Tick(std::function<void()> update)
 {
     // Query the current time.
     LARGE_INTEGER currentTime;

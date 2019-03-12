@@ -7,6 +7,7 @@
 #include <cmath>
 #include <exception>
 #include <stdint.h>
+#include <functional>
 
 namespace Utilities
 {
@@ -50,8 +51,8 @@ namespace Utilities
         void ResetElapsedTime();
 
         // Update timer state, calling the specified Update function the appropriate number of times.
-        template<typename TUpdate>
-        void Tick(const TUpdate& update);
+        //template<typename TUpdate>
+        void Tick(std::function<void()> update);
 
     private:
         // Source timing data uses QPC units.

@@ -1,20 +1,23 @@
 # pragma once
 #include "StepTimer.h"
 
-class GameLoop 
-{
-public:
+namespace Engine {
 
-    GameLoop();
+	class GameLoop
+	{
+	public:
 
-    void Tick();
-    void OnWindowSizeChanged(int width, int height);
-    void GetDefaultSize( int& width, int& height ) const;
+		GameLoop();
 
-private:
-    void Update(Utilities::StepTimer const& timer);
-    void Render();
-    void Clear();
+		void Tick();
+		void OnWindowSizeChanged(int width, int height);
+		void GetDefaultSize(int& width, int& height) const;
 
-	Utilities::StepTimer m_timer;
-};
+	private:
+		void Update(Utilities::StepTimer const& timer);
+		void Render();
+		void Clear();
+
+		Utilities::StepTimer m_timer;
+	};
+}
