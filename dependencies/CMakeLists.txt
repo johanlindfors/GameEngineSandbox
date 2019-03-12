@@ -1,5 +1,5 @@
 message(STATUS "Adding dependency utilities")
 add_subdirectory(utilities ${CMAKE_CURRENT_BINARY_DIR}/dependencies/utilities)
 
-message(STATUS "Adding dependency gamelopp")
-add_subdirectory(gameloop ${CMAKE_CURRENT_BINARY_DIR}/dependencies/gameloop)
+message(STATUS "Adding dependency engine")
+add_subdirectory(engine ${CMAKE_CURRENT_BINARY_DIR}/dependencies/engine)

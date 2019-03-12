@@ -2,9 +2,12 @@
 #include <test.h>
 #include <iostream>
 
-int WinMain(HINSTANCE , HINSTANCE , LPSTR , int)
+void StartWin32Application();
+
+int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
-    Person p("Johan", "Lindfors");
-    std::cout << p.GetName() << std::endl;	
+	StartWin32Application();
+    //Person p("Johan", "Lindfors");
+    //std::cout << p.GetName() << std::endl;	
     return 0;
 }
