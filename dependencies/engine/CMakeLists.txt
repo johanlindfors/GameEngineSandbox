@@ -11,9 +11,15 @@ file(GLOB PLATFORM_SOURCES
     source/${PLATFORM}/*.h
 )
 
-file(GLOB INCLUDES include/*.h)
+file(GLOB INCLUDES 
+    include/*.h
+    include/${PLATFORM}/*.h
+)
 
 add_library(engine STATIC ${PLATFORM_SOURCES} ${INCLUDES})
 target_link_libraries(engine ${DEPENDENCIES})
 
-target_include_directories(engine PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
+target_include_directories(engine PUBLIC 
+    "${CMAKE_CURRENT_LIST_DIR}/include"
+    "${CMAKE_CURRENT_LIST_DIR}/include/${PLATFORM}/"
+)

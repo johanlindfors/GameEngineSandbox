@@ -1,13 +1,14 @@
 #include <Windows.h>
-#include <test.h>
-#include <iostream>
+#include "UwpApplication.h"
 
-void StartUwpApplication();
+#include <winrt/Windows.UI.Xaml.h>
+
+using winrt::Windows::UI::Xaml::Application;
 
 int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
-	StartUwpApplication();
-    //Person p("Johan", "Lindfors");
-    //std::cout << p.GetName() << std::endl;	
+	Application::Start([](auto &&) { 
+        winrt::make<UwpApplication>(); 
+    });
     return 0;
 }
