@@ -2,6 +2,7 @@
 #include <winrt/Windows.UI.Xaml.Controls.h>
 #include <winrt/Windows.UI.Xaml.Media.h>
 #include <winrt/Windows.Foundation.h>
+#include "DirectXPage.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -19,17 +20,9 @@ UwpApplication::UwpApplication(IPlatformProxy* platformProxy)
 
 void UwpApplication::OnLaunched(LaunchActivatedEventArgs const &)
 {
-	TextBlock block;
-
-	block.FontFamily(FontFamily(L"Segoe UI Semibold"));
-	block.FontSize(72.0);
-	block.Foreground(SolidColorBrush(Colors::Orange()));
-	block.VerticalAlignment(VerticalAlignment::Center);
-	block.TextAlignment(TextAlignment::Center);
-	block.TextWrapping(TextWrapping::Wrap);
-	block.Text(L"Game Engine Sandbox");
+	auto page = winrt::make<Engine::DirectXPage>();
 
 	Window window = Window::Current();
-	window.Content(block);
+	window.Content(page);
 	window.Activate();
 }
