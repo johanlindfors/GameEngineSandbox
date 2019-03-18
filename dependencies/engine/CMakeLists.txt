@@ -1,5 +1,4 @@
 project(engine)
-include(../pipeline/functions.cmake)
 
 set(DEPENDENCIES
     utilities

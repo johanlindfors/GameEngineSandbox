@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 project(game_engine_sandbox)
 
+include(dependencies/pipeline/functions.cmake)
+
 # Enable folders grouping in IDE
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
