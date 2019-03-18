@@ -24,7 +24,8 @@ function(build_library project_name)
 endfunction()
 
 function(build_executable project_name)
-    string(REPLACE "," ";" DEPENDENCIES ${ARGV1}) 
+    set(DEPENDENCIES ${ARGV1})
+    #string(REPLACE "," ";" DEPENDENCIES ${ARGV1}) 
 
     file(GLOB PLATFORM_SOURCES
         source/common/*.cpp
