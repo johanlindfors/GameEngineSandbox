@@ -1,0 +1,3 @@
+[submodule "dependencies/thirdparty/angle"]
+	path = dependencies/thirdparty/angle
+	url = git@github.com:coderox/angle.git
