@@ -8,12 +8,12 @@ function(build_library project_name)
         source/${PLATFORM}/*.h
     )
 
-    file(GLOB INCLUDES 
+    file(GLOB EXTERNAL_HEADERS 
         include/*.h
         include/${PLATFORM}/*.h
     )
 
-    add_library(${project_name} STATIC ${PLATFORM_SOURCES} ${INCLUDES})
+    add_library(${project_name} STATIC ${PLATFORM_SOURCES} ${EXTERNAL_HEADERS})
 
     target_link_libraries(${project_name} ${DEPENDENCIES})
 
@@ -34,8 +34,8 @@ function(build_executable project_name)
     )
 
     include_directories(
-        "${CMAKE_CURRENT_LIST_DIR}/include"
-        "${CMAKE_CURRENT_LIST_DIR}/include/${PLATFORM}/"
+        "include"
+        "include/${PLATFORM}"
     )
 
     add_executable(${project_name} WIN32 ${PLATFORM_SOURCES})
