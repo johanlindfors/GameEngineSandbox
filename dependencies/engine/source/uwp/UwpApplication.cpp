@@ -2,7 +2,8 @@
 #include <winrt/Windows.UI.Xaml.Controls.h>
 #include <winrt/Windows.UI.Xaml.Media.h>
 #include <winrt/Windows.Foundation.h>
-#include "DirectXPage.h"
+#include "OpenGLES.h"
+#include "GLPage.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -20,9 +21,9 @@ UwpApplication::UwpApplication(IPlatformProxy* platformProxy)
 
 void UwpApplication::OnLaunched(LaunchActivatedEventArgs const &)
 {
-	auto page = winrt::make<Engine::DirectXPage>();
+	auto glPage = winrt::make<Engine::GLPage>(std::make_shared<OpenGLES>());
 
 	Window window = Window::Current();
-	window.Content(page);
+	window.Content(glPage);
 	window.Activate();
 }

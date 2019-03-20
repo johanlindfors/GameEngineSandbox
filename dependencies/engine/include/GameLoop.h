@@ -1,13 +1,17 @@
 # pragma once
 #include "StepTimer.h"
+#include <memory>
 
 namespace Engine {
+
+	class SimpleRenderer;
 
 	class GameLoop
 	{
 	public:
 
 		GameLoop();
+		~GameLoop();
 
 		void Tick();
 		void OnWindowSizeChanged(int width, int height);
@@ -18,6 +22,7 @@ namespace Engine {
 		void Render();
 		void Clear();
 
-		Utilities::StepTimer m_timer;
+		Utilities::StepTimer mTimer;
+		SimpleRenderer* mSimpleRenderer;
 	};
 }

@@ -1,25 +1,32 @@
 #include "GameLoop.h"
+#include "SimpleRenderer.h"
 
+using namespace std;
 using namespace Engine;
 
 GameLoop::GameLoop() 
 {
+	mSimpleRenderer = new SimpleRenderer();
+}
 
+GameLoop::~GameLoop()
+{
+	delete(mSimpleRenderer);
 }
 
 void GameLoop::Tick() 
 {
-	m_timer.Tick([&]()
+	mTimer.Tick([&]()
 	{
-		Update(m_timer);
+		Update(mTimer);
 	});
-
 	Render();
 }
 
 void GameLoop::OnWindowSizeChanged(int width, int height)
 {
 	// TODO: Handle window size changed events
+	mSimpleRenderer->UpdateWindowSize(width, height);
 }
 
 void GameLoop::GetDefaultSize(int& width, int& height) const
@@ -40,14 +47,14 @@ void GameLoop::Update(Utilities::StepTimer const& timer)
 void GameLoop::Render()
 {
 	// Don't try to render anything before the first Update.
-	if (m_timer.GetFrameCount() == 0)
+	if (mTimer.GetFrameCount() == 0)
 	{
 		return;
 	}
 
 	Clear();
 
-	// TODO: Add your rendering code here
+	mSimpleRenderer->Draw();
 }
 
 void GameLoop::Clear()
