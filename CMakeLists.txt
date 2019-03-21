@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 project(game_engine_sandbox)
 
+if(WIN32 AND WINDOWS_STORE)
+  set(UWP 1)
+endif()
+
 include(dependencies/pipeline/functions.cmake)
 
 # Enable folders grouping in IDE
