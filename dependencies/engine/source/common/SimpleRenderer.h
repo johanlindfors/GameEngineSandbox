@@ -8,7 +8,8 @@ namespace Engine
     public:
         SimpleRenderer();
         ~SimpleRenderer();
-        void Draw();
+		void Draw();
+		void Update();
         void UpdateWindowSize(GLsizei width, GLsizei height);
 
     private:

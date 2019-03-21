@@ -7,6 +7,7 @@ using namespace Engine;
 GameLoop::GameLoop() 
 {
 	mSimpleRenderer = new SimpleRenderer();
+	mTimer.SetFixedTimeStep(true);
 }
 
 GameLoop::~GameLoop()
@@ -42,6 +43,7 @@ void GameLoop::Update(Utilities::StepTimer const& timer)
 
 	// TODO: Add your game logic here.
 	elapsedTime;
+	mSimpleRenderer->Update();
 }
 
 void GameLoop::Render()

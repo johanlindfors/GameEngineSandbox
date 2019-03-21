@@ -5,6 +5,7 @@
 #include <exception>
 #include <stdint.h>
 #include <Windows.h>
+#include <string>
 
 using namespace Utilities;
 

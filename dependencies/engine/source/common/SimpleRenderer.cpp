@@ -225,6 +225,11 @@ SimpleRenderer::~SimpleRenderer()
     }
 }
 
+void SimpleRenderer::Update()
+{
+	mDrawCount += 1;
+}
+
 void SimpleRenderer::Draw()
 {
     glEnable(GL_DEPTH_TEST);
@@ -255,8 +260,6 @@ void SimpleRenderer::Draw()
     // Draw 36 indices: six faces, two triangles per face, 3 indices per triangle
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
     glDrawElements(GL_TRIANGLES, (6 * 2) * 3, GL_UNSIGNED_SHORT, 0);
-
-    mDrawCount += 1;
 }
 
 void SimpleRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
