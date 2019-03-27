@@ -1,17 +1,9 @@
 cmake_minimum_required(VERSION 3.8)
 project(game_engine_sandbox)
 
-if(WIN32 AND WINDOWS_STORE)
-  set(UWP 1)
-endif()
-
-include(dependencies/pipeline/functions.cmake)
-
-# Enable folders grouping in IDE
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
 if(MSVC)
   if("${CMAKE_SYSTEM_NAME}" STREQUAL "WindowsStore")
+    set(UWP 1)
     set(PLATFORM UWP)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /await")
   else()
@@ -20,6 +12,11 @@ if(MSVC)
 else()
   set(PLATFORM OSX)
 endif()
+
+include(dependencies/pipeline/functions.cmake)
+
+# Enable folders grouping in IDE
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 message(STATUS "Current platform is ${PLATFORM}")
 

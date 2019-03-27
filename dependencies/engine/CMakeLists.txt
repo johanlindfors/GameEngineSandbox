@@ -10,11 +10,11 @@ if(UWP)
         libGLESv2
     )
 else()
+    find_package(GLEW REQUIRED)
     list(APPEND DEPENDENCIES 
         GLEW::GLEW
         opengl32.lib
     )
-    find_package(GLEW REQUIRED)
 endif()
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")
