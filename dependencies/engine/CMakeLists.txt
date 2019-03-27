@@ -5,13 +5,11 @@ set(DEPENDENCIES
 )
 
 if(UWP)
-    message(STATUS "Is UWP")
     list(APPEND DEPENDENCIES 
         libEGL
         libGLESv2
     )
 else()
-    message(STATUS "Is not UWP")
     list(APPEND DEPENDENCIES 
         GLEW::GLEW
         opengl32.lib

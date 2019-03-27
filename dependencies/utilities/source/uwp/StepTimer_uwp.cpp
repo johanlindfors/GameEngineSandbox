@@ -1,5 +1,3 @@
-#pragma once
-
 #include "StepTimer.h"
 #include <cmath>
 #include <exception>

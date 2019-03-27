@@ -38,7 +38,11 @@ function(build_executable project_name)
         "include/${PLATFORM}"
     )
 
-    add_executable(${project_name} WIN32 ${PLATFORM_SOURCES})
+    if(MSVC)
+        add_executable(${project_name} WIN32 ${PLATFORM_SOURCES})
+    else()
+        add_executable(${project_name} ${PLATFORM_SOURCES})
+    endif()
 
     target_link_libraries(${project_name} ${DEPENDENCIES})
 
