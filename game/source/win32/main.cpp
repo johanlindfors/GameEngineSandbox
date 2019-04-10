@@ -1,13 +1,10 @@
 #include <Windows.h>
-#include <test.h>
 #include <iostream>
+#include <test.h>
 
 void StartWin32Application();
 
-int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
-{
-	StartWin32Application();
-    //Person p("Johan", "Lindfors");
-    //std::cout << p.GetName() << std::endl;	
-    return 0;
+int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
+  StartWin32Application();
+  return 0;
 }

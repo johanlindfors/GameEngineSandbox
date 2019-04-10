@@ -1,14 +1,12 @@
-#include <Windows.h>
 #include "UwpApplication.h"
+#include <Windows.h>
 
 #include <winrt/Windows.UI.Xaml.h>
 
-using winrt::Windows::UI::Xaml::Application;
+using namespace winrt;
+using Windows::UI::Xaml::Application;
 
-int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
-{
-	Application::Start([](auto &&) { 
-        winrt::make<UwpApplication>(); 
-    });
-    return 0;
+int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
+  Application::Start([](auto &&) { make<UwpApplication>(); });
+  return 0;
 }
