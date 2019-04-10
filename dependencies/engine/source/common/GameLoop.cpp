@@ -7,24 +7,26 @@ using namespace Engine;
 GameLoop::GameLoop() 
 {
 	mSimpleRenderer = new SimpleRenderer();
+	mSceneManager = make_unique<SceneManager>();
 	mTimer.SetFixedTimeStep(true);
 }
 
 GameLoop::~GameLoop()
 {
 	delete(mSimpleRenderer);
+	mSceneManager.reset(nullptr);
 }
 
 void GameLoop::Tick() 
 {
 	mTimer.Tick([&]()
 	{
-		Update(mTimer);
+		Update();
 	});
 	Render();
 }
 
-void GameLoop::OnWindowSizeChanged(int width, int height)
+void GameLoop::UpdateWindowSize(int width, int height)
 {
 	// TODO: Handle window size changed events
 	mSimpleRenderer->UpdateWindowSize(width, height);
@@ -37,13 +39,14 @@ void GameLoop::GetDefaultSize(int& width, int& height) const
 	height = 600;
 }
 
-void GameLoop::Update(Utilities::StepTimer const& timer)
+void GameLoop::Update()
 {
-	float elapsedTime = float(timer.GetElapsedSeconds());
+	float elapsedTime = float(mTimer.GetElapsedSeconds());
 
 	// TODO: Add your game logic here.
 	elapsedTime;
-	mSimpleRenderer->Update();
+	mSimpleRenderer->Update(mTimer);
+	mSceneManager->Update(mTimer);
 }
 
 void GameLoop::Render()
@@ -56,7 +59,8 @@ void GameLoop::Render()
 
 	Clear();
 
-	mSimpleRenderer->Draw();
+	mSimpleRenderer->Draw(mTimer);
+	mSceneManager->Draw(mTimer);
 }
 
 void GameLoop::Clear()

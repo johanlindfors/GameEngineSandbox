@@ -1,6 +1,7 @@
 # pragma once
 #include "StepTimer.h"
 #include <memory>
+#include "SceneManager.h"
 
 namespace Engine {
 
@@ -14,15 +15,16 @@ namespace Engine {
 		~GameLoop();
 
 		void Tick();
-		void OnWindowSizeChanged(int width, int height);
+		void UpdateWindowSize(int width, int height);
 		void GetDefaultSize(int& width, int& height) const;
 
 	private:
-		void Update(Utilities::StepTimer const& timer);
+		void Update();
 		void Render();
 		void Clear();
 
 		Utilities::StepTimer mTimer;
 		SimpleRenderer* mSimpleRenderer;
+		std::unique_ptr<SceneManager> mSceneManager;
 	};
 }

@@ -51,7 +51,7 @@ void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 		EGLint panelWidth = 0;
 		EGLint panelHeight = 0;
 		mOpenGLES->GetSurfaceDimensions(mRenderSurface, &panelWidth, &panelHeight);
-		mGameLoop->OnWindowSizeChanged(panelWidth, panelHeight);
+		mGameLoop->UpdateWindowSize(panelWidth, panelHeight);
 		mGameLoop->Tick();
 
 		if (mOpenGLES->SwapBuffers(mRenderSurface) != GL_TRUE)

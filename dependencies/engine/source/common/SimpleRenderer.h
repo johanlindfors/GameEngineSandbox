@@ -1,5 +1,6 @@
 #pragma once
 #include "glwrapper.h"
+#include "StepTimer.h"
 
 namespace Engine
 {
@@ -8,8 +9,8 @@ namespace Engine
     public:
         SimpleRenderer();
         ~SimpleRenderer();
-		void Draw();
-		void Update();
+		void Draw(Utilities::StepTimer const& timer);
+		void Update(Utilities::StepTimer const& timer);
         void UpdateWindowSize(GLsizei width, GLsizei height);
 
     private:

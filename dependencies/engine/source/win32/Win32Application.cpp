@@ -41,7 +41,7 @@ void StartWin32Application()
 	g_gameLoop = std::make_unique<Engine::GameLoop>();
 	int width, height;
 	g_gameLoop->GetDefaultSize(width, height);
-	g_gameLoop->OnWindowSizeChanged(width, height);
+	g_gameLoop->UpdateWindowSize(width, height);
 
 	MSG msg = {};
 	while (WM_QUIT != msg.message)
@@ -134,18 +134,6 @@ BOOL InitInstance(HINSTANCE hInstance)
 		return false;
 	}
 
-	//if (mMSAASupported) {
-	//	pixelFormat = mMSAAPixelFormat;
-	//}
-	//else {
-	//	pixelFormat = ChoosePixelFormat(hDC, &pfd);
-	//}
-
-	//if (!pixelFormat) {
-	//	KillGLWindow(fullscreen);
-	//	MessageBox(NULL, "Can't Find A Suitable PixelFormat.", "ERROR", MB_OK | MB_ICONEXCLAMATION);
-	//	return false;
-	//}
 	auto pixelFormat = ChoosePixelFormat(hDC, &pfd);
 	if (!SetPixelFormat(hDC, pixelFormat, &pfd)) {
 		//KillGLWindow(fullscreen);
@@ -175,7 +163,7 @@ BOOL InitInstance(HINSTANCE hInstance)
 	}
 
 	//GetClientRect(hWnd, &rc);
-	//g_gameLoop->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+	//g_gameLoop->UpdateWindowSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	//g_gameLoop->Initialize(hWnd, rc.right - rc.left, rc.bottom - rc.top);
 
