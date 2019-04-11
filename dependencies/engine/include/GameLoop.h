@@ -1,22 +1,21 @@
-# pragma once
+#pragma once
+#include "SceneManager.h"
 #include "StepTimer.h"
 #include <memory>
-#include "SceneManager.h"
 
 namespace Engine {
 
 	class SimpleRenderer;
 
-	class GameLoop
-	{
+	class GameLoop {
 	public:
-
 		GameLoop();
 		~GameLoop();
 
+		void Initialize();
 		void Tick();
 		void UpdateWindowSize(int width, int height);
-		void GetDefaultSize(int& width, int& height) const;
+		void GetDefaultSize(int &width, int &height) const;
 
 	private:
 		void Update();
@@ -24,7 +23,8 @@ namespace Engine {
 		void Clear();
 
 		Utilities::StepTimer mTimer;
-		SimpleRenderer* mSimpleRenderer;
+		SimpleRenderer *mSimpleRenderer;
 		std::unique_ptr<SceneManager> mSceneManager;
+		bool mIsInitialized;
 	};
-}
+} // namespace Engine

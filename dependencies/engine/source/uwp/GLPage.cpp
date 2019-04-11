@@ -77,5 +77,6 @@ void GLPage::RecreateRenderer()
 	if (!mGameLoop)
 	{
 		mGameLoop.reset(new GameLoop());
+        mGameLoop->Initialize();
 	}
 }

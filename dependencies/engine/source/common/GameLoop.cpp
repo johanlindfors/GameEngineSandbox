@@ -4,43 +4,44 @@
 using namespace std;
 using namespace Engine;
 
-GameLoop::GameLoop() 
-{
+GameLoop::GameLoop() : mIsInitialized(false) {}
+
+void GameLoop::Initialize() {
 	mSimpleRenderer = new SimpleRenderer();
 	mSceneManager = make_unique<SceneManager>();
 	mTimer.SetFixedTimeStep(true);
+	mIsInitialized = true;
 }
 
-GameLoop::~GameLoop()
-{
-	delete(mSimpleRenderer);
+GameLoop::~GameLoop() {
+	delete (mSimpleRenderer);
 	mSceneManager.reset(nullptr);
 }
 
-void GameLoop::Tick() 
-{
-	mTimer.Tick([&]()
-	{
-		Update();
-	});
+void GameLoop::Tick() {
+	if (!mIsInitialized)
+		return;
+	mTimer.Tick([&]() { Update(); });
 	Render();
 }
 
-void GameLoop::UpdateWindowSize(int width, int height)
-{
+void GameLoop::UpdateWindowSize(int width, int height) {
 	// TODO: Handle window size changed events
+	if (!mIsInitialized)
+		return;
 	mSimpleRenderer->UpdateWindowSize(width, height);
 }
 
-void GameLoop::GetDefaultSize(int& width, int& height) const
-{
+void GameLoop::GetDefaultSize(int &width, int &height) const {
 	// TODO: Change to desired default window size (note minimum size is 320x200).
 	width = 800;
 	height = 600;
 }
 
-void GameLoop::Update()
-{
+void GameLoop::Update() {
+	if (!mIsInitialized)
+		return;
+
 	float elapsedTime = float(mTimer.GetElapsedSeconds());
 
 	// TODO: Add your game logic here.
@@ -49,11 +50,12 @@ void GameLoop::Update()
 	mSceneManager->Update(mTimer);
 }
 
-void GameLoop::Render()
-{
+void GameLoop::Render() {
+	if (!mIsInitialized)
+		return;
+
 	// Don't try to render anything before the first Update.
-	if (mTimer.GetFrameCount() == 0)
-	{
+	if (mTimer.GetFrameCount() == 0) {
 		return;
 	}
 
@@ -63,7 +65,6 @@ void GameLoop::Render()
 	mSceneManager->Draw(mTimer);
 }
 
-void GameLoop::Clear()
-{
+void GameLoop::Clear() {
 	// TODO: Add your clearing code here
 }
