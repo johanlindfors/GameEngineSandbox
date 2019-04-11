@@ -1,6 +1,4 @@
-function(build_library project_name)
-    set(DEPENDENCIES ${ARGV1})
-
+macro(update_sources)
     file(GLOB_RECURSE COMMON_SOURCES
         source/common/*.cpp
         source/common/*.h
@@ -10,6 +8,12 @@ function(build_library project_name)
         source/${PLATFORM}/*.cpp
         source/${PLATFORM}/*.h
     )
+endmacro()
+
+function(build_library project_name)
+    set(DEPENDENCIES ${ARGV1})
+
+    update_sources()
 
     file(GLOB EXTERNAL_HEADERS 
         include/*.h
@@ -29,15 +33,7 @@ endfunction()
 function(build_executable project_name)
     set(DEPENDENCIES ${ARGV1})
 
-    file(GLOB_RECURSE COMMON_SOURCES
-        source/common/*.cpp
-        source/common/*.h
-    )
-
-    file(GLOB PLATFORM_SOURCES
-        source/${PLATFORM}/*.cpp
-        source/${PLATFORM}/*.h
-    )
+    update_sources()
 
     add_executable(${project_name} WIN32 ${PLATFORM_SOURCES} ${COMMON_SOURCES})
 
