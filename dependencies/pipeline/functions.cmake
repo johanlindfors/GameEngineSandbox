@@ -1,12 +1,12 @@
 macro(update_sources)
     file(GLOB_RECURSE COMMON_SOURCES
         source/common/*.cpp
-        source/common/*.h
+        source/common/*.h*
     )
 
     file(GLOB PLATFORM_SOURCES
         source/${PLATFORM}/*.cpp
-        source/${PLATFORM}/*.h
+        source/${PLATFORM}/*.h*
     )
 endmacro()
 
@@ -16,8 +16,8 @@ function(build_library project_name)
     update_sources()
 
     file(GLOB EXTERNAL_HEADERS 
-        include/*.h
-        include/${PLATFORM}/*.h
+        include/*.h*
+        include/${PLATFORM}/*.h*
     )
 
     add_library(${project_name} STATIC ${PLATFORM_SOURCES} ${COMMON_SOURCES} ${EXTERNAL_HEADERS})
@@ -34,6 +34,12 @@ function(build_executable project_name)
     set(DEPENDENCIES ${ARGV1})
 
     update_sources()
+
+    include_directories(
+        source/
+        source/common
+        source/${PLATFORM}
+    )
 
     add_executable(${project_name} WIN32 ${PLATFORM_SOURCES} ${COMMON_SOURCES})
 

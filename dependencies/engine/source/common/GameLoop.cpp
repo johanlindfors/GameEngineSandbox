@@ -1,5 +1,7 @@
 #include "GameLoop.h"
 #include "SimpleRenderer.h"
+#include "IOC.hpp"
+#include "GameScene.h"
 
 using namespace std;
 using namespace Engine;
@@ -9,6 +11,10 @@ GameLoop::GameLoop() : mIsInitialized(false) {}
 void GameLoop::Initialize() {
 	mSimpleRenderer = new SimpleRenderer();
 	mSceneManager = make_unique<SceneManager>();
+	
+	auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
+	mSceneManager->AddScene(initialSceneFromGame);
+
 	mTimer.SetFixedTimeStep(true);
 	mIsInitialized = true;
 }
