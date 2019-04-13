@@ -1,7 +1,7 @@
 #include "GameLoop.h"
 #include "SimpleRenderer.h"
 #include "IOC.hpp"
-#include "GameScene.h"
+#include "scenes/GameScene.h"
 
 using namespace std;
 using namespace Engine;

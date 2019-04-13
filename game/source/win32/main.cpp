@@ -2,7 +2,6 @@
 #include <iostream>
 #include <test.h>
 #include "IOC.hpp"
-#include "GameScene.h"
 #include "scenes/SplashScene.h"
 
 void StartWin32Application();

@@ -1,8 +1,7 @@
 #include "UwpApplication.h"
 #include <Windows.h>
 #include "IOC.hpp"
-#include "GameScene.h"
-#include "SplashScene.h"
+#include "scenes/SplashScene.h"
 
 #include <winrt/Windows.UI.Xaml.h>
 

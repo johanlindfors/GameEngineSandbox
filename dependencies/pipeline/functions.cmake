@@ -15,8 +15,8 @@ function(build_library project_name)
 
     update_sources()
 
-    file(GLOB EXTERNAL_HEADERS 
-        include/*.h*
+    file(GLOB_RECURSE EXTERNAL_HEADERS 
+        include/common/*.h*
         include/${PLATFORM}/*.h*
     )
 
@@ -25,7 +25,7 @@ function(build_library project_name)
     target_link_libraries(${project_name} ${DEPENDENCIES})
 
     target_include_directories(${project_name} PUBLIC 
-        "${CMAKE_CURRENT_LIST_DIR}/include"
+        "${CMAKE_CURRENT_LIST_DIR}/include/common"
         "${CMAKE_CURRENT_LIST_DIR}/include/${PLATFORM}/"
     )
 endfunction()

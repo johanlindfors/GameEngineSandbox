@@ -5,5 +5,11 @@
         ".gitmodules": true,
         ".vscode/": true,
         "build/": true
+    },
+    "files.associations": {
+        "thread": "cpp",
+        "xlocale": "cpp",
+        "xlocnum": "cpp",
+        "xstring": "cpp"
     }
 }
