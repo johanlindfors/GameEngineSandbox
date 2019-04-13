@@ -2,6 +2,7 @@
 #include "SimpleRenderer.h"
 #include "IOC.hpp"
 #include "scenes/GameScene.h"
+#include "textures/TextureManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -10,8 +11,11 @@ GameLoop::GameLoop() : mIsInitialized(false) {}
 
 void GameLoop::Initialize() {
 	mSimpleRenderer = new SimpleRenderer();
-	mSceneManager = make_unique<SceneManager>();
-	
+
+	mSceneManager = make_shared<SceneManager>();
+	IOCContainer::Instance().Register<SceneManager>(mSceneManager);
+	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
+
 	auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
 	mSceneManager->AddScene(initialSceneFromGame);
 
@@ -21,7 +25,7 @@ void GameLoop::Initialize() {
 
 GameLoop::~GameLoop() {
 	delete (mSimpleRenderer);
-	mSceneManager.reset(nullptr);
+	mSceneManager.reset();
 }
 
 void GameLoop::Tick() {

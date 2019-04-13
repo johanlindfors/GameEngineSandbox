@@ -2,30 +2,26 @@
 #include <future>
 #include <map>
 
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Storage.Streams.h>
-#include <winrt/Windows.Graphics.Imaging.h>
-#include <winrt/Windows.UI.Core.h>
 #include "Texture2D.h"
+#include "ITextureManager.h"
 
 class TextureManagerImpl;
 
-class TextureManager {
+class TextureManager : public ITextureManager {
 public:
-	TextureManager()
-		: mIsLoaded(false)
-    { }
+	TextureManager();
+	~TextureManager();
 
 	void LoadTextures(std::vector<std::wstring> filename);
-	Texture2D GetTexture(std::wstring filename);
-	bool IsLoaded() { return mIsLoaded; }
+	Texture2D GetTexture(std::wstring filename) const;
+	bool IsLoaded() const { return mInitialized; }
 
 private:
 	GLuint GenerateTexture();
 	std::future<void> LoadTextureAsync(Texture2D& texture);
 	void SetTexturePixels(GLuint textureId, GLsizei width, GLsizei height, GLubyte* pixels);
 
-	bool mIsLoaded;
+	bool mInitialized;
     std::map<std::wstring, Texture2D> mTextures;
 
     TextureManagerImpl* mImpl;
