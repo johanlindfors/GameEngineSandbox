@@ -2,10 +2,17 @@ cmake_minimum_required(VERSION 3.8)
 project(game_engine_sandbox)
 
 if(MSVC)
+
+  if(MSVC_VERSION GREATER 1700)
+    set(COMPILER_VERSION "12")
+  elseif(MSVC_VERSION GREATER 1600)
+    set(COMPILER_VERSION "11")
+  endif()
+
   if("${CMAKE_SYSTEM_NAME}" STREQUAL "WindowsStore")
     set(UWP 1)
     set(PLATFORM UWP)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /await")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /await")
   else()
     set(PLATFORM WIN32)
   endif()

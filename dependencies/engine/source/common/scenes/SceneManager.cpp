@@ -55,7 +55,7 @@ void SceneManager::Draw(Utilities::StepTimer const& timer)
 void SceneManager::AddScene(shared_ptr<GameScene> scene)
 {
 	if (mInitialized) {
-		//scene->LoadContent();
+		scene->Load();
 	}
 
 	mScenes.push_back(scene);

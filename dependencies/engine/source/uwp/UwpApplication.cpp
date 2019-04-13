@@ -4,6 +4,8 @@
 #include <winrt/Windows.Foundation.h>
 #include "OpenGLES.h"
 #include "GLPage.h"
+#include "DispatcherWrapper.h"
+#include "IOC.hpp"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -24,6 +26,8 @@ void UwpApplication::OnLaunched(LaunchActivatedEventArgs const &)
 	auto glPage = winrt::make<Engine::GLPage>(std::make_shared<OpenGLES>());
 
 	Window window = Window::Current();
+	auto dispatcherWrapper = std::make_shared<DispatcherWrapper>(window.Dispatcher());
+	IOCContainer::Instance().Register<DispatcherWrapper>(dispatcherWrapper);
 	window.Content(glPage);
 	window.Activate();
 }

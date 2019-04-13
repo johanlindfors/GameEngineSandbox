@@ -28,6 +28,8 @@ function(build_library project_name)
         "${CMAKE_CURRENT_LIST_DIR}/include/common"
         "${CMAKE_CURRENT_LIST_DIR}/include/${PLATFORM}/"
     )
+    set_property(TARGET ${project_name} PROPERTY CXX_STANDARD 17)
+    set_property(TARGET ${project_name} PROPERTY CXX_STANDARD_REQUIRED ON)
 endfunction()
 
 function(build_executable project_name)
@@ -44,5 +46,7 @@ function(build_executable project_name)
     add_executable(${project_name} WIN32 ${PLATFORM_SOURCES} ${COMMON_SOURCES})
 
     target_link_libraries(${project_name} ${DEPENDENCIES})
-
+    
+    set_property(TARGET ${project_name} PROPERTY CXX_STANDARD 17)
+    set_property(TARGET ${project_name} PROPERTY CXX_STANDARD_REQUIRED ON)
 endfunction()

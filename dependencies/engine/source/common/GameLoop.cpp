@@ -13,6 +13,7 @@ void GameLoop::Initialize() {
 	mSimpleRenderer = new SimpleRenderer();
 
 	mSceneManager = make_shared<SceneManager>();
+	mSceneManager->Initialize();
 	IOCContainer::Instance().Register<SceneManager>(mSceneManager);
 	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
 
