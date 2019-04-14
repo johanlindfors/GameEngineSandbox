@@ -24,6 +24,30 @@ struct Matrix4
     float m[4][4];
 };
 
+struct Vector4
+{
+	Vector4(float m0, float m1, float m2, float m3)
+	{
+		m[0] = m0;
+		m[1] = m1;
+		m[2] = m2;
+		m[3] = m3;
+	}
+
+	float m[4];
+};
+
+struct Vector2
+{
+	Vector2(float m0, float m1)
+	{
+		m[0] = m0;
+		m[1] = m1;
+	}
+
+	float m[2];
+};
+
 inline static Matrix4 SimpleModelMatrix(float radians)
 {
     float cosine = cosf(radians);

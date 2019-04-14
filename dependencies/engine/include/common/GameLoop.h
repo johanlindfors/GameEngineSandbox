@@ -1,5 +1,6 @@
 #pragma once
 #include "scenes/SceneManager.h"
+#include "sprites/ISpriteRenderer.h"
 #include "StepTimer.h"
 #include <memory>
 
@@ -25,6 +26,7 @@ namespace Engine {
 		Utilities::StepTimer mTimer;
 		SimpleRenderer *mSimpleRenderer;
 		std::shared_ptr<SceneManager> mSceneManager;
+		std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
 		bool mIsInitialized;
 	};
 } // namespace Engine

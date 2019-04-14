@@ -3,6 +3,7 @@
 #include "IOC.hpp"
 #include "scenes/GameScene.h"
 #include "textures/TextureManager.h"
+#include "sprites/SpriteRenderer.h"
 
 using namespace std;
 using namespace Engine;
@@ -12,11 +13,17 @@ GameLoop::GameLoop() : mIsInitialized(false) {}
 void GameLoop::Initialize() {
 	mSimpleRenderer = new SimpleRenderer();
 
+	// Initialize
 	mSceneManager = make_shared<SceneManager>();
 	mSceneManager->Initialize();
 	IOCContainer::Instance().Register<SceneManager>(mSceneManager);
+
 	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
 
+	mSpriteRenderer = make_shared<SpriteRenderer>();
+	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
+	
+	// Game must register initial scen
 	auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
 	mSceneManager->AddScene(initialSceneFromGame);
 
@@ -41,6 +48,8 @@ void GameLoop::UpdateWindowSize(int width, int height) {
 	if (!mIsInitialized)
 		return;
 	mSimpleRenderer->UpdateWindowSize(width, height);
+	mSceneManager->UpdateScreenSize(width, height);
+	mSpriteRenderer->UpdateWindowSize(width, height);
 }
 
 void GameLoop::GetDefaultSize(int &width, int &height) const {
@@ -57,7 +66,7 @@ void GameLoop::Update() {
 
 	// TODO: Add your game logic here.
 	elapsedTime;
-	mSimpleRenderer->Update(mTimer);
+	//mSimpleRenderer->Update(mTimer);
 	mSceneManager->Update(mTimer);
 }
 
@@ -72,7 +81,7 @@ void GameLoop::Render() {
 
 	Clear();
 
-	mSimpleRenderer->Draw(mTimer);
+	//mSimpleRenderer->Draw(mTimer);
 	mSceneManager->Draw(mTimer);
 }
 

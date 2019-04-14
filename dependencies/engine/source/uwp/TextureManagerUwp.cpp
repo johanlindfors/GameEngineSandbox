@@ -6,6 +6,7 @@
 #include <memory>
 #include "DispatcherWrapper.h"
 #include "IOC.hpp"
+#include "GLHelper.h"
 
 using namespace std;
 using namespace winrt;
@@ -14,33 +15,18 @@ using namespace Windows::Foundation;
 using namespace Windows::ApplicationModel;
 using namespace Windows::Graphics::Imaging;
 
-// Needs to be called on UI thread
-GLuint GenerateTexture()
-{
-	// Texture object handle
-	GLuint textureId = 0;
-	// Generate a texture object
-	glGenTextures(1, &textureId);
-	return textureId;
-}
+#define EMPTY_TEXTURE_NAME L"empty"
 
-// Need to be called on UI thread
-void SetTexturePixels(GLuint textureId, GLsizei width, GLsizei height, GLubyte* pixels)
-{
-	// Bind the texture object
-	glBindTexture(GL_TEXTURE_2D, textureId);
-	glPixelStorei(GL_PACK_ALIGNMENT, textureId);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, textureId);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-	// Set the filtering mode
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-}
-
-void DeleteTexture(GLuint textureId) {
-	glDeleteTextures(1, &textureId);
+Texture2D CreateEmptyTexture() {
+    Texture2D texture;
+    texture.TextureIndex = GenerateTexture();
+    texture.Width = 1;
+    texture.Height = 1;
+    texture.Name = EMPTY_TEXTURE_NAME;
+    auto pixels = new GLubyte[4] { 100, 100, 100 , 100 };
+    SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+	delete[] pixels;
+    return texture;
 }
 
 class TextureManagerImpl 
@@ -153,10 +139,21 @@ void TextureManager::LoadTextures(vector<wstring> filenames)
 	{
 		mImpl->LoadTexture(texture.second);
 	}
+
+    if(!mInitialized) {
+        auto emptyTexture = CreateEmptyTexture();
+        mTextures[emptyTexture.Name]  = emptyTexture;
+    }
 	mInitialized = true;
 }
 
 Texture2D TextureManager::GetTexture(wstring filename) const 
 {
-	return mTextures.at(filename);
+    if(mTextures.count(filename) == 1) {
+		auto texture = mTextures.at(filename);
+		if (texture.Name == filename) {
+			return texture;
+		}
+	}
+	return mTextures.at(EMPTY_TEXTURE_NAME);
 }
