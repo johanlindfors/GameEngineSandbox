@@ -11,3 +11,5 @@ GLuint GenerateTexture();
 void SetTexturePixels(GLuint textureId, GLsizei width, GLsizei height, GLubyte* pixels);
 
 void DeleteTexture(GLuint textureId);
+
+void CheckOpenGLError();

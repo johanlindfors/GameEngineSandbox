@@ -103,3 +103,10 @@ void SetTexturePixels(GLuint textureId, GLsizei width, GLsizei height, GLubyte* 
 void DeleteTexture(GLuint textureId) {
 	glDeleteTextures(1, &textureId);
 }
+
+void CheckOpenGLError() {
+	GLenum err = glGetError();
+	if (err != GL_NO_ERROR) {
+		printf("OpenGL error %08x\n", err);
+	}
+}

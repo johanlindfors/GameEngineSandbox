@@ -53,6 +53,7 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	glClear(GL_COLOR_BUFFER_BIT);
 	// Use the program object
 	glUseProgram(mProgram);
+	CheckOpenGLError();
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 	glEnableVertexAttribArray(mVertexAttribLocation);
@@ -76,12 +77,15 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, sprite.mTexture.TextureIndex);
+	CheckOpenGLError();
 
 	// Set the sampler texture unit to 0
 	glUniform1i(mTextureUniformLocation, 0);
+	CheckOpenGLError();
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
+	CheckOpenGLError();
 }
 
 void SpriteRenderer::InitializeShaders() {
