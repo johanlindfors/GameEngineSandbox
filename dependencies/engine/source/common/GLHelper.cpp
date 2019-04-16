@@ -59,6 +59,7 @@ GLuint CompileProgram(const string& vsSource, const string& fsSource)
 
 	GLint linkStatus;
 	glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+	CheckOpenGLError();
 
 	if (linkStatus == 0)
 	{
@@ -82,6 +83,7 @@ GLuint GenerateTexture()
 	GLuint textureId = 0;
 	// Generate a texture object
 	glGenTextures(1, &textureId);
+	CheckOpenGLError();
 	return textureId;
 }
 
@@ -94,7 +96,7 @@ void SetTexturePixels(GLuint textureId, GLsizei width, GLsizei height, GLubyte* 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, textureId);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
+	CheckOpenGLError();
 	// Set the filtering mode
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

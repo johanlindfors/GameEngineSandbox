@@ -11,7 +11,7 @@ using namespace Engine;
 GameLoop::GameLoop() : mIsInitialized(false) {}
 
 void GameLoop::Initialize() {
-	mSimpleRenderer = new SimpleRenderer();
+	//mSimpleRenderer = new SimpleRenderer();
 
 	// Initialize
 	mSceneManager = make_shared<SceneManager>();
@@ -47,7 +47,7 @@ void GameLoop::UpdateWindowSize(int width, int height) {
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
-	mSimpleRenderer->UpdateWindowSize(width, height);
+	//mSimpleRenderer->UpdateWindowSize(width, height);
 	mSceneManager->UpdateScreenSize(width, height);
 	mSpriteRenderer->UpdateWindowSize(width, height);
 }

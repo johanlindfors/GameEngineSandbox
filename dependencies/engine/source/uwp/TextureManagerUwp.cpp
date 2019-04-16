@@ -17,18 +17,6 @@ using namespace Windows::Graphics::Imaging;
 
 #define EMPTY_TEXTURE_NAME L"empty"
 
-Texture2D CreateEmptyTexture() {
-    Texture2D texture;
-    texture.TextureIndex = GenerateTexture();
-    texture.Width = 1;
-    texture.Height = 1;
-    texture.Name = EMPTY_TEXTURE_NAME;
-    auto pixels = new GLubyte[4] { 100, 100, 100 , 100 };
-    SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
-	delete[] pixels;
-    return texture;
-}
-
 class TextureManagerImpl 
 {
 private:
@@ -77,7 +65,7 @@ private:
 				memcpy(pixels, &(dpPixels[0]), size);
 				SetTexturePixels(textureId, width, height, pixels);
 				delete[] pixels;
-				SetEvent(syncAsyncEvent);
+				SetEvent(mSyncAsyncEvent);
 			});
 		}
 		else {
@@ -86,7 +74,7 @@ private:
 			texture.Width = 0;
 			texture.Height = 0;
 			texture.Name = L"";
-			SetEvent(syncAsyncEvent);
+			SetEvent(mSyncAsyncEvent);
 		}
 	}
 
@@ -98,18 +86,44 @@ public:
 
 	void LoadTexture(Texture2D& texture)
 	{
-		syncAsyncEvent = CreateEvent(nullptr, true, true, L"LoadTextureEvent");
-		ResetEvent(syncAsyncEvent);
+		if (texture.Name != EMPTY_TEXTURE_NAME) {
+			mSyncAsyncEvent = CreateEvent(nullptr, true, true, L"LoadTextureEvent");
+			ResetEvent(mSyncAsyncEvent);
 
-		LoadTextureAsync(texture);
+			LoadTextureAsync(texture);
 
-		WaitForSingleObject(syncAsyncEvent, INFINITE);
-		CloseHandle(syncAsyncEvent);
-		syncAsyncEvent = nullptr;
+			WaitForSingleObject(mSyncAsyncEvent, INFINITE);
+			CloseHandle(mSyncAsyncEvent);
+			mSyncAsyncEvent = nullptr;
+		}
+	}
+
+	Texture2D CreateEmptyTexture() {
+		Texture2D texture;
+		texture.TextureIndex = GenerateTexture();
+		texture.Width = 1;
+		texture.Height = 1;
+		texture.Name = EMPTY_TEXTURE_NAME;
+		
+		mSyncAsyncEvent = CreateEvent(nullptr, true, true, L"LoadTextureEvent");
+		ResetEvent(mSyncAsyncEvent);
+
+		mDispatcher->RunAsync([&,texture]() {
+			auto pixels = new GLubyte[4]{ 255, 0, 255 , 0 };
+			SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+			delete[] pixels;
+			SetEvent(mSyncAsyncEvent);
+		});
+
+		WaitForSingleObject(mSyncAsyncEvent, INFINITE);
+		CloseHandle(mSyncAsyncEvent);
+		mSyncAsyncEvent = nullptr;
+
+		return texture;
 	}
 
 private:
-	HANDLE syncAsyncEvent = nullptr;
+	HANDLE mSyncAsyncEvent = nullptr;
 	std::shared_ptr<DispatcherWrapper> mDispatcher;
 };
 
@@ -127,6 +141,11 @@ TextureManager::~TextureManager()
 
 void TextureManager::LoadTextures(vector<wstring> filenames) 
 {
+	if (!mInitialized) {
+		auto emptyTexture = mImpl->CreateEmptyTexture();
+		mTextures[emptyTexture.Name] = emptyTexture;
+	}
+
 	for (auto const& filename : filenames)
 	{
 		Texture2D texture;
@@ -140,10 +159,6 @@ void TextureManager::LoadTextures(vector<wstring> filenames)
 		mImpl->LoadTexture(texture.second);
 	}
 
-    if(!mInitialized) {
-        auto emptyTexture = CreateEmptyTexture();
-        mTextures[emptyTexture.Name]  = emptyTexture;
-    }
 	mInitialized = true;
 }
 

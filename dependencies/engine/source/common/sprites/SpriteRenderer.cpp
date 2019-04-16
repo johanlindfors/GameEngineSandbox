@@ -11,8 +11,8 @@ using namespace std;
 
 SpriteRenderer::SpriteRenderer()
 {
-	InitializeBuffers();
 	InitializeShaders();
+	InitializeBuffers();
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -38,7 +38,9 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
 {
+	CheckOpenGLError(); 
 	glViewport(0, 0, width, height);
+	CheckOpenGLError(); 
 	mWindowWidth = width;
 	mWindowHeight = height;
 }
@@ -49,8 +51,11 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	//	return;
 	//}
 	// Clear the color buffer   
+	CheckOpenGLError(); 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	CheckOpenGLError();
 	glClear(GL_COLOR_BUFFER_BIT);
+	CheckOpenGLError();
 	// Use the program object
 	glUseProgram(mProgram);
 	CheckOpenGLError();
@@ -59,7 +64,7 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	glEnableVertexAttribArray(mVertexAttribLocation);
 	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	
-	MathHelper::Vector4 spriteRect(0.0f, 0.0f, sprite.mTexture.Width, sprite.mTexture.Height);
+	MathHelper::Vector4 spriteRect(0.0f, 0.0f, sprite.mWidth, sprite.mHeight);
 	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
 
 	MathHelper::Vector2 spriteWorld(sprite.mPositionX, sprite.mPositionY);
@@ -76,6 +81,7 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
 	glActiveTexture(GL_TEXTURE0);
+	CheckOpenGLError();
 	glBindTexture(GL_TEXTURE_2D, sprite.mTexture.TextureIndex);
 	CheckOpenGLError();
 
@@ -170,6 +176,7 @@ void SpriteRenderer::InitializeShaders() {
 
 	// Fragment shader parameters
 	mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
+	CheckOpenGLError();
 }
 
 void SpriteRenderer::InitializeBuffers() {
@@ -196,4 +203,5 @@ void SpriteRenderer::InitializeBuffers() {
 	glGenBuffers(1, &mVertexUVBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexUVs), vertexUVs, GL_STATIC_DRAW);
+	CheckOpenGLError();
 }
