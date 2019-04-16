@@ -20,11 +20,11 @@ void SplashScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
     
 	vector<wstring> filenames;
-	filenames.emplace_back(L"file.png");
+	filenames.emplace_back(L"bird.png");
 	filenames.emplace_back(L"file2.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
-	mSprite.mTexture = mTextureManager->GetTexture(L"file.png");
+	mSprite.mTexture = mTextureManager->GetTexture(L"bird.png");
 }
 
 void SplashScene::Unload()
@@ -39,8 +39,8 @@ void SplashScene::UpdateScreenSize(int width, int height)
 
 void SplashScene::Update(Utilities::StepTimer const& timer)
 {
-	mSprite.mHeight = 100.0f;
-	mSprite.mWidth = 100.0f;
+	mSprite.mHeight = 24.0f;
+	mSprite.mWidth = 34.0f;
 	mSprite.mPositionX = 100.0f;
 	mSprite.mPositionY = 100.0f;
 }

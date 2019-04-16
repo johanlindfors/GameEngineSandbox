@@ -1,6 +1,8 @@
 #include "GLPage.h"
 #include <winrt/Windows.Graphics.Display.h>
 #include <winrt/Windows.System.Threading.h>
+#include "IOC.hpp"
+#include "DispatcherWrapper.h"
 
 using std::shared_ptr;
 using namespace Engine;
@@ -71,6 +73,7 @@ void GLPage::CreateRenderSurface()
 
 void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 {
+	auto dispatcher = IOCContainer::Instance().Resolve<DispatcherWrapper>();
 	SetThreadName((DWORD)-1, "Game Thread");
 	
 	mOpenGLES->Initialize();
@@ -82,6 +85,8 @@ void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 	while (true) {
 		EGLint panelWidth = 0;
 		EGLint panelHeight = 0;
+		dispatcher->ProcessScheduledFunctions();
+
 		mOpenGLES->GetSurfaceDimensions(mRenderSurface, &panelWidth, &panelHeight);
 		mGameLoop->UpdateWindowSize(panelWidth, panelHeight);
 		mGameLoop->Tick();

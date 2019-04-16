@@ -17,7 +17,7 @@ using namespace Windows::Graphics::Imaging;
 
 #define EMPTY_TEXTURE_NAME L"empty"
 
-class TextureManagerImpl 
+class TextureManagerImpl
 {
 private:
 	IAsyncOperation<IStorageFile> LoadImageAsync(const wstring& filename) {
@@ -33,7 +33,7 @@ private:
 		auto bitmap = co_await decoder.GetSoftwareBitmapAsync();
 		width = bitmap.PixelWidth();
 		height = bitmap.PixelHeight();
-		auto pixelData = co_await decoder.GetPixelDataAsync(BitmapPixelFormat::Rgba8, BitmapAlphaMode::Straight, BitmapTransform(), ExifOrientationMode::IgnoreExifOrientation, ColorManagementMode::DoNotColorManage);
+		auto pixelData = co_await decoder.GetPixelDataAsync(BitmapPixelFormat::Rgba8, BitmapAlphaMode::Premultiplied, BitmapTransform(), ExifOrientationMode::IgnoreExifOrientation, ColorManagementMode::DoNotColorManage);
 		co_return pixelData;
 	}
 
@@ -44,57 +44,40 @@ private:
 		return vPixels;
 	}
 
-	fire_and_forget LoadTextureAsync(Texture2D& texture) {
-		int width, height;
-		GLuint textureId = texture.TextureIndex;
-		// Load file
-		auto file = co_await LoadImageAsync(texture.Name);
-		if (file) {
-			// Get PixelDataProvider
-			auto pixelData = co_await GetPixelDataFromImageAsync(file, width, height);
-
-			texture.Width = static_cast<float>(width);
-			texture.Height = static_cast<float>(height);
-
-			co_await mDispatcher->RunAsync([&]() {
-				// Get Pixels
-				auto dpPixels = GetPixelsFromPixelDataProvider(pixelData);
-				auto size = dpPixels.size();
-
-				auto pixels = new GLubyte[size];
-				memcpy(pixels, &(dpPixels[0]), size);
-				SetTexturePixels(textureId, width, height, pixels);
-				delete[] pixels;
-				SetEvent(mSyncAsyncEvent);
-			});
-		}
-		else {
-			DeleteTexture(texture.TextureIndex);
-			texture.TextureIndex = 0;
-			texture.Width = 0;
-			texture.Height = 0;
-			texture.Name = L"";
-			SetEvent(mSyncAsyncEvent);
-		}
-	}
-
 public:
-	TextureManagerImpl() 
+	TextureManagerImpl()
 	{
 		mDispatcher = IOCContainer::Instance().Resolve<DispatcherWrapper>();
-	}
+	}	
 
-	void LoadTexture(Texture2D& texture)
-	{
+	void LoadTexture(Texture2D& texture) {
 		if (texture.Name != EMPTY_TEXTURE_NAME) {
-			mSyncAsyncEvent = CreateEvent(nullptr, true, true, L"LoadTextureEvent");
-			ResetEvent(mSyncAsyncEvent);
+			int width, height;
+			GLuint textureId = texture.TextureIndex;
+			auto file = LoadImageAsync(texture.Name).get();
+			if (file) {
+				auto pixelData = GetPixelDataFromImageAsync(file, width, height).get();
 
-			LoadTextureAsync(texture);
+				texture.Width = static_cast<float>(width);
+				texture.Height = static_cast<float>(height);
 
-			WaitForSingleObject(mSyncAsyncEvent, INFINITE);
-			CloseHandle(mSyncAsyncEvent);
-			mSyncAsyncEvent = nullptr;
+				auto dpPixels = GetPixelsFromPixelDataProvider(pixelData);
+				mDispatcher->ScheduleOnGameThread([&, dpPixels, texture]() {
+					auto size = dpPixels.size();
+
+					auto pixels = new GLubyte[size];
+					memcpy(pixels, &(dpPixels[0]), size);
+					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+					delete[] pixels;
+				});
+			}
+			else {
+				DeleteTexture(texture.TextureIndex);
+				texture.TextureIndex = 0;
+				texture.Width = 0;
+				texture.Height = 0;
+				texture.Name = L"";
+			}
 		}
 	}
 
@@ -104,7 +87,7 @@ public:
 		texture.Width = 1;
 		texture.Height = 1;
 		texture.Name = EMPTY_TEXTURE_NAME;
-		
+
 		auto pixels = new GLubyte[4]{ 255, 0, 255 , 0 };
 		SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
 		delete[] pixels;
@@ -117,19 +100,19 @@ private:
 	std::shared_ptr<DispatcherWrapper> mDispatcher;
 };
 
-TextureManager::TextureManager() 
-    : mInitialized(false)
-    , mImpl(new TextureManagerImpl())
+TextureManager::TextureManager()
+	: mInitialized(false)
+	, mImpl(new TextureManagerImpl())
 {
 
 }
 
-TextureManager::~TextureManager() 
+TextureManager::~TextureManager()
 {
-    delete(mImpl);
+	delete(mImpl);
 }
 
-void TextureManager::LoadTextures(vector<wstring> filenames) 
+void TextureManager::LoadTextures(vector<wstring> filenames)
 {
 	if (!mInitialized) {
 		auto emptyTexture = mImpl->CreateEmptyTexture();
@@ -144,7 +127,7 @@ void TextureManager::LoadTextures(vector<wstring> filenames)
 		mTextures[filename] = texture;
 	}
 
-	for (auto &texture : mTextures)
+	for (auto& texture : mTextures)
 	{
 		mImpl->LoadTexture(texture.second);
 	}
@@ -152,9 +135,9 @@ void TextureManager::LoadTextures(vector<wstring> filenames)
 	mInitialized = true;
 }
 
-Texture2D TextureManager::GetTexture(wstring filename) const 
+Texture2D TextureManager::GetTexture(wstring filename) const
 {
-    if(mTextures.count(filename) == 1) {
+	if (mTextures.count(filename) == 1) {
 		auto texture = mTextures.at(filename);
 		if (texture.Name == filename) {
 			return texture;
