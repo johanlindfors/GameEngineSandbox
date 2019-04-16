@@ -25,7 +25,7 @@ namespace Engine {
 
 		Utilities::StepTimer mTimer;
 		SimpleRenderer *mSimpleRenderer;
-		std::shared_ptr<SceneManager> mSceneManager;
+		std::shared_ptr<ISceneManager> mSceneManager;
 		std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
 		bool mIsInitialized;
 	};

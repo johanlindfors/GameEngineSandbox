@@ -14,9 +14,8 @@ void GameLoop::Initialize() {
 	//mSimpleRenderer = new SimpleRenderer();
 
 	// Initialize
-	mSceneManager = make_shared<SceneManager>();
+	mSceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
 	mSceneManager->Initialize();
-	IOCContainer::Instance().Register<SceneManager>(mSceneManager);
 
 	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
 
@@ -24,8 +23,8 @@ void GameLoop::Initialize() {
 	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
 	
 	// Game must register initial scen
-	auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
-	mSceneManager->AddScene(initialSceneFromGame);
+	//auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
+	//mSceneManager->AddScene(initialSceneFromGame);
 
 	mTimer.SetFixedTimeStep(true);
 	mIsInitialized = true;

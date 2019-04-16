@@ -1,12 +1,15 @@
 #include "SplashScene.h"
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
+#include "scenes/ISceneManager.h"
+#include "GamePlayScene.h"
 
 using namespace std;
 
-SplashScene::SplashScene() 
+SplashScene::SplashScene()
+	: mMillisecondsToLoad(1000.0f)
 {
-
+	ID = "SplashScene";
 }
 
 SplashScene::~SplashScene()
@@ -20,12 +23,11 @@ void SplashScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
     
 	vector<wstring> filenames;
-	filenames.emplace_back(L"sky.png");
-	filenames.emplace_back(L"trees.png");
-	filenames.emplace_back(L"bird.png");
+	filenames.emplace_back(L"splash.png");
+	filenames.emplace_back(L"apple.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
-	mSprite.mTexture = mTextureManager->GetTexture(L"trees.png");
+	mSprite.mTexture = mTextureManager->GetTexture(L"splash.png");
 }
 
 void SplashScene::Unload()
@@ -35,18 +37,26 @@ void SplashScene::Unload()
 
 void SplashScene::UpdateScreenSize(int width, int height) 
 {
+	mSprite.mHeight = height;
+	mSprite.mWidth = width;
+	mSprite.mPositionX = 0.0f;
+	mSprite.mPositionY = 0.0f;
 
 }
 
 void SplashScene::Update(Utilities::StepTimer const& timer)
 {
-	mSprite.mHeight = 24.0f;
-	mSprite.mWidth = 34.0f;
-	mSprite.mPositionX = 100.0f;
-	mSprite.mPositionY = 100.0f;
+	mMillisecondsToLoad -= (timer.GetElapsedSeconds() * 1000.0f);
+	if (mMillisecondsToLoad <= 0) {
+		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
+		sceneManager->AddScene(new GamePlayScene());
+		sceneManager->RemoveScene(this);
+	}
 }
 
 void SplashScene::Draw(Utilities::StepTimer const& timer)
 {
-	mSpriteRenderer->DrawSprite(mSprite);
+	if (mSpriteRenderer) {
+		mSpriteRenderer->DrawSprite(mSprite);
+	}
 }

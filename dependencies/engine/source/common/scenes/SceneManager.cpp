@@ -13,6 +13,10 @@ void SceneManager::Initialize()
 	if (mInitialized) {
 		return;
 	}
+	for (auto const& scene : mScenes)
+	{
+		scene->Load();
+	}
 	mInitialized = true;
 }
 
@@ -52,7 +56,7 @@ void SceneManager::Draw(Utilities::StepTimer const& timer)
 	}
 }
 
-void SceneManager::AddScene(shared_ptr<GameScene> scene)
+void SceneManager::AddScene(GameScene* scene)
 {
 	if (mInitialized) {
 		scene->Load();
@@ -61,10 +65,10 @@ void SceneManager::AddScene(shared_ptr<GameScene> scene)
 	mScenes.push_back(scene);
 }
 
-void SceneManager::RemoveScene(shared_ptr<GameScene> scene)
+void SceneManager::RemoveScene(GameScene* scene)
 {
 	if (mInitialized) {
-		//scene->UnloadContent();
+		scene->Unload();
 	}
 
 	for (size_t i = 0; i < mScenes.size(); i++)
@@ -74,11 +78,13 @@ void SceneManager::RemoveScene(shared_ptr<GameScene> scene)
 		}
 	}
 
-	for (size_t i = 0; i < mScenes.size(); i++)
+	for (size_t i = 0; i < mScenesToUpdate.size(); i++)
 	{
 		if (mScenesToUpdate.at(i) == scene) {
 			mScenesToUpdate.erase(mScenesToUpdate.begin() + i);
 		}
 	}
-
+	if (scene) {
+		delete(scene);
+	}
 }

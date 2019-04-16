@@ -3,11 +3,11 @@
 #include "textures/ITextureManager.h"
 #include "sprites/ISpriteRenderer.h"
 
-class SplashScene : public GameScene 
+class GamePlayScene : public GameScene 
 {
 public:
-    SplashScene();
-    ~SplashScene();
+    GamePlayScene();
+    ~GamePlayScene();
     void Load();
 	void Unload();
 	void UpdateScreenSize(int width, int height);
@@ -15,8 +15,7 @@ public:
 	void Draw(Utilities::StepTimer const& timer);
 
 private:
-	Sprite mSprite;
-	float mMillisecondsToLoad;
+	Sprite mApple;
 
 	std::shared_ptr<ITextureManager> mTextureManager;
     std::shared_ptr<ISpriteRenderer> mSpriteRenderer;

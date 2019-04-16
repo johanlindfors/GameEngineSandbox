@@ -1,21 +1,20 @@
 #pragma once
-#include "GameScene.h"
-#include "StepTimer.h"
+#include "ISceneManager.h"
 #include <vector>
 #include <memory>
 
-class SceneManager {
+class SceneManager : public ISceneManager {
 public:
     SceneManager();
     void Initialize();
 	void UpdateScreenSize(int width, int height);
     void Update(Utilities::StepTimer const& timer);
     void Draw(Utilities::StepTimer const& timer);
-    void AddScene(std::shared_ptr<GameScene> scene);
-    void RemoveScene(std::shared_ptr<GameScene> scene);
+    void AddScene(GameScene* scene);
+    void RemoveScene(GameScene* sceneId);
 
 private:
 	bool mInitialized;
-    std::vector<std::shared_ptr<GameScene>> mScenes;
-	std::vector<std::shared_ptr<GameScene>> mScenesToUpdate;
+    std::vector<GameScene*> mScenes;
+	std::vector<GameScene*> mScenesToUpdate;
 };

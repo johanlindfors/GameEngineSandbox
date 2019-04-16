@@ -69,7 +69,8 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	MathHelper::Vector2 spriteWorld(sprite.mPositionX, sprite.mPositionY);
 	glUniform2fv(mSpriteWorldUniformLocation, 1, &(spriteWorld.m[0]));
 
-	MathHelper::Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
+	//MathHelper::Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
+	MathHelper::Vector2 screenSize(640.0f, 640.0f);
 	glUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
@@ -130,7 +131,7 @@ void SpriteRenderer::InitializeShaders() {
 			// adjust position according to
 			// sprite width and height
 			gl_Position.x = ((gl_Position.x * spriteRect[2]) + spriteWorld[0]) / (screenSize[0] / 2.0);
-			gl_Position.y = ((gl_Position.y * spriteRect[3]) - spriteWorld[1]) / (screenSize[1] / 2.0);
+			gl_Position.y = ((-gl_Position.y * spriteRect[3]) - spriteWorld[1]) / (screenSize[1] / 2.0);
 
 			// coordinates are being written
 			// in homogeneous space, we have
@@ -193,10 +194,10 @@ void SpriteRenderer::InitializeBuffers() {
 
 	GLfloat vertexUVs[] =
 	{
-		0.0f, 1.0f,
 		0.0f, 0.0f,
-		1.0f, 0.0f,
+		0.0f, 1.0f,
 		1.0f, 1.0f,
+		1.0f, 0.0f,
 	};
 
 	glGenBuffers(1, &mVertexUVBuffer);
