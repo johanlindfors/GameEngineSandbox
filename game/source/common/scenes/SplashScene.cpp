@@ -24,7 +24,7 @@ void SplashScene::Load()
 	filenames.emplace_back(L"file2.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
-	mSprite.mTexture = mTextureManager->GetTexture(L"empty");
+	mSprite.mTexture = mTextureManager->GetTexture(L"file.png");
 }
 
 void SplashScene::Unload()

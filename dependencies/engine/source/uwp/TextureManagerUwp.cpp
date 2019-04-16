@@ -105,19 +105,9 @@ public:
 		texture.Height = 1;
 		texture.Name = EMPTY_TEXTURE_NAME;
 		
-		mSyncAsyncEvent = CreateEvent(nullptr, true, true, L"LoadTextureEvent");
-		ResetEvent(mSyncAsyncEvent);
-
-		mDispatcher->RunAsync([&,texture]() {
-			auto pixels = new GLubyte[4]{ 255, 0, 255 , 0 };
-			SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
-			delete[] pixels;
-			SetEvent(mSyncAsyncEvent);
-		});
-
-		WaitForSingleObject(mSyncAsyncEvent, INFINITE);
-		CloseHandle(mSyncAsyncEvent);
-		mSyncAsyncEvent = nullptr;
+		auto pixels = new GLubyte[4]{ 255, 0, 255 , 0 };
+		SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+		delete[] pixels;
 
 		return texture;
 	}
