@@ -25,7 +25,6 @@ include(dependencies/pipeline/functions.cmake)
 # Enable folders grouping in IDE
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-
 # Add dependencies for client project
 add_subdirectory(dependencies)
 add_subdirectory(game)

@@ -6,4 +6,11 @@ set(DEPENDENCIES
     engine
 )
 
-build_executable(${PROJECT_NAME} "${DEPENDENCIES}")
+# explicit resources
+set(RESOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/../resources/textures/bird.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../resources/textures/sky.png"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../resources/textures/trees.png"
+)
+
+build_executable(${PROJECT_NAME} "${DEPENDENCIES}" "${RESOURCES}")

@@ -34,6 +34,7 @@ endfunction()
 
 function(build_executable project_name)
     set(DEPENDENCIES ${ARGV1})
+    set(RESOURCES ${ARGV2})
 
     update_sources()
 
@@ -43,7 +44,7 @@ function(build_executable project_name)
         source/${PLATFORM}
     )
 
-    add_executable(${project_name} WIN32 ${PLATFORM_SOURCES} ${COMMON_SOURCES})
+    add_executable(${project_name} WIN32 ${PLATFORM_SOURCES} ${COMMON_SOURCES} ${RESOURCES})
 
     target_link_libraries(${project_name} ${DEPENDENCIES})
     

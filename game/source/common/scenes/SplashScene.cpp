@@ -20,11 +20,12 @@ void SplashScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
     
 	vector<wstring> filenames;
+	filenames.emplace_back(L"sky.png");
+	filenames.emplace_back(L"trees.png");
 	filenames.emplace_back(L"bird.png");
-	filenames.emplace_back(L"file2.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
-	mSprite.mTexture = mTextureManager->GetTexture(L"bird.png");
+	mSprite.mTexture = mTextureManager->GetTexture(L"trees.png");
 }
 
 void SplashScene::Unload()
