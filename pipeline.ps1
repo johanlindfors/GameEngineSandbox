@@ -19,13 +19,26 @@ Param(
     [switch]$win32,
 
     [Parameter(Mandatory = $False)]
-    [switch]$uwp
+    [switch]$uwp,
+
+    [Parameter(Mandatory = $False)]
+    [switch]$release,
+    
+    [Parameter(Mandatory = $False)]
+    [switch]$vs2017
+    
 )
 
 $Cmake = "cmake.exe"
 $BuildDirectory = ""
 $PlatformParameters = ""
-$Generator = "Visual Studio 15 2017"
+$Generator = "Visual Studio 16 2019"
+$BuildType = ""
+$BuildConfiguration = "Debug"
+
+If($vs2017){
+    $Generator = "Visual Studio 15 2017"
+}
 
 If($win32) {
     $BuildDirectory = "build/win32"
@@ -39,6 +52,18 @@ If($win32) {
     $PlatformParameters = @("-DCMAKE_SYSTEM_NAME='WindowsStore'", "-DCMAKE_SYSTEM_VERSION='10.0'")
 }
 
+If($release) {
+    If($win32) {
+        $BuildType = "-DCMAKE_CONFIGURATION_TYPES=Release"
+        $BuildConfiguration = "Release"
+    } ElseIf($uwp) {
+        $BuildType = "-DCMAKE_CONFIGURATION_TYPES=RelWithDebInfo"
+        $BuildConfiguration = "RelWithDebInfo"
+    }
+} Else {
+    $BuildDirectory += "-debug"
+}
+
 if($generate -OR $build) {
     & $Cmake @("-E", "remove_directory", $BuildDirectory)
     & $Cmake @("-E", "make_directory", $BuildDirectory)
@@ -46,9 +71,10 @@ if($generate -OR $build) {
 if($generate -OR $build -OR $update) {
     $GenerateParameters = @("-E", "chdir", $BuildDirectory, "cmake", "-G", $Generator)
     $GenerateParameters += $PlatformParameters
+    $GenerateParameters += $BuildType
     $GenerateParameters += ("-A", "x64", "../..")
     & $Cmake $GenerateParameters
 }
 if($compile -OR $build) {
-    & $Cmake @("--build", $BuildDirectory)
+    & $Cmake @("--build", $BuildDirectory, "--config", $BuildConfiguration)
 }
