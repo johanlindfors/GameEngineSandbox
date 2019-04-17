@@ -8,7 +8,12 @@
 using namespace std;
 using namespace Engine;
 
-GameLoop::GameLoop() : mIsInitialized(false) {}
+GameLoop::GameLoop() 
+	: mSimpleRenderer(nullptr)
+	, mIsInitialized(false)
+{
+
+}
 
 void GameLoop::Initialize() {
 	//mSimpleRenderer = new SimpleRenderer();
@@ -34,7 +39,9 @@ void GameLoop::Initialize() {
 }
 
 GameLoop::~GameLoop() {
-	delete (mSimpleRenderer);
+	if (mSimpleRenderer) {
+		delete (mSimpleRenderer);
+	}
 	mSceneManager.reset();
 }
 
