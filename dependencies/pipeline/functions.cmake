@@ -8,6 +8,10 @@ macro(update_sources)
         source/${PLATFORM}/*.cpp
         source/${PLATFORM}/*.h*
     )
+
+    source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${COMMON_SOURCES})
+    source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${PLATFORM_SOURCES})
+
 endmacro()
 
 function(build_library project_name)
@@ -19,7 +23,8 @@ function(build_library project_name)
         include/common/*.h*
         include/${PLATFORM}/*.h*
     )
-
+    source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${EXTERNAL_HEADERS})
+    
     add_library(${project_name} STATIC ${PLATFORM_SOURCES} ${COMMON_SOURCES} ${EXTERNAL_HEADERS})
 
     target_link_libraries(${project_name} ${DEPENDENCIES})

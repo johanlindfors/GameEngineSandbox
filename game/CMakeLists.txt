@@ -21,4 +21,5 @@ else()
                        COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_CURRENT_SOURCE_DIR}/../resources/ $<TARGET_FILE_DIR:game>/resources)
 endif()
+
 source_group("Resources" FILES ${RESOURCES})
