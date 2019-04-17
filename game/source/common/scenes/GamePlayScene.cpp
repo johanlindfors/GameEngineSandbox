@@ -19,10 +19,6 @@ void GamePlayScene::Load()
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
     
-	//vector<wstring> filenames;
-	//filenames.emplace_back(L"apple.png");
-	//mTextureManager->LoadTextures(vector<wstring>(filenames));
-
 	mApple.mTexture = mTextureManager->GetTexture(L"apple.png");
 }
 

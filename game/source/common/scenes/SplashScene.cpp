@@ -47,15 +47,17 @@ void SplashScene::UpdateScreenSize(int width, int height)
 
 void SplashScene::Update(Utilities::StepTimer const& timer)
 {
-	if (hasLoadedGamePlay) {
-		return;
-	}
 	mMillisecondsToLoad -= (timer.GetElapsedSeconds() * 1000.0f);
 	if (mMillisecondsToLoad <= 0) {
 		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
-		sceneManager->AddScene(make_shared<GamePlayScene>());
-		//sceneManager->RemoveScene(ID);
-		hasLoadedGamePlay = true;
+		if (!hasLoadedGamePlay) {
+			sceneManager->AddScene(make_shared<GamePlayScene>());
+			hasLoadedGamePlay = true;
+			mMillisecondsToLoad = 2000.0f;
+		}
+		else {
+			sceneManager->RemoveScene(ID);
+		}
 	}
 }
 

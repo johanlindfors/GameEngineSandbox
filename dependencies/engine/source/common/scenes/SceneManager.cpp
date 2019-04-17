@@ -40,9 +40,14 @@ void SceneManager::Update(Utilities::StepTimer const& timer)
 		return;
 	}
 
-	for (auto const& scene : mScenes)
+	mScenesToUpdate.clear();
+	mScenesToUpdate = mScenes;
+
+	for (auto const& scene : mScenesToUpdate)
 	{
-		scene->Update(timer);
+		if (scene) {
+			scene->Update(timer);
+		}
 	}
 }
 
