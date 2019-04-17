@@ -1,18 +1,7 @@
-// WindowsProject2.cpp : Defines the entry point for the application.
-//
 #include "GameLoop.h"
 #include <Windows.h>
 #include <memory>
-
-#include <GL/glew.h>
-#include <GL/wglew.h>
-
-#define MAX_LOADSTRING 100
-#define IDS_APP_TITLE 103
-#define IDM_EXIT 105
-#define IDI_WINDOWSPROJECT2 107
-#define IDI_SMALL 108
-#define IDC_WINDOWSPROJECT2 109
+#include "glwrapper.h"
 
 namespace {
 	std::unique_ptr<Engine::GameLoop> g_gameLoop;
@@ -66,12 +55,12 @@ ATOM MyRegisterClass(HINSTANCE hInstance) {
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT2));
-	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hIcon = nullptr;
+	wcex.hCursor = nullptr;
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT2);
+	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = L"GAME_ENGINE_SANDBOX";
-	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+	wcex.hIconSm = nullptr;
 
 	return RegisterClassExW(&wcex);
 }
@@ -85,18 +74,19 @@ BOOL InitInstance(HINSTANCE hInstance) {
 	RECT rc = { 0, 0, static_cast<LONG>(w), static_cast<LONG>(h) };
 
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-
-	HWND hWnd = CreateWindowEx(0, "GAME_ENGINE_SANDBOX", "Game Engine Sandbox",
-		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-		rc.right - rc.left, rc.bottom - rc.top, nullptr,
-		nullptr, hInstance, nullptr);
+	HWND hWnd = CreateWindowEx(
+		0, "GAME_ENGINE_SANDBOX", "Game Engine Sandbox",
+		WS_OVERLAPPEDWINDOW, 0, 0,
+		rc.right - rc.left, rc.bottom - rc.top, 
+		nullptr, nullptr, hInstance, nullptr);
 
 	if (!hWnd) {
 		return FALSE;
 	}
 
+	auto gameLoop = g_gameLoop.get();
 	SetWindowLongPtr(hWnd, GWLP_USERDATA,
-		reinterpret_cast<LONG_PTR>(g_gameLoop.get()));
+		reinterpret_cast<LONG_PTR>(gameLoop));
 
 	static PIXELFORMATDESCRIPTOR
 		pfd = // pfd Tells Windows How We Want Things To Be
@@ -104,8 +94,8 @@ BOOL InitInstance(HINSTANCE hInstance) {
 		sizeof(PIXELFORMATDESCRIPTOR), // Size Of This Pixel Format Descriptor
 		1,                             // Version Number
 		PFD_DRAW_TO_WINDOW |           // Format Must Support Window
-			PFD_SUPPORT_OPENGL |       // Format Must Support OpenGL
-			PFD_DOUBLEBUFFER,          // Must Support Double Buffering
+		PFD_SUPPORT_OPENGL |		   // Format Must Support OpenGL
+		PFD_DOUBLEBUFFER,              // Must Support Double Buffering
 		PFD_TYPE_RGBA,                 // Request An RGBA Format
 		(BYTE)16,                      // Select Our Color Depth
 		0,
@@ -171,34 +161,15 @@ BOOL InitInstance(HINSTANCE hInstance) {
 		return false;
 	}
 
-	// GetClientRect(hWnd, &rc);
-	// g_gameLoop->UpdateWindowSize(rc.right - rc.left, rc.bottom - rc.top);
-
-	// g_gameLoop->Initialize(hWnd, rc.right - rc.left, rc.bottom - rc.top);
-
 	return TRUE;
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
-	LPARAM lParam) {
-	// auto game = reinterpret_cast<Engine::GameLoop *>(
-	// GetWindowLongPtr(hWnd, GWLP_USERDATA));
-
-	auto game = g_gameLoop.get();
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
+{
+	auto gameParam = GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	auto game = reinterpret_cast<Engine::GameLoop *>(gameParam);
 
 	switch (message) {
-	case WM_COMMAND: {
-		int wmId = LOWORD(wParam);
-		// Parse the menu selections:
-		switch (wmId) {
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
-			break;
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
-		}
-	}
-					 break;
 	case WM_SIZE:
 		if (game) {
 			game->UpdateWindowSize(LOWORD(lParam), HIWORD(lParam));
