@@ -3,6 +3,7 @@
 #include "IOC.hpp"
 #include "scenes/GameScene.h"
 #include "textures/TextureManager.h"
+#include "input/InputManager.h"
 #include "sprites/SpriteRenderer.h"
 
 using namespace std;
@@ -32,7 +33,9 @@ void GameLoop::Initialize() {
 	auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
 	IOCContainer::Instance().Remove<GameScene>();
 	mSceneManager->AddScene(initialSceneFromGame);
-	
+
+	mInputManager = make_shared<InputManager>();
+	IOCContainer::Instance().Register<IInputManager>(mInputManager);	
 
 	mTimer.SetFixedTimeStep(true);
 	mIsInitialized = true;
@@ -77,6 +80,7 @@ void GameLoop::Update() {
 	elapsedTime;
 	//mSimpleRenderer->Update(mTimer);
 	mSceneManager->Update(mTimer);
+	mInputManager->ProcessEvents();
 }
 
 void GameLoop::Render() {

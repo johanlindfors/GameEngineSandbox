@@ -2,6 +2,7 @@
 #include "scenes/GameScene.h"
 #include "textures/ITextureManager.h"
 #include "sprites/ISpriteRenderer.h"
+#include "input/IInputManager.h"
 
 class GamePlayScene : public GameScene 
 {
@@ -19,4 +20,5 @@ private:
 
 	std::shared_ptr<ITextureManager> mTextureManager;
     std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
+	std::shared_ptr<IInputManager> mInputManager;
 };
