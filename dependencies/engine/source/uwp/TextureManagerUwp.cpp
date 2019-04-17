@@ -64,9 +64,18 @@ public:
 				auto dpPixels = GetPixelsFromPixelDataProvider(pixelData);
 				mDispatcher->ScheduleOnGameThread([&, dpPixels, texture]() {
 					auto size = dpPixels.size();
-
-					auto pixels = new GLubyte[size];
-					memcpy(pixels, &(dpPixels[0]), size);
+					int width = texture.Width * 4;
+					int height = texture.Height;
+					GLubyte* pixels = (GLubyte*)malloc(size);
+					for (int i = 0; i < texture.Height; i++) {
+						// note that png is ordered top to
+						// bottom, but OpenGL expect it bottom to top
+						// so the order or swapped
+						auto destination = pixels + (width * (height - 1 - i));
+						auto source = &dpPixels[i*width];
+						memcpy(destination, source, width);
+					}
+					//memcpy(pixels, &(dpPixels[0]), size);
 					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
 					delete[] pixels;
 				});
