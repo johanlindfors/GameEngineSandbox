@@ -17,6 +17,7 @@ public:
 private:
 	Sprite mSprite;
 	float mMillisecondsToLoad;
+	bool hasLoadedGamePlay;
 
 	std::shared_ptr<ITextureManager> mTextureManager;
     std::shared_ptr<ISpriteRenderer> mSpriteRenderer;

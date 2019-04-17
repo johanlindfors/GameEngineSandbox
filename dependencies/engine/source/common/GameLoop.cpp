@@ -14,7 +14,8 @@ void GameLoop::Initialize() {
 	//mSimpleRenderer = new SimpleRenderer();
 
 	// Initialize
-	mSceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
+	mSceneManager = make_shared<SceneManager>();
+	IOCContainer::Instance().Register<ISceneManager>(mSceneManager);
 	mSceneManager->Initialize();
 
 	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
@@ -23,8 +24,10 @@ void GameLoop::Initialize() {
 	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
 	
 	// Game must register initial scen
-	//auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
-	//mSceneManager->AddScene(initialSceneFromGame);
+	auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
+	IOCContainer::Instance().Remove<GameScene>();
+	mSceneManager->AddScene(initialSceneFromGame);
+	
 
 	mTimer.SetFixedTimeStep(true);
 	mIsInitialized = true;
@@ -86,4 +89,5 @@ void GameLoop::Render() {
 
 void GameLoop::Clear() {
 	// TODO: Add your clearing code here
+	mSpriteRenderer->Clear();
 }

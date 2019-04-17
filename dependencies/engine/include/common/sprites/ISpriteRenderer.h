@@ -4,5 +4,6 @@
 class ISpriteRenderer {
 public:
     virtual void UpdateWindowSize(GLsizei width, GLsizei height) = 0;
-    virtual void DrawSprite(Sprite& texture) = 0;
+	virtual void Clear() = 0;
+	virtual void DrawSprite(Sprite& texture) = 0;
 };

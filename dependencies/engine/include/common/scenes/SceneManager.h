@@ -1,7 +1,6 @@
 #pragma once
 #include "ISceneManager.h"
 #include <vector>
-#include <memory>
 
 class SceneManager : public ISceneManager {
 public:
@@ -10,11 +9,11 @@ public:
 	void UpdateScreenSize(int width, int height);
     void Update(Utilities::StepTimer const& timer);
     void Draw(Utilities::StepTimer const& timer);
-    void AddScene(GameScene* scene);
-    void RemoveScene(GameScene* sceneId);
+    void AddScene(std::shared_ptr<GameScene> scene);
+    void RemoveScene(const char* sceneId);
 
 private:
 	bool mInitialized;
-    std::vector<GameScene*> mScenes;
-	std::vector<GameScene*> mScenesToUpdate;
+    std::vector<std::shared_ptr<GameScene>> mScenes;
+	std::vector<std::shared_ptr<GameScene>> mScenesToUpdate;
 };

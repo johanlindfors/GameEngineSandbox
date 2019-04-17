@@ -6,6 +6,7 @@ public:
     SpriteRenderer();
     ~SpriteRenderer();
     void UpdateWindowSize(GLsizei width, GLsizei height);
+	void Clear();
     void DrawSprite(Sprite& sprite);
 
 private:

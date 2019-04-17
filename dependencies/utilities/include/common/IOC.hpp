@@ -30,6 +30,14 @@ class IOCContainer final : public Singleton<IOCContainer> {
             throw std::runtime_error("Could not locate type in IOC");
         }
 
+		template<class T>
+		void Remove() {
+			auto id = typeid(T).raw_name();
+
+			_map.erase(id);
+		}
+
+
     private:
         std::map<std::string, std::shared_ptr<void>> _map;
 };

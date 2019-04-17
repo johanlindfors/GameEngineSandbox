@@ -33,7 +33,7 @@ private:
 		auto bitmap = co_await decoder.GetSoftwareBitmapAsync();
 		width = bitmap.PixelWidth();
 		height = bitmap.PixelHeight();
-		auto pixelData = co_await decoder.GetPixelDataAsync(BitmapPixelFormat::Rgba8, BitmapAlphaMode::Premultiplied, BitmapTransform(), ExifOrientationMode::IgnoreExifOrientation, ColorManagementMode::DoNotColorManage);
+		auto pixelData = co_await decoder.GetPixelDataAsync(BitmapPixelFormat::Rgba8, BitmapAlphaMode::Straight, BitmapTransform(), ExifOrientationMode::IgnoreExifOrientation, ColorManagementMode::DoNotColorManage);
 		co_return pixelData;
 	}
 
@@ -88,7 +88,7 @@ public:
 		texture.Height = 1;
 		texture.Name = EMPTY_TEXTURE_NAME;
 
-		auto pixels = new GLubyte[4]{ 255, 0, 255 , 0 };
+		auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
 		SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
 		delete[] pixels;
 

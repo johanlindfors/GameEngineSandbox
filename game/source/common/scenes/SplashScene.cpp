@@ -8,6 +8,7 @@ using namespace std;
 
 SplashScene::SplashScene()
 	: mMillisecondsToLoad(1000.0f)
+	, hasLoadedGamePlay(false)
 {
 	ID = "SplashScene";
 }
@@ -46,11 +47,15 @@ void SplashScene::UpdateScreenSize(int width, int height)
 
 void SplashScene::Update(Utilities::StepTimer const& timer)
 {
+	if (hasLoadedGamePlay) {
+		return;
+	}
 	mMillisecondsToLoad -= (timer.GetElapsedSeconds() * 1000.0f);
 	if (mMillisecondsToLoad <= 0) {
 		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
-		sceneManager->AddScene(new GamePlayScene());
-		sceneManager->RemoveScene(this);
+		sceneManager->AddScene(make_shared<GamePlayScene>());
+		//sceneManager->RemoveScene(ID);
+		hasLoadedGamePlay = true;
 	}
 }
 

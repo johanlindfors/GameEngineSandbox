@@ -44,20 +44,26 @@ void SpriteRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
 	mWindowHeight = height;
 }
 
+void SpriteRenderer::Clear() {
+	CheckOpenGLError();
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	CheckOpenGLError();
+	glClear(GL_COLOR_BUFFER_BIT);
+	CheckOpenGLError();
+}
+
 void SpriteRenderer::DrawSprite(Sprite& sprite)
 {
 	//if (!mInitialized || !mTextureManager->IsLoaded()) {
 	//	return;
 	//}
 	// Clear the color buffer   
-	CheckOpenGLError(); 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	CheckOpenGLError();
-	glClear(GL_COLOR_BUFFER_BIT);
-	CheckOpenGLError();
 	// Use the program object
 	glUseProgram(mProgram);
 	CheckOpenGLError();
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 	glEnableVertexAttribArray(mVertexAttribLocation);
