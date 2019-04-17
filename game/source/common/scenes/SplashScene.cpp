@@ -38,8 +38,8 @@ void SplashScene::Unload()
 
 void SplashScene::UpdateScreenSize(int width, int height) 
 {
-	mSprite.mHeight = height;
-	mSprite.mWidth = width;
+	mSprite.mHeight = static_cast<float>(height);
+	mSprite.mWidth = static_cast<float>(width);
 	mSprite.mPositionX = 0.0f;
 	mSprite.mPositionY = 0.0f;
 
@@ -47,7 +47,7 @@ void SplashScene::UpdateScreenSize(int width, int height)
 
 void SplashScene::Update(Utilities::StepTimer const& timer)
 {
-	mMillisecondsToLoad -= (timer.GetElapsedSeconds() * 1000.0f);
+	mMillisecondsToLoad -= static_cast<float>((timer.GetElapsedSeconds() * 1000.0f));
 	if (mMillisecondsToLoad <= 0) {
 		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
 		if (!hasLoadedGamePlay) {

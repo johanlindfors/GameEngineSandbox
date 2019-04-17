@@ -95,7 +95,7 @@ void SetTexturePixels(Texture2D texture, GLubyte* pixels)
 	glPixelStorei(GL_PACK_ALIGNMENT, texture.TextureIndex);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, texture.TextureIndex);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Width, texture.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(texture.Width), static_cast<GLsizei>(texture.Height), 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 	CheckOpenGLError();
 	// Set the filtering mode
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
