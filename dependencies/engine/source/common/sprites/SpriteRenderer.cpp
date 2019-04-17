@@ -75,8 +75,8 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	MathHelper::Vector2 spriteWorld(sprite.mPositionX, sprite.mPositionY);
 	glUniform2fv(mSpriteWorldUniformLocation, 1, &(spriteWorld.m[0]));
 
-	//MathHelper::Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
-	MathHelper::Vector2 screenSize(640.0f, 640.0f);
+	MathHelper::Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
+	//MathHelper::Vector2 screenSize(640.0f, 640.0f);
 	glUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
