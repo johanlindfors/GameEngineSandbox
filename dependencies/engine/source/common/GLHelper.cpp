@@ -88,14 +88,14 @@ GLuint GenerateTexture()
 }
 
 // Need to be called on UI thread
-void SetTexturePixels(GLuint textureId, GLsizei width, GLsizei height, GLubyte* pixels)
+void SetTexturePixels(Texture2D texture, GLubyte* pixels)
 {
 	// Bind the texture object
-	glBindTexture(GL_TEXTURE_2D, textureId);
-	glPixelStorei(GL_PACK_ALIGNMENT, textureId);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, textureId);
+	glBindTexture(GL_TEXTURE_2D, texture.TextureIndex);
+	glPixelStorei(GL_PACK_ALIGNMENT, texture.TextureIndex);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, texture.TextureIndex);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Width, texture.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 	CheckOpenGLError();
 	// Set the filtering mode
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

@@ -64,8 +64,8 @@ public:
 				auto dpPixels = GetPixelsFromPixelDataProvider(pixelData);
 				mDispatcher->ScheduleOnGameThread([&, dpPixels, texture]() {
 					auto size = dpPixels.size();
-					int width = texture.Width * 4;
-					int height = texture.Height;
+					int width = static_cast<int>(texture.Width) * 4;
+					int height = static_cast<int>(texture.Height);
 					GLubyte* pixels = (GLubyte*)malloc(size);
 					for (int i = 0; i < texture.Height; i++) {
 						// note that png is ordered top to
@@ -75,8 +75,7 @@ public:
 						auto source = &dpPixels[i*width];
 						memcpy(destination, source, width);
 					}
-					//memcpy(pixels, &(dpPixels[0]), size);
-					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+					SetTexturePixels(texture, pixels);
 					delete[] pixels;
 				});
 			}
@@ -98,7 +97,7 @@ public:
 		texture.Name = EMPTY_TEXTURE_NAME;
 
 		auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
-		SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+		SetTexturePixels(texture, pixels);
 		delete[] pixels;
 
 		return texture;

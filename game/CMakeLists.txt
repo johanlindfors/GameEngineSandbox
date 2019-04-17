@@ -6,29 +6,36 @@ set(DEPENDENCIES
     engine
 )
 
+set(PLATFORM_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/${PLATFORM}")
+set(COMMON_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/common")
+
 # explicit resources
 set(RESOURCES
-    "${CMAKE_CURRENT_LIST_DIR}/../resources/common/textures/apple.png"
-    "${CMAKE_CURRENT_LIST_DIR}/../resources/common/audio/score.wav"
+    "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
+    "${COMMON_RESOURCES_DIRECTORY}/audio/score.wav"
 )
 
 file(GLOB_RECURSE PLATFORM_RESOURCES
-    "${CMAKE_CURRENT_LIST_DIR}/../resources/${PLATFORM}/*"
+    ${PLATFORM_RESOURCES_DIRECTORY}/*
 )
 
 list(APPEND RESOURCES ${PLATFORM_RESOURCES})
 
 build_executable(${PROJECT_NAME} "${DEPENDENCIES}" "${RESOURCES}")
-
+source_group(TREE "${CMAKE_CURRENT_LIST_DIR}/../" FILES ${RESOURCES})
+    
 if(UWP)
-    source_group(TREE "${CMAKE_CURRENT_LIST_DIR}/../" FILES ${RESOURCES})
     set_property(SOURCE ${RESOURCES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 else()
     add_custom_command(TARGET game POST_BUILD
                        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_CURRENT_SOURCE_DIR}/../common/resources/ $<TARGET_FILE_DIR:game>/resources)
-    add_custom_command(TARGET game POST_BUILD
-                       COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_CURRENT_SOURCE_DIR}/../${PLATFORM}/resources/ $<TARGET_FILE_DIR:game>/resources)
+                       ${COMMON_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:game>/resources)
+    
+    set(PLATFORM_RESOURCES)
+    if(EXISTS "${PLATFORM_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${PLATFORM_RESOURCES_DIRECTORY}")
+        add_custom_command(TARGET game POST_BUILD
+                           COMMAND ${CMAKE_COMMAND} -E copy_directory
+                           ${PLATFORM_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:game>/resources)
+    endif()
 endif()
 

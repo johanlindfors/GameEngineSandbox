@@ -144,7 +144,7 @@ public:
 		texture.Width = width;
 		texture.Height = height;
 		std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
-		SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, textureImage);
+		SetTexturePixels(texture, textureImage);
 		if (textureImage) {
 			delete textureImage;
 		}
@@ -158,7 +158,7 @@ public:
 		texture.Name = EMPTY_TEXTURE_NAME;
 
 		auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
-		SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+		SetTexturePixels(texture, pixels);
 		delete[] pixels;
 
 		return texture;
