@@ -2,6 +2,7 @@
 #include "IOC.hpp"
 
 using namespace std;
+using namespace Engine;
 
 SceneManager::SceneManager()
 	: mInitialized(false)

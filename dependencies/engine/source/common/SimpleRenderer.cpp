@@ -12,6 +12,7 @@
 #include "GLHelper.h"
 
 using namespace Engine;
+using namespace Utilities;
 
 #define STRING(s) #s
 
@@ -164,13 +165,13 @@ void SimpleRenderer::Draw(Utilities::StepTimer const& timer)
     glEnableVertexAttribArray(mColorAttribLocation);
     glVertexAttribPointer(mColorAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    MathHelper::Matrix4 modelMatrix = MathHelper::SimpleModelMatrix((float)timer.GetTotalSeconds()/5.0f);
+    Matrix4 modelMatrix = SimpleModelMatrix((float)timer.GetTotalSeconds()/5.0f);
     glUniformMatrix4fv(mModelUniformLocation, 1, GL_FALSE, &(modelMatrix.m[0][0]));
 
-    MathHelper::Matrix4 viewMatrix = MathHelper::SimpleViewMatrix();
+    Matrix4 viewMatrix = SimpleViewMatrix();
     glUniformMatrix4fv(mViewUniformLocation, 1, GL_FALSE, &(viewMatrix.m[0][0]));
 
-    MathHelper::Matrix4 projectionMatrix = MathHelper::SimpleProjectionMatrix(float(mWindowWidth) / float(mWindowHeight));
+    Matrix4 projectionMatrix = SimpleProjectionMatrix(float(mWindowWidth) / float(mWindowHeight));
     glUniformMatrix4fv(mProjUniformLocation, 1, GL_FALSE, &(projectionMatrix.m[0][0]));
 
     // Draw 36 indices: six faces, two triangles per face, 3 indices per triangle

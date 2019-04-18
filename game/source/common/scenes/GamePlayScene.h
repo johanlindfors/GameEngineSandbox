@@ -4,7 +4,7 @@
 #include "sprites/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 
-class GamePlayScene : public GameScene 
+class GamePlayScene : public Engine::GameScene 
 {
 public:
     GamePlayScene();
@@ -16,11 +16,11 @@ public:
 	void Draw(Utilities::StepTimer const& timer);
 
 private:
-	Sprite mApple;
+	Engine::Sprite mApple;
 
-	std::shared_ptr<ITextureManager> mTextureManager;
-    std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
-	std::shared_ptr<IInputManager> mInputManager;
+	std::shared_ptr<Engine::ITextureManager> mTextureManager;
+    std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;
+	std::shared_ptr<Engine::IInputManager> mInputManager;
 	int mScreenSizeX;
 	int mScreenSizeY;
 };

@@ -3,21 +3,23 @@
 #include <concurrent_vector.h>
 #include <array>
 
-class InputManager : public IInputManager 
-{
-public:
-    void AddKeyboardEvent(int keyCode, bool isPressed);
-    bool IsKeyDown(int keyCode);
+namespace Engine {
+    class InputManager : public IInputManager 
+    {
+    public:
+        void AddKeyboardEvent(int keyCode, bool isPressed);
+        bool IsKeyDown(int keyCode);
 
-private:
-    struct KeyboardEvent {
-        KeyboardEvent(int keyCode, bool isPressed)
-            : mKeyCode(keyCode)
-            , mIsPressed(isPressed) { }
-        int mKeyCode;
-        bool mIsPressed;
+    private:
+        struct KeyboardEvent {
+            KeyboardEvent(int keyCode, bool isPressed)
+                : mKeyCode(keyCode)
+                , mIsPressed(isPressed) { }
+            int mKeyCode;
+            bool mIsPressed;
+        };
+
+        //concurrency::concurrent_vector<KeyboardEvent> mKeyboardEvents;
+        std::array<bool, 256> mKeyboard;
     };
-
-    //concurrency::concurrent_vector<KeyboardEvent> mKeyboardEvents;
-    std::array<bool, 256> mKeyboard;
-};
+}

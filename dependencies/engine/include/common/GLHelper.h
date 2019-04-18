@@ -3,14 +3,16 @@
 #include "textures/Texture2D.h"
 #include <string>
 
-GLuint CompileShader(GLenum type, const std::string& source);
+namespace Engine {
+    GLuint CompileShader(GLenum type, const std::string& source);
 
-GLuint CompileProgram(const std::string& vsSource, const std::string& fsSource);
+    GLuint CompileProgram(const std::string& vsSource, const std::string& fsSource);
 
-GLuint GenerateTexture();
+    GLuint GenerateTexture();
 
-void SetTexturePixels(Texture2D texture, GLubyte* pixels);
+    void SetTexturePixels(Texture2D texture, GLubyte* pixels);
 
-void DeleteTexture(GLuint textureId);
+    void DeleteTexture(GLuint textureId);
 
-void CheckOpenGLError();
+    void CheckOpenGLError();
+}

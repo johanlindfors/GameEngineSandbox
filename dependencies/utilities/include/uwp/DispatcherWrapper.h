@@ -3,31 +3,21 @@
 #include <winrt/Windows.UI.Core.h>
 #include <concurrent_queue.h>
 
-class DispatcherWrapper {
-public:
-    DispatcherWrapper(winrt::Windows::UI::Core::CoreDispatcher const& dispatcher)
-        : mDispatcher(dispatcher)
-    {}
+namespace Utilities {
+    class DispatcherWrapper {
+    public:
+        DispatcherWrapper(winrt::Windows::UI::Core::CoreDispatcher const& dispatcher);
+        
+        winrt::Windows::Foundation::IAsyncAction RunAsync(
+            winrt::Windows::UI::Core::DispatchedHandler agileCallback
+        ) const;
 
-    winrt::Windows::Foundation::IAsyncAction RunAsync(
-        winrt::Windows::UI::Core::DispatchedHandler agileCallback
-    ) const
-    {
-        return mDispatcher.RunAsync(winrt::Windows::UI::Core::CoreDispatcherPriority::Normal, agileCallback);
-    }
+        void ScheduleOnGameThread(const std::function<void()>& handler);
 
-	void ScheduleOnGameThread(const std::function<void()>& handler) {
-		mScheduledFunctions.push(handler);
-	}
+        void ProcessScheduledFunctions();
 
-	void ProcessScheduledFunctions() {
-		std::function<void()> function;
-		while (mScheduledFunctions.try_pop(function)) {
-			function();
-		}
-	}
-
-private:
-    winrt::Windows::UI::Core::CoreDispatcher mDispatcher = { nullptr };
-	concurrency::concurrent_queue<std::function<void()>> mScheduledFunctions;
-};
+    private:
+        winrt::Windows::UI::Core::CoreDispatcher mDispatcher = { nullptr };
+        concurrency::concurrent_queue<std::function<void()>> mScheduledFunctions;
+    };
+}

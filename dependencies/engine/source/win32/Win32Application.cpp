@@ -4,6 +4,8 @@
 #include "glwrapper.h"
 #include "input/IInputManager.h"
 
+using namespace Engine;
+
 namespace {
 	std::unique_ptr<Engine::GameLoop> g_gameLoop;
 };

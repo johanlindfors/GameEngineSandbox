@@ -3,6 +3,8 @@
 #include "IOC.hpp"
 
 using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
 GamePlayScene::GamePlayScene() 
 	: mScreenSizeX(0.0f)

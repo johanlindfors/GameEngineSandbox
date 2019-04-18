@@ -7,6 +7,8 @@
 #define STRING(s) #s
 
 using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
 SpriteRenderer::SpriteRenderer()
 {
@@ -69,13 +71,13 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	glEnableVertexAttribArray(mVertexAttribLocation);
 	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	
-	MathHelper::Vector4 spriteRect(0.0f, 0.0f, sprite.mWidth, sprite.mHeight);
+	Vector4 spriteRect(0.0f, 0.0f, sprite.mWidth, sprite.mHeight);
 	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
 
-	MathHelper::Vector2 spriteWorld(sprite.mPositionX, sprite.mPositionY);
+	Vector2 spriteWorld(sprite.mPositionX, sprite.mPositionY);
 	glUniform2fv(mSpriteWorldUniformLocation, 1, &(spriteWorld.m[0]));
 
-	MathHelper::Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
+	Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
 	//MathHelper::Vector2 screenSize(640.0f, 640.0f);
 	glUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
 
@@ -83,7 +85,7 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	glEnableVertexAttribArray(mUVAttribLocation);
 	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	MathHelper::Vector2 textureSize(sprite.mTexture.Width, sprite.mTexture.Height);
+	Vector2 textureSize(sprite.mTexture.Width, sprite.mTexture.Height);
 	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
 	glActiveTexture(GL_TEXTURE0);

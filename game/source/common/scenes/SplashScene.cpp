@@ -5,6 +5,8 @@
 #include "GamePlayScene.h"
 
 using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
 SplashScene::SplashScene()
 	: mMillisecondsToLoad(1000.0f)

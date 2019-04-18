@@ -14,9 +14,9 @@ using namespace Windows::UI;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media;
+using namespace Engine;
 
-UwpApplication::UwpApplication(IPlatformProxy* platformProxy)
-	: mPlatformProxy(platformProxy)
+UwpApplication::UwpApplication()
 {
 
 }

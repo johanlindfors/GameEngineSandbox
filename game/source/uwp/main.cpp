@@ -13,8 +13,8 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
 	
 	Application::Start([](auto &&) {
 		auto initialScene = std::make_shared<SplashScene>();
-		IOCContainer::Instance().Register<GameScene>(initialScene);
-		make<UwpApplication>();
+		IOCContainer::Instance().Register<Engine::GameScene>(initialScene);
+		make<Engine::UwpApplication>();
 	});
 	return 0;
 }

@@ -3,7 +3,7 @@
 #include "textures/ITextureManager.h"
 #include "sprites/ISpriteRenderer.h"
 
-class SplashScene : public GameScene 
+class SplashScene : public Engine::GameScene 
 {
 public:
     SplashScene();
@@ -15,10 +15,10 @@ public:
 	void Draw(Utilities::StepTimer const& timer);
 
 private:
-	Sprite mSprite;
+	Engine::Sprite mSprite;
 	float mMillisecondsToLoad;
 	bool hasLoadedGamePlay;
 
-	std::shared_ptr<ITextureManager> mTextureManager;
-    std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
+	std::shared_ptr<Engine::ITextureManager> mTextureManager;
+    std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;
 };
