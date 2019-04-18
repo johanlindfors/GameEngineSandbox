@@ -92,7 +92,7 @@ void GLPage::HandleKeyDown(const IInspectable & sender, const KeyRoutedEventArgs
 	if (mInputManager == nullptr) {
 		mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 	}
-	mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), !(args.KeyStatus().IsKeyReleased));
+	mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), true);
 }
 
 void GLPage::HandleKeyUp(IInspectable const& sender, KeyRoutedEventArgs args)
@@ -100,7 +100,7 @@ void GLPage::HandleKeyUp(IInspectable const& sender, KeyRoutedEventArgs args)
 	if (mInputManager == nullptr) {
 		mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 	}
-	mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), !(args.KeyStatus().IsKeyReleased));
+	mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), false);
 }
 
 void GLPage::CreateRenderSurface()

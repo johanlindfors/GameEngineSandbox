@@ -42,9 +42,7 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 
 void GamePlayScene::Update(Utilities::StepTimer const& timer)
 {
-	mApple.mPositionX = static_cast<int>(mApple.mPositionX + mApple.mVelocityX);
-	mApple.mPositionY = static_cast<int>(mApple.mPositionY + mApple.mVelocityY);
-
+	// handle input
 	if (mInputManager->IsKeyDown(40)) {
 		mApple.mVelocityY = 1.0f; 
 		mApple.mVelocityX = 0.0f;
@@ -61,6 +59,10 @@ void GamePlayScene::Update(Utilities::StepTimer const& timer)
 		mApple.mVelocityX = 1.0f;
 		mApple.mVelocityY = 0.0f;
 	}
+
+	// do updates
+	mApple.mPositionX = static_cast<int>(mApple.mPositionX + mApple.mVelocityX);
+	mApple.mPositionY = static_cast<int>(mApple.mPositionY + mApple.mVelocityY);
 }
 
 void GamePlayScene::Draw(Utilities::StepTimer const& timer)
