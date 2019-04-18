@@ -5,6 +5,8 @@
 #include "Texture2D.h"
 #include "ITextureManager.h"
 
+#define EMPTY_TEXTURE_NAME L"empty"
+
 namespace Engine {
 	class TextureManagerImpl;
 

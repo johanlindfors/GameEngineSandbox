@@ -17,8 +17,6 @@ using namespace Windows::Graphics::Imaging;
 using namespace Engine;
 using namespace Utilities;
 
-#define EMPTY_TEXTURE_NAME L"empty"
-
 namespace Engine {
 	class TextureManagerImpl
 	{
