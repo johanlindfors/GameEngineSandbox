@@ -7,7 +7,6 @@
 
 using namespace std;
 
-#define EMPTY_TEXTURE_NAME L"empty"
 namespace Engine {
 	class TextureManagerImpl {
 	private:
