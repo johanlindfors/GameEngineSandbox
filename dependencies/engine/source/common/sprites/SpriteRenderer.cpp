@@ -39,30 +39,19 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
 {
-	CheckOpenGLError(); 
 	glViewport(0, 0, width, height);
-	CheckOpenGLError(); 
 	mWindowWidth = width;
 	mWindowHeight = height;
 }
 
 void SpriteRenderer::Clear() {
-	CheckOpenGLError();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	CheckOpenGLError();
 	glClear(GL_COLOR_BUFFER_BIT);
-	CheckOpenGLError();
 }
 
 void SpriteRenderer::DrawSprite(Sprite& sprite)
 {
-	//if (!mInitialized || !mTextureManager->IsLoaded()) {
-	//	return;
-	//}
-	// Clear the color buffer   
-	// Use the program object
 	glUseProgram(mProgram);
-	CheckOpenGLError();
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -89,17 +78,13 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
 	glActiveTexture(GL_TEXTURE0);
-	CheckOpenGLError();
 	glBindTexture(GL_TEXTURE_2D, sprite.mTexture.TextureIndex);
-	CheckOpenGLError();
 
 	// Set the sampler texture unit to 0
 	glUniform1i(mTextureUniformLocation, 0);
-	CheckOpenGLError();
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
-	CheckOpenGLError();
 }
 
 void SpriteRenderer::InitializeShaders() {
@@ -184,7 +169,6 @@ void SpriteRenderer::InitializeShaders() {
 
 	// Fragment shader parameters
 	mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
-	CheckOpenGLError();
 }
 
 void SpriteRenderer::InitializeBuffers() {
@@ -211,5 +195,4 @@ void SpriteRenderer::InitializeBuffers() {
 	glGenBuffers(1, &mVertexUVBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexUVs), vertexUVs, GL_STATIC_DRAW);
-	CheckOpenGLError();
 }
