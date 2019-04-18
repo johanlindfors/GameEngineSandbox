@@ -18,6 +18,7 @@ namespace Engine {
 		void Tick();
 		void UpdateWindowSize(int width, int height);
 		void GetDefaultSize(int &width, int &height) const;
+		std::shared_ptr<IInputManager> GetInput() const { return mInputManager; }
 
 	private:
 		void Update();

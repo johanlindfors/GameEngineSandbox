@@ -1,13 +1,13 @@
 #pragma once
 #include "IInputManager.h"
 #include <concurrent_vector.h>
+#include <array>
 
 class InputManager : public IInputManager 
 {
 public:
     void AddKeyboardEvent(int keyCode, bool isPressed);
     bool IsKeyDown(int keyCode);
-    void ProcessEvents();
 
 private:
     struct KeyboardEvent {
@@ -18,5 +18,6 @@ private:
         bool mIsPressed;
     };
 
-    concurrency::concurrent_vector<KeyboardEvent> mKeyboardEvents;
+    //concurrency::concurrent_vector<KeyboardEvent> mKeyboardEvents;
+    std::array<bool, 256> mKeyboard;
 };

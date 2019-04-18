@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <memory>
 #include "glwrapper.h"
+#include "input/IInputManager.h"
 
 namespace {
 	std::unique_ptr<Engine::GameLoop> g_gameLoop;
@@ -123,32 +124,20 @@ BOOL InitInstance(HINSTANCE hInstance) {
 
 	hDC = GetDC(hWnd);
 	if (!hDC) {
-		// KillGLWindow(fullscreen);
-		MessageBox(NULL, "Can't Create A GL Device Context.", "ERROR",
-			MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 
 	auto pixelFormat = ChoosePixelFormat(hDC, &pfd);
 	if (!SetPixelFormat(hDC, pixelFormat, &pfd)) {
-		// KillGLWindow(fullscreen);
-		MessageBox(NULL, "Can't Set The PixelFormat.", "ERROR",
-			MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 
 	auto hRC = wglCreateContext(hDC);
 	if (!hRC) {
-		// KillGLWindow(fullscreen);
-		MessageBox(NULL, "Can't Create A GL Rendering Context.", "ERROR",
-			MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 
 	if (!wglMakeCurrent(hDC, hRC)) {
-		// KillGLWindow(fullscreen);
-		MessageBox(NULL, "Can't Activate The GL Rendering Context.", "ERROR",
-			MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 
@@ -156,8 +145,6 @@ BOOL InitInstance(HINSTANCE hInstance) {
 	UpdateWindow(hWnd);
 
 	if (glewInit() != GLEW_OK) { // Enable GLEW
-		MessageBox(NULL, "GLEW Initialization Failed.", "ERROR",
-			MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 
@@ -168,6 +155,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	auto gameParam = GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	auto game = reinterpret_cast<Engine::GameLoop *>(gameParam);
+	std::shared_ptr<IInputManager> input;
+	if(game){
+		input = game->GetInput();
+	}
 
 	switch (message) {
 	case WM_SIZE:
@@ -177,6 +168,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
+		break;
+	case WM_KEYDOWN:
+		if(input){
+			input->AddKeyboardEvent(static_cast<unsigned int>(wParam), true);
+		}
+		break;
+	case WM_KEYUP:
+		if(input){
+			input->AddKeyboardEvent(static_cast<unsigned int>(wParam), false);
+		}
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

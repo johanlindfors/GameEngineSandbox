@@ -78,9 +78,7 @@ void GameLoop::Update() {
 
 	// TODO: Add your game logic here.
 	elapsedTime;
-	//mSimpleRenderer->Update(mTimer);
 	mSceneManager->Update(mTimer);
-	mInputManager->ProcessEvents();
 }
 
 void GameLoop::Render() {
