@@ -2,6 +2,7 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.Core.h>
 #include <concurrent_queue.h>
+#include <functional>
 
 namespace Utilities {
     class DispatcherWrapper {

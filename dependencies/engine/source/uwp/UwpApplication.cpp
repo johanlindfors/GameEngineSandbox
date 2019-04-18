@@ -15,6 +15,7 @@ using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media;
 using namespace Engine;
+using namespace Utilities;
 
 UwpApplication::UwpApplication()
 {

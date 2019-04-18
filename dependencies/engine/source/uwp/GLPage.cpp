@@ -22,7 +22,6 @@
 
 
 using std::shared_ptr;
-using namespace Engine;
 using namespace winrt;
 using namespace Windows::Foundation;
 using namespace Windows::ApplicationModel::Activation;
@@ -35,6 +34,8 @@ using namespace Windows::UI::Core;
 using namespace Windows::Graphics::Display;
 using namespace Windows::System::Threading;
 using namespace Windows::System;
+using namespace Engine;
+using namespace Utilities;
 
 #define SCALE_FACTOR 1.0f
 

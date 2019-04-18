@@ -2,7 +2,7 @@
 #include "DispatcherWrapper.h"
 #include <concurrent_queue.h>
 
-using std::function<void>;
+using namespace std;
 using namespace winrt;
 using namespace Windows::UI::Core;
 using namespace Windows::Foundation;
@@ -14,7 +14,7 @@ DispatcherWrapper::DispatcherWrapper(CoreDispatcher const& dispatcher)
 
 }
 
-DispatcherWrapper::IAsyncAction RunAsync(DispatchedHandler agileCallback) const
+IAsyncAction DispatcherWrapper::RunAsync(DispatchedHandler agileCallback) const
 {
     return mDispatcher.RunAsync(CoreDispatcherPriority::Normal, agileCallback);
 }
