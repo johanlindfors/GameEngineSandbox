@@ -1,25 +1,23 @@
 #pragma once
 #include "textures/Texture2D.h"
+#include "MathHelper.h"
 
 namespace Engine {
 	class Sprite {
 	public:
 		Sprite() 
-			: mTexture({})
-			, mPositionX(0.0f)
-			, mPositionY(0.0f)
-			, mVelocityX(0.0f)
-			, mVelocityY(0.0f)
-			, mWidth(0.0f)
-			, mHeight(0.0f)
+			: Texture({})
+			, Position({ 0.0f, 0.0f })
+			, Velocity({ 0.0f, 0.0f })
+			, Width(0)
+			, Height(0)
 		{}
 		~Sprite() = default;
-		Texture2D mTexture;
-		float mPositionX;
-		float mPositionY;
-		float mVelocityX;
-		float mVelocityY;
-		float mWidth;
-		float mHeight;
+		
+		Texture2D Texture;
+		Utilities::Vector2 Position;
+		Utilities::Vector2 Velocity;
+		int Width;
+		int Height;
 	};
 }

@@ -6,8 +6,8 @@ namespace Engine {
     struct Texture2D {
     public:
         std::wstring Name;
-        float Width;
-        float Height;
+        int Width;
+        int Height;
         GLuint TextureIndex;
     };
 }

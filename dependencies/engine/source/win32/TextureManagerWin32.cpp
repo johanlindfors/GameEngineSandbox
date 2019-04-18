@@ -17,7 +17,8 @@ namespace Engine {
 			int color_type, interlace_type;
 			FILE *fp;
 
-			if ((fp = _wfopen(name, L"rb")) == NULL)
+			auto err = _wfopen_s(&fp, name, L"rb");
+			if ( err != 0)
 				return false;
 
 			/* Create and initialize the png_struct
@@ -103,7 +104,7 @@ namespace Engine {
 			outWidth = width;
 			outHeight = height;
 
-			unsigned int row_bytes = png_get_rowbytes(png_ptr, info_ptr);
+			unsigned int row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
 			*outData = (unsigned char*)malloc(row_bytes * outHeight);
 
 			png_bytepp row_pointers = png_get_rows(png_ptr, info_ptr);

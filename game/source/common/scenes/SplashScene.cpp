@@ -30,7 +30,7 @@ void SplashScene::Load()
 	filenames.emplace_back(L"apple.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
-	mSprite.mTexture = mTextureManager->GetTexture(L"splash.png");
+	mSprite.Texture = mTextureManager->GetTexture(L"splash.png");
 }
 
 void SplashScene::Unload()
@@ -40,10 +40,10 @@ void SplashScene::Unload()
 
 void SplashScene::UpdateScreenSize(int width, int height) 
 {
-	mSprite.mHeight = static_cast<float>(height);
-	mSprite.mWidth = static_cast<float>(width);
-	mSprite.mPositionX = 0.0f;
-	mSprite.mPositionY = 0.0f;
+	mSprite.Height = height;
+	mSprite.Width = width;
+	mSprite.Position.X(0.0f);
+	mSprite.Position.Y(0.0f);
 
 }
 

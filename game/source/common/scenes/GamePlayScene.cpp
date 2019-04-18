@@ -6,9 +6,14 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
+#define SPRITE_SIZE 20
+#define SCREEN_SIZE 20
+#define FRAMES_PER_SECOND 15
+#define INITIAL_TAIL 5
+
 GamePlayScene::GamePlayScene() 
-	: mScreenSizeX(0.0f)
-	, mScreenSizeY(0.0f)
+	: mScreenSizeX(0)
+	, mScreenSizeY(0)
 {
 	ID = "GamePlayScene";
 }
@@ -24,11 +29,13 @@ void GamePlayScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
     
-	mApple.mTexture = mTextureManager->GetTexture(L"apple.png");
-	mApple.mHeight = 64.0f;
-	mApple.mWidth = 64.0f;
-	mApple.mPositionX = 100.0f;
-	mApple.mPositionY = 100.0f;
+	mApple.Texture = mTextureManager->GetTexture(L"apple.png");
+	mApple.Height = 64;
+	mApple.Width = 64;
+	mApple.Position.X(100.0f);
+	mApple.Position.Y(100.0f);
+
+	mSnake.Texture = mTextureManager->GetTexture(EMPTY_TEXTURE_NAME);
 }
 
 void GamePlayScene::Unload()
@@ -40,31 +47,38 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 {
 	mScreenSizeX = width;
 	mScreenSizeY = height;
+	
+	mApple.Height = height / SCREEN_SIZE;
+	mApple.Width = width / SCREEN_SIZE;
+}
+
+void GamePlayScene::HandleInput() 
+{
+	if (mInputManager->IsKeyDown(40)) {
+		mApple.Velocity.Y(1.0f);
+		mApple.Velocity.X(0.0f);
+	}
+	if (mInputManager->IsKeyDown(38)) {
+		mApple.Velocity.Y(-1.0f);
+		mApple.Velocity.X(0.0f);
+	}
+	if (mInputManager->IsKeyDown(37)) {
+		mApple.Velocity.X(-1.0f);
+		mApple.Velocity.Y(0.0f);
+	}
+	if (mInputManager->IsKeyDown(39)) {
+		mApple.Velocity.X(1.0f);
+		mApple.Velocity.Y(0.0f);
+	}
 }
 
 void GamePlayScene::Update(Utilities::StepTimer const& timer)
 {
-	// handle input
-	if (mInputManager->IsKeyDown(40)) {
-		mApple.mVelocityY = 1.0f; 
-		mApple.mVelocityX = 0.0f;
-	}
-	if (mInputManager->IsKeyDown(38)) {
-		mApple.mVelocityY = -1.0f;
-		mApple.mVelocityX = 0.0f;
-	}
-	if (mInputManager->IsKeyDown(37)) {
-		mApple.mVelocityX = -1.0f;
-		mApple.mVelocityY = 0.0f;
-	}
-	if (mInputManager->IsKeyDown(39)) {
-		mApple.mVelocityX = 1.0f;
-		mApple.mVelocityY = 0.0f;
-	}
+	HandleInput();
 
 	// do updates
-	mApple.mPositionX = static_cast<int>(mApple.mPositionX + mApple.mVelocityX);
-	mApple.mPositionY = static_cast<int>(mApple.mPositionY + mApple.mVelocityY);
+	mApple.Position.X(mApple.Position.X() + mApple.Velocity.X());
+	mApple.Position.Y(mApple.Position.Y() + mApple.Velocity.Y());
 }
 
 void GamePlayScene::Draw(Utilities::StepTimer const& timer)

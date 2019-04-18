@@ -16,7 +16,10 @@ public:
 	void Draw(Utilities::StepTimer const& timer);
 
 private:
+	void HandleInput();
+
 	Engine::Sprite mApple;
+	Engine::Sprite mSnake;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
     std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;

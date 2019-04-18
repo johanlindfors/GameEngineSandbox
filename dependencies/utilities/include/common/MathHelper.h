@@ -38,11 +38,16 @@ namespace Utilities
 
     struct Vector2
     {
-        Vector2(float m0, float m1)
+        Vector2(float x, float y)
         {
-            m[0] = m0;
-            m[1] = m1;
+            m[0] = x;
+            m[1] = y;
         }
+
+        float X() { return m[0]; }
+        void X(float x) { m[0] = x; }
+        float Y() { return m[1]; }
+        void Y(float y) { m[1] = y; }
 
         float m[2];
     };
