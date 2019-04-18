@@ -21,4 +21,6 @@ private:
 	std::shared_ptr<ITextureManager> mTextureManager;
     std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
 	std::shared_ptr<IInputManager> mInputManager;
+	int mScreenSizeX;
+	int mScreenSizeY;
 };

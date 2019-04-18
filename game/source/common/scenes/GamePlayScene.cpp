@@ -5,6 +5,8 @@
 using namespace std;
 
 GamePlayScene::GamePlayScene() 
+	: mScreenSizeX(0.0f)
+	, mScreenSizeY(0.0f)
 {
 	ID = "GamePlayScene";
 }
@@ -34,13 +36,30 @@ void GamePlayScene::Unload()
 
 void GamePlayScene::UpdateScreenSize(int width, int height) 
 {
-
+	mScreenSizeX = width;
+	mScreenSizeY = height;
 }
 
 void GamePlayScene::Update(Utilities::StepTimer const& timer)
 {
+	mApple.mPositionX = static_cast<int>(mApple.mPositionX + mApple.mVelocityX) % mScreenSizeX;
+	mApple.mPositionY = static_cast<int>(mApple.mPositionY + mApple.mVelocityY) % mScreenSizeY;
+
 	if (mInputManager->IsKeyDown(40)) {
-		mApple.mPositionY += 1.0f;
+		mApple.mVelocityY = 1.0f; 
+		mApple.mVelocityX = 0.0f;
+	}
+	if (mInputManager->IsKeyDown(38)) {
+		mApple.mVelocityY = -1.0f;
+		mApple.mVelocityX = 0.0f;
+	}
+	if (mInputManager->IsKeyDown(37)) {
+		mApple.mVelocityX = -1.0f;
+		mApple.mVelocityY = 0.0f;
+	}
+	if (mInputManager->IsKeyDown(39)) {
+		mApple.mVelocityX = 1.0f;
+		mApple.mVelocityY = 0.0f;
 	}
 }
 
