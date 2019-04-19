@@ -6,6 +6,8 @@ using namespace Engine;
 
 SceneManager::SceneManager()
 	: mInitialized(false)
+	, mScreenWidth(0)
+	, mScreenHeight(0)
 {
 	
 }
@@ -25,6 +27,9 @@ void SceneManager::Initialize()
 
 void SceneManager::UpdateScreenSize(int width, int height)
 {
+	mScreenWidth = width;
+	mScreenHeight = height;
+
 	if (!mInitialized || mScenes.size() == 0) {
 		return;
 	}
@@ -68,6 +73,7 @@ void SceneManager::AddScene(shared_ptr<GameScene> scene)
 {
 	if (mInitialized) {
 		scene->Load();
+		scene->UpdateScreenSize(mScreenWidth, mScreenHeight);
 	}
 
 	mScenes.push_back(scene);

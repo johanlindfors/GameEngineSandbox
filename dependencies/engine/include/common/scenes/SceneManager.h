@@ -18,5 +18,7 @@ namespace Engine {
         bool mInitialized;
         std::vector<std::shared_ptr<GameScene>> mScenes;
         std::vector<std::shared_ptr<GameScene>> mScenesToUpdate;
+		int mScreenWidth;
+		int mScreenHeight;
     };
 }
