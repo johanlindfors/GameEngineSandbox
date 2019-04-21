@@ -63,8 +63,7 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite.Width), static_cast<float>(sprite.Height));
 	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
 
-	Vector2 spriteWorld(sprite.Position.X(), sprite.Position.Y());
-	glUniform2fv(mSpriteWorldUniformLocation, 1, &(spriteWorld.m[0]));
+	glUniform2fv(mSpriteWorldUniformLocation, 1, &(sprite.Position.m[0]));
 
 	Vector2 screenSize(mWindowWidth, mWindowHeight);
 	//MathHelper::Vector2 screenSize(640.0f, 640.0f);

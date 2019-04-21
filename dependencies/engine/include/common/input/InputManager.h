@@ -7,6 +7,7 @@ namespace Engine {
     class InputManager : public IInputManager 
     {
     public:
+		InputManager() {}
         void AddKeyboardEvent(int keyCode, bool isPressed);
         bool IsKeyDown(int keyCode);
 
@@ -19,7 +20,6 @@ namespace Engine {
             bool mIsPressed;
         };
 
-        //concurrency::concurrent_vector<KeyboardEvent> mKeyboardEvents;
-        std::array<bool, 256> mKeyboard;
+		std::array<bool, 256> mKeyboard = {};
     };
 }

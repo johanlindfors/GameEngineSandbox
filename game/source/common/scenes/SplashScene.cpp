@@ -42,8 +42,7 @@ void SplashScene::UpdateScreenSize(int width, int height)
 {
 	mSprite.Height = height;
 	mSprite.Width = width;
-	mSprite.Position.X(0.0f);
-	mSprite.Position.Y(0.0f);
+	mSprite.Position = { 0.0f, 0.0f };
 
 }
 
@@ -55,9 +54,9 @@ void SplashScene::Update(Utilities::StepTimer const& timer)
 		if (!hasLoadedGamePlay) {
 			sceneManager->AddScene(make_shared<GamePlayScene>());
 			hasLoadedGamePlay = true;
-			mMillisecondsToLoad = 2000.0f;
-		}
-		else {
+		//	mMillisecondsToLoad = 2000.0f;
+		//}
+		//else {
 			sceneManager->RemoveScene(ID);
 		}
 	}

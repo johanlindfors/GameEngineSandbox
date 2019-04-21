@@ -44,13 +44,19 @@ namespace Utilities
             m[1] = y;
         }
 
-        float X() { return m[0]; }
-        void X(float x) { m[0] = x; }
-        float Y() { return m[1]; }
-        void Y(float y) { m[1] = y; }
-
         float m[2];
     };
+
+	struct Point {
+		Point(int newx, int newy) 
+		{
+			x = newx;
+			y = newy;
+		}
+
+		int x;
+		int y;
+	};
 
     inline static Matrix4 SimpleModelMatrix(float radians)
     {

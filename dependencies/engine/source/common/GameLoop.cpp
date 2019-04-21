@@ -39,6 +39,7 @@ void GameLoop::Initialize() {
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);	
 
 	mTimer.SetFixedTimeStep(true);
+	mTimer.SetTargetElapsedSeconds(1.0f/15.0f);
 	mIsInitialized = true;
 }
 

@@ -6,14 +6,12 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-#define SPRITE_SIZE 20
-#define SCREEN_SIZE 20
-#define FRAMES_PER_SECOND 15
-#define INITIAL_TAIL 5
 
 GamePlayScene::GamePlayScene() 
 	: mScreenSizeX(0)
 	, mScreenSizeY(0)
+	, mApple(make_shared<Apple>(Vector2(3.0f, 10.0f)))
+	, mSnake(make_shared<Snake>(Vector2(10.0f, 10.0f)))
 {
 	ID = "GamePlayScene";
 }
@@ -29,59 +27,34 @@ void GamePlayScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
     
-	mApple.Texture = mTextureManager->GetTexture(L"apple.png");
-	mApple.Height = 64;
-	mApple.Width = 64;
-	mApple.Position.X(100.0f);
-	mApple.Position.Y(100.0f);
-
-	mSnake.Texture = mTextureManager->GetTexture(EMPTY_TEXTURE_NAME);
+	mApple->SetTexture(mTextureManager->GetTexture(L"apple.png"));
+	mSnake->SetTexture(mTextureManager->GetTexture(EMPTY_TEXTURE_NAME));
 }
 
 void GamePlayScene::Unload()
 {
-
+	mApple.reset();
+	mSnake.reset();
 }
 
 void GamePlayScene::UpdateScreenSize(int width, int height) 
 {
 	mScreenSizeX = width;
 	mScreenSizeY = height;
-	
-	mApple.Height = height / SCREEN_SIZE;
-	mApple.Width = width / SCREEN_SIZE;
-}
 
-void GamePlayScene::HandleInput() 
-{
-	if (mInputManager->IsKeyDown(40)) {
-		mApple.Velocity.Y(1.0f);
-		mApple.Velocity.X(0.0f);
-	}
-	if (mInputManager->IsKeyDown(38)) {
-		mApple.Velocity.Y(-1.0f);
-		mApple.Velocity.X(0.0f);
-	}
-	if (mInputManager->IsKeyDown(37)) {
-		mApple.Velocity.X(-1.0f);
-		mApple.Velocity.Y(0.0f);
-	}
-	if (mInputManager->IsKeyDown(39)) {
-		mApple.Velocity.X(1.0f);
-		mApple.Velocity.Y(0.0f);
-	}
 }
 
 void GamePlayScene::Update(Utilities::StepTimer const& timer)
 {
-	HandleInput();
+	mSnake->HandleInput(mInputManager);
 
 	// do updates
-	mApple.Position.X(mApple.Position.X() + mApple.Velocity.X());
-	mApple.Position.Y(mApple.Position.Y() + mApple.Velocity.Y());
+	mApple->Update(mScreenSizeX, mScreenSizeY);
+	mSnake->Update(mScreenSizeX, mScreenSizeY);
 }
 
 void GamePlayScene::Draw(Utilities::StepTimer const& timer)
 {
-	mSpriteRenderer->DrawSprite(mApple);
+	mApple->Draw(mSpriteRenderer);
+	mSnake->Draw(mSpriteRenderer);
 }
