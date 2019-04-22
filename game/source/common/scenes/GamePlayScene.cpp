@@ -2,10 +2,13 @@
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
 
-using namespace std;
-using namespace Engine;
-using namespace Utilities;
-
+using std::make_shared;
+using Engine::IInputManager;
+using Engine::ISpriteRenderer;
+using Engine::ITextureManager;
+using Utilities::StepTimer;
+using Utilities::IOCContainer;
+using Utilities::Vector2;
 
 GamePlayScene::GamePlayScene() 
 	: mScreenSizeX(0)
@@ -18,7 +21,7 @@ GamePlayScene::GamePlayScene()
 
 GamePlayScene::~GamePlayScene()
 {
-
+	Unload();
 }
 
 void GamePlayScene::Load()
@@ -44,7 +47,7 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 
 }
 
-void GamePlayScene::Update(Utilities::StepTimer const& timer)
+void GamePlayScene::Update(StepTimer const& timer)
 {
 	mSnake->HandleInput(mInputManager);
 
@@ -53,7 +56,7 @@ void GamePlayScene::Update(Utilities::StepTimer const& timer)
 	mSnake->Update(mScreenSizeX, mScreenSizeY);
 }
 
-void GamePlayScene::Draw(Utilities::StepTimer const& timer)
+void GamePlayScene::Draw(StepTimer const& timer)
 {
 	mApple->Draw(mSpriteRenderer);
 	mSnake->Draw(mSpriteRenderer);
