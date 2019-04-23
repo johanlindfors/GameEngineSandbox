@@ -16,10 +16,13 @@ macro(update_sources)
             source/msft/*.cpp
             source/msft/*.h*
         )
-        source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${PLATFORM_COMMON_SOURCES})
     else()
-        message(STATUS "posix")
+        file(GLOB PLATFORM_COMMON_SOURCES
+            source/posix/*.cpp
+            source/posix/*.h*
+        )
     endif()
+    source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${PLATFORM_COMMON_SOURCES})
 
 endmacro()
 
@@ -40,7 +43,6 @@ function(build_library project_name)
     )
 
     if(UWP OR WIN32)
-        message(STATUS "msft")
         file(GLOB_RECURSE EXTERNAL_PLATFORM_COMMON_HEADERS 
             include/msft/*.h*
         )
