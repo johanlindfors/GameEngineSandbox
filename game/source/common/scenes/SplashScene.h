@@ -2,6 +2,7 @@
 #include "scenes/GameScene.h"
 #include "textures/ITextureManager.h"
 #include "sprites/ISpriteRenderer.h"
+#include "IStepTimer.h"
 #include <memory>
 
 class SplashScene : public Engine::GameScene 
@@ -12,8 +13,8 @@ public:
     void Load();
 	void Unload();
 	void UpdateScreenSize(int width, int height);
-	void Update(Utilities::StepTimer const& timer);
-	void Draw(Utilities::StepTimer const& timer);
+	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
+	void Draw(std::shared_ptr<Utilities::IStepTimer> timer);
 
 private:
 	std::shared_ptr<Engine::Sprite> mSprite;

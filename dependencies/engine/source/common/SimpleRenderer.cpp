@@ -142,12 +142,12 @@ SimpleRenderer::~SimpleRenderer()
     }
 }
 
-void SimpleRenderer::Update(Utilities::StepTimer const& timer)
+void SimpleRenderer::Update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
 	mDrawCount += 1;
 }
 
-void SimpleRenderer::Draw(Utilities::StepTimer const& timer)
+void SimpleRenderer::Draw(std::shared_ptr<Utilities::IStepTimer> timer)
 {
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -165,7 +165,7 @@ void SimpleRenderer::Draw(Utilities::StepTimer const& timer)
     glEnableVertexAttribArray(mColorAttribLocation);
     glVertexAttribPointer(mColorAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    Matrix4 modelMatrix = SimpleModelMatrix((float)timer.GetTotalSeconds()/5.0f);
+    Matrix4 modelMatrix = SimpleModelMatrix((float)timer->GetTotalSeconds()/5.0f);
     glUniformMatrix4fv(mModelUniformLocation, 1, GL_FALSE, &(modelMatrix.m[0][0]));
 
     Matrix4 viewMatrix = SimpleViewMatrix();

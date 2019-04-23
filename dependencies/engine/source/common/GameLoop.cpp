@@ -5,6 +5,7 @@
 #include "textures/TextureManager.h"
 #include "input/InputManager.h"
 #include "sprites/SpriteRenderer.h"
+#include "StepTimer.h"
 
 using namespace std;
 using namespace Engine;
@@ -38,8 +39,9 @@ void GameLoop::Initialize() {
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);	
 
-	mTimer.SetFixedTimeStep(true);
-	mTimer.SetTargetElapsedSeconds(1.0f/15.0f);
+	mTimer = make_shared<StepTimer>();
+	mTimer->SetFixedTimeStep(true);
+	mTimer->SetTargetElapsedSeconds(1.0f/15.0f);
 	mIsInitialized = true;
 }
 
@@ -53,7 +55,7 @@ GameLoop::~GameLoop() {
 void GameLoop::Tick() {
 	if (!mIsInitialized)
 		return;
-	mTimer.Tick([&]() { Update(); });
+	mTimer->Tick([&]() { Update(); });
 	Render();
 }
 
@@ -76,7 +78,7 @@ void GameLoop::Update() {
 	if (!mIsInitialized)
 		return;
 
-	float elapsedTime = float(mTimer.GetElapsedSeconds());
+	float elapsedTime = float(mTimer->GetElapsedSeconds());
 
 	// TODO: Add your game logic here.
 	elapsedTime;
@@ -88,7 +90,7 @@ void GameLoop::Render() {
 		return;
 
 	// Don't try to render anything before the first Update.
-	if (mTimer.GetFrameCount() == 0) {
+	if (mTimer->GetFrameCount() == 0) {
 		return;
 	}
 

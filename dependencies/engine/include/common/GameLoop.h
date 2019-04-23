@@ -2,7 +2,7 @@
 #include "scenes/SceneManager.h"
 #include "input/IInputManager.h"
 #include "sprites/ISpriteRenderer.h"
-#include "StepTimer.h"
+#include "IStepTimer.h"
 #include <memory>
 
 namespace Engine {
@@ -25,7 +25,7 @@ namespace Engine {
 		void Render();
 		void Clear();
 
-		Utilities::StepTimer mTimer;
+		std::shared_ptr<Utilities::IStepTimer> mTimer;
 		SimpleRenderer *mSimpleRenderer;
 		std::shared_ptr<ISceneManager> mSceneManager;
 		std::shared_ptr<ISpriteRenderer> mSpriteRenderer;

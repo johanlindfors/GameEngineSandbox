@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "StepTimer.h"
+#include "IStepTimer.h"
 
 namespace Engine {
 	
@@ -10,7 +10,7 @@ namespace Engine {
 		virtual void Load() = 0;
 		virtual void Unload() = 0;
 		virtual void UpdateScreenSize(int width, int height) = 0;
-		virtual void Update(Utilities::StepTimer const& timer) = 0;
-		virtual void Draw(Utilities::StepTimer const& timer) = 0;
+		virtual void Update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
+		virtual void Draw(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
 	};
 }

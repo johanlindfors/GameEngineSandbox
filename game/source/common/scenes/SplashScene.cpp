@@ -47,9 +47,9 @@ void SplashScene::UpdateScreenSize(int width, int height)
 
 }
 
-void SplashScene::Update(Utilities::StepTimer const& timer)
+void SplashScene::Update(shared_ptr<IStepTimer> timer)
 {
-	mMillisecondsToLoad -= static_cast<float>((timer.GetElapsedSeconds() * 1000.0f));
+	mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
 	if (mMillisecondsToLoad <= 0) {
 		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
 		if (!hasLoadedGamePlay) {
@@ -63,7 +63,7 @@ void SplashScene::Update(Utilities::StepTimer const& timer)
 	}
 }
 
-void SplashScene::Draw(Utilities::StepTimer const& timer)
+void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
 	if (mSpriteRenderer) {
 		mSpriteRenderer->DrawSprite(mSprite);

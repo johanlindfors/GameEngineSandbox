@@ -3,10 +3,11 @@
 #include "IOC.hpp"
 
 using std::make_shared;
+using std::shared_ptr;
 using Engine::IInputManager;
 using Engine::ISpriteRenderer;
 using Engine::ITextureManager;
-using Utilities::StepTimer;
+using Utilities::IStepTimer;
 using Utilities::IOCContainer;
 using Utilities::Vector2;
 
@@ -47,7 +48,7 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 
 }
 
-void GamePlayScene::Update(StepTimer const& timer)
+void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 {
 	mSnake->HandleInput(mInputManager);
 
@@ -56,7 +57,7 @@ void GamePlayScene::Update(StepTimer const& timer)
 	mSnake->Update(mScreenSizeX, mScreenSizeY);
 }
 
-void GamePlayScene::Draw(StepTimer const& timer)
+void GamePlayScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
 	mApple->Draw(mSpriteRenderer);
 	mSnake->Draw(mSpriteRenderer);

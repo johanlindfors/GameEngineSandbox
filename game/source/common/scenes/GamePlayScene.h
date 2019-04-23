@@ -17,8 +17,8 @@ public:
     void Load();
 	void Unload();
 	void UpdateScreenSize(int width, int height);
-	void Update(Utilities::StepTimer const& timer);
-	void Draw(Utilities::StepTimer const& timer);
+	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
+	void Draw(std::shared_ptr<Utilities::IStepTimer> timer);
 
 private:
 	void HandleInput();
