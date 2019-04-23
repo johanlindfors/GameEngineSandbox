@@ -9,6 +9,7 @@ public:
 	Apple(Utilities::Vector2 position);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 	void Update(int screenWidth, int screenHeight);
+	void Reset();
 
 private:
 	Utilities::Vector2 mScreenPosition;

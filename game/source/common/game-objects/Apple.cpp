@@ -22,3 +22,9 @@ void Apple::Update(int screenWidth, int screenHeight)
 
     mScreenPosition = Vector2({ mSprite->Position.m[0] * screenWidth / SCREEN_SIZE, mSprite->Position.m[1] * screenHeight / SCREEN_SIZE });
 }
+
+void Apple::Reset() {
+	int x = std::rand() % SCREEN_SIZE;
+	int y = std::rand() % SCREEN_SIZE;
+	mSprite->Position = Vector2(x, y);
+}

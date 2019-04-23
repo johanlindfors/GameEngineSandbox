@@ -16,6 +16,7 @@ GamePlayScene::GamePlayScene()
 	, mScreenSizeY(0)
 	, mApple(make_shared<Apple>(Vector2(3.0f, 10.0f)))
 	, mSnake(make_shared<Snake>(Vector2(10.0f, 10.0f)))
+	, mSpriteCollider(make_shared<SpriteCollider>())
 {
 	ID = "GamePlayScene";
 }
@@ -51,6 +52,11 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 {
 	mSnake->HandleInput(mInputManager);
+
+	if (mSpriteCollider->CollidesOnPosition(mSnake->GetSprite(), mApple->GetSprite()))
+	{
+		mApple->Reset();
+	}
 
 	// do updates
 	mApple->Update(mScreenSizeX, mScreenSizeY);

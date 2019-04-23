@@ -126,7 +126,6 @@ void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 	while (true) {
 		EGLint panelWidth = 0;
 		EGLint panelHeight = 0;
-		dispatcher->ProcessScheduledFunctions();
 
 		mOpenGLES->GetSurfaceDimensions(mRenderSurface, &panelWidth, &panelHeight);
 		mGameLoop->UpdateWindowSize(panelWidth, panelHeight);
@@ -137,6 +136,7 @@ void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 			mGameLoop.reset(nullptr);
 			RecreateRenderer();
 		}
+		dispatcher->ProcessScheduledFunctions();
 	}
 
 	DestroyRenderSurface();

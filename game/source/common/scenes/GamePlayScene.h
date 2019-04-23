@@ -6,6 +6,7 @@
 #include "MathHelper.h"
 #include "game-objects/Snake.h"
 #include "game-objects/Apple.h"
+#include "game-objects/SpriteCollider.h"
 #include <ctime>
 #include <list>
 
@@ -25,6 +26,7 @@ private:
 
 	std::shared_ptr<Apple> mApple;
 	std::shared_ptr<Snake> mSnake;
+	std::shared_ptr<SpriteCollider> mSpriteCollider;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
     std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;

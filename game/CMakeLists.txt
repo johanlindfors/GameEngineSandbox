@@ -20,6 +20,7 @@ set(COMMON_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/common"
 # explicit resources
 set(RESOURCES
     "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
+    "${COMMON_RESOURCES_DIRECTORY}/textures/coderox.png"
     "${COMMON_RESOURCES_DIRECTORY}/audio/score.wav"
 )
 
