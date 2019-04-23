@@ -6,6 +6,14 @@ set(DEPENDENCIES
     engine
 )
 
+if(LINUX)
+    message(STATUS "Temporary solution for Linux: Finding GLUT")
+    find_package(GLUT REQUIRED)
+    list(APPEND DEPENDENCIES 
+        GLUT::GLUT
+    )
+endif()
+
 set(PLATFORM_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/${PLATFORM}")
 set(COMMON_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/common")
 

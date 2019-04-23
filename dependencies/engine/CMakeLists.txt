@@ -14,9 +14,13 @@ else()
     find_package(PNG REQUIRED)
     list(APPEND DEPENDENCIES 
         GLEW::GLEW
-        opengl32.lib
         PNG::PNG
     )
+    if(WIN32)
+        list(APPEND DEPENDENCIES
+            opengl32.lib
+        )
+    endif()
 endif()
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

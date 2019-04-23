@@ -1,6 +1,5 @@
 #pragma once
 #include "IInputManager.h"
-#include <concurrent_vector.h>
 #include <array>
 
 namespace Engine {

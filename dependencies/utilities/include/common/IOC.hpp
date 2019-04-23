@@ -9,7 +9,7 @@ namespace Utilities {
             template<class T>
             void Register(std::shared_ptr<T> t)
             {
-                auto id = typeid(T).raw_name();
+                auto id = typeid(T).name();
 
                 std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
                 if (iter == _map.end())
@@ -21,7 +21,7 @@ namespace Utilities {
             template<class T>
             std::shared_ptr<T> Resolve()
             {
-                auto id = typeid(T).raw_name();
+                auto id = typeid(T).name();
 
                 std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
                 if (iter != _map.end())
@@ -33,7 +33,7 @@ namespace Utilities {
 
             template<class T>
             void Remove() {
-                auto id = typeid(T).raw_name();
+                auto id = typeid(T).name();
 
                 _map.erase(id);
             }

@@ -1,6 +1,7 @@
 #pragma once
 #include "glwrapper.h"
 #include "IStepTimer.h"
+#include <memory>
 
 namespace Engine
 {
