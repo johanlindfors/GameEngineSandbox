@@ -27,11 +27,11 @@ void SplashScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
     
 	vector<wstring> filenames;
-	filenames.emplace_back(L"splash.png");
+	filenames.emplace_back(L"coderox.png");
 	filenames.emplace_back(L"apple.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
-	mSprite->Texture = mTextureManager->GetTexture(L"splash.png");
+	mSprite->Texture = mTextureManager->GetTexture(L"coderox.png");
 }
 
 void SplashScene::Unload()
