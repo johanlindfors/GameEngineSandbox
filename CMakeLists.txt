@@ -17,8 +17,14 @@ if(MSVC)
     set(PLATFORM WIN32)
   endif()
 else()
-  set(PLATFORM OSX)
+  if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    set(PLATFORM LINUX)
+  else()
+    set(PLATFORM OSX)
+  endif()
 endif()
+
+message(STATUS "Building platform ${PLATFORM}")
 
 include(dependencies/pipeline/functions.cmake)
 
