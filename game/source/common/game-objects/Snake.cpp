@@ -1,5 +1,5 @@
 #include "Snake.h"
-#include "game_defines.h"
+#include "GameDefines.h"
 
 using std::shared_ptr;
 using Utilities::Vector2;
@@ -10,8 +10,7 @@ Snake::Snake(Vector2 position)
     : Entity(position)
 {
     mTail = INITIAL_TAIL;	
-    mSprite.Position = Vector2(10.0f, 10.0f);
-    mSprite.Velocity = Vector2(0.0f, 1.0f);
+    mSprite->Velocity = Vector2(0.0f, 1.0f);
 }
 
 bool Snake::CheckCollision(int x, int y) {
@@ -27,10 +26,10 @@ void Snake::Update(int screenWidth, int screenHeight)
 {
     Entity::Update(screenWidth, screenHeight);
 
-    mSprite.Position.m[0] = static_cast<int>(mSprite.Position.m[0] + mSprite.Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
-    mSprite.Position.m[1] = static_cast<int>(mSprite.Position.m[1] + mSprite.Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
+    mSprite->Position.m[0] = static_cast<int>(mSprite->Position.m[0] + mSprite->Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
+    mSprite->Position.m[1] = static_cast<int>(mSprite->Position.m[1] + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
 
-    mTrail.push_back({ mSprite.Position.m[0] * screenWidth/ SCREEN_SIZE, mSprite.Position.m[1] * screenHeight / SCREEN_SIZE });
+    mTrail.push_back({ mSprite->Position.m[0] * screenWidth/ SCREEN_SIZE, mSprite->Position.m[1] * screenHeight / SCREEN_SIZE });
     while (mTrail.size() > mTail) {
         mTrail.pop_front();
     }
@@ -39,16 +38,16 @@ void Snake::Update(int screenWidth, int screenHeight)
 void Snake::HandleInput(shared_ptr<IInputManager> input)
 {
     if (input->IsKeyDown(40)) {
-        mSprite.Velocity = Utilities::Vector2(0.0f, 1.0f);
+        mSprite->Velocity = Utilities::Vector2(0.0f, 1.0f);
     }
     if (input->IsKeyDown(38)) {
-        mSprite.Velocity = Utilities::Vector2(0.0f, -1.0f);
+        mSprite->Velocity = Utilities::Vector2(0.0f, -1.0f);
     }
     if (input->IsKeyDown(37)) {
-        mSprite.Velocity = Utilities::Vector2(-1.0f, 0.0f);
+        mSprite->Velocity = Utilities::Vector2(-1.0f, 0.0f);
     }
     if (input->IsKeyDown(39)) {
-        mSprite.Velocity = Utilities::Vector2(1.0f, 0.0f);
+        mSprite->Velocity = Utilities::Vector2(1.0f, 0.0f);
     }
 }
 
@@ -56,7 +55,7 @@ void Snake::Draw(shared_ptr<ISpriteRenderer> renderer) {
     for (auto const& body : mTrail)
     {
         auto sprite = mSprite;
-        sprite.Position = body;
+        sprite->Position = body;
         renderer->DrawSprite(sprite);
     }
 }

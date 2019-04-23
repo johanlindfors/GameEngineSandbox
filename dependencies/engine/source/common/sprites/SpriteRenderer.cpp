@@ -49,7 +49,7 @@ void SpriteRenderer::Clear() {
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void SpriteRenderer::DrawSprite(Sprite& sprite)
+void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 {
 	glUseProgram(mProgram);
 
@@ -60,10 +60,10 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	glEnableVertexAttribArray(mVertexAttribLocation);
 	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	
-	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite.Width), static_cast<float>(sprite.Height));
+	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
 	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
 
-	glUniform2fv(mSpriteWorldUniformLocation, 1, &(sprite.Position.m[0]));
+	glUniform2fv(mSpriteWorldUniformLocation, 1, &(sprite->Position.m[0]));
 
 	Vector2 screenSize(mWindowWidth, mWindowHeight);
 	//MathHelper::Vector2 screenSize(640.0f, 640.0f);
@@ -73,11 +73,11 @@ void SpriteRenderer::DrawSprite(Sprite& sprite)
 	glEnableVertexAttribArray(mUVAttribLocation);
 	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	Vector2 textureSize(sprite.Texture.Width, sprite.Texture.Height);
+	Vector2 textureSize(sprite->Texture.Width, sprite->Texture.Height);
 	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, sprite.Texture.TextureIndex);
+	glBindTexture(GL_TEXTURE_2D, sprite->Texture.TextureIndex);
 
 	// Set the sampler texture unit to 0
 	glUniform1i(mTextureUniformLocation, 0);

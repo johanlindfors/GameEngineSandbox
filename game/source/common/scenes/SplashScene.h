@@ -2,6 +2,7 @@
 #include "scenes/GameScene.h"
 #include "textures/ITextureManager.h"
 #include "sprites/ISpriteRenderer.h"
+#include <memory>
 
 class SplashScene : public Engine::GameScene 
 {
@@ -15,7 +16,7 @@ public:
 	void Draw(Utilities::StepTimer const& timer);
 
 private:
-	Engine::Sprite mSprite;
+	std::shared_ptr<Engine::Sprite> mSprite;
 	float mMillisecondsToLoad;
 	bool hasLoadedGamePlay;
 

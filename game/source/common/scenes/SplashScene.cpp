@@ -9,7 +9,8 @@ using namespace Engine;
 using namespace Utilities;
 
 SplashScene::SplashScene()
-	: mMillisecondsToLoad(1000.0f)
+	: mSprite(make_shared<Sprite>())
+	, mMillisecondsToLoad(1000.0f)
 	, hasLoadedGamePlay(false)
 {
 	ID = "SplashScene";
@@ -30,7 +31,7 @@ void SplashScene::Load()
 	filenames.emplace_back(L"apple.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
-	mSprite.Texture = mTextureManager->GetTexture(L"splash.png");
+	mSprite->Texture = mTextureManager->GetTexture(L"splash.png");
 }
 
 void SplashScene::Unload()
@@ -40,9 +41,9 @@ void SplashScene::Unload()
 
 void SplashScene::UpdateScreenSize(int width, int height) 
 {
-	mSprite.Height = height;
-	mSprite.Width = width;
-	mSprite.Position = { 0.0f, 0.0f };
+	mSprite->Height = height;
+	mSprite->Width = width;
+	mSprite->Position = { 0.0f, 0.0f };
 
 }
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "MathHelper.h"
 #include "sprites/Sprite.h"
-#include "game_defines.h"
+#include "GameDefines.h"
+#include <memory>
 
 class Entity {
 public:
@@ -10,5 +11,5 @@ public:
 	void Update(int screenWidth, int screenHeight);
 
 protected:
-	Engine::Sprite mSprite;
+	std::shared_ptr<Engine::Sprite> mSprite;
 };

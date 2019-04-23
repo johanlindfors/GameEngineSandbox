@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "Sprite.h"
 
 namespace Engine {
@@ -6,6 +7,6 @@ namespace Engine {
 	public:
 		virtual void UpdateWindowSize(GLsizei width, GLsizei height) = 0;
 		virtual void Clear() = 0;
-		virtual void DrawSprite(Sprite& texture) = 0;
+		virtual void DrawSprite(std::shared_ptr<Sprite> texture) = 0;
 	};
 }

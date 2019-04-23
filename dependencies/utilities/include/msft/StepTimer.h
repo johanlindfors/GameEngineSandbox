@@ -1,7 +1,3 @@
-//
-// StepTimer.h - A simple timer that provides elapsed time information
-//
-
 #pragma once
 
 #include <windows.h>
@@ -9,11 +5,12 @@
 #include <exception>
 #include <stdint.h>
 #include <functional>
+#include "IStepTimer.h"
 
 namespace Utilities
 {
 	// Helper class for animation and simulation timing.
-	class StepTimer
+	class StepTimer : public IStepTimer
 	{
 	public:
 		StepTimer() noexcept(false);

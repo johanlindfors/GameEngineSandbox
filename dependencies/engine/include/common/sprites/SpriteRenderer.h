@@ -8,7 +8,7 @@ namespace Engine {
 		~SpriteRenderer();
 		void UpdateWindowSize(GLsizei width, GLsizei height);
 		void Clear();
-		void DrawSprite(Sprite& sprite);
+		void DrawSprite(std::shared_ptr<Sprite> sprite);
 
 	private:
 		void InitializeShaders();
