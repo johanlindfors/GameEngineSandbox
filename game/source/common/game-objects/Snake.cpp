@@ -54,7 +54,7 @@ void Snake::HandleInput(shared_ptr<IInputManager> input)
 void Snake::Draw(shared_ptr<ISpriteRenderer> renderer) {
     for (auto const& body : mTrail)
     {
-        auto sprite = mSprite;
+		auto sprite = std::make_shared<Engine::Sprite>(*mSprite);
         sprite->Position = body;
         renderer->DrawSprite(sprite);
     }

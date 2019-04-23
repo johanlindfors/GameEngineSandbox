@@ -11,7 +11,7 @@ Apple::Apple(Vector2 position)
 { }
 
 void Apple::Draw(std::shared_ptr<ISpriteRenderer> renderer) {
-    auto sprite = mSprite;
+    auto sprite = std::make_shared<Engine::Sprite>(*mSprite);
     sprite->Position = mScreenPosition;
     renderer->DrawSprite(sprite);
 }
