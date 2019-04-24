@@ -13,4 +13,6 @@ public:
 
 protected:
 	std::shared_ptr<Engine::Sprite> mSprite;
+	int mScreenWidth;
+	int mScreenHeight;
 };

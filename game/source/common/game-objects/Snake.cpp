@@ -34,36 +34,49 @@ void Snake::Reset() {
 void Snake::Update(int screenWidth, int screenHeight)
 {
     Entity::Update(screenWidth, screenHeight);
-    mSprite->Position.m[0] = static_cast<int>(mSprite->Position.m[0] + mSprite->Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
-    mSprite->Position.m[1] = static_cast<int>(mSprite->Position.m[1] + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
 
-    mTrail.push_back({ mSprite->Position.m[0] * screenWidth/ SCREEN_SIZE, mSprite->Position.m[1] * screenHeight / SCREEN_SIZE });
-    while (mTrail.size() > mTail) {
-        mTrail.pop_front();
-    }
+	auto newX = static_cast<int>(mSprite->Position.m[0] + mSprite->Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
+	auto newY = static_cast<int>(mSprite->Position.m[1] + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
+
+	if (CheckCollision(newX, newY)) {
+		// Game Over
+	}
+	else {
+		mSprite->Position.m[0] = newX;
+		mSprite->Position.m[1] = newY;
+
+		mTrail.push_back({ mSprite->Position });
+		while (mTrail.size() > mTail) {
+			mTrail.pop_front();
+		}
+	}
 }
 
 void Snake::HandleInput(shared_ptr<IInputManager> input)
 {
-    if (input->IsKeyDown(40)) {
-        mSprite->Velocity = Utilities::Vector2(0.0f, 1.0f);
-    }
-    if (input->IsKeyDown(38)) {
-        mSprite->Velocity = Utilities::Vector2(0.0f, -1.0f);
-    }
-    if (input->IsKeyDown(37)) {
-        mSprite->Velocity = Utilities::Vector2(-1.0f, 0.0f);
-    }
-    if (input->IsKeyDown(39)) {
-        mSprite->Velocity = Utilities::Vector2(1.0f, 0.0f);
-    }
+	if (mSprite->Velocity.m[0] == 0) {
+		if (input->IsKeyDown(37)) {
+			mSprite->Velocity = Utilities::Vector2(-1.0f, 0.0f);
+		}
+		if (input->IsKeyDown(39)) {
+			mSprite->Velocity = Utilities::Vector2(1.0f, 0.0f);
+		}
+	}
+	if (mSprite->Velocity.m[1] == 0) {
+		if (input->IsKeyDown(40)) {
+			mSprite->Velocity = Utilities::Vector2(0.0f, 1.0f);
+		}
+		if (input->IsKeyDown(38)) {
+			mSprite->Velocity = Utilities::Vector2(0.0f, -1.0f);
+		}
+	}
 }
 
 void Snake::Draw(shared_ptr<ISpriteRenderer> renderer) {
-    for (auto const& body : mTrail)
-    {
+	for (auto const& body : mTrail)
+	{
 		auto sprite = std::make_shared<Engine::Sprite>(*mSprite);
-        sprite->Position = body;
+		sprite->Position = Vector2(body.m[0] * mScreenWidth / SCREEN_SIZE, body.m[1] * mScreenHeight / SCREEN_SIZE);
         renderer->DrawSprite(sprite);
     }
 }

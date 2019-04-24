@@ -7,6 +7,8 @@ using Engine::Sprite;
 
 Entity::Entity(Vector2 position)
     : mSprite(std::make_shared<Sprite>())
+	, mScreenWidth(0)
+	, mScreenHeight(0)
 {
     mSprite->Position = position;
 }
@@ -20,4 +22,7 @@ void Entity::Update(int screenWidth, int screenHeight)
 {
     mSprite->Width = screenWidth / SCREEN_SIZE - 1;
     mSprite->Height = screenHeight / SCREEN_SIZE - 1;
+
+	mScreenWidth = screenWidth;
+	mScreenHeight = screenHeight;
 }
