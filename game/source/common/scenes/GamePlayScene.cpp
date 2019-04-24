@@ -56,6 +56,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 	if (mSpriteCollider->CollidesOnPosition(mSnake->GetSprite(), mApple->GetSprite()))
 	{
 		mApple->Reset();
+		mSnake->IncreaseLength();
 	}
 
 	// do updates

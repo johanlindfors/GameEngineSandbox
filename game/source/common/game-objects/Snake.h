@@ -12,8 +12,10 @@ public:
 	void Update(int screenWidth, int screenHeight);
 	void HandleInput(std::shared_ptr<Engine::IInputManager> input);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	void IncreaseLength();
 
 private:
 	int mTail;
 	std::list<Utilities::Vector2> mTrail;
+	void Reset();
 };

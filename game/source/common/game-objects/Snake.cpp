@@ -22,10 +22,18 @@ bool Snake::CheckCollision(int x, int y) {
     return false;
 }
 
+void Snake::IncreaseLength() {
+	mTail += 1;
+}
+
+void Snake::Reset() {
+	mTail = INITIAL_TAIL;
+	mSprite->Position = Vector2(10, 10);
+}
+
 void Snake::Update(int screenWidth, int screenHeight)
 {
     Entity::Update(screenWidth, screenHeight);
-
     mSprite->Position.m[0] = static_cast<int>(mSprite->Position.m[0] + mSprite->Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
     mSprite->Position.m[1] = static_cast<int>(mSprite->Position.m[1] + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
 
