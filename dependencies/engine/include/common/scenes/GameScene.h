@@ -1,6 +1,9 @@
 #pragma once
 #include <memory>
-#include "IStepTimer.h"
+
+namespace Utilities {
+	class IStepTimer;
+}
 
 namespace Engine {
 	
