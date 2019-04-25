@@ -6,8 +6,6 @@
 
 namespace Engine {
 
-	class SimpleRenderer;
-
 	class GameLoop {
 	public:
 		GameLoop();
@@ -25,7 +23,6 @@ namespace Engine {
 		void Clear();
 
 		std::shared_ptr<Utilities::IStepTimer> mTimer;
-		SimpleRenderer *mSimpleRenderer;
 		std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
 		std::shared_ptr<IInputManager> mInputManager;
 		std::shared_ptr<IGameLoopCallback> mGameLoopCallback;

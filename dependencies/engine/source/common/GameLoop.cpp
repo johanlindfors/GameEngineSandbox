@@ -1,5 +1,4 @@
 #include "GameLoop.h"
-#include "SimpleRenderer.h"
 #include "IOC.hpp"
 #include "scenes/GameScene.h"
 #include "textures/TextureManager.h"
@@ -12,16 +11,12 @@ using namespace Engine;
 using namespace Utilities;
 
 GameLoop::GameLoop() 
-	: mSimpleRenderer(nullptr)
-	, mIsInitialized(false)
+	: mIsInitialized(false)
 {
 
 }
 
 void GameLoop::Initialize() {
-	//mSimpleRenderer = new SimpleRenderer();
-
-
 	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
 
 	mSpriteRenderer = make_shared<SpriteRenderer>();
@@ -42,9 +37,7 @@ void GameLoop::Initialize() {
 }
 
 GameLoop::~GameLoop() {
-	if (mSimpleRenderer) {
-		delete (mSimpleRenderer);
-	}
+
 }
 
 void GameLoop::Tick() {
@@ -58,7 +51,6 @@ void GameLoop::UpdateWindowSize(int width, int height) {
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
-	//mSimpleRenderer->UpdateWindowSize(width, height);
 	mGameLoopCallback->UpdateScreenSize(width, height);
 	mSpriteRenderer->UpdateWindowSize(width, height);
 }
@@ -89,7 +81,6 @@ void GameLoop::Render() {
 	Clear();
 
 	mGameLoopCallback->Draw(mTimer);
-	//mSimpleRenderer->Draw(mTimer);
 }
 
 void GameLoop::Clear() {
