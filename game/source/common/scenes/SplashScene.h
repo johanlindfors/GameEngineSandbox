@@ -5,10 +5,12 @@
 #include "IStepTimer.h"
 #include <memory>
 
+class IGameStateCallback;
+
 class SplashScene : public Engine::GameScene 
 {
 public:
-    SplashScene();
+    SplashScene(IGameStateCallback* gameCallback);
     ~SplashScene();
     void Load();
 	void Unload();
@@ -23,4 +25,5 @@ private:
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
     std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;
+	IGameStateCallback* mGame;
 };

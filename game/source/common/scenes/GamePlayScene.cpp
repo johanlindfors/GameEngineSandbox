@@ -11,12 +11,13 @@ using Utilities::IStepTimer;
 using Utilities::IOCContainer;
 using Utilities::Vector2;
 
-GamePlayScene::GamePlayScene() 
+GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback) 
 	: mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mApple(make_shared<Apple>(Vector2(3.0f, 10.0f)))
 	, mSnake(make_shared<Snake>(Vector2(10.0f, 10.0f)))
 	, mSpriteCollider(make_shared<SpriteCollider>())
+	, mGame(gameCallback)
 {
 	ID = "GamePlayScene";
 }

@@ -3,15 +3,17 @@
 #include "IOC.hpp"
 #include "scenes/ISceneManager.h"
 #include "GamePlayScene.h"
+#include "IGameStateCallback.h"
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-SplashScene::SplashScene()
+SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mSprite(make_shared<Sprite>())
 	, mMillisecondsToLoad(1000.0f)
 	, hasLoadedGamePlay(false)
+	, mGame(gameCallback)
 {
 	ID = "SplashScene";
 }
@@ -51,14 +53,9 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 {
 	mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
 	if (mMillisecondsToLoad <= 0) {
-		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
 		if (!hasLoadedGamePlay) {
-			sceneManager->AddScene(make_shared<GamePlayScene>());
+			mGame->GoToState(GameState::GamePlay);
 			hasLoadedGamePlay = true;
-		//	mMillisecondsToLoad = 2000.0f;
-		//}
-		//else {
-			sceneManager->RemoveScene(ID);
 		}
 	}
 }

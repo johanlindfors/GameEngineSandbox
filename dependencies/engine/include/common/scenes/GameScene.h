@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <string>
 
 namespace Utilities {
 	class IStepTimer;
@@ -9,7 +10,7 @@ namespace Engine {
 	
 	class GameScene {
 	public:
-		const char* ID;
+		std::string ID;
 		virtual void Load() = 0;
 		virtual void Unload() = 0;
 		virtual void UpdateScreenSize(int width, int height) = 0;

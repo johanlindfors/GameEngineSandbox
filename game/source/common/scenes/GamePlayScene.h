@@ -10,10 +10,12 @@
 #include <ctime>
 #include <list>
 
+class IGameStateCallback;
+
 class GamePlayScene : public Engine::GameScene 
 {
 public:
-    GamePlayScene();
+    GamePlayScene(IGameStateCallback* gameCallback);
     ~GamePlayScene();
     void Load();
 	void Unload();
@@ -33,4 +35,5 @@ private:
 	std::shared_ptr<Engine::IInputManager> mInputManager;
 	int mScreenSizeX;
 	int mScreenSizeY;
+	IGameStateCallback* mGame;
 };

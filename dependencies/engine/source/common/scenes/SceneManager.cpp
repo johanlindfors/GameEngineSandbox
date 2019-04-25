@@ -1,5 +1,6 @@
 #include "scenes/SceneManager.h"
 #include "IOC.hpp"
+#include <string>
 
 using namespace std;
 using namespace Engine;
@@ -79,7 +80,7 @@ void SceneManager::AddScene(shared_ptr<GameScene> scene)
 	mScenes.push_back(scene);
 }
 
-void SceneManager::RemoveScene(const char* sceneId)
+void SceneManager::RemoveScene(std::string sceneId)
 {
 	shared_ptr<GameScene> scene;
 
