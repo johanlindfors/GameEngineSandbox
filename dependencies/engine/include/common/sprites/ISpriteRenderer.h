@@ -3,7 +3,7 @@
 #include "glwrapper.h"
 
 namespace Engine {
-	class Sprite;
+	struct Sprite;
 
 	class ISpriteRenderer {
 	public:

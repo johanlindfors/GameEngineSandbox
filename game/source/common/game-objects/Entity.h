@@ -8,7 +8,7 @@ namespace Utilities
 
 namespace Engine
 {
-	class Sprite;
+	struct Sprite;
 	struct Texture2D;
 }
 

@@ -8,7 +8,7 @@ namespace Engine
 {
 	class ITextureManager;
 	class ISpriteRenderer;
-	class Sprite;
+	struct Sprite;
 }
 
 namespace Utilities
