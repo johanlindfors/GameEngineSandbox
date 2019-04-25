@@ -80,9 +80,10 @@ void SceneManager::AddScene(shared_ptr<GameScene> scene)
 	mScenes.push_back(scene);
 }
 
-void SceneManager::RemoveScene(std::string sceneId)
+void SceneManager::RemoveScene(const type_info& sceneType)
 {
 	shared_ptr<GameScene> scene;
+	std::string sceneId = sceneType.name();
 
 	for (size_t i = 0; i < mScenes.size(); i++)
 	{

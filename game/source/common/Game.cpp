@@ -51,7 +51,7 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 		if(mCurrentState == GameState::SplashScreen) {
 			mCurrentState = GameState::GamePlay;
 			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
-			mSceneManager->RemoveScene(typeid(SplashScene).name());
+			mSceneManager->RemoveScene(typeid(SplashScene));
 		}
 		break;
 
