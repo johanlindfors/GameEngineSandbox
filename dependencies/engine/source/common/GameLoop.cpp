@@ -21,27 +21,23 @@ GameLoop::GameLoop()
 void GameLoop::Initialize() {
 	//mSimpleRenderer = new SimpleRenderer();
 
-	// Initialize
-	mSceneManager = make_shared<SceneManager>();
-	IOCContainer::Instance().Register<ISceneManager>(mSceneManager);
-	mSceneManager->Initialize();
 
 	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
 
 	mSpriteRenderer = make_shared<SpriteRenderer>();
 	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
 	
-	// Game must register initial scen
-	auto initialSceneFromGame = IOCContainer::Instance().Resolve<GameScene>();
-	IOCContainer::Instance().Remove<GameScene>();
-	mSceneManager->AddScene(initialSceneFromGame);
-
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);	
 
 	mTimer = make_shared<StepTimer>();
 	mTimer->SetFixedTimeStep(true);
 	mTimer->SetTargetElapsedSeconds(1.0f/15.0f);
+
+	// Game must register callback
+	mGameLoopCallback = IOCContainer::Instance().Resolve<IGameLoopCallback>();
+	mGameLoopCallback->Initialize();
+
 	mIsInitialized = true;
 }
 
@@ -49,7 +45,6 @@ GameLoop::~GameLoop() {
 	if (mSimpleRenderer) {
 		delete (mSimpleRenderer);
 	}
-	mSceneManager.reset();
 }
 
 void GameLoop::Tick() {
@@ -64,7 +59,7 @@ void GameLoop::UpdateWindowSize(int width, int height) {
 	if (!mIsInitialized)
 		return;
 	//mSimpleRenderer->UpdateWindowSize(width, height);
-	mSceneManager->UpdateScreenSize(width, height);
+	mGameLoopCallback->UpdateScreenSize(width, height);
 	mSpriteRenderer->UpdateWindowSize(width, height);
 }
 
@@ -78,11 +73,8 @@ void GameLoop::Update() {
 	if (!mIsInitialized)
 		return;
 
-	float elapsedTime = float(mTimer->GetElapsedSeconds());
-
 	// TODO: Add your game logic here.
-	elapsedTime;
-	mSceneManager->Update(mTimer);
+	mGameLoopCallback->Update(mTimer);	
 }
 
 void GameLoop::Render() {
@@ -96,8 +88,8 @@ void GameLoop::Render() {
 
 	Clear();
 
+	mGameLoopCallback->Draw(mTimer);
 	//mSimpleRenderer->Draw(mTimer);
-	mSceneManager->Draw(mTimer);
 }
 
 void GameLoop::Clear() {
