@@ -5,6 +5,7 @@
 #include "input/InputManager.h"
 #include "sprites/SpriteRenderer.h"
 #include "StepTimer.h"
+#include "scenes/SceneManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -23,11 +24,15 @@ void GameLoop::Initialize() {
 	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
 	
 	mInputManager = make_shared<InputManager>();
-	IOCContainer::Instance().Register<IInputManager>(mInputManager);	
+	IOCContainer::Instance().Register<IInputManager>(mInputManager);
 
 	mTimer = make_shared<StepTimer>();
 	mTimer->SetFixedTimeStep(true);
 	mTimer->SetTargetElapsedSeconds(1.0f/15.0f);
+
+	mSceneManager = make_shared<SceneManager>();
+	IOCContainer::Instance().Register<ISceneManager>(mSceneManager);
+	mSceneManager->Initialize();
 
 	// Game must register callback
 	mGameLoopCallback = IOCContainer::Instance().Resolve<IGameLoopCallback>();
@@ -51,8 +56,8 @@ void GameLoop::UpdateWindowSize(int width, int height) {
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
-	mGameLoopCallback->UpdateScreenSize(width, height);
 	mSpriteRenderer->UpdateWindowSize(width, height);
+	mSceneManager->UpdateScreenSize(width, height);
 }
 
 void GameLoop::GetDefaultSize(int &width, int &height) const {
@@ -67,6 +72,7 @@ void GameLoop::Update() {
 
 	// TODO: Add your game logic here.
 	mGameLoopCallback->Update(mTimer);	
+	mSceneManager->Update(mTimer);
 }
 
 void GameLoop::Render() {
@@ -80,7 +86,7 @@ void GameLoop::Render() {
 
 	Clear();
 
-	mGameLoopCallback->Draw(mTimer);
+	mSceneManager->Draw(mTimer);
 }
 
 void GameLoop::Clear() {

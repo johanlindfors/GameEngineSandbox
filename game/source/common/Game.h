@@ -17,9 +17,7 @@ public:
 
 // IGameLoopCallback
     void Initialize();
-    void UpdateScreenSize(int width, int height);
     void Update(std::shared_ptr<Utilities::IStepTimer> timer);
-    void Draw(std::shared_ptr<Utilities::IStepTimer> timer);
 
 // IGameStateCallback
     void GoToState(GameState gameState);

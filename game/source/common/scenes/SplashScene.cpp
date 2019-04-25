@@ -15,7 +15,7 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	, hasLoadedGamePlay(false)
 	, mGame(gameCallback)
 {
-	ID = "SplashScene";
+	ID = typeid(SplashScene).name();
 }
 
 SplashScene::~SplashScene()
@@ -53,6 +53,7 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 {
 	mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
 	if (mMillisecondsToLoad <= 0) {
+		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
 		if (!hasLoadedGamePlay) {
 			mGame->GoToState(GameState::GamePlay);
 			hasLoadedGamePlay = true;

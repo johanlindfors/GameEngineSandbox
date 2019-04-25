@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "IOC.hpp"
-#include "scenes/SceneManager.h"
 #include "scenes/SplashScene.h"
 #include "scenes/GamePlayScene.h"
 #include "scenes/ISceneManager.h"
@@ -10,8 +9,7 @@ using namespace Utilities;
 using namespace Engine;
 
 Game::Game() 
-	: mSceneManager(make_shared<SceneManager>())
-	, mCurrentState(GameState::Unknown)
+	: mCurrentState(GameState::Unknown)
 	, mNextState(GameState::Unknown)
 {
 
@@ -19,13 +17,7 @@ Game::Game()
 
 void Game::Initialize()
 {
-	// Initialize
-	mSceneManager->Initialize();
-}
-
-void Game::UpdateScreenSize(int width, int height)
-{
-    mSceneManager->UpdateScreenSize(width, height);
+	mSceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
 }
 
 void Game::Update(shared_ptr<IStepTimer> timer)
@@ -59,7 +51,7 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 		if(mCurrentState == GameState::SplashScreen) {
 			mCurrentState = GameState::GamePlay;
 			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
-			mSceneManager->RemoveScene("SplashScene");
+			mSceneManager->RemoveScene(typeid(SplashScene).name());
 		}
 		break;
 
@@ -70,12 +62,6 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 	default:
 		break;
 	}
-	mSceneManager->Update(timer);
-}
-
-void Game::Draw(shared_ptr<IStepTimer> timer)
-{
-   	mSceneManager->Draw(timer);
 }
 
 void Game::GoToState(GameState gameState) 

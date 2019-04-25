@@ -2,6 +2,7 @@
 #include "input/IInputManager.h"
 #include "sprites/ISpriteRenderer.h"
 #include "IGameLoopCallback.h"
+#include "scenes/ISceneManager.h"
 #include <memory>
 
 namespace Engine {
@@ -26,6 +27,7 @@ namespace Engine {
 		std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
 		std::shared_ptr<IInputManager> mInputManager;
 		std::shared_ptr<IGameLoopCallback> mGameLoopCallback;
+		std::shared_ptr<ISceneManager> mSceneManager;
 		bool mIsInitialized;
 	};
 } // namespace Engine

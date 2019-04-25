@@ -19,7 +19,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mSpriteCollider(make_shared<SpriteCollider>())
 	, mGame(gameCallback)
 {
-	ID = "GamePlayScene";
+	ID = typeid(GamePlayScene).name();
 }
 
 GamePlayScene::~GamePlayScene()
