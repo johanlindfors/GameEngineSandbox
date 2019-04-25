@@ -1,5 +1,6 @@
 #include "Apple.h"
 #include "GameDefines.h"
+#include "sprites/Sprite.h"
 
 using std::shared_ptr;
 using Utilities::Vector2;

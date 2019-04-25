@@ -1,16 +1,16 @@
 #pragma once
 #include "scenes/GameScene.h"
-#include "textures/ITextureManager.h"
-#include "sprites/ISpriteRenderer.h"
-#include "input/IInputManager.h"
-#include "MathHelper.h"
-#include "game-objects/Snake.h"
-#include "game-objects/Apple.h"
-#include "game-objects/SpriteCollider.h"
-#include <ctime>
-#include <list>
 
 class IGameStateCallback;
+class Apple;
+class Snake;
+class SpriteCollider;
+namespace Engine 
+{
+	class ITextureManager;
+	class ISpriteRenderer;
+	class IInputManager;
+}
 
 class GamePlayScene : public Engine::GameScene 
 {

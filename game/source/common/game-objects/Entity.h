@@ -1,8 +1,16 @@
 #pragma once
-#include "MathHelper.h"
-#include "sprites/Sprite.h"
-#include "GameDefines.h"
 #include <memory>
+
+namespace Utilities
+{
+	struct Vector2;
+}
+
+namespace Engine
+{
+	class Sprite;
+	struct Texture2D;
+}
 
 class Entity {
 public:

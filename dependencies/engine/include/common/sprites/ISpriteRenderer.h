@@ -1,8 +1,10 @@
 #pragma once
 #include <memory>
-#include "Sprite.h"
+#include "glwrapper.h"
 
 namespace Engine {
+	class Sprite;
+
 	class ISpriteRenderer {
 	public:
 		virtual void UpdateWindowSize(GLsizei width, GLsizei height) = 0;

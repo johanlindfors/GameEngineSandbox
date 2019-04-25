@@ -1,11 +1,20 @@
 #pragma once
 #include "scenes/GameScene.h"
-#include "textures/ITextureManager.h"
-#include "sprites/ISpriteRenderer.h"
-#include "IStepTimer.h"
 #include <memory>
 
 class IGameStateCallback;
+
+namespace Engine
+{
+	class ITextureManager;
+	class ISpriteRenderer;
+	class Sprite;
+}
+
+namespace Utilities
+{
+	class IStepTimer;
+}
 
 class SplashScene : public Engine::GameScene 
 {

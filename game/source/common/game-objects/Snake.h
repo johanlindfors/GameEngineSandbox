@@ -1,9 +1,17 @@
 #pragma once
 #include "Entity.h"
-#include "sprites/ISpriteRenderer.h"
-#include "input/IInputManager.h"
-#include <memory>
 #include <list>
+
+namespace Utilities
+{
+	struct Vector2;
+}
+
+namespace Engine
+{
+	class IInputManager;
+	class ISpriteRenderer;
+}
 
 class Snake : public Entity {
 public:

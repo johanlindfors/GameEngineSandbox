@@ -4,6 +4,10 @@
 #include "scenes/ISceneManager.h"
 #include "GamePlayScene.h"
 #include "IGameStateCallback.h"
+#include "textures/ITextureManager.h"
+#include "sprites/ISpriteRenderer.h"
+#include "IStepTimer.h"
+#include "sprites/Sprite.h"
 
 using namespace std;
 using namespace Engine;

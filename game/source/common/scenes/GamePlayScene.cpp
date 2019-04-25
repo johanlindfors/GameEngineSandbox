@@ -1,6 +1,12 @@
 #include "GamePlayScene.h"
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
+#include "game-objects/Snake.h"
+#include "game-objects/Apple.h"
+#include "game-objects/SpriteCollider.h"
+#include "textures/ITextureManager.h"
+#include "sprites/ISpriteRenderer.h"
+#include "input/IInputManager.h"
 
 using std::make_shared;
 using std::shared_ptr;

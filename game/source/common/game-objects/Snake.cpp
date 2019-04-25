@@ -1,5 +1,9 @@
 #include "Snake.h"
 #include "GameDefines.h"
+#include "sprites/ISpriteRenderer.h"
+#include "input/IInputManager.h"
+#include "MathHelper.h"
+#include "sprites/Sprite.h"
 
 using std::shared_ptr;
 using Utilities::Vector2;
