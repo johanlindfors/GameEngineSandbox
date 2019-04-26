@@ -25,7 +25,7 @@ void Apple::Update(int screenWidth, int screenHeight)
 }
 
 void Apple::Reset() {
-	int x = std::rand() % SCREEN_SIZE;
-	int y = std::rand() % SCREEN_SIZE;
+	auto x = static_cast<float>(std::rand() % SCREEN_SIZE);
+	auto y = static_cast<float>(std::rand() % SCREEN_SIZE);
 	mSprite->Position = Vector2(x, y);
 }

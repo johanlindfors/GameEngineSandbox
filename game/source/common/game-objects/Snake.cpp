@@ -47,8 +47,8 @@ void Snake::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCa
 		gameCallback->GoToState(GameState::GameOver);
 	}
 	else {
-		mSprite->Position.m[0] = newX;
-		mSprite->Position.m[1] = newY;
+		mSprite->Position.m[0] = static_cast<float>(newX);
+		mSprite->Position.m[1] = static_cast<float>(newY);
 
 		mTrail.push_back({ mSprite->Position });
 		while (mTrail.size() > mTail) {
