@@ -68,7 +68,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 
 	// do updates
 	mApple->Update(mScreenSizeX, mScreenSizeY);
-	mSnake->Update(mScreenSizeX, mScreenSizeY);
+	mSnake->Update(mScreenSizeX, mScreenSizeY, mGame);
 }
 
 void GamePlayScene::Draw(shared_ptr<IStepTimer> /*timer*/)

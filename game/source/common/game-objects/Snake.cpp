@@ -4,6 +4,7 @@
 #include "input/IInputManager.h"
 #include "MathHelper.h"
 #include "sprites/Sprite.h"
+#include "IGameStateCallback.h"
 
 using std::shared_ptr;
 using Utilities::Vector2;
@@ -35,7 +36,7 @@ void Snake::Reset() {
 	mSprite->Position = Vector2(10, 10);
 }
 
-void Snake::Update(int screenWidth, int screenHeight)
+void Snake::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback)
 {
     Entity::Update(screenWidth, screenHeight);
 
@@ -43,7 +44,7 @@ void Snake::Update(int screenWidth, int screenHeight)
 	auto newY = static_cast<int>(mSprite->Position.m[1] + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
 
 	if (CheckCollision(newX, newY)) {
-		// Game Over
+		gameCallback->GoToState(GameState::GameOver);
 	}
 	else {
 		mSprite->Position.m[0] = newX;
