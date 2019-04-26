@@ -2,6 +2,7 @@
 #include <Singleton.hpp>
 #include <map>
 #include <string>
+#include <stdexcept>
 
 namespace Utilities {
     class IOCContainer final : public Singleton<IOCContainer> {

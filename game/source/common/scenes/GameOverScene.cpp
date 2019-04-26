@@ -2,6 +2,7 @@
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
 #include "scenes/ISceneManager.h"
+#include "sprites/Sprite.h"
 
 using namespace std;
 using namespace Engine;
