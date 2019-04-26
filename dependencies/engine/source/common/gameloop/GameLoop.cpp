@@ -7,6 +7,7 @@
 #include "rendering/SpriteRenderer.h"
 #include "StepTimer.h"
 #include "gameloop/IGameLoopCallback.h"
+#include "filesystem/FileSystem.h"
 
 using namespace std;
 using namespace Engine;
@@ -19,6 +20,8 @@ GameLoop::GameLoop()
 }
 
 void GameLoop::Initialize() {
+	IOCContainer::Instance().Register<IFileSystem>(make_shared<FileSystem>());
+
 	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
 
 	mSpriteRenderer = make_shared<SpriteRenderer>();

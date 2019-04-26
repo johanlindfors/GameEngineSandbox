@@ -7,6 +7,7 @@
 #include "DispatcherWrapper.h"
 #include "IOC.hpp"
 #include "GLHelper.h"
+#include "filesystem/FileSystem.h"
 
 using namespace std;
 using namespace winrt;
@@ -22,10 +23,15 @@ namespace Engine {
 	{
 	private:
 		IAsyncOperation<IStorageFile> LoadImageAsync(const wstring& filename) {
-			auto folder = Package::Current().InstalledLocation();
-			auto path = folder.Path().c_str();
-			auto file = co_await folder.TryGetItemAsync(filename);
-			co_return file.as<IStorageFile>();
+			try {
+				auto path = mFileSystem->GetResourcesDirectory();
+				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path + L"textures\\");
+				auto file = co_await folder.TryGetItemAsync(filename);
+				co_return file.as<IStorageFile>();
+			}
+			catch (hresult_error error) {
+
+			}
 		}
 
 		IAsyncOperation<PixelDataProvider> GetPixelDataFromImageAsync(IStorageFile file, int& width, int& height) {
@@ -49,6 +55,7 @@ namespace Engine {
 		TextureManagerImpl()
 		{
 			mDispatcher = IOCContainer::Instance().Resolve<DispatcherWrapper>();
+			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
 		}	
 
 		void LoadTexture(Texture2D& texture) {
@@ -107,6 +114,7 @@ namespace Engine {
 	private:
 		HANDLE mSyncAsyncEvent = nullptr;
 		std::shared_ptr<DispatcherWrapper> mDispatcher;
+		std::shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 

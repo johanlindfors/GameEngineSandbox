@@ -1,11 +1,14 @@
 #include "textures/TextureManager.h"
+#include "filesystem/FileSystem.h"
 #include "GLHelper.h"
 #include "png.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include "IOC.hpp"
 
 using namespace std;
+using Utilities::IOCContainer;
 
 namespace Engine {
 	class TextureManagerImpl {
@@ -126,16 +129,24 @@ namespace Engine {
 			/* That's it */
 			return true;
 		}
+	
+	std::shared_ptr<IFileSystem> mFileSystem;
 
 	public:
 		void LoadTexture(Texture2D& texture)
 		{
+			if (!mFileSystem)
+			{
+				mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
+			}
+
 			GLubyte *textureImage;
 			int width, height;
 			bool hasAlpha = false;
 			wchar_t* directory;
 			directory = _wgetcwd(nullptr, 0);
-			auto filename = directory + std::wstring(L"\\Debug\\resources\\textures\\") + texture.Name;
+			auto path = mFileSystem->GetResourcesDirectory();
+			auto filename = directory + std::wstring(path + L"textures\\") + texture.Name;
 			bool success = loadPngImage(filename.c_str(), width, height, hasAlpha, &textureImage);
 			if (!success) {
 				texture.Name = L"";
@@ -178,7 +189,7 @@ namespace Engine {
 		delete(mImpl);
 	}
 
-	void TextureManager::LoadTextures(vector<wstring> filenames) {
+	void TextureManager::LoadTextures(vector<wstring> filenames) {		
 		if (!mInitialized) {
 			auto emptyTexture = mImpl->CreateEmptyTexture();
 			mTextures[emptyTexture.Name] = emptyTexture;

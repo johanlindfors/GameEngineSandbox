@@ -18,7 +18,9 @@ set(PLATFORM_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/${PLA
 set(COMMON_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/common")
 
 # explicit resources
-if(NOT UWP)
+if(UWP)
+    # TODO: Add the custom ItemGroup and Target section to .proj file.
+else()
     set(RESOURCES
         "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
         "${COMMON_RESOURCES_DIRECTORY}/textures/coderox.png"
