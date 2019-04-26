@@ -36,4 +36,5 @@ private:
 	int mScreenSizeX;
 	int mScreenSizeY;
 	IGameStateCallback* mGame;
+	bool mSpacePressedBefore;
 };

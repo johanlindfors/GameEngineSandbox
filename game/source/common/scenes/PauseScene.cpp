@@ -12,7 +12,7 @@ PauseScene::PauseScene()
 	: mBackground(make_shared<Sprite>())
 	, mText(make_shared<Sprite>())
 {
-	ID = "PauseScene";
+	ID = typeid(PauseScene).name();
 }
 
 PauseScene::~PauseScene()

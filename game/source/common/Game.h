@@ -21,6 +21,7 @@ public:
 
 // IGameStateCallback
     void GoToState(GameState gameState);
+	GameState GetCurrentState() { return mCurrentState; }
 
 private:
 	std::shared_ptr<Engine::ISceneManager> mSceneManager;

@@ -7,6 +7,7 @@
 #include "textures/ITextureManager.h"
 #include "sprites/ISpriteRenderer.h"
 #include "input/IInputManager.h"
+#include "IGameStateCallback.h"
 
 using std::make_shared;
 using std::shared_ptr;
@@ -17,13 +18,14 @@ using Utilities::IStepTimer;
 using Utilities::IOCContainer;
 using Utilities::Vector2;
 
-GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback) 
+GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mApple(make_shared<Apple>(Vector2(3.0f, 10.0f)))
 	, mSnake(make_shared<Snake>(Vector2(10.0f, 10.0f)))
 	, mSpriteCollider(make_shared<SpriteCollider>())
 	, mGame(gameCallback)
+	, mSpacePressedBefore(false)
 {
 	ID = typeid(GamePlayScene).name();
 }
@@ -36,9 +38,9 @@ GamePlayScene::~GamePlayScene()
 void GamePlayScene::Load()
 {
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
-    mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
+	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
-    
+
 	mApple->SetTexture(mTextureManager->GetTexture(L"apple.png"));
 	mSnake->SetTexture(mTextureManager->GetTexture(EMPTY_TEXTURE_NAME));
 }
@@ -49,7 +51,7 @@ void GamePlayScene::Unload()
 	mSnake.reset();
 }
 
-void GamePlayScene::UpdateScreenSize(int width, int height) 
+void GamePlayScene::UpdateScreenSize(int width, int height)
 {
 	mScreenSizeX = width;
 	mScreenSizeY = height;
@@ -58,17 +60,32 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 
 void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 {
-	mSnake->HandleInput(mInputManager);
+	bool spacePressed = mInputManager->IsKeyDown(32);
+	if (mGame->GetCurrentState() == GameState::GamePlay) {
+		mSnake->HandleInput(mInputManager);
 
-	if (mSpriteCollider->CollidesOnPosition(mSnake->GetSprite(), mApple->GetSprite()))
-	{
-		mApple->Reset();
-		mSnake->IncreaseLength();
+		if (mSpriteCollider->CollidesOnPosition(mSnake->GetSprite(), mApple->GetSprite()))
+		{
+			mApple->Reset();
+			mSnake->IncreaseLength();
+		}
+
+		// do updates
+		mApple->Update(mScreenSizeX, mScreenSizeY);
+		mSnake->Update(mScreenSizeX, mScreenSizeY, mGame);
+
+		if (spacePressed && !mSpacePressedBefore)
+		{
+			mGame->GoToState(GameState::Pause);
+		}
 	}
-
-	// do updates
-	mApple->Update(mScreenSizeX, mScreenSizeY);
-	mSnake->Update(mScreenSizeX, mScreenSizeY, mGame);
+	else {
+		if (spacePressed && !mSpacePressedBefore)
+		{
+			mGame->GoToState(GameState::GamePlay);
+		}
+	}
+	mSpacePressedBefore = spacePressed;
 }
 
 void GamePlayScene::Draw(shared_ptr<IStepTimer> /*timer*/)

@@ -14,7 +14,7 @@ using namespace Utilities;
 GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())	
 	, mText(make_shared<Sprite>())
-	, mGame(gameCallback)
+	, mGame(gameCallback)	
 {
 	ID = typeid(GameOverScene).name();
 }
