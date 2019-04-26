@@ -3,6 +3,7 @@
 #include <string>
 #include "MathHelper.h"
 #include "GLHelper.h"
+#include "sprites/Sprite.h"
 
 #define STRING(s) #s
 

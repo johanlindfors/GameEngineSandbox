@@ -3,8 +3,7 @@
 #include "MathHelper.h"
 
 namespace Engine {
-	class Sprite {
-	public:
+	struct Sprite {
 		Sprite() 
 			: Texture({})
 			, Position({ 0.0f, 0.0f })

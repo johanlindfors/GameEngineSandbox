@@ -1,4 +1,8 @@
 #include "Entity.h"
+#include "MathHelper.h"
+#include "textures/Texture2D.h"
+#include "sprites/Sprite.h"
+#include "GameDefines.h"
 
 using std::make_shared;
 using Utilities::Vector2;

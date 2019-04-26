@@ -67,6 +67,7 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "string_view": "cpp",
-        "xthread": "cpp"
+        "xthread": "cpp",
+        "ctime": "cpp"
     }
 }

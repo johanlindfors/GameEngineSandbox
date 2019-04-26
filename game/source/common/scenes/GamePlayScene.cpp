@@ -1,6 +1,12 @@
 #include "GamePlayScene.h"
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
+#include "game-objects/Snake.h"
+#include "game-objects/Apple.h"
+#include "game-objects/SpriteCollider.h"
+#include "textures/ITextureManager.h"
+#include "sprites/ISpriteRenderer.h"
+#include "input/IInputManager.h"
 
 using std::make_shared;
 using std::shared_ptr;
@@ -11,14 +17,15 @@ using Utilities::IStepTimer;
 using Utilities::IOCContainer;
 using Utilities::Vector2;
 
-GamePlayScene::GamePlayScene() 
+GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback) 
 	: mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mApple(make_shared<Apple>(Vector2(3.0f, 10.0f)))
 	, mSnake(make_shared<Snake>(Vector2(10.0f, 10.0f)))
 	, mSpriteCollider(make_shared<SpriteCollider>())
+	, mGame(gameCallback)
 {
-	ID = "GamePlayScene";
+	ID = typeid(GamePlayScene).name();
 }
 
 GamePlayScene::~GamePlayScene()

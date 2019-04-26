@@ -1,14 +1,25 @@
 #pragma once
 #include "scenes/GameScene.h"
-#include "textures/ITextureManager.h"
-#include "sprites/ISpriteRenderer.h"
-#include "IStepTimer.h"
 #include <memory>
+
+class IGameStateCallback;
+
+namespace Engine
+{
+	class ITextureManager;
+	class ISpriteRenderer;
+	struct Sprite;
+}
+
+namespace Utilities
+{
+	class IStepTimer;
+}
 
 class SplashScene : public Engine::GameScene 
 {
 public:
-    SplashScene();
+    SplashScene(IGameStateCallback* gameCallback);
     ~SplashScene();
     void Load();
 	void Unload();
@@ -23,4 +34,5 @@ private:
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
     std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;
+	IGameStateCallback* mGame;
 };
