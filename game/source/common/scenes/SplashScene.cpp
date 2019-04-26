@@ -5,9 +5,9 @@
 #include "GamePlayScene.h"
 #include "IGameStateCallback.h"
 #include "textures/ITextureManager.h"
-#include "sprites/ISpriteRenderer.h"
+#include "rendering/ISpriteRenderer.h"
+#include "rendering/Sprite.h"
 #include "IStepTimer.h"
-#include "sprites/Sprite.h"
 
 using namespace std;
 using namespace Engine;

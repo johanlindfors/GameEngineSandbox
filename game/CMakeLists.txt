@@ -18,11 +18,15 @@ set(PLATFORM_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/${PLA
 set(COMMON_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../resources/common")
 
 # explicit resources
-set(RESOURCES
-    "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
-    "${COMMON_RESOURCES_DIRECTORY}/textures/coderox.png"
-    "${COMMON_RESOURCES_DIRECTORY}/audio/score.wav"
-)
+if(NOT UWP)
+    set(RESOURCES
+        "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
+        "${COMMON_RESOURCES_DIRECTORY}/textures/coderox.png"
+        "${COMMON_RESOURCES_DIRECTORY}/textures/gameover-background.png"
+        "${COMMON_RESOURCES_DIRECTORY}/textures/gameover-text.png"
+        "${COMMON_RESOURCES_DIRECTORY}/audio/score.wav"
+    )
+endif()
 
 file(GLOB_RECURSE PLATFORM_RESOURCES
     ${PLATFORM_RESOURCES_DIRECTORY}/*
@@ -47,4 +51,3 @@ else()
                            ${PLATFORM_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:game>/resources)
     endif()
 endif()
-

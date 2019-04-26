@@ -1,8 +1,15 @@
 #pragma once
 #include "Entity.h"
-#include "MathHelper.h"
-#include "sprites/ISpriteRenderer.h"
-#include <memory>
+
+namespace Engine 
+{
+	class ISpriteRenderer;
+}
+
+namespace Utilities 
+{
+	struct Vector2;
+}
 
 class Apple : public Entity {
 public:
@@ -12,5 +19,6 @@ public:
 	void Reset();
 
 private:
-	Utilities::Vector2 mScreenPosition;
+	float mScreenPositionX;
+	float mScreenPositionY;
 };

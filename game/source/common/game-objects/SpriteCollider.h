@@ -1,6 +1,10 @@
 #pragma once
 #include <memory>
-#include "sprites/Sprite.h"
+
+namespace Engine
+{
+    struct Sprite;
+}
 
 class SpriteCollider {
 public:

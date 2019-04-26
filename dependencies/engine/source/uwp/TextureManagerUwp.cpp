@@ -59,8 +59,8 @@ namespace Engine {
 				if (file) {
 					auto pixelData = GetPixelDataFromImageAsync(file, width, height).get();
 
-					texture.Width = static_cast<float>(width);
-					texture.Height = static_cast<float>(height);
+					texture.Width = width;
+					texture.Height = height;
 
 					auto dpPixels = GetPixelsFromPixelDataProvider(pixelData);
 					mDispatcher->ScheduleOnGameThread([&, dpPixels, texture]() {

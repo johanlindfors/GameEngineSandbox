@@ -1,11 +1,12 @@
-#include "GameLoop.h"
+#include "gameloop/GameLoop.h"
 #include "IOC.hpp"
-#include "scenes/GameScene.h"
+#include "scenes/SceneManager.h"
+#include "input/InputManager.h"
 #include "textures/TextureManager.h"
 #include "input/InputManager.h"
-#include "sprites/SpriteRenderer.h"
+#include "rendering/SpriteRenderer.h"
 #include "StepTimer.h"
-#include "scenes/SceneManager.h"
+#include "gameloop/IGameLoopCallback.h"
 
 using namespace std;
 using namespace Engine;

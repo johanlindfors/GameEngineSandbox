@@ -5,9 +5,10 @@
 #include "game-objects/Apple.h"
 #include "game-objects/SpriteCollider.h"
 #include "textures/ITextureManager.h"
-#include "sprites/ISpriteRenderer.h"
+#include "rendering/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "IGameStateCallback.h"
+#include "MathHelper.h"
 
 using std::make_shared;
 using std::shared_ptr;

@@ -1,4 +1,5 @@
 #include "SpriteCollider.h"
+#include "rendering/Sprite.h"
 
 using std::shared_ptr;
 using Engine::Sprite;

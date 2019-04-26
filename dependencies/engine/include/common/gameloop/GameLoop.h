@@ -1,11 +1,18 @@
 #pragma once
-#include "input/IInputManager.h"
-#include "sprites/ISpriteRenderer.h"
-#include "IGameLoopCallback.h"
-#include "scenes/ISceneManager.h"
 #include <memory>
 
-namespace Engine {
+namespace Utilities
+{
+	class IStepTimer;
+}
+
+namespace Engine 
+{
+
+	class ISpriteRenderer;
+	class IInputManager;
+	class ISceneManager;
+	class IGameLoopCallback;
 
 	class GameLoop {
 	public:

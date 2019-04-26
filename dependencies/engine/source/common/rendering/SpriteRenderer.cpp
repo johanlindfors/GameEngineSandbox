@@ -1,9 +1,9 @@
-#include "sprites/SpriteRenderer.h"
+#include "rendering/SpriteRenderer.h"
 #include <vector>
 #include <string>
 #include "MathHelper.h"
 #include "GLHelper.h"
-#include "sprites/Sprite.h"
+#include "rendering/Sprite.h"
 
 #define STRING(s) #s
 
@@ -73,7 +73,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 	glEnableVertexAttribArray(mUVAttribLocation);
 	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	Vector2 textureSize(sprite->Texture.Width, sprite->Texture.Height);
+	Vector2 textureSize(static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height));
 	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
 	glActiveTexture(GL_TEXTURE0);
