@@ -10,7 +10,6 @@ using namespace Utilities;
 
 PauseScene::PauseScene()
 	: mBackground(make_shared<Sprite>())
-	, mText(make_shared<Sprite>())
 {
 	ID = typeid(PauseScene).name();
 }
@@ -25,8 +24,7 @@ void PauseScene::Load()
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 
-	mBackground->Texture = mTextureManager->GetTexture(L"pause_background.png");
-    mText->Texture = mTextureManager->GetTexture(L"pause_text.png");
+	mBackground->Texture = mTextureManager->GetTexture(L"gameover-background.png");
 }
 
 void PauseScene::Unload()
@@ -50,6 +48,5 @@ void PauseScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
 	if (mSpriteRenderer) {
 		mSpriteRenderer->DrawSprite(mBackground);
-        mSpriteRenderer->DrawSprite(mText);
 	}
 }
