@@ -25,7 +25,7 @@ namespace Engine {
 		IAsyncOperation<IStorageFile> LoadImageAsync(const wstring& filename) {
 			try {
 				auto path = mFileSystem->GetResourcesDirectory();
-				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path + L"textures\\");
+				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path);
 				auto file = co_await folder.TryGetItemAsync(filename);
 				co_return file.as<IStorageFile>();
 			}

@@ -10,17 +10,13 @@ set(PLATFORM_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM}")
 set(COMMON_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/common")
 
 # explicit resources
-if(WINDOWS_STORE)
-    # TODO: Add the custom ItemGroup and Target section to .proj file.
-else()
-    set(RESOURCES
-        "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
-        "${COMMON_RESOURCES_DIRECTORY}/textures/coderox.png"
-        "${COMMON_RESOURCES_DIRECTORY}/textures/gameover-background.png"
-        "${COMMON_RESOURCES_DIRECTORY}/textures/gameover-text.png"
-        "${COMMON_RESOURCES_DIRECTORY}/audio/score.wav"
-    )
-endif()
+set(RESOURCES
+    "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
+    "${COMMON_RESOURCES_DIRECTORY}/textures/coderox.png"
+    "${COMMON_RESOURCES_DIRECTORY}/textures/gameover-background.png"
+    "${COMMON_RESOURCES_DIRECTORY}/textures/gameover-text.png"
+    "${COMMON_RESOURCES_DIRECTORY}/audio/score.wav"
+)
 
 file(GLOB_RECURSE PLATFORM_RESOURCES
     ${PLATFORM_RESOURCES_DIRECTORY}/*
