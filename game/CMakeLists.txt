@@ -22,7 +22,7 @@ endif()
 build_executable(${PROJECT_NAME} "${DEPENDENCIES}" "${RESOURCES}")
 source_group(TREE "${CMAKE_CURRENT_LIST_DIR}/../" FILES ${RESOURCES})
     
-if(UWP)
+if(WINDOWS_STORE)
     set_property(SOURCE ${RESOURCES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 else()
 

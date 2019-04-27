@@ -1,6 +1,6 @@
 project(utilities)
 
-if(UWP)
+if(WINDOWS_STORE)
     list(APPEND DEPENDENCIES 
         libEGL
         libGLESv2

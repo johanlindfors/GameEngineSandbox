@@ -10,7 +10,7 @@ set(PLATFORM_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM}")
 set(COMMON_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/common")
 
 # explicit resources
-if(UWP)
+if(WINDOWS_STORE)
     # TODO: Add the custom ItemGroup and Target section to .proj file.
 else()
     set(RESOURCES
