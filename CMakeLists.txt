@@ -33,9 +33,13 @@ include(dependencies/pipeline/functions.cmake)
 
 # Enable folders grouping in IDE
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PLATFORM_RESOURCES_DIRECTORY)
+set_property(GLOBAL PROPERTY COMMON_RESOURCES_DIRECTORY)
+set_property(GLOBAL PROPERTY RESOURCES)
 
 # Add dependencies for client project
 add_subdirectory(dependencies)
+add_subdirectory(resources)
 add_subdirectory(game)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT game)
