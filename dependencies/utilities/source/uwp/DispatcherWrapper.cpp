@@ -1,4 +1,3 @@
-#pragma once
 #include "DispatcherWrapper.h"
 #include <concurrent_queue.h>
 
