@@ -77,7 +77,7 @@ if($generate -OR $build -OR $update) {
     
     if($uwp) {
         $ProjectFile = $BuildDirectory + "/game/game.vcxproj"
-        & python @("dependencies/pipeline/inject.py", $ProjectFile)
+        & python @("pipeline/inject.py", $ProjectFile)
     }
 }
 if($compile -OR $build) {
