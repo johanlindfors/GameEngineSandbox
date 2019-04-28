@@ -30,8 +30,8 @@ void GameOverScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mBackground->Texture = mTextureManager->GetTexture(L"gameover-background.png");
-    mText->Texture = mTextureManager->GetTexture(L"gameover-text.png");
+	mBackground->Texture = mTextureManager->GetTexture(L"gameover/background.png");
+    mText->Texture = mTextureManager->GetTexture(L"gameover/text.png");
 }
 
 void GameOverScene::Unload()

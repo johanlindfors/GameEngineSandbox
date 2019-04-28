@@ -25,7 +25,7 @@ void PauseScene::Load()
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 
-	mBackground->Texture = mTextureManager->GetTexture(L"gameover-background.png");
+	mBackground->Texture = mTextureManager->GetTexture(L"gameover/background.png");
 }
 
 void PauseScene::Unload()

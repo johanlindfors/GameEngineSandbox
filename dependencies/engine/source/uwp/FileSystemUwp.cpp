@@ -10,6 +10,6 @@ using namespace Windows::ApplicationModel;
 std::wstring FileSystem::GetResourcesDirectory()
 {
     auto folder = Package::Current().InstalledLocation();
-    std::wstring path(folder.Path() + L"\\");
+    std::wstring path(folder.Path() + L"\\resources\\");
     return path;
 }

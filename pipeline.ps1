@@ -74,6 +74,11 @@ if($generate -OR $build -OR $update) {
     $GenerateParameters += $BuildType
     $GenerateParameters += ("-A", "x64", "../..")
     & $Cmake $GenerateParameters
+    
+    if($uwp) {
+        $ProjectFile = $BuildDirectory + "/game/game.vcxproj"
+        & python @("dependencies/pipeline/inject.py", $ProjectFile)
+    }
 }
 if($compile -OR $build) {
     & $Cmake @("--build", $BuildDirectory, "--config", $BuildConfiguration)

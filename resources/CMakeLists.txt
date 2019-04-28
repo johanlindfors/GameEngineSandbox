@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-message(STATUS "=== Adding resources")
-
 get_property(PLATFORM_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_PLATFORM_RESOURCES_DIRECTORY)
 get_property(COMMON_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_RESOURCES_DIRECTORY)
 get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
@@ -10,13 +8,17 @@ set(PLATFORM_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM}")
 set(COMMON_RESOURCES_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/common")
 
 # explicit resources
-set(RESOURCES
-    "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
-    "${COMMON_RESOURCES_DIRECTORY}/textures/coderox.png"
-    "${COMMON_RESOURCES_DIRECTORY}/textures/gameover-background.png"
-    "${COMMON_RESOURCES_DIRECTORY}/textures/gameover-text.png"
-    "${COMMON_RESOURCES_DIRECTORY}/audio/score.wav"
-)
+if(NOT WINDOWS_STORE)
+    set(RESOURCES
+        "${COMMON_RESOURCES_DIRECTORY}/textures/apple.png"
+        "${COMMON_RESOURCES_DIRECTORY}/textures/coderox.png"
+        "${COMMON_RESOURCES_DIRECTORY}/textures/gameover/background.png"
+        "${COMMON_RESOURCES_DIRECTORY}/textures/gameover/text.png"
+        "${COMMON_RESOURCES_DIRECTORY}/textures/pause/background.png"
+        "${COMMON_RESOURCES_DIRECTORY}/textures/pause/text.png"
+        "${COMMON_RESOURCES_DIRECTORY}/audio/score.wav"
+    )
+endif()
 
 file(GLOB_RECURSE PLATFORM_RESOURCES
     ${PLATFORM_RESOURCES_DIRECTORY}/*

@@ -4,6 +4,7 @@
 #include <winrt/Windows.Graphics.Imaging.h>
 #include <winrt/Windows.ApplicationModel.h>
 #include <memory>
+#include <algorithm>
 #include "DispatcherWrapper.h"
 #include "IOC.hpp"
 #include "GLHelper.h"
@@ -24,9 +25,11 @@ namespace Engine {
 	private:
 		IAsyncOperation<IStorageFile> LoadImageAsync(const wstring& filename) {
 			try {
-				auto path = mFileSystem->GetResourcesDirectory();
-				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path);
-				auto file = co_await folder.TryGetItemAsync(filename);
+				auto path = mFileSystem->GetResourcesDirectory();			
+				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path + L"textures\\");
+				std::wstring uwpFilename(filename);
+				std::replace(uwpFilename.begin(), uwpFilename.end(), '/', '\\');
+				auto file = co_await folder.TryGetItemAsync(uwpFilename);
 				co_return file.as<IStorageFile>();
 			}
 			catch (hresult_error error) {
