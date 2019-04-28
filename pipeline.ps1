@@ -43,8 +43,7 @@ If($vs2017){
 If($win32) {
     $BuildDirectory = "build/win32"
     if(-NOT $toolchainFile -AND -NOT $compile) {
-        Write-Output "Win32 need to have the toolchainFile parameter pointing to the vcpkg file"
-        exit
+        $toolchainFile = "dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake"
     }
     $PlatformParameters = "-DCMAKE_TOOLCHAIN_FILE='$toolchainFile'"
 } ElseIf($uwp) {
