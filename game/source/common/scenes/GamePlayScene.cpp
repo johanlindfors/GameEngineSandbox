@@ -43,7 +43,7 @@ void GamePlayScene::Load()
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
 	mApple->SetTexture(mTextureManager->GetTexture(L"apple.png"));
-	mSnake->SetTexture(mTextureManager->GetTexture(EMPTY_TEXTURE_NAME));
+	mSnake->SetTexture(mTextureManager->GetTexture(L"snake.png"));
 }
 
 void GamePlayScene::Unload()

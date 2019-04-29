@@ -35,8 +35,11 @@ void SplashScene::Load()
 	vector<wstring> filenames;
 	filenames.emplace_back(L"coderox.png");
 	filenames.emplace_back(L"apple.png");
+	filenames.emplace_back(L"snake.png");
 	filenames.emplace_back(L"gameover/background.png");
 	filenames.emplace_back(L"gameover/text.png");
+	filenames.emplace_back(L"pause/background.png");
+	filenames.emplace_back(L"pause/text.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
 	mSprite->Texture = mTextureManager->GetTexture(L"coderox.png");
