@@ -6,7 +6,8 @@ get_property(COMMON_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_RESOURCES_
 get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
 
 set(DEPENDENCIES 
-    utilities 
+    utilities
+    application
     engine
 )
 

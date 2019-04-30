@@ -1,4 +1,4 @@
-#include "gameloop/GameLoop.h"
+#include "GameLoop.h"
 #include <Windows.h>
 #include <memory>
 #include "glwrapper.h"

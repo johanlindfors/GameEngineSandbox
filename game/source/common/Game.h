@@ -1,5 +1,5 @@
 #pragma once
-#include "gameloop/IGameLoopCallback.h"
+#include "IGameLoopCallback.h"
 #include "IGameStateCallback.h"
 
 namespace Engine {
