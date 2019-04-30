@@ -5,7 +5,7 @@
 #include <winrt/Windows.Foundation.h>
 #include <memory>
 #include "OpenGLES.h"
-#include "gameloop/GameLoop.h"
+#include "GameLoop.h"
 #include "input/IInputManager.h"
 
 namespace Engine
