@@ -1,12 +1,7 @@
 #include "OpenGLES.h"
 
-
-// ANGLE include for Windows Store
-#include <angle_windowsstore.h>
-
 #define ANGLE_ERROR(id, text) hresult_error(id, text);
 using namespace winrt;
-using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace Engine;
