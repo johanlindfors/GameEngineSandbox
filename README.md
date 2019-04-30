@@ -9,8 +9,7 @@ To try this small game engine follow these steps:
 
 Make sure to fetch the thirdparty submodules:
 
-`git submodule init`
-`git submodule update`
+`git submodule update --init`
 
 
 If you want to build Win32 version, make sure to bootstrap vcpkg and fetch Win32 specific dependencies
