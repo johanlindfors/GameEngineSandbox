@@ -104,13 +104,6 @@ void GLPage::HandleKeyUp(IInspectable const& sender, KeyRoutedEventArgs args)
 	mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), false);
 }
 
-void GLPage::CreateRenderSurface()
-{
-	if (mOpenGLES) {
-		mRenderSurface = mOpenGLES->CreateSurface(mSwapChainPanel, nullptr, nullptr);
-	}
-}
-
 void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 {
 	auto dispatcher = IOCContainer::Instance().Resolve<DispatcherWrapper>();
@@ -118,8 +111,8 @@ void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 	SetThreadName((DWORD)-1, "Game Thread");
 	
 	mOpenGLES->Initialize();
-	CreateRenderSurface();
-	mOpenGLES->MakeCurrent(mRenderSurface);
+	auto renderSurface = mOpenGLES->CreateSurface(mSwapChainPanel, nullptr, nullptr);
+	mOpenGLES->MakeCurrent(renderSurface);
 
 	RecreateRenderer();
 
@@ -127,11 +120,11 @@ void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 		EGLint panelWidth = 0;
 		EGLint panelHeight = 0;
 
-		mOpenGLES->GetSurfaceDimensions(mRenderSurface, &panelWidth, &panelHeight);
+		mOpenGLES->GetSurfaceDimensions(renderSurface, &panelWidth, &panelHeight);
 		mGameLoop->UpdateWindowSize(panelWidth, panelHeight);
 		mGameLoop->Tick();
 
-		if (mOpenGLES->SwapBuffers(mRenderSurface) != GL_TRUE)
+		if (mOpenGLES->SwapBuffers(renderSurface) != GL_TRUE)
 		{
 			mGameLoop.reset(nullptr);
 			RecreateRenderer();
@@ -139,15 +132,9 @@ void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 		dispatcher->ProcessScheduledFunctions();
 	}
 
-	DestroyRenderSurface();
-}
-
-void GLPage::DestroyRenderSurface()
-{
 	if (mOpenGLES) {
-		mOpenGLES->DestroySurface(mRenderSurface);
+		mOpenGLES->DestroySurface(renderSurface);
 	}
-	mRenderSurface = EGL_NO_SURFACE;
 }
 
 void GLPage::RecreateRenderer()
