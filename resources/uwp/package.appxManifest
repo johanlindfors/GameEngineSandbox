@@ -3,8 +3,8 @@
   <Identity Name="B9EC94EF-8576-33B8-81E6-0092C89DBED8" Publisher="CN=CMake Test Cert" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="B9EC94EF-8576-33B8-81E6-0092C89DBED8" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>game</DisplayName>
-    <PublisherDisplayName>CMake</PublisherDisplayName>
+    <DisplayName>a game</DisplayName>
+    <PublisherDisplayName>// coderox</PublisherDisplayName>
     <Logo>StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="game.exe" EntryPoint="game.App">
-      <uap:VisualElements DisplayName="game" Description="game" BackgroundColor="#336699" Square150x150Logo="Logo.png" Square44x44Logo="SmallLogo44x44.png">
+      <uap:VisualElements DisplayName="a game" Description="a game" BackgroundColor="#336699" Square150x150Logo="Logo.png" Square44x44Logo="SmallLogo44x44.png">
         <uap:SplashScreen Image="SplashScreen.png" />
       </uap:VisualElements>
     </Application>

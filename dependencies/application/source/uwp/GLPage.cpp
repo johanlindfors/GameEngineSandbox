@@ -37,8 +37,6 @@ using namespace Windows::System;
 using namespace Engine;
 using namespace Utilities;
 
-#define SCALE_FACTOR 1.0f
-
 //
 // Usage: SetThreadName ((DWORD)-1, "Game Thread");
 //
