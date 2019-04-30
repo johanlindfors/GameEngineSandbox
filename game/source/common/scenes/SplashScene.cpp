@@ -3,7 +3,7 @@
 #include "IOC.hpp"
 #include "scenes/ISceneManager.h"
 #include "GamePlayScene.h"
-#include "IGameStateCallback.h"
+#include "game/IGameStateCallback.h"
 #include "textures/ITextureManager.h"
 #include "rendering/ISpriteRenderer.h"
 #include "rendering/Sprite.h"

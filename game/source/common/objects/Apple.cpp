@@ -1,5 +1,5 @@
 #include "Apple.h"
-#include "GameDefines.h"
+#include "game/GameDefines.h"
 #include "rendering/ISpriteRenderer.h"
 #include "rendering/Sprite.h"
 

@@ -1,7 +1,7 @@
 #include "UwpApplication.h"
 #include <Windows.h>
 #include "IOC.hpp"
-#include "Game.h"
+#include "game/Game.h"
 #include <memory>
 
 #include <winrt/Windows.UI.Xaml.h>

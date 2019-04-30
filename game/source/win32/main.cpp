@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include <iostream>
 #include "IOC.hpp"
-#include "Game.h"
+#include "game/Game.h"
 
 void StartWin32Application();
 

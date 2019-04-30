@@ -5,7 +5,7 @@
 #include "rendering/SpriteRenderer.h"
 #include "rendering/Sprite.h"
 #include "IOC.hpp"
-#include "IGameStateCallback.h"
+#include "game/IGameStateCallback.h"
 
 using namespace std;
 using namespace Engine;

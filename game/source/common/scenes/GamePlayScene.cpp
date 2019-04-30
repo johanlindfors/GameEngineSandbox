@@ -1,13 +1,13 @@
 #include "GamePlayScene.h"
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
-#include "game-objects/Snake.h"
-#include "game-objects/Apple.h"
-#include "game-objects/SpriteCollider.h"
+#include "objects/Snake.h"
+#include "objects/Apple.h"
+#include "objects/SpriteCollider.h"
 #include "textures/ITextureManager.h"
 #include "rendering/ISpriteRenderer.h"
 #include "input/IInputManager.h"
-#include "IGameStateCallback.h"
+#include "game/IGameStateCallback.h"
 #include "MathHelper.h"
 
 using std::make_shared;

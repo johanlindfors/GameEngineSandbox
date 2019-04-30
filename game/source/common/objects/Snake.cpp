@@ -1,10 +1,10 @@
 #include "Snake.h"
-#include "GameDefines.h"
+#include "game/GameDefines.h"
 #include "rendering/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "MathHelper.h"
 #include "rendering/Sprite.h"
-#include "IGameStateCallback.h"
+#include "game/IGameStateCallback.h"
 
 using std::shared_ptr;
 using Utilities::Vector2;

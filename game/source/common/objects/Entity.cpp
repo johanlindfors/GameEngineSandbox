@@ -2,7 +2,7 @@
 #include "MathHelper.h"
 #include "textures/Texture2D.h"
 #include "rendering/Sprite.h"
-#include "GameDefines.h"
+#include "game/GameDefines.h"
 
 using std::make_shared;
 using Utilities::Vector2;
