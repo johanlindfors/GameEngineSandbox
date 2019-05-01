@@ -3,7 +3,6 @@
 #include "scenes/SceneManager.h"
 #include "input/InputManager.h"
 #include "textures/TextureManager.h"
-#include "input/InputManager.h"
 #include "rendering/SpriteRenderer.h"
 #include "StepTimer.h"
 #include "IGameLoopCallback.h"
@@ -20,22 +19,26 @@ GameLoop::GameLoop()
 }
 
 void GameLoop::Initialize() {
-	IOCContainer::Instance().Register<IFileSystem>(make_shared<FileSystem>());
-
-	IOCContainer::Instance().Register<ITextureManager>(make_shared<TextureManager>());
-
-	mSpriteRenderer = make_shared<SpriteRenderer>();
-	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
-	
-	mInputManager = make_shared<InputManager>();
-	IOCContainer::Instance().Register<IInputManager>(mInputManager);
-
 	mTimer = make_shared<StepTimer>();
 	mTimer->SetFixedTimeStep(true);
 	mTimer->SetTargetElapsedSeconds(1.0f/15.0f);
 
+	// Ordering is important
+	auto fileSystem = make_shared<FileSystem>();
+	IOCContainer::Instance().Register<IFileSystem>(fileSystem);
+
+	auto textureManager = make_shared<TextureManager>();
+	IOCContainer::Instance().Register<ITextureManager>(textureManager);
+
+	mSpriteRenderer = make_shared<SpriteRenderer>();
+	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
+
+	mInputManager = make_shared<InputManager>();
+	IOCContainer::Instance().Register<IInputManager>(mInputManager);
+
 	mSceneManager = make_shared<SceneManager>();
 	IOCContainer::Instance().Register<ISceneManager>(mSceneManager);
+
 	mSceneManager->Initialize();
 
 	// Game must register callback

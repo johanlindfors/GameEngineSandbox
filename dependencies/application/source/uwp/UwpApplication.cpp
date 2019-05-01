@@ -15,7 +15,7 @@ using namespace Utilities;
 
 void UwpApplication::OnLaunched(LaunchActivatedEventArgs const &)
 {
-	auto window = Windows::Current();
+	auto window = Window::Current();
 	auto dispatcher = window.Dispatcher();
 	auto dispatcherWrapper = make_shared<DispatcherWrapper>(dispatcher);
 	IOCContainer::Instance().Register<IDispatcherWrapper>(dispatcherWrapper);
