@@ -3,6 +3,7 @@ project(application)
 set(DEPENDENCIES
     utilities
     engine
+    game-loop
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")
