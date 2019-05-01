@@ -27,8 +27,6 @@ source_group(TREE "${CMAKE_CURRENT_LIST_DIR}/../" FILES ${RESOURCES})
 
 if(WINDOWS_STORE)
     set_property(SOURCE ${RESOURCES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
-    # TODO: Remove this line when using C++/WinRT
-    set_target_properties(${PROJECT_NAME} PROPERTIES VS_WINRT_COMPONENT 1)
 else()
 
     add_custom_command(TARGET game POST_BUILD
