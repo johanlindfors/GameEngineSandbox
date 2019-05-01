@@ -1,8 +1,7 @@
-project(engine)
+add_subdirectory(utilities ${CMAKE_CURRENT_BINARY_DIR}/dependencies/utilities)
 
-set(DEPENDENCIES
-    utilities
-)
+add_subdirectory(systems ${CMAKE_CURRENT_BINARY_DIR}/dependencies/systems)
 
-build_library(${PROJECT_NAME} "${DEPENDENCIES}")
-set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Dependencies")
+add_subdirectory(game-loop ${CMAKE_CURRENT_BINARY_DIR}/dependencies/game-loop)
+
+add_subdirectory(application ${CMAKE_CURRENT_BINARY_DIR}/dependencies/application)

@@ -27,7 +27,7 @@ endif()
 
 message(STATUS "Building platform ${PLATFORM}")
 
-include(pipeline/functions.cmake)
+include(dependencies/pipeline/functions.cmake)
 
 # Enable folders grouping in IDE
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

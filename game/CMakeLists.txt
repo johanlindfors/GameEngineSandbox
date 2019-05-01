@@ -9,7 +9,7 @@ set(DEPENDENCIES
     utilities
     application
     game-loop
-    engine
+    systems
 )
 
 if(LINUX)
