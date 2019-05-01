@@ -4,21 +4,16 @@
 #include "SetThreadName.h"
 
 using std::shared_ptr;
+using namespace Engine;
+using namespace Utilities;
+
 using namespace Windows::Foundation;
-using namespace Windows::ApplicationModel::Activation;
 using namespace Windows::UI;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Input;
-using namespace Windows::UI::Core;
-using namespace Windows::Graphics::Display;
 using namespace Windows::System::Threading;
-using namespace Windows::System;
-using namespace Engine;
-using namespace Utilities;
-
-
 
 GLPage::GLPage(shared_ptr<OpenGLES> openGLES) 
 	: mOpenGLES(openGLES)
@@ -35,9 +30,6 @@ GLPage::GLPage(shared_ptr<OpenGLES> openGLES)
 	Content = mContentRoot;
 	
 	Loaded += ref new RoutedEventHandler(this, &GLPage::OnPageLoaded);
-
-	//KeyDown += ref new KeyEventHandler(this, &GLPage::OnKeyDown);
-	//KeyUp += ref new KeyEventHandler(this, &GLPage::HandleKeyUp);
 }
 
 void GLPage::OnPageLoaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
@@ -47,18 +39,16 @@ void GLPage::OnPageLoaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEve
 
 void GLPage::OnKeyDown(KeyRoutedEventArgs ^ args)
 {
-	if (mInputManager == nullptr) {
-		mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
-	}
-	mInputManager->AddKeyboardEvent(static_cast<int>(args->Key), true);
+	if (mInputManager)  {
+		mInputManager->AddKeyboardEvent(static_cast<int>(args->Key), true);
+	}	
 }
 
 void GLPage::OnKeyUp(KeyRoutedEventArgs ^ args)
 {
-	if (mInputManager == nullptr) {
-		mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
+	if (mInputManager) {
+		mInputManager->AddKeyboardEvent(static_cast<int>(args->Key), false);
 	}
-	mInputManager->AddKeyboardEvent(static_cast<int>(args->Key), false);
 }
 
 void GLPage::RenderLoop(IAsyncAction ^ /*action*/)
@@ -100,5 +90,9 @@ void GLPage::RecreateRenderer()
 	{
 		mGameLoop.reset(new GameLoop());
         mGameLoop->Initialize();
+
+		if (mInputManager == nullptr) {
+			mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
+		}
 	}
 }

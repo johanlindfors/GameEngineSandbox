@@ -20,6 +20,7 @@ namespace Engine
 		void OnPageLoaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void RenderLoop(Windows::Foundation::IAsyncAction^ action);
 		void RecreateRenderer();
+		
 		std::shared_ptr<OpenGLES> mOpenGLES;
 		std::unique_ptr<GameLoop> mGameLoop;
 		std::shared_ptr<IInputManager> mInputManager;

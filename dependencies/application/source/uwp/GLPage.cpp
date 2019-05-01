@@ -1,44 +1,22 @@
 #include "GLPage.h"
-#include <winrt/Windows.Graphics.Display.h>
-#include <winrt/Windows.System.Threading.h>
-#include <winrt/Windows.UI.Input.h>
 #include "IOC.hpp"
 #include "IDispatcherWrapper.h"
 #include "SetThreadName.h"
 
-#include <winrt/Windows.ApplicationModel.h>
-#include <winrt/Windows.Devices.Input.h>
-#include <winrt/Windows.Foundation.Metadata.h>
-#include <winrt/Windows.Storage.h>
-#include <winrt/Windows.System.h>
-#include <winrt/Windows.UI.h>
-#include <winrt/Windows.UI.Composition.h>
-#include <winrt/Windows.UI.Core.h>
-#include <winrt/Windows.UI.ViewManagement.h>
-#include <winrt/Windows.UI.Xaml.h>
-#include <winrt/Windows.UI.Xaml.Hosting.h>
-#include <winrt/Windows.UI.Xaml.Media.h>
-#include <winrt/Windows.UI.Xaml.Media.Imaging.h>
-#include <winrt/Windows.UI.Xaml.Navigation.h>
-
+#include <winrt/Windows.System.Threading.h>
 
 using std::shared_ptr;
+using namespace Engine;
+using namespace Utilities;
+
 using namespace winrt;
 using namespace Windows::Foundation;
-using namespace Windows::ApplicationModel::Activation;
 using namespace Windows::UI;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Input;
-using namespace Windows::UI::Core;
-using namespace Windows::Graphics::Display;
 using namespace Windows::System::Threading;
-using namespace Windows::System;
-using namespace Engine;
-using namespace Utilities;
-
-
 
 GLPage::GLPage(shared_ptr<OpenGLES> openGLES) 
 	: mOpenGLES(openGLES)
@@ -51,30 +29,27 @@ GLPage::GLPage(shared_ptr<OpenGLES> openGLES)
 
 	Content(mContentRoot);
 	
-	Loaded([=](auto, auto) {
-		// Run task on a dedicated high priority background thread
-		ThreadPool::RunAsync(WorkItemHandler(this, &GLPage::RenderLoop), WorkItemPriority::High, WorkItemOptions::TimeSliced);
-	});
-
-	KeyDown(KeyEventHandler(this, &GLPage::HandleKeyDown));
-	KeyUp(KeyEventHandler(this, &GLPage::HandleKeyUp));
-
+	Loaded({ this, &GLPage::OnPageLoaded });
 }
 
-void GLPage::HandleKeyDown(const IInspectable & sender, const KeyRoutedEventArgs args)
+void GLPage::OnPageLoaded(IInspectable const&, RoutedEventArgs const&) 
 {
-	if (mInputManager == nullptr) {
-		mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
-	}
-	mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), true);
+	// Run task on a dedicated high priority background thread
+	ThreadPool::RunAsync(WorkItemHandler(this, &GLPage::RenderLoop), WorkItemPriority::High, WorkItemOptions::TimeSliced);
 }
 
-void GLPage::HandleKeyUp(IInspectable const& sender, KeyRoutedEventArgs args)
+void GLPage::OnKeyDown(KeyRoutedEventArgs const& args) const
 {
-	if (mInputManager == nullptr) {
-		mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
+	if (mInputManager) {
+		mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), true);
 	}
-	mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), false);
+}
+
+void GLPage::OnKeyUp(KeyRoutedEventArgs const& args) const
+{
+	if (mInputManager) {
+		mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), false);
+	}
 }
 
 void GLPage::RenderLoop(IAsyncAction const& /*action*/)
@@ -116,5 +91,9 @@ void GLPage::RecreateRenderer()
 	{
 		mGameLoop.reset(new GameLoop());
         mGameLoop->Initialize();
+
+		if (mInputManager == nullptr) {
+			mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
+		}
 	}
 }

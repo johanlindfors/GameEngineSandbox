@@ -1,6 +1,7 @@
 #include "OpenGLES.h"
 
 #define ANGLE_ERROR(id, text) hresult_error(id, text);
+
 using namespace winrt;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
