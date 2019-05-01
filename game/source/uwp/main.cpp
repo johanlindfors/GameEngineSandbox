@@ -5,8 +5,10 @@
 
 void StartUwpApplication();
 
-int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
+int __cdecl main(Platform::Array<Platform::String^>^ args)
 {
+// int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
+// {
 	Utilities::IOCContainer::Instance().Register<Engine::IGameLoopCallback>(std::make_shared<Game>());
 	StartUwpApplication();
 	return 0;

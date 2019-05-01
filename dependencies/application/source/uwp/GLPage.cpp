@@ -3,7 +3,7 @@
 #include <winrt/Windows.System.Threading.h>
 #include <winrt/Windows.UI.Input.h>
 #include "IOC.hpp"
-#include "DispatcherWrapper.h"
+#include "IDispatcherWrapper.h"
 #include "SetThreadName.h"
 
 #include <winrt/Windows.ApplicationModel.h>
@@ -79,7 +79,7 @@ void GLPage::HandleKeyUp(IInspectable const& sender, KeyRoutedEventArgs args)
 
 void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 {
-	auto dispatcher = IOCContainer::Instance().Resolve<DispatcherWrapper>();
+	auto dispatcher = IOCContainer::Instance().Resolve<IDispatcherWrapper>();
 	
 	SetThreadName((DWORD)-1, "Game Thread");
 	

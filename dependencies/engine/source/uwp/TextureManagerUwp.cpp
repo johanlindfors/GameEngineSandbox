@@ -5,7 +5,7 @@
 #include <winrt/Windows.ApplicationModel.h>
 #include <memory>
 #include <algorithm>
-#include "DispatcherWrapper.h"
+#include "IDispatcherWrapper.h"
 #include "IOC.hpp"
 #include "GLHelper.h"
 #include "filesystem/FileSystem.h"
@@ -57,7 +57,7 @@ namespace Engine {
 	public:
 		TextureManagerImpl()
 		{
-			mDispatcher = IOCContainer::Instance().Resolve<DispatcherWrapper>();
+			mDispatcher = IOCContainer::Instance().Resolve<IDispatcherWrapper>();
 			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
 		}	
 
@@ -116,7 +116,7 @@ namespace Engine {
 
 	private:
 		HANDLE mSyncAsyncEvent = nullptr;
-		std::shared_ptr<DispatcherWrapper> mDispatcher;
+		std::shared_ptr<IDispatcherWrapper> mDispatcher;
 		std::shared_ptr<IFileSystem> mFileSystem;
 	};
 }

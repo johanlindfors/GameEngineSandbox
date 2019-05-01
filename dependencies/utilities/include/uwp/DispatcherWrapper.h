@@ -3,9 +3,10 @@
 #include <winrt/Windows.UI.Core.h>
 #include <concurrent_queue.h>
 #include <functional>
+#include "IDispatcherWrapper.h"
 
 namespace Utilities {
-    class DispatcherWrapper {
+    class DispatcherWrapper : public IDispatcherWrapper {
     public:
         DispatcherWrapper(winrt::Windows::UI::Core::CoreDispatcher const& dispatcher);
         

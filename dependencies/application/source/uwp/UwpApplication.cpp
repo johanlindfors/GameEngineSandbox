@@ -2,7 +2,7 @@
 #include <winrt/Windows.UI.Xaml.Controls.h>
 #include "OpenGLES.h"
 #include "GLPage.h"
-#include "DispatcherWrapper.h"
+#include "IDispatcherWrapper.h"
 #include "IOC.hpp"
 
 using namespace std;
@@ -17,7 +17,7 @@ void UwpApplication::OnLaunched(LaunchActivatedEventArgs const &)
 {
 	auto window = Window::Current();
 	auto dispatcherWrapper = make_shared<DispatcherWrapper>(window.Dispatcher());
-	IOCContainer::Instance().Register<DispatcherWrapper>(dispatcherWrapper);
+	IOCContainer::Instance().Register<IDispatcherWrapper>(dispatcherWrapper);
 	
 	auto glPage = make<GLPage>(make_shared<OpenGLES>());
 	window.Content(glPage);
