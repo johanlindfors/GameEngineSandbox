@@ -8,6 +8,7 @@ get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
 set(DEPENDENCIES 
     utilities
     application
+    game-loop
     engine
 )
 

@@ -2,7 +2,7 @@
 #include <winrt/Windows.UI.Xaml.Controls.h>
 #include "OpenGLES.h"
 #include "GLPage.h"
-#include "IDispatcherWrapper.h"
+#include "DispatcherWrapper.h"
 #include "IOC.hpp"
 
 using namespace std;
