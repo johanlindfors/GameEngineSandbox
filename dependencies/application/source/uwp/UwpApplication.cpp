@@ -15,11 +15,13 @@ using namespace Utilities;
 
 void UwpApplication::OnLaunched(LaunchActivatedEventArgs const &)
 {
-	auto window = Window::Current();
-	auto dispatcherWrapper = make_shared<DispatcherWrapper>(window.Dispatcher());
+	auto window = Windows::Current();
+	auto dispatcher = window.Dispatcher();
+	auto dispatcherWrapper = make_shared<DispatcherWrapper>(dispatcher);
 	IOCContainer::Instance().Register<IDispatcherWrapper>(dispatcherWrapper);
 	
-	auto glPage = make<GLPage>(make_shared<OpenGLES>());
+	auto openGLES = make_shared<OpenGLES>();
+	auto glPage = make<GLPage>(openGLES);
 	window.Content(glPage);
 	window.Activate();
 }

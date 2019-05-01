@@ -7,6 +7,7 @@
 
 using namespace std;
 using namespace Windows::UI;
+using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml;
 using namespace Windows::ApplicationModel::Activation;
 using namespace Engine;
@@ -14,7 +15,7 @@ using namespace Utilities;
 
 class DispatcherWrapper : public IDispatcherWrapper {
 public:
-	DispatcherWrapper(Windows::UI::Core::CoreDispatcher^ dispatcher) {
+	DispatcherWrapper(CoreDispatcher^ dispatcher) {
 
 	}
 
@@ -31,19 +32,19 @@ public:
 	}
 
 private:
-	Windows::UI::Core::CoreDispatcher^ mDispatcher = { nullptr };
+	CoreDispatcher^ mDispatcher = { nullptr };
 	concurrency::concurrent_queue<std::function<void()>> mScheduledFunctions;
 };
 
 void UwpApplication::OnLaunched(LaunchActivatedEventArgs ^)
 {
 	auto window = Window::Current;
-	auto dispatcherWrapper = make_shared<DispatcherWrapper>(window->Dispatcher);
+	auto dispatcher = window->Dispatcher;
+	auto dispatcherWrapper = make_shared<DispatcherWrapper>(dispatcher);
 	IOCContainer::Instance().Register<IDispatcherWrapper>(dispatcherWrapper);
 
-	auto openGLES = std::make_shared<OpenGLES>();
+	auto openGLES = make_shared<OpenGLES>();
 	auto glPage = ref new GLPage(openGLES);
-	//auto glPage = make<GLPage>(make_shared<OpenGLES>());
 	window->Content = glPage;
 	window->Activate();
 }

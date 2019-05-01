@@ -2,7 +2,7 @@
 #include <winrt/Windows.UI.Xaml.h>
 
 using namespace winrt;
-using Windows::UI::Xaml::Application;
+using namespace Windows::UI::Xaml;
 
 void StartUwpApplication() 
 {
