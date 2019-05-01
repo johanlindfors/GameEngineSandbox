@@ -9,4 +9,6 @@ set(DEPENDENCIES
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")
 set_target_properties (${PROJECT_NAME} PROPERTIES FOLDER "Dependencies")
 
-set_target_properties(${PROJECT_NAME} PROPERTIES VS_WINRT_COMPONENT 1)
+if(WINDOWS_STORE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES VS_WINRT_COMPONENT 1)
+endif(WINDOWS_STORE)
