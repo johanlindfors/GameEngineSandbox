@@ -75,8 +75,8 @@ if($generate -OR $build -OR $update) {
     & $Cmake $GenerateParameters
     
     if($uwp) {
-        $ProjectFile = $BuildDirectory + "/snake/snake.vcxproj"
-        & python @("dependencies/pipeline/inject.py", $ProjectFile)
+        $InjectCommand = $BuildDirectory + "/inject.py"
+        & python @($InjectCommand)
     }
 }
 if($compile -OR $build) {

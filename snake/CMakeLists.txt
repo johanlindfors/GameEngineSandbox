@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
 project(snake)
 
+add_subdirectory(resources)
+
+get_property(PLATFORM_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_PLATFORM_RESOURCES_DIRECTORY)
+get_property(COMMON_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_RESOURCES_DIRECTORY)
+get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
+
 if(WINDOWS_STORE)
     message(STATUS "Settings UWP Properties")
     set(GAME_PACKAGE_NAME  "se.coderox.snake")
@@ -12,21 +18,25 @@ if(WINDOWS_STORE)
 
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/uwp/package.appxManifest.in"
-        "${CMAKE_CURRENT_SOURCE_DIR}/resources/uwp/package.appxManifest"
+        "${PROJECT_BINARY_DIR}/package.appxManifest"
         @ONLY
     )
     configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/inject.py.in"
+        "${PROJECT_BINARY_DIR}/../inject.py"
+         @ONLY
+    )
+    configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/uwp/TemporaryKey.pfx"
-        "${CMAKE_CURRENT_SOURCE_DIR}/resources/uwp/TemporaryKey.pfx"
+        "${PROJECT_BINARY_DIR}/TemporaryKey.pfx"
         COPYONLY
     )
+
+    list(APPEND RESOURCES
+        "${PROJECT_BINARY_DIR}/package.appxManifest"
+        "${PROJECT_BINARY_DIR}/TemporaryKey.pfx"
+    )
 endif()
-
-add_subdirectory(resources)
-
-get_property(PLATFORM_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_PLATFORM_RESOURCES_DIRECTORY)
-get_property(COMMON_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_RESOURCES_DIRECTORY)
-get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
 
 set(DEPENDENCIES 
     utilities
