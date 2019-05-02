@@ -31,9 +31,6 @@ include(dependencies/pipeline/functions.cmake)
 
 # Enable folders grouping in IDE
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-set_property(GLOBAL PROPERTY PLATFORM_RESOURCES_DIRECTORY)
-set_property(GLOBAL PROPERTY COMMON_RESOURCES_DIRECTORY)
-set_property(GLOBAL PROPERTY RESOURCES)
 
 # Add dependencies for client project
 add_subdirectory(dependencies)
