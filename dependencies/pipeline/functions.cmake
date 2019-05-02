@@ -1,3 +1,33 @@
+macro(initialize_pipeline)
+    if(MSVC)
+
+        if(MSVC_VERSION GREATER 1700)
+            set(COMPILER_VERSION "12")
+        elseif(MSVC_VERSION GREATER 1600)
+            set(COMPILER_VERSION "11")
+        endif()
+
+        if("${CMAKE_SYSTEM_NAME}" STREQUAL "WindowsStore")
+            set(PLATFORM UWP)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /await")
+        else()
+            set(PLATFORM WIN32)
+        endif()
+    else()
+        if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+            set(PLATFORM LINUX)
+            set(LINUX 1)
+        else()
+            set(PLATFORM OSX)
+            set(OSX 1)
+        endif()
+    endif()
+
+    # Enable folders grouping in IDE
+    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+endmacro()
+
 macro(update_sources)
     file(GLOB_RECURSE COMMON_SOURCES
         source/common/*.cpp

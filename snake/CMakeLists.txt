@@ -12,7 +12,6 @@ get_property(COMMON_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_RESOURCES_
 get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
 
 if(WINDOWS_STORE)
-    message(STATUS "Settings UWP Properties")
     set(GAME_PACKAGE_NAME  "se.coderox.snake")
     set(GAME_VERSION       "1.0.0.0")
     set(GAME_TITLE         "a snake")
