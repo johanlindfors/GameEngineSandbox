@@ -1,5 +1,28 @@
 cmake_minimum_required(VERSION 3.10)
-project(game)
+project(snake)
+
+if(WINDOWS_STORE)
+    message(STATUS "Settings UWP Properties")
+    set(GAME_PACKAGE_NAME  "se.coderox.snake")
+    set(GAME_VERSION       "1.0.0.0")
+    set(GAME_TITLE         "a snake")
+    set(GAME_DESCRIPTION   "a simple snake game")
+    set(PHONE_PRODUCT_ID   "B9EC94EF-8576-33B8-81E6-0092C89DBED8")
+    set(PHONE_PUBLISHER_ID "00000000-0000-0000-0000-000000000000")
+
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/uwp/package.appxManifest.in"
+        "${CMAKE_CURRENT_SOURCE_DIR}/resources/uwp/package.appxManifest"
+        @ONLY
+    )
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/uwp/TemporaryKey.pfx"
+        "${CMAKE_CURRENT_SOURCE_DIR}/resources/uwp/TemporaryKey.pfx"
+        COPYONLY
+    )
+endif()
+
+add_subdirectory(resources)
 
 get_property(PLATFORM_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_PLATFORM_RESOURCES_DIRECTORY)
 get_property(COMMON_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_RESOURCES_DIRECTORY)
@@ -29,14 +52,14 @@ if(WINDOWS_STORE)
     set_property(SOURCE ${RESOURCES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 else()
 
-    add_custom_command(TARGET game POST_BUILD
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${COMMON_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:game>/resources)
+                       ${COMMON_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
     
     set(PLATFORM_RESOURCES)
     if(EXISTS "${PLATFORM_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${PLATFORM_RESOURCES_DIRECTORY}")
-        add_custom_command(TARGET game POST_BUILD
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                            COMMAND ${CMAKE_COMMAND} -E copy_directory
-                           ${PLATFORM_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:game>/resources)
+                           ${PLATFORM_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
     endif()
 endif()

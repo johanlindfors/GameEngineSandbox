@@ -4,7 +4,7 @@ import sys
 
 itemGroup = '''
 <ItemGroup Label="resources_pipeline_output">
-  <_CustomResource Include="..\..\..\\resources\common\**\*">
+  <_CustomResource Include="..\\..\\..\\snake\\resources\\common\\**\\*">
     <Link>resources\%(RecursiveDir)%(FileName)%(Extension)</Link>
     <DeploymentContent>true</DeploymentContent>
   </_CustomResource>

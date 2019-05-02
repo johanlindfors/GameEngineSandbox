@@ -37,7 +37,6 @@ set_property(GLOBAL PROPERTY RESOURCES)
 
 # Add dependencies for client project
 add_subdirectory(dependencies)
-add_subdirectory(resources)
-add_subdirectory(game)
+add_subdirectory(snake)
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT game)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT snake)
