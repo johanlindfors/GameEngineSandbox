@@ -26,7 +26,7 @@ if(WINDOWS_STORE)
         @ONLY
     )
     configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/inject.py.in"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/uwp/inject.py.in"
         "${PROJECT_BINARY_DIR}/../inject.py"
          @ONLY
     )
