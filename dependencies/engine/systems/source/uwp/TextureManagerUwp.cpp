@@ -9,6 +9,7 @@
 #include "IOC.hpp"
 #include "GLHelper.h"
 #include "filesystem/FileSystem.h"
+#include "filesystem/File.h"
 
 using namespace std;
 using namespace winrt;
@@ -26,11 +27,15 @@ namespace Engine {
 		IAsyncOperation<IStorageFile> LoadImageAsync(const wstring& filename) {
 			try {
 				auto path = mFileSystem->GetResourcesDirectory();			
-				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path + L"textures\\");
-				std::wstring uwpFilename(filename);
+				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path + L"textures");
+				std::wstring uwpFilename(folder.Path() + L"\\" + filename);
 				std::replace(uwpFilename.begin(), uwpFilename.end(), '/', '\\');
-				auto file = co_await folder.TryGetItemAsync(uwpFilename);
-				co_return file.as<IStorageFile>();
+				//auto file = co_await folder.TryGetItemAsync(uwpFilename);
+
+				Engine::File file;
+				file.Load(uwpFilename);
+
+				co_return file.Get();
 			}
 			catch (hresult_error error) {
 

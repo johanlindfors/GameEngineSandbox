@@ -1,22 +1,11 @@
 #pragma once
-#include <string>
-#include <memory>
+#include "filesystem/IFileSystem.h"
 
 namespace Engine
 {
-    class File 
-    {
-
-    };
-
-    class IFileSystem {
-    public:
-        virtual std::wstring GetResourcesDirectory() = 0;
-    };
-
     class FileSystem : public IFileSystem
     {
         std::wstring GetResourcesDirectory();
-        // std::shared_ptr<File> LoadFile();
+        // std::shared_ptr<IFile> Load(std::wstring filename);
     };
 }

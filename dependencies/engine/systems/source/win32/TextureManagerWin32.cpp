@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "IOC.hpp"
+#include "filesystem/File.h"
 
 using namespace std;
 using Utilities::IOCContainer;
@@ -20,9 +21,16 @@ namespace Engine {
 			int color_type, interlace_type;
 			FILE *fp;
 
-			auto err = _wfopen_s(&fp, name, L"rb");
-			if ( err != 0)
+			Engine::File file;
+			file.Load(std::wstring(name));
+			if(file.IsLoaded()) {
+				fp = file.Get();
+			} else {
 				return false;
+			}
+			// auto err = _wfopen_s(&fp, name, L"rb");
+			// if ( err != 0)
+			// 	return false;
 
 			/* Create and initialize the png_struct
 			* with the desired error handler
