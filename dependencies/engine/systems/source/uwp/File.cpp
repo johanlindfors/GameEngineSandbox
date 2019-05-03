@@ -5,7 +5,14 @@ using namespace winrt;
 using namespace Windows::Storage;
 using namespace Engine;
 
-void File::Load(wstring filename)
+void File::Open(wstring filename)
 {
     mStorageFile = StorageFile::GetFileFromPathAsync(filename).get();
+}
+
+void File::Close() 
+{
+    if(mStorageFile) {
+        mStorageFile = nullptr;
+    }
 }

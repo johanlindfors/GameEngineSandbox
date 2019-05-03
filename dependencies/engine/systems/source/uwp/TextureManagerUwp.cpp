@@ -33,7 +33,7 @@ namespace Engine {
 				//auto file = co_await folder.TryGetItemAsync(uwpFilename);
 
 				Engine::File file;
-				file.Load(uwpFilename);
+				file.Open(uwpFilename);
 
 				co_return file.Get();
 			}

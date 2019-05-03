@@ -1,11 +1,21 @@
 #include "filesystem/File.h"
 
 using namespace std;
+using namespace Engine;
 
-void Engine::File::Load(wstring filename)
+void File::Open(wstring filename)
 {
     auto err = _wfopen_s(&mFileHandle, filename.c_str(), L"rb");
     if ( err != 0) {
         mFileHandle = nullptr;
+    }
+}
+
+void File::Close() {
+    if(mFileHandle)  {
+        auto err = fclose(mFileHandle);
+        if(err != 0) {
+            mFileHandle = nullptr;
+        }
     }
 }

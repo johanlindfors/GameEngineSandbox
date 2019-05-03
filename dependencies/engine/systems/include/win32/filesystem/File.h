@@ -7,8 +7,9 @@ namespace Engine
     class File : public IFile
     {
         public:
-            void Load(std::wstring filename);
-            bool IsLoaded() { return mFileHandle != nullptr; }
+            void Open(std::wstring filename);
+            void Close();
+            bool IsOpen() { return mFileHandle != nullptr; }
             FILE * Get() { return mFileHandle; }
         
         private:

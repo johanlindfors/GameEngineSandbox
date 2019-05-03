@@ -22,15 +22,12 @@ namespace Engine {
 			FILE *fp;
 
 			Engine::File file;
-			file.Load(std::wstring(name));
-			if(file.IsLoaded()) {
+			file.Open(std::wstring(name));
+			if(file.IsOpen()) {
 				fp = file.Get();
 			} else {
 				return false;
 			}
-			// auto err = _wfopen_s(&fp, name, L"rb");
-			// if ( err != 0)
-			// 	return false;
 
 			/* Create and initialize the png_struct
 			* with the desired error handler
