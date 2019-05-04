@@ -59,7 +59,7 @@ endif()
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib")
 
 build_executable(${PROJECT_NAME} "${DEPENDENCIES}" "${RESOURCES}")
-source_group(TREE "${CMAKE_CURRENT_LIST_DIR}/../" FILES ${RESOURCES})
+source_group("resources" ${RESOURCES})
 
 if(WINDOWS_STORE)
     set_property(SOURCE ${RESOURCES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
