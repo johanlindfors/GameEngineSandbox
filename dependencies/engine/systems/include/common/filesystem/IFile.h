@@ -8,7 +8,6 @@ namespace Engine
             IFile() = default;
             virtual void Open(std::wstring filename) = 0;
             virtual void Close() = 0;
-
             virtual bool IsOpen() = 0;
     };
 }
