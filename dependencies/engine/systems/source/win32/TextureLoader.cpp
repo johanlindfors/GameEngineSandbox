@@ -9,6 +9,7 @@
 #include "filesystem/File.h"
 
 using namespace std;
+using namespace Engine;
 using Utilities::IOCContainer;
 
 namespace Engine {
@@ -182,5 +183,5 @@ TextureLoader::~TextureLoader()
 
 void TextureLoader::LoadTexture(Texture2D& texture)
 {		
-	mImple->LoadTexture(texture);
+	mImpl->LoadTexture(texture);
 }
