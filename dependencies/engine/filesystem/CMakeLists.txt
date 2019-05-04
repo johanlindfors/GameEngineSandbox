@@ -1,8 +1,6 @@
-project(systems)
+project(filesystem)
 
 set(DEPENDENCIES
-    utilities
-    filesystem
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

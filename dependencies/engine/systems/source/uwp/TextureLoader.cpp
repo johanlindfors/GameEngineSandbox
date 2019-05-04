@@ -9,7 +9,7 @@
 #include "IOC.hpp"
 #include "GLHelper.h"
 #include "filesystem/FileSystem.h"
-#include "filesystem/File.h"
+#include "File.h"
 #include "textures/Texture2D.h"
 
 using namespace std;
