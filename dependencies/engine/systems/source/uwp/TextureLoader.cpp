@@ -1,4 +1,4 @@
-#include "textures/TextureManager.h"
+#include "textures/TextureLoader.h"
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Graphics.Imaging.h>
@@ -10,6 +10,7 @@
 #include "GLHelper.h"
 #include "filesystem/FileSystem.h"
 #include "filesystem/File.h"
+#include "textures/Texture2D.h"
 
 using namespace std;
 using namespace winrt;
@@ -21,7 +22,7 @@ using namespace Engine;
 using namespace Utilities;
 
 namespace Engine {
-	class TextureManagerImpl
+	class TextureLoaderImpl
 	{
 	private:
 		IAsyncOperation<IStorageFile> LoadImageAsync(const wstring& filename) {
@@ -30,11 +31,9 @@ namespace Engine {
 				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path + L"textures");
 				std::wstring uwpFilename(folder.Path() + L"\\" + filename);
 				std::replace(uwpFilename.begin(), uwpFilename.end(), '/', '\\');
-				//auto file = co_await folder.TryGetItemAsync(uwpFilename);
 
 				Engine::File file;
 				file.Open(uwpFilename);
-
 				co_return file.Get();
 			}
 			catch (hresult_error error) {
@@ -60,7 +59,7 @@ namespace Engine {
 		}
 
 	public:
-		TextureManagerImpl()
+		TextureLoaderImpl()
 		{
 			mDispatcher = IOCContainer::Instance().Resolve<IDispatcherWrapper>();
 			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
@@ -105,69 +104,24 @@ namespace Engine {
 			}
 		}
 
-		Texture2D CreateEmptyTexture() {
-			Texture2D texture;
-			texture.TextureIndex = GenerateTexture();
-			texture.Width = 1;
-			texture.Height = 1;
-			texture.Name = EMPTY_TEXTURE_NAME;
-
-			auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
-			SetTexturePixels(texture, pixels);
-			delete[] pixels;
-
-			return texture;
-		}
-
 	private:
-		HANDLE mSyncAsyncEvent = nullptr;
 		std::shared_ptr<IDispatcherWrapper> mDispatcher;
 		std::shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 
-TextureManager::TextureManager()
-	: mInitialized(false)
-	, mImpl(new Engine::TextureManagerImpl())
+TextureLoader::TextureLoader()
+	: mImpl(new Engine::TextureLoaderImpl())
 {
 
 }
 
-TextureManager::~TextureManager()
+TextureLoader::~TextureLoader()
 {
 	delete(mImpl);
 }
 
-void TextureManager::LoadTextures(vector<wstring> filenames)
+void TextureLoader::LoadTexture(Texture2D& texture)
 {
-	if (!mInitialized) {
-		auto emptyTexture = mImpl->CreateEmptyTexture();
-		mTextures[emptyTexture.Name] = emptyTexture;
-	}
-
-	for (auto const& filename : filenames)
-	{
-		Texture2D texture;
-		texture.Name = filename;
-		texture.TextureIndex = GenerateTexture();
-		mTextures[filename] = texture;
-	}
-
-	for (auto& texture : mTextures)
-	{
-		mImpl->LoadTexture(texture.second);
-	}
-
-	mInitialized = true;
-}
-
-Texture2D TextureManager::GetTexture(wstring filename) const
-{
-	if (mTextures.count(filename) == 1) {
-		auto texture = mTextures.at(filename);
-		if (texture.Name == filename) {
-			return texture;
-		}
-	}
-	return mTextures.at(EMPTY_TEXTURE_NAME);
+	mImpl->LoadTexture(texture);
 }

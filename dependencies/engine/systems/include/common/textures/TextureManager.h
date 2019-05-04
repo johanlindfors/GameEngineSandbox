@@ -5,10 +5,9 @@
 #include "Texture2D.h"
 #include "ITextureManager.h"
 
-#define EMPTY_TEXTURE_NAME L"empty"
-
 namespace Engine {
-	class TextureManagerImpl;
+	struct Texture2D;
+	class TextureLoader;
 
 	class TextureManager : public ITextureManager {
 	public:
@@ -20,8 +19,10 @@ namespace Engine {
 		bool IsLoaded() const { return mInitialized; }
 
 	private:
+		Engine::Texture2D CreateEmptyTexture();
+
 		bool mInitialized;
 		std::map<std::wstring, Texture2D> mTextures;
-		TextureManagerImpl* mImpl;
+		std::unique_ptr<Engine::TextureLoader> mTextureLoader;
 	};
 }

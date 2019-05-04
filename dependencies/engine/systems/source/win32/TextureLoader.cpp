@@ -1,4 +1,4 @@
-#include "textures/TextureManager.h"
+#include "textures/TextureLoader.h"
 #include "filesystem/FileSystem.h"
 #include "GLHelper.h"
 #include "png.h"
@@ -12,7 +12,7 @@ using namespace std;
 using Utilities::IOCContainer;
 
 namespace Engine {
-	class TextureManagerImpl {
+	class TextureLoaderImpl {
 	private:
 		bool loadPngImage(const wchar_t *name, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
 			png_structp png_ptr;
@@ -166,62 +166,21 @@ namespace Engine {
 				delete textureImage;
 			}
 		}
-
-		Texture2D CreateEmptyTexture() {
-			Texture2D texture;
-			texture.TextureIndex = GenerateTexture();
-			texture.Width = 1;
-			texture.Height = 1;
-			texture.Name = EMPTY_TEXTURE_NAME;
-
-			auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
-			SetTexturePixels(texture, pixels);
-			delete[] pixels;
-
-			return texture;
-		}
 	};
+}
 
-	TextureManager::TextureManager()
-		: mInitialized(false)
-		, mImpl(new TextureManagerImpl())
-	{
+TextureLoader::TextureLoader()
+	: mImpl(new TextureLoaderImpl())
+{
 
-	}
+}
 
-	TextureManager::~TextureManager()
-	{
-		delete(mImpl);
-	}
+TextureLoader::~TextureLoader()
+{
+	delete(mImpl);
+}
 
-	void TextureManager::LoadTextures(vector<wstring> filenames) {		
-		if (!mInitialized) {
-			auto emptyTexture = mImpl->CreateEmptyTexture();
-			mTextures[emptyTexture.Name] = emptyTexture;
-		}
-
-		for (auto const& filename : filenames)
-		{
-			Texture2D texture;
-			texture.Name = filename;
-			texture.TextureIndex = GenerateTexture();
-			mTextures[filename] = texture;
-		}
-
-		for (auto& texture : mTextures)
-		{
-			mImpl->LoadTexture(texture.second);
-		}
-		mInitialized = true;
-	}
-
-	Texture2D TextureManager::GetTexture(wstring filename) const {
-		if (mTextures.count(filename) == 1) {
-			auto texture = mTextures.at(filename);
-			if (texture.Name == filename) {
-				return texture;
-			}
-		}
-		return mTextures.at(EMPTY_TEXTURE_NAME);
-	}
+void TextureLoader::LoadTexture(Texture2D& texture)
+{		
+	mImple->LoadTexture(texture);
 }

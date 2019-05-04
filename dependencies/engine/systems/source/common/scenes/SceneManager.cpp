@@ -10,7 +10,6 @@ SceneManager::SceneManager()
 	, mScreenWidth(0)
 	, mScreenHeight(0)
 {
-	
 }
 
 void SceneManager::Initialize() 
