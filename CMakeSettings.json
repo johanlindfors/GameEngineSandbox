@@ -1,0 +1,28 @@
+﻿{
+  "configurations": [
+    {
+      "name": "win32-x64-Debug",
+      "generator": "Visual Studio 15 2017",
+      "configurationType": "Debug",
+      "inheritEnvironments": [
+        "msvc_x64_x64"
+      ],
+      "buildRoot": "${workspaceRoot}\\build\\${name}",
+      "installRoot": "${workspaceRoot}\\install\\${name}",
+      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE='dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake' -A x64",
+      "ctestCommandArgs": ""
+    },
+    {
+      "name": "win32-x64",
+      "generator": "Visual Studio 15 2017",
+      "configurationType": "Release",
+      "inheritEnvironments": [
+        "msvc_x64_x64"
+      ],
+      "buildRoot": "${workspaceRoot}\\build\\${name}",
+      "installRoot": "${workspaceRoot}\\install\\${name}",
+      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE='dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake' -A x64",
+      "ctestCommandArgs": ""
+    }
+  ]
+}
