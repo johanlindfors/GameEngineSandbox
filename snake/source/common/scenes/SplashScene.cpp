@@ -15,7 +15,7 @@ using namespace Utilities;
 
 SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mSprite(make_shared<Sprite>())
-	, mMillisecondsToLoad(1000.0f)
+	, mMillisecondsToLoad(10000.0f)
 	, hasLoadedGamePlay(false)
 	, isLoadingResources(false)
 	, mGame(gameCallback)
@@ -55,10 +55,17 @@ void SplashScene::Unload()
 
 void SplashScene::UpdateScreenSize(int width, int height) 
 {
-	mSprite->Height = height;
-	mSprite->Width = width;
-	mSprite->Position = { 0.0f, 0.0f };
-
+	auto spriteAspectRatio = (float)mSprite->Texture.Height / (float)mSprite->Texture.Width; // 0.66 landscape H: 400 W: 600
+	auto screenAspectRatio = (float)height / (float)width;									 // 1.0 square	  H: 500 W: 500
+	if (screenAspectRatio > spriteAspectRatio) {
+		mSprite->Height = width * spriteAspectRatio;
+		mSprite->Width = width;
+	}
+	else {
+		mSprite->Height = height;
+		mSprite->Width = height / spriteAspectRatio;
+	}
+	mSprite->Position = { width / 2.0f - mSprite->Width / 2.0f, height / 2.0f - mSprite->Height / 2.0f };
 }
 
 void SplashScene::Update(shared_ptr<IStepTimer> timer)
