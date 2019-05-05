@@ -9,6 +9,7 @@
 #include "input/IInputManager.h"
 #include "game/IGameStateCallback.h"
 #include "MathHelper.h"
+#include "game/GameDefines.h"
 
 using std::make_shared;
 using std::shared_ptr;
@@ -22,8 +23,8 @@ using Utilities::Vector2;
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mScreenSizeX(0)
 	, mScreenSizeY(0)
-	, mApple(make_shared<Apple>(Vector2(3.0f, 10.0f)))
-	, mSnake(make_shared<Snake>(Vector2(10.0f, 10.0f)))
+	, mApple(make_shared<Apple>(Vector2(SCREEN_SIZE / 4.0f, SCREEN_SIZE / 4.0f)))
+	, mSnake(make_shared<Snake>(Vector2(SCREEN_SIZE / 2.0f, SCREEN_SIZE / 2.0f)))
 	, mSpriteCollider(make_shared<SpriteCollider>())
 	, mGame(gameCallback)
 	, mSpacePressedBefore(false)
