@@ -8,6 +8,9 @@ using namespace Windows::Storage;
 using namespace Windows::ApplicationModel;
 #elif WIN32
 #include <Windows.h>
+#include <vector>
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
 #endif
 
 using namespace Engine;
@@ -16,20 +19,16 @@ std::wstring FileSystem::GetResourcesDirectory()
 {
 #ifdef UWP
     auto folder = Package::Current().InstalledLocation();
-    std::wstring path(folder.Path() + L"\\resources\\");
-    return path;
+	auto folderPath = folder.Path();
 #elif WIN32
-	if (IsDebuggerPresent()) 
-	{
-#if _DEBUG
-		return L"\\Debug\\resources\\";
-#else
-		return L"\\Release\\resources\\";
+	unsigned int bufferSize = 512;
+	std::vector<char> buffer(bufferSize + 1);
+	::GetModuleFileName(NULL, &buffer[0], bufferSize);
+	std::string s = &buffer[0];
+	fs::path p = s;
+	auto executableDirectory = p.parent_path();
+	auto folderPath = executableDirectory.generic_wstring();
 #endif
-	} 
-	else
-	{
-		return L"\\resources\\";
-	}
-#endif
+    std::wstring path(folderPath + L"\\resources\\");
+    return path;
 }

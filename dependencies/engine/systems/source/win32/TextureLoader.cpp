@@ -149,10 +149,8 @@ namespace Engine {
 			GLubyte *textureImage;
 			int width, height;
 			bool hasAlpha = false;
-			wchar_t* directory;
-			directory = _wgetcwd(nullptr, 0);
 			auto path = mFileSystem->GetResourcesDirectory();
-			auto filename = directory + std::wstring(path + L"textures\\") + texture.Name;
+			auto filename = std::wstring(path + L"textures\\") + texture.Name;
 			bool success = loadPngImage(filename.c_str(), width, height, hasAlpha, &textureImage);
 			if (!success) {
 				texture.Name = L"";
