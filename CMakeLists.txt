@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
-project(game_engine_sandbox)
 
 set(GAME_TO_BUILD snake)
+project(${GAME_TO_BUILD})
 
 include(dependencies/pipeline/functions.cmake)
 initialize_pipeline()

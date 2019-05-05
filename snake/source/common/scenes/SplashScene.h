@@ -31,6 +31,7 @@ private:
 	std::shared_ptr<Engine::Sprite> mSprite;
 	float mMillisecondsToLoad;
 	bool hasLoadedGamePlay;
+	bool isLoadingResources;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
     std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;

@@ -17,6 +17,7 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mSprite(make_shared<Sprite>())
 	, mMillisecondsToLoad(1000.0f)
 	, hasLoadedGamePlay(false)
+	, isLoadingResources(false)
 	, mGame(gameCallback)
 {
 	ID = typeid(SplashScene).name();
@@ -34,12 +35,6 @@ void SplashScene::Load()
     
 	vector<wstring> filenames;
 	filenames.emplace_back(L"coderox.png");
-	filenames.emplace_back(L"apple.png");
-	filenames.emplace_back(L"snake.png");
-	filenames.emplace_back(L"gameover/background.png");
-	filenames.emplace_back(L"gameover/text.png");
-	filenames.emplace_back(L"pause/background.png");
-	filenames.emplace_back(L"pause/text.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
 	mSprite->Texture = mTextureManager->GetTexture(L"coderox.png");
@@ -60,6 +55,17 @@ void SplashScene::UpdateScreenSize(int width, int height)
 
 void SplashScene::Update(shared_ptr<IStepTimer> timer)
 {
+	if (isLoadingResources == false) {
+		isLoadingResources = true;
+		vector<wstring> filenames;
+		filenames.emplace_back(L"apple.png");
+		filenames.emplace_back(L"snake.png");
+		filenames.emplace_back(L"gameover/background.png");
+		filenames.emplace_back(L"gameover/text.png");
+		filenames.emplace_back(L"pause/background.png");
+		filenames.emplace_back(L"pause/text.png");
+		mTextureManager->LoadTextures(vector<wstring>(filenames));
+	}
 	mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
 	if (mMillisecondsToLoad <= 0) {
 		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
