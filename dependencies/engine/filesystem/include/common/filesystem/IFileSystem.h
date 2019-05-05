@@ -3,11 +3,11 @@
 #include <memory>
 
 namespace Engine {
-    class IFile;
+    class File;
 
     class IFileSystem {
     public:
         virtual std::wstring GetResourcesDirectory() = 0;
-        // virtual std::shared_ptr<IFile> Load(std::wstring filename) = 0;
+        virtual std::shared_ptr<File> LoadFile(std::wstring filename) = 0;
     };
 }

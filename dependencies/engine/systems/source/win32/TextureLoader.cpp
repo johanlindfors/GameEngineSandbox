@@ -15,17 +15,15 @@ using Utilities::IOCContainer;
 namespace Engine {
 	class TextureLoaderImpl {
 	private:
-		bool loadPngImage(const wchar_t *name, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
+		bool loadPngImage(std::shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
 			png_structp png_ptr;
 			png_infop info_ptr;
 			unsigned int sig_read = 0;
 			int color_type, interlace_type;
 			FILE *fp;
 
-			Engine::File file;
-			file.Open(std::wstring(name));
-			if(file.IsOpen()) {
-				fp = file.Get();
+			if(file->IsOpen()) {
+				fp = file->Get();
 			} else {
 				return false;
 			}
@@ -135,36 +133,46 @@ namespace Engine {
 			/* That's it */
 			return true;
 		}
-	
-	std::shared_ptr<IFileSystem> mFileSystem;
 
 	public:
+		TextureLoaderImpl()
+		{
+			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
+		}	
+
 		void LoadTexture(Texture2D& texture)
 		{
-			if (!mFileSystem)
-			{
-				mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-			}
-
-			GLubyte *textureImage;
-			int width, height;
-			bool hasAlpha = false;
-			auto path = mFileSystem->GetResourcesDirectory();
-			auto filename = std::wstring(path + L"textures\\") + texture.Name;
-			bool success = loadPngImage(filename.c_str(), width, height, hasAlpha, &textureImage);
-			if (!success) {
-				texture.Name = L"";
-				std::cout << "Unable to load png file" << std::endl;
-				return;
-			}
-			texture.Width = width;
-			texture.Height = height;
-			std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
-			SetTexturePixels(texture, textureImage);
-			if (textureImage) {
-				delete textureImage;
+			if (texture.Name != EMPTY_TEXTURE_NAME) {
+				GLubyte *textureImage;
+				int width, height;
+				bool hasAlpha = false;
+				auto file = mFileSystem->LoadFile(std::wstring(L"textures\\" + texture.Name));
+				if(file){
+					bool success = loadPngImage(file, width, height, hasAlpha, &textureImage);
+					if (!success) {
+						texture.Name = L"";
+						std::cout << "Unable to load png file" << std::endl;
+						return;
+					}
+					texture.Width = width;
+					texture.Height = height;
+					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
+					SetTexturePixels(texture, textureImage);
+					if (textureImage) {
+						delete textureImage;
+					}
+				}
+				else {
+					DeleteTexture(texture.TextureIndex);
+					texture.TextureIndex = 0;
+					texture.Width = 0;
+					texture.Height = 0;
+					texture.Name = L"";
+				}
 			}
 		}
+	private:
+		std::shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 

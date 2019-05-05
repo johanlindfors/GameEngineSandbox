@@ -25,24 +25,8 @@ namespace Engine {
 	class TextureLoaderImpl
 	{
 	private:
-		IAsyncOperation<IStorageFile> LoadImageAsync(const wstring& filename) {
-			try {
-				auto path = mFileSystem->GetResourcesDirectory();			
-				auto folder = co_await StorageFolder::GetFolderFromPathAsync(path + L"textures");
-				std::wstring uwpFilename(folder.Path() + L"\\" + filename);
-				std::replace(uwpFilename.begin(), uwpFilename.end(), '/', '\\');
-
-				Engine::File file;
-				file.Open(uwpFilename);
-				co_return file.Get();
-			}
-			catch (hresult_error error) {
-
-			}
-		}
-
-		IAsyncOperation<PixelDataProvider> GetPixelDataFromImageAsync(IStorageFile file, int& width, int& height) {
-			auto stream = co_await file.OpenAsync(FileAccessMode::Read);
+		IAsyncOperation<PixelDataProvider> GetPixelDataFromImageAsync(std::shared_ptr<File> file, int& width, int& height) {
+			auto stream = co_await file->Get().OpenAsync(FileAccessMode::Read);
 			auto decoder = co_await BitmapDecoder::CreateAsync(stream);
 			auto bitmap = co_await decoder.GetSoftwareBitmapAsync();
 			width = bitmap.PixelWidth();
@@ -67,10 +51,9 @@ namespace Engine {
 
 		void LoadTexture(Texture2D& texture) {
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				int width, height;
-				GLuint textureId = texture.TextureIndex;
-				auto file = LoadImageAsync(texture.Name).get();
+				auto file = mFileSystem->LoadFile(std::wstring(L"\\textures\\" + texture.Name));
 				if (file) {
+					int width, height;
 					auto pixelData = GetPixelDataFromImageAsync(file, width, height).get();
 
 					texture.Width = width;

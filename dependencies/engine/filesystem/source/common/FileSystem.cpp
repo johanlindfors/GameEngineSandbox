@@ -1,4 +1,5 @@
 #include "filesystem/FileSystem.h"
+#include "File.h"
 
 #ifdef UWP
 #include <winrt/Windows.Storage.h>
@@ -31,4 +32,12 @@ std::wstring FileSystem::GetResourcesDirectory()
 #endif
     std::wstring path(folderPath + L"\\resources\\");
     return path;
+}
+
+std::shared_ptr<File> FileSystem::LoadFile(std::wstring filename)
+{
+	auto directory = GetResourcesDirectory();
+	auto file = std::make_shared<File>();
+	file->Open(directory + filename);
+	return file;
 }
