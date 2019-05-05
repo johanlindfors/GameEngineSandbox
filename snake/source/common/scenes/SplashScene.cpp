@@ -55,8 +55,8 @@ void SplashScene::Unload()
 
 void SplashScene::UpdateScreenSize(int width, int height) 
 {
-	auto spriteAspectRatio = (float)mSprite->Texture.Height / (float)mSprite->Texture.Width; // 0.66 landscape H: 400 W: 600
-	auto screenAspectRatio = (float)height / (float)width;									 // 1.0 square	  H: 500 W: 500
+	auto spriteAspectRatio = (float)mSprite->Texture.Height / (float)mSprite->Texture.Width;
+	auto screenAspectRatio = (float)height / (float)width;
 	if (screenAspectRatio > spriteAspectRatio) {
 		mSprite->Height = width * spriteAspectRatio;
 		mSprite->Width = width;
