@@ -15,7 +15,7 @@ using namespace Utilities;
 
 SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mSprite(make_shared<Sprite>())
-	, mMillisecondsToLoad(10000.0f)
+	, mMillisecondsToLoad(2000.0f)
 	, hasLoadedGamePlay(false)
 	, isLoadingResources(false)
 	, mGame(gameCallback)
