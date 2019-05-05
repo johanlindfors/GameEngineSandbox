@@ -37,6 +37,14 @@ void SplashScene::Load()
 	filenames.emplace_back(L"coderox.png");
 	mTextureManager->LoadTextures(vector<wstring>(filenames));
 
+	mResourcesToLoad.push(L"apple.png");
+	mResourcesToLoad.push(L"snake.png");
+	mResourcesToLoad.push(L"gameover/background.png");
+	mResourcesToLoad.push(L"gameover/text.png");
+	mResourcesToLoad.push(L"pause/background.png");
+	mResourcesToLoad.push(L"pause/text.png");
+
+
 	mSprite->Texture = mTextureManager->GetTexture(L"coderox.png");
 }
 
@@ -55,19 +63,15 @@ void SplashScene::UpdateScreenSize(int width, int height)
 
 void SplashScene::Update(shared_ptr<IStepTimer> timer)
 {
-	if (isLoadingResources == false) {
+	if(mResourcesToLoad.size() > 0) {
 		isLoadingResources = true;
 		vector<wstring> filenames;
-		filenames.emplace_back(L"apple.png");
-		filenames.emplace_back(L"snake.png");
-		filenames.emplace_back(L"gameover/background.png");
-		filenames.emplace_back(L"gameover/text.png");
-		filenames.emplace_back(L"pause/background.png");
-		filenames.emplace_back(L"pause/text.png");
+		filenames.emplace_back(mResourcesToLoad.front());
+		mResourcesToLoad.pop();
 		mTextureManager->LoadTextures(vector<wstring>(filenames));
 	}
 	mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
-	if (mMillisecondsToLoad <= 0) {
+	if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
 		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
 		if (!hasLoadedGamePlay) {
 			mGame->GoToState(GameState::GamePlay);

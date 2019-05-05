@@ -1,6 +1,7 @@
 #pragma once
 #include "scenes/GameScene.h"
 #include <memory>
+#include <queue>
 
 class IGameStateCallback;
 
@@ -32,6 +33,7 @@ private:
 	float mMillisecondsToLoad;
 	bool hasLoadedGamePlay;
 	bool isLoadingResources;
+	std::queue<std::wstring> mResourcesToLoad;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
     std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;
