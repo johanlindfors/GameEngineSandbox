@@ -37,20 +37,20 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 		if(mCurrentState == GameState::Unknown)
 		{
 			mCurrentState = GameState::Boot;
-			mNextState = GameState::SplashScreen;
+			mNextState = GameState::Splash;
 		}
 		break;
 
-	case GameState::SplashScreen:
+	case GameState::Splash:
 		if(mCurrentState == GameState::Boot)
 		{
-			mCurrentState = GameState::SplashScreen;
+			mCurrentState = GameState::Splash;
 			mSceneManager->AddScene(make_shared<SplashScene>(this));
 		}
 		break;
 
 	case GameState::GamePlay:
-		if(mCurrentState == GameState::SplashScreen) {
+		if(mCurrentState == GameState::Splash) {
 			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
 			mSceneManager->RemoveScene(typeid(SplashScene));
 		}

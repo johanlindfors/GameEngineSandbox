@@ -4,7 +4,7 @@ enum class GameState
 {
     Unknown,
     Boot,
-    SplashScreen,
+    Splash,
     Menu,
     GamePlay,
     Pause,
