@@ -49,7 +49,8 @@ namespace Engine {
 			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
 		}	
 
-		void LoadTexture(Texture2D& texture) {
+		void LoadTexture(Texture2D& texture) 
+		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
 				auto file = mFileSystem->LoadFile(std::wstring(L"\\textures\\" + texture.Name));
 				if (file) {

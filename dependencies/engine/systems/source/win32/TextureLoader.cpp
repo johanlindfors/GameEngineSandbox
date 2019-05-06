@@ -143,11 +143,11 @@ namespace Engine {
 		void LoadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				GLubyte *textureImage;
-				int width, height;
-				bool hasAlpha = false;
 				auto file = mFileSystem->LoadFile(std::wstring(L"textures\\" + texture.Name));
 				if(file){
+					int width, height;
+					bool hasAlpha = false;
+					GLubyte *textureImage;
 					bool success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
 						texture.Name = L"";
