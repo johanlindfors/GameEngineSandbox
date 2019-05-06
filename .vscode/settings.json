@@ -10,7 +10,6 @@
     },
     "cmake.generator": "Visual Studio 16 2019",
     "cmake.configureSettings": {
-        "CMAKE_TOOLCHAIN_FILE" : "dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "A": "x64"
+        "CMAKE_TOOLCHAIN_FILE" : "dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake"
     }
 }
