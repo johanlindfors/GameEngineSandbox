@@ -11,14 +11,6 @@ namespace Engine {
         bool IsKeyDown(int keyCode);
 
     private:
-        struct KeyboardEvent {
-            KeyboardEvent(int keyCode, bool isPressed)
-                : mKeyCode(keyCode)
-                , mIsPressed(isPressed) { }
-            int mKeyCode;
-            bool mIsPressed;
-        };
-
 		std::array<bool, 256> mKeyboard = {};
     };
 }
