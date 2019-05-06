@@ -3,13 +3,14 @@
 #include "IOC.hpp"
 #include "objects/Snake.h"
 #include "objects/Apple.h"
-#include "objects/SpriteCollider.h"
+#include "objects/VectorCollider.h"
 #include "textures/ITextureManager.h"
 #include "rendering/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "game/IGameStateCallback.h"
 #include "MathHelper.h"
 #include "game/GameDefines.h"
+#include "rendering/Sprite.h"
 
 using std::make_shared;
 using std::shared_ptr;
@@ -25,7 +26,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mScreenSizeY(0)
 	, mApple(make_shared<Apple>(Vector2(SCREEN_SIZE / 4.0f, SCREEN_SIZE / 4.0f)))
 	, mSnake(make_shared<Snake>(Vector2(SCREEN_SIZE / 2.0f, SCREEN_SIZE / 2.0f)))
-	, mSpriteCollider(make_shared<SpriteCollider>())
+	, mCollider(make_shared<VectorCollider>())
 	, mGame(gameCallback)
 	, mSpacePressedBefore(false)
 {
@@ -66,15 +67,15 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 	if (mGame->GetCurrentState() == GameState::GamePlay) {
 		mSnake->HandleInput(mInputManager);
 
-		if (mSpriteCollider->CollidesOnPosition(mSnake->GetSprite(), mApple->GetSprite()))
-		{
-			mApple->Reset();
-			mSnake->IncreaseLength();
-		}
-
 		// do updates
 		mApple->Update(mScreenSizeX, mScreenSizeY);
 		mSnake->Update(mScreenSizeX, mScreenSizeY, mGame);
+
+		if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
+		{
+			mApple->Reset(mSnake, mCollider);
+			mSnake->IncreaseLength();
+		}
 
 		if (spacePressed && !mSpacePressedBefore)
 		{

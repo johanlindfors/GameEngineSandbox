@@ -2,6 +2,9 @@
 #include "game/GameDefines.h"
 #include "rendering/ISpriteRenderer.h"
 #include "rendering/Sprite.h"
+#include "Snake.h"
+#include "VectorCollider.h"
+#include <ctime>
 
 using std::shared_ptr;
 using Utilities::Vector2;
@@ -11,7 +14,9 @@ Apple::Apple(Vector2 position)
     : Entity(position)
     , mScreenPositionX(0.0f)
     , mScreenPositionY(0.0f)
-{ }
+{ 
+    std::srand(std::time(nullptr));
+}
 
 void Apple::Draw(std::shared_ptr<ISpriteRenderer> renderer) {
     auto sprite = std::make_shared<Engine::Sprite>(*mSprite);
@@ -27,8 +32,19 @@ void Apple::Update(int screenWidth, int screenHeight)
     mScreenPositionY = mSprite->Position.m[1] * screenHeight / SCREEN_SIZE;
 }
 
-void Apple::Reset() {
-	auto x = static_cast<float>(std::rand() % SCREEN_SIZE);
-	auto y = static_cast<float>(std::rand() % SCREEN_SIZE);
-	mSprite->Position = Vector2(x, y);
+void Apple::Reset(std::shared_ptr<Snake> snake, std::shared_ptr<VectorCollider> collider) {
+    Vector2 newPosition(0.0f, 0.0f);
+    bool collide;
+    do {
+        collide = false;
+        auto x = static_cast<float>(std::rand() % SCREEN_SIZE);
+        auto y = static_cast<float>(std::rand() % SCREEN_SIZE);
+        newPosition = Vector2(x, y);
+        for(Vector2 const& snakeBody: snake->mTrail) {
+            if(collider->Collides(newPosition, snakeBody)) {
+                collide = true;
+            }
+        }
+    } while(collide);
+	mSprite->Position = newPosition;
 }

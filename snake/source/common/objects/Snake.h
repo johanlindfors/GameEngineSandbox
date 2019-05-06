@@ -14,6 +14,7 @@ namespace Engine
 }
 
 class IGameStateCallback;
+class Apple;
 
 class Snake : public Entity {
 public:
@@ -28,4 +29,6 @@ private:
 	int mTail;
 	std::list<Utilities::Vector2> mTrail;
 	void Reset();
+
+	friend class Apple;
 };
