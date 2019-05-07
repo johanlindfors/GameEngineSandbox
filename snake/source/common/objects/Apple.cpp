@@ -15,7 +15,7 @@ Apple::Apple(Vector2 position)
     , mScreenPositionX(0.0f)
     , mScreenPositionY(0.0f)
 { 
-    std::srand(std::time(nullptr));
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
 void Apple::Draw(std::shared_ptr<ISpriteRenderer> renderer) {
