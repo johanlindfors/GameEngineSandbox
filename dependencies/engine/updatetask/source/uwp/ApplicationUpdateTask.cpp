@@ -1,5 +1,6 @@
 #include "ApplicationUpdateTask.h"
 #include <ppltasks.h>
+#include <experimental/resumable>
 
 using namespace updatetask;
 using namespace Platform;
@@ -41,26 +42,52 @@ static Windows::Foundation::DateTime GetDueDateTime(long long timeInSeconds) {
 	return ToDateTime(timeInSeconds);
 }
 
-String ^ GetToastXml(String ^ title, String ^ message) {
-    auto toastXmlString = "<toast>" + "<visual version='2'>" + "<binding template='ToastText02'>" + "<text id='1'>" + title + "</text>" + "<text id='2'>" +
-        message + "</text>" + "</binding>" + "</visual>" + "</toast>";
-    return toastXmlString;
+String^ GetToastXml(String^ title, String^ message) {
+	auto toastXmlString = "<toast>" + "<visual version='2'>" + "<binding template='ToastText02'>" + "<text id='1'>" + title + "</text>" + "<text id='2'>" +
+		message + "</text>" + "</binding>" + "</visual>" + "</toast>";
+	return toastXmlString;
 }
 
-void Notify(String ^ title, String ^ message, String ^ id, DateTime dateTime) {
-    try {
-        auto toastXmlString = GetToastXml(title, message);
-        auto toastDOM = ref new XmlDocument();
+Windows::Foundation::IAsyncOperation<Windows::Data::Xml::Dom::XmlDocument^>^ LoadXmlAsync(Platform::String^ filename) {
+	return concurrency::create_async([filename]() {
+		auto folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
+		return concurrency::create_task(folder->GetFileAsync(filename))
+			.then([](concurrency::task<Windows::Storage::StorageFile^> t) {
+			return Windows::Data::Xml::Dom::XmlDocument::LoadFromFileAsync(t.get());
+				});
+		});
+}
 
-        toastDOM->LoadXml(toastXmlString);
+void NotifyWithLocalXml(String^ filename, String^ id, DateTime dateTime) {
+	create_task(LoadXmlAsync(filename))
+		.then([=](task<XmlDocument^> toastDomTask) {
+		try {
+			auto toastDOM = toastDomTask.get();
+			auto toast = ref new ScheduledToastNotification(toastDOM, dateTime);
+			toast->Id = id;
 
-        auto toast = ref new ScheduledToastNotification(toastDOM, dateTime);
-        toast->Id = id;
+			ToastNotificationManager::CreateToastNotifier()->AddToSchedule(toast);
+		}
+		catch (...) {
 
-        ToastNotificationManager::CreateToastNotifier()->AddToSchedule(toast);
-    }
-    catch (...) {
-    }
+		}
+			}).get();
+}
+
+void Notify(String^ title, String^ message, String^ id, DateTime dateTime) {
+	try {
+		auto toastXmlString = GetToastXml(title, message);
+		auto toastDOM = ref new XmlDocument();
+
+		toastDOM->LoadXml(toastXmlString);
+
+		auto toast = ref new ScheduledToastNotification(toastDOM, dateTime);
+		toast->Id = id;
+
+		ToastNotificationManager::CreateToastNotifier()->AddToSchedule(toast);
+	}
+	catch (...) {
+	}
 }
 
 ApplicationUpdateTask::ApplicationUpdateTask()
@@ -68,14 +95,16 @@ ApplicationUpdateTask::ApplicationUpdateTask()
 
 }
 
-void ApplicationUpdateTask::Run(IBackgroundTaskInstance ^ taskInstance) {
-    BackgroundTaskDeferral^ deferral = taskInstance->GetDeferral();
+void ApplicationUpdateTask::Run(IBackgroundTaskInstance^ taskInstance) {
+	BackgroundTaskDeferral^ deferral = taskInstance->GetDeferral();
 
-    try {
-        Notify("Game Engine Sandbox", "Wanna play a game?", "GES", GetDueDateTime(5));
-    } catch (...) {
+	try {
+		//Notify("Game Engine Sandbox", "Wanna play a game?", "GES", GetDueDateTime(5));
+		NotifyWithLocalXml("toast.xml", "GES", GetDueDateTime(5));
+	}
+	catch (...) {
 
-    }
+	}
 
-    deferral->Complete();
+	deferral->Complete();
 }
