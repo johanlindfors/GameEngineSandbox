@@ -19,7 +19,7 @@ namespace Engine
 		GameLoop();
 		~GameLoop();
 
-		void Initialize();
+		void Initialize(int fps);
 		void Tick();
 		void UpdateWindowSize(int width, int height);
 		void GetDefaultSize(int &width, int &height) const;

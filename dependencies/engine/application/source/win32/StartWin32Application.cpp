@@ -3,11 +3,14 @@
 #include <memory>
 #include "glwrapper.h"
 #include "input/IInputManager.h"
+#include "application/Config.h"
+#include "IOC.hpp"
 
 using namespace Engine;
+using namespace Utilities;
 
 namespace {
-	std::unique_ptr<Engine::GameLoop> g_gameLoop;
+	std::unique_ptr<GameLoop> g_gameLoop;
 };
 
 // Global Variables:
@@ -24,11 +27,12 @@ void StartWin32Application() {
 	MyRegisterClass(hInstance);
 
 	// Perform application initialization:
-	g_gameLoop = std::make_unique<Engine::GameLoop>();
+	g_gameLoop = std::make_unique<GameLoop>();
 	if (!InitInstance(hInstance)) {
 		return;
 	}
-	g_gameLoop->Initialize();
+	auto config = IOCContainer::Instance().Resolve<Config>();
+	g_gameLoop->Initialize(config->FPS);
 	int width, height;
 	g_gameLoop->GetDefaultSize(width, height);
 	g_gameLoop->UpdateWindowSize(width, height);

@@ -18,10 +18,10 @@ GameLoop::GameLoop()
 
 }
 
-void GameLoop::Initialize() {
+void GameLoop::Initialize(int fps) {
 	mTimer = make_shared<StepTimer>();
 	mTimer->SetFixedTimeStep(true);
-	mTimer->SetTargetElapsedSeconds(1.0f/15.0f);
+	mTimer->SetTargetElapsedSeconds(1.0f/fps);
 
 	// Ordering is important
 	auto fileSystem = make_shared<FileSystem>();
