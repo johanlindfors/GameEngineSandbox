@@ -42,10 +42,8 @@ if(WINDOWS_STORE)
 endif()
 
 set(DEPENDENCIES 
-    utilities
     application
     game-loop
-    systems
 )
 
 if(LINUX)

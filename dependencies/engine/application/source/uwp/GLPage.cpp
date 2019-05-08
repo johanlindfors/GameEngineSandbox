@@ -2,7 +2,7 @@
 #include "IOC.hpp"
 #include "IDispatcherWrapper.h"
 #include "SetThreadName.h"
-
+#include "game-loop/GameLoop.h"
 #include <winrt/Windows.System.Threading.h>
 
 using std::shared_ptr;
