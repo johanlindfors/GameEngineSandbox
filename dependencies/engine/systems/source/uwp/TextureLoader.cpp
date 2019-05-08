@@ -95,14 +95,14 @@ namespace Engine {
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(new Engine::TextureLoaderImpl())
+	: mImpl(std::make_unique<TextureLoaderImpl>())
 {
 
 }
 
 TextureLoader::~TextureLoader()
 {
-	delete(mImpl);
+	mImpl.reset(nullptr);
 }
 
 void TextureLoader::LoadTexture(Texture2D& texture)

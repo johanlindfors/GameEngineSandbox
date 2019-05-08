@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #define EMPTY_TEXTURE_NAME L"empty"
 
@@ -14,6 +15,6 @@ namespace Engine {
 		void LoadTexture(Engine::Texture2D& texture);
 
 	private:
-		TextureLoaderImpl* mImpl;
+		std::unique_ptr<TextureLoaderImpl> mImpl;
 	};
 }
