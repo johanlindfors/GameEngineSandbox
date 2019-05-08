@@ -24,10 +24,10 @@ if(WINDOWS_STORE)
     set(PHONE_PRODUCT_ID   "B9EC94EF-8576-33B8-81E6-0092C89DBED8")
     set(PHONE_PUBLISHER_ID "00000000-0000-0000-0000-000000000000")
 
-    set(APPLICATION_EXTENSIONS "<Extensions><Extension Category='windows.updateTask' EntryPoint='updatetask.ApplicationUpdateTask'/></Extensions>")
-    list(APPEND DEPENDENCIES
-        updatetask
-    )
+    # set(APPLICATION_EXTENSIONS "<Extensions><Extension Category='windows.updateTask' EntryPoint='updatetask.ApplicationUpdateTask'/></Extensions>")
+    # list(APPEND DEPENDENCIES
+    #     updatetask
+    # )
 
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/uwp/package.appxManifest.in"

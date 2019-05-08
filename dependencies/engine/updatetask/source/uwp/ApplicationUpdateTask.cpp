@@ -71,35 +71,13 @@ void NotifyWithLocalXml(String^ filename, String^ id, DateTime dateTime) {
 		catch (...) {
 
 		}
-			}).get();
-}
-
-void Notify(String^ title, String^ message, String^ id, DateTime dateTime) {
-	try {
-		auto toastXmlString = GetToastXml(title, message);
-		auto toastDOM = ref new XmlDocument();
-
-		toastDOM->LoadXml(toastXmlString);
-
-		auto toast = ref new ScheduledToastNotification(toastDOM, dateTime);
-		toast->Id = id;
-
-		ToastNotificationManager::CreateToastNotifier()->AddToSchedule(toast);
-	}
-	catch (...) {
-	}
-}
-
-ApplicationUpdateTask::ApplicationUpdateTask()
-{
-
+	}).get();
 }
 
 void ApplicationUpdateTask::Run(IBackgroundTaskInstance^ taskInstance) {
 	BackgroundTaskDeferral^ deferral = taskInstance->GetDeferral();
 
 	try {
-		//Notify("Game Engine Sandbox", "Wanna play a game?", "GES", GetDueDateTime(5));
 		NotifyWithLocalXml("toast.xml", "GES", GetDueDateTime(5));
 	}
 	catch (...) {
