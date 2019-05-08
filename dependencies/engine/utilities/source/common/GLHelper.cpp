@@ -94,9 +94,10 @@ namespace Engine {
 	{
 		// Bind the texture object
 		glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(textureIndex));
-		glPixelStorei(GL_PACK_ALIGNMENT, static_cast<GLuint>(textureIndex));
-		glPixelStorei(GL_UNPACK_ALIGNMENT, static_cast<GLuint>(textureIndex));
+		glPixelStorei(GL_PACK_ALIGNMENT, 1);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
+		CheckOpenGLError();
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 		CheckOpenGLError();
 		// Set the filtering mode
