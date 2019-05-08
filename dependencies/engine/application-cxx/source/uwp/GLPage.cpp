@@ -74,7 +74,6 @@ void GLPage::RenderLoop(IAsyncAction ^ /*action*/)
 
 		if (mOpenGLES->SwapBuffers(renderSurface) != GL_TRUE)
 		{
-			mGameLoop.reset(nullptr);
 			RecreateRenderer();
 		}
 		dispatcher->ProcessScheduledFunctions();
