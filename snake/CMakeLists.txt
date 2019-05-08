@@ -18,11 +18,16 @@ set(DEPENDENCIES
 
 if(WINDOWS_STORE)
     set(GAME_PACKAGE_NAME  "se.coderox.snake")
-    set(GAME_VERSION       "1.0.0.0")
+    set(GAME_VERSION       "0.1.0.0")
     set(GAME_TITLE         "a snake")
     set(GAME_DESCRIPTION   "a simple snake game")
     set(PHONE_PRODUCT_ID   "B9EC94EF-8576-33B8-81E6-0092C89DBED8")
     set(PHONE_PUBLISHER_ID "00000000-0000-0000-0000-000000000000")
+
+    set(APPLICATION_EXTENSIONS "<Extensions><Extension Category='windows.updateTask' EntryPoint='updatetask.ApplicationUpdateTask'/></Extensions>")
+    list(APPEND DEPENDENCIES
+        updatetask
+    )
 
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/pipeline/uwp/package.appxManifest.in"
@@ -43,10 +48,6 @@ if(WINDOWS_STORE)
     list(APPEND RESOURCES
         "${PROJECT_BINARY_DIR}/package.appxManifest"
         "${PROJECT_BINARY_DIR}/TemporaryKey.pfx"
-    )
-
-    list(APPEND DEPENDENCIES
-        updatetask
     )
 endif()
 

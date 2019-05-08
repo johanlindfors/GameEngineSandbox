@@ -18,6 +18,7 @@
       <uap:VisualElements DisplayName="@GAME_TITLE@" Description="@GAME_DESCRIPTION@" BackgroundColor="#336699" Square150x150Logo="Logo.png" Square44x44Logo="SmallLogo44x44.png">
         <uap:SplashScreen Image="SplashScreen.png" />
       </uap:VisualElements>
+      @APPLICATION_EXTENSIONS@
     </Application>
   </Applications>
 </Package>
