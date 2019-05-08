@@ -72,7 +72,7 @@ void ApplicationUpdateTask::Run(IBackgroundTaskInstance ^ taskInstance) {
     BackgroundTaskDeferral^ deferral = taskInstance->GetDeferral();
 
     try {
-        Notify("Title", "Message", "GameEngineSandbox", GetDueDateTime(5));
+        Notify("Game Engine Sandbox", "Wanna play a game?", "GES", GetDueDateTime(5));
     } catch (...) {
 
     }

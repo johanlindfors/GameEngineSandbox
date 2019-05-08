@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 #include "OpenGLES.h"
-#include "GameLoop.h"
 #include "input/IInputManager.h"
+#include "game-loop/GameLoop.h"
 
 namespace Engine
 {

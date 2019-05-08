@@ -2,6 +2,7 @@
 #include "IOC.hpp"
 #include "IDispatcherWrapper.h"
 #include "SetThreadName.h"
+#include "application/Config.h"
 
 using std::shared_ptr;
 using namespace Engine;
@@ -89,7 +90,8 @@ void GLPage::RecreateRenderer()
 	if (!mGameLoop)
 	{
 		mGameLoop.reset(new GameLoop());
-        mGameLoop->Initialize();
+		auto config = IOCContainer::Instance().Resolve<Config>();
+        mGameLoop->Initialize(config->FPS);
 
 		if (mInputManager == nullptr) {
 			mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
