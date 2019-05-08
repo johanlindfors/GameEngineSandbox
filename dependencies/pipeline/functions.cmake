@@ -59,6 +59,7 @@ endmacro()
 
 function(build_library project_name)
     set(DEPENDENCIES ${ARGV1})
+    set(SHARED ${ARGV2})
 
     update_sources()
 
@@ -83,14 +84,18 @@ function(build_library project_name)
     else()
         file(GLOB_RECURSE EXTERNAL_PLATFORM_COMMON_HEADERS 
             include/posix/*.h*
-        )   
+        )
         list(APPEND LIBRARY_INCLUDE_DIRECTORIES
             include/posix
         )
     endif()
     source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${EXTERNAL_PLATFORM_COMMON_HEADERS})
-        
-    add_library(${project_name} STATIC ${PLATFORM_SOURCES} ${COMMON_SOURCES} ${PLATFORM_COMMON_SOURCES} ${EXTERNAL_HEADERS} ${EXTERNAL_PLATFORM_COMMON_HEADERS})
+
+    if(SHARED)
+        add_library(${project_name} SHARED ${PLATFORM_SOURCES} ${COMMON_SOURCES} ${PLATFORM_COMMON_SOURCES} ${EXTERNAL_HEADERS} ${EXTERNAL_PLATFORM_COMMON_HEADERS})
+    else()
+        add_library(${project_name} STATIC ${PLATFORM_SOURCES} ${COMMON_SOURCES} ${PLATFORM_COMMON_SOURCES} ${EXTERNAL_HEADERS} ${EXTERNAL_PLATFORM_COMMON_HEADERS})
+    endif()
 
     target_link_libraries(${project_name} ${DEPENDENCIES})
 

@@ -11,6 +11,11 @@ get_property(PLATFORM_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_PLATFORM_RESOUR
 get_property(COMMON_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_RESOURCES_DIRECTORY)
 get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
 
+set(DEPENDENCIES 
+    application
+    game-loop
+)
+
 if(WINDOWS_STORE)
     set(GAME_PACKAGE_NAME  "se.coderox.snake")
     set(GAME_VERSION       "1.0.0.0")
@@ -39,12 +44,11 @@ if(WINDOWS_STORE)
         "${PROJECT_BINARY_DIR}/package.appxManifest"
         "${PROJECT_BINARY_DIR}/TemporaryKey.pfx"
     )
-endif()
 
-set(DEPENDENCIES 
-    application
-    game-loop
-)
+    list(APPEND DEPENDENCIES
+        updatetask
+    )
+endif()
 
 if(LINUX)
     message(STATUS "Temporary solution for Linux: Finding GLUT")

@@ -7,3 +7,7 @@ add_subdirectory(game-loop ${CMAKE_CURRENT_BINARY_DIR}/dependencies/game-loop)
 add_subdirectory(filesystem ${CMAKE_CURRENT_BINARY_DIR}/dependencies/filesystem)
 
 add_subdirectory(application ${CMAKE_CURRENT_BINARY_DIR}/dependencies/application)
+
+if(WINDOWS_STORE)
+    add_subdirectory(updatetask ${CMAKE_CURRENT_BINARY_DIR}/dependencies/updatetask)
+endif()
