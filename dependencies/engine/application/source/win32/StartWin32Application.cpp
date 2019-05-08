@@ -166,6 +166,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		if (game) {
 			game->UpdateWindowSize(LOWORD(lParam), HIWORD(lParam));
+			g_gameLoop->Tick();
+			SwapBuffers(hDC);
 		}
 		break;
 	case WM_DESTROY:
