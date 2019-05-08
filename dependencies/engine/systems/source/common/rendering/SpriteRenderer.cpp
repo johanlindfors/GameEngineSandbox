@@ -77,7 +77,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, sprite->Texture.TextureIndex);
+	glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));
 
 	// Set the sampler texture unit to 0
 	glUniform1i(mTextureUniformLocation, 0);

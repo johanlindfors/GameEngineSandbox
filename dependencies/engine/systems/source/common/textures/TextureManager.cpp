@@ -52,7 +52,10 @@ void TextureManager::LoadTextures(vector<wstring> filenames)
 
 	for (auto& texture : mTextures)
 	{
-		mTextureLoader->LoadTexture(texture.second);
+		if (!texture.second.IsLoaded) {
+			mTextureLoader->LoadTexture(texture.second);
+			texture.second.IsLoaded = true;
+		}
 	}
 
 	mInitialized = true;

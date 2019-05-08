@@ -74,7 +74,7 @@ namespace Engine {
 							auto source = &dpPixels[i*width];
 							memcpy(destination, source, width);
 						}
-						SetTexturePixels(texture.Height, texture.Width, texture.Height, pixels);
+						SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
 						delete[] pixels;
 					});
 				}
