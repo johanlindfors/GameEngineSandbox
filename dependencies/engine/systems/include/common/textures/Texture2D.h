@@ -7,6 +7,6 @@ namespace Engine {
         std::wstring Name;
         int Width;
         int Height;
-        GLuint TextureIndex;
+        int TextureIndex;
     };
 }

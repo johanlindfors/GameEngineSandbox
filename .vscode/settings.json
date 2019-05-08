@@ -8,8 +8,11 @@
         ".exe/": true,
         ".vscode/ipch/": true
     },
+
+    // CMAKE settings
     "cmake.generator": "Visual Studio 16 2019",
     "cmake.configureSettings": {
         "CMAKE_TOOLCHAIN_FILE" : "dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake"
-    }
+    },
+    "cmake.buildDirectory": "${workspaceRoot}/build/win32-debug"
 }

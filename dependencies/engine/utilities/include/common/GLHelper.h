@@ -1,6 +1,5 @@
 #pragma once
 #include "glwrapper.h"
-#include "textures/Texture2D.h"
 #include <string>
 
 namespace Engine {
@@ -10,9 +9,9 @@ namespace Engine {
 
     GLuint GenerateTexture();
 
-    void SetTexturePixels(Texture2D texture, GLubyte* pixels);
+    void SetTexturePixels(int textureIndex, int width, int height, GLubyte* pixels);
 
-    void DeleteTexture(GLuint textureId);
+    void DeleteTexture(int textureIndex);
 
     void CheckOpenGLError();
 }

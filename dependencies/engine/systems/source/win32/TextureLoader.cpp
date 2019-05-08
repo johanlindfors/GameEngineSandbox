@@ -7,6 +7,7 @@
 #include <iostream>
 #include "IOC.hpp"
 #include "File.h"
+#include "textures/Texture2D.h"
 
 using namespace std;
 using namespace Engine;
@@ -157,7 +158,7 @@ namespace Engine {
 					texture.Width = width;
 					texture.Height = height;
 					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
-					SetTexturePixels(texture, textureImage);
+					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, textureImage);
 					if (textureImage) {
 						delete textureImage;
 					}

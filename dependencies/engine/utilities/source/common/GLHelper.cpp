@@ -90,22 +90,23 @@ namespace Engine {
 	}
 
 	// Need to be called on UI thread
-	void SetTexturePixels(Texture2D texture, GLubyte* pixels)
+	void SetTexturePixels(int textureIndex, int width, int height, GLubyte* pixels)
 	{
 		// Bind the texture object
-		glBindTexture(GL_TEXTURE_2D, texture.TextureIndex);
-		glPixelStorei(GL_PACK_ALIGNMENT, texture.TextureIndex);
-		glPixelStorei(GL_UNPACK_ALIGNMENT, texture.TextureIndex);
+		glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(textureIndex));
+		glPixelStorei(GL_PACK_ALIGNMENT, static_cast<GLuint>(textureIndex));
+		glPixelStorei(GL_UNPACK_ALIGNMENT, static_cast<GLuint>(textureIndex));
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(texture.Width), static_cast<GLsizei>(texture.Height), 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 		CheckOpenGLError();
 		// Set the filtering mode
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 
-	void DeleteTexture(GLuint textureId) {
-		glDeleteTextures(1, &textureId);
+	void DeleteTexture(int textureIndex) {
+		GLuint glTextureIndex = static_cast<GLuint>(textureIndex);
+		glDeleteTextures(1, &glTextureIndex);
 	}
 
 	void CheckOpenGLError() {
