@@ -1,7 +1,7 @@
 #include "Entity.h"
 #include "MathHelper.h"
 #include "textures/Texture2D.h"
-#include "rendering/Sprite.h"
+#include "renderer/Sprite.h"
 #include "game/GameDefines.h"
 
 using std::make_shared;

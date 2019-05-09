@@ -1,4 +1,4 @@
-project(systems)
+project(textures)
 
 set(DEPENDENCIES
     utilities

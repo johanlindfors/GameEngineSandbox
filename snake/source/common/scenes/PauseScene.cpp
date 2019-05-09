@@ -2,8 +2,8 @@
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
 #include "scenes/ISceneManager.h"
-#include "rendering/Sprite.h"
-#include "rendering/ISpriteRenderer.h"
+#include "renderer/Sprite.h"
+#include "renderer/ISpriteRenderer.h"
 
 using namespace std;
 using namespace Engine;

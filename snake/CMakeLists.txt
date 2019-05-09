@@ -14,6 +14,10 @@ get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
 set(DEPENDENCIES 
     application
     game-loop
+    renderer
+    textures
+    input
+    scenes
 )
 
 if(WINDOWS_STORE)

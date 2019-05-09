@@ -5,12 +5,12 @@
 #include "objects/Apple.h"
 #include "objects/VectorCollider.h"
 #include "textures/ITextureManager.h"
-#include "rendering/ISpriteRenderer.h"
+#include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "game/IGameStateCallback.h"
 #include "MathHelper.h"
 #include "game/GameDefines.h"
-#include "rendering/Sprite.h"
+#include "renderer/Sprite.h"
 
 using std::make_shared;
 using std::shared_ptr;

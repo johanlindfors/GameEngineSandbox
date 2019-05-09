@@ -1,9 +1,9 @@
 #include "Snake.h"
 #include "game/GameDefines.h"
-#include "rendering/ISpriteRenderer.h"
+#include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "MathHelper.h"
-#include "rendering/Sprite.h"
+#include "renderer/Sprite.h"
 #include "game/IGameStateCallback.h"
 
 using std::shared_ptr;

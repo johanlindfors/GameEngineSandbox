@@ -1,8 +1,7 @@
-project(application)
+project(scenes)
 
 set(DEPENDENCIES
     utilities
-    game-loop
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

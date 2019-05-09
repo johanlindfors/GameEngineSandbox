@@ -2,8 +2,8 @@
 #include "textures/TextureManager.h"
 #include "scenes/ISceneManager.h"
 #include "input/IInputManager.h"
-#include "rendering/SpriteRenderer.h"
-#include "rendering/Sprite.h"
+#include "renderer/SpriteRenderer.h"
+#include "renderer/Sprite.h"
 #include "IOC.hpp"
 #include "game/IGameStateCallback.h"
 

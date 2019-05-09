@@ -2,8 +2,8 @@
     "files.exclude": {
         ".gitattributes": true,
         ".gitignore": true,
-        ".gitmodules": true,
-        "build/": true,
+        //".gitmodules": true,
+        //"build/": true,
         ".vs/": true,
         ".exe/": true,
         ".vscode/ipch/": true

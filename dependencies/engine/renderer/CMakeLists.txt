@@ -1,8 +1,9 @@
-project(application)
+project(renderer)
 
 set(DEPENDENCIES
     utilities
-    game-loop
+    filesystem
+    textures
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

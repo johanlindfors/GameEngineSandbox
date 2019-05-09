@@ -3,7 +3,7 @@
 #include "scenes/SceneManager.h"
 #include "input/InputManager.h"
 #include "textures/TextureManager.h"
-#include "rendering/SpriteRenderer.h"
+#include "renderer/SpriteRenderer.h"
 #include "StepTimer.h"
 #include "game-loop/IGameLoopCallback.h"
 #include "filesystem/FileSystem.h"
