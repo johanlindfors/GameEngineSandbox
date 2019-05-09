@@ -16,6 +16,10 @@ else()
         list(APPEND DEPENDENCIES
             opengl32.lib
         )
+    elseif(LINUX)
+    list(APPEND DEPENDENCIES
+        GL
+    )
     endif()
 endif()
 
