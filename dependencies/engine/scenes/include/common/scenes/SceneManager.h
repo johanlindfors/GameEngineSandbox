@@ -12,7 +12,7 @@ namespace Engine {
         void Update(std::shared_ptr<Utilities::IStepTimer> timer);
         void Draw(std::shared_ptr<Utilities::IStepTimer> timer);
         void AddScene(std::shared_ptr<GameScene> scene);
-        void RemoveScene(const type_info& sceneType);
+        void RemoveScene(const std::type_info& sceneType);
 
     private:
         bool mInitialized;

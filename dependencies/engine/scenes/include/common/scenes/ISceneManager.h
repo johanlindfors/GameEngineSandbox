@@ -13,6 +13,6 @@ namespace Engine {
         virtual void Update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
         virtual void Draw(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
         virtual void AddScene(std::shared_ptr<GameScene> scene) = 0;
-        virtual void RemoveScene(const type_info& sceneType) = 0;
+        virtual void RemoveScene(const std::type_info& sceneType) = 0;
     };
 }

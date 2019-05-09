@@ -12,15 +12,19 @@ using namespace Windows::ApplicationModel;
 #include <vector>
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
+#elif LINUX
+#include <stdio.h>
+#include <unistd.h>
 #endif
 
 using namespace Engine;
 
 std::wstring FileSystem::GetResourcesDirectory()
 {
+	std::wstring folderPath;
 #ifdef UWP
     auto folder = Package::Current().InstalledLocation();
-	auto folderPath = folder.Path();
+	folderPath = folder.Path();
 #elif WIN32
 	unsigned int bufferSize = 512;
 	std::vector<char> buffer(bufferSize + 1);
@@ -28,9 +32,13 @@ std::wstring FileSystem::GetResourcesDirectory()
 	std::string s = &buffer[0];
 	fs::path p = s;
 	auto executableDirectory = p.parent_path();
-	auto folderPath = executableDirectory.generic_wstring();
+	folderPath = executableDirectory.generic_wstring();
+#elif LINUX
+	char buff[FILENAME_MAX];
+	getcwd( buff, FILENAME_MAX );
+	std::string current_working_dir(buff);
 #endif
-    std::wstring path(folderPath + L"\\resources\\");
+	std::wstring path(folderPath + L"\\resources\\");
     return path;
 }
 
