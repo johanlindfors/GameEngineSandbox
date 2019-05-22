@@ -2,7 +2,6 @@ project(application)
 
 set(DEPENDENCIES
     utilities
-    systems
     game-loop
 )
 
