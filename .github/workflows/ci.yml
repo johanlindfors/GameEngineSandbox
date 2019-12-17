@@ -1,0 +1,15 @@
+name: Build UWP
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    strategy:
+      max-parallel: 4
+
+  steps:
+    - name: Generate and build UWP
+      run: pipeline -uwp -build
+      shell: pwsh
