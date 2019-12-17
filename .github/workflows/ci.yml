@@ -7,5 +7,5 @@ jobs:
     name: Generate and build
     runs-on: windows-latest
     steps:
-      - run: pipeline -uwp -build
+      - run: ./pipeline.ps1 -uwp -build
         shell: pwsh
