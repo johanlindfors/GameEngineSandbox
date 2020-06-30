@@ -7,10 +7,11 @@ namespace Engine
     class File : public IFile
     {
         public:
-            void Open(std::wstring filename);
-            void Close();
-            bool IsOpen() { return mFileHandle != nullptr; }
-            FILE * Get() { return mFileHandle; }
+    	// Engine::IFile
+            void Open(std::wstring filename) override;
+            void Close() override;
+            bool IsOpen() override { return mFileHandle != nullptr; }
+            FILE * Get() const { return mFileHandle; }
         
         private:
             FILE * mFileHandle = nullptr;

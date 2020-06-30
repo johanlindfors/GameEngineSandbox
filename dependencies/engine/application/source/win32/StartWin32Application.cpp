@@ -23,7 +23,7 @@ BOOL InitInstance(HINSTANCE);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 void StartWin32Application() {
-	HINSTANCE hInstance = GetModuleHandle(NULL);
+	const HINSTANCE hInstance = GetModuleHandle(nullptr);
 	MyRegisterClass(hInstance);
 
 	// Perform application initialization:
@@ -31,7 +31,7 @@ void StartWin32Application() {
 	if (!InitInstance(hInstance)) {
 		return;
 	}
-	auto config = IOCContainer::Instance().Resolve<Config>();
+	const auto config = IOCContainer::Instance().Resolve<Config>();
 	g_gameLoop->Initialize(config->FPS);
 	int width, height;
 	g_gameLoop->GetDefaultSize(width, height);
@@ -64,7 +64,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance) {
 	wcex.hInstance = hInstance;
 	wcex.hIcon = nullptr;
 	wcex.hCursor = nullptr;
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = L"GAME_ENGINE_SANDBOX";
 	wcex.hIconSm = nullptr;
@@ -81,7 +81,7 @@ BOOL InitInstance(HINSTANCE hInstance) {
 	RECT rc = { 0, 0, static_cast<LONG>(w), static_cast<LONG>(h) };
 
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-	HWND hWnd = CreateWindowEx(
+	const HWND hWnd = CreateWindowEx(
 		0, "GAME_ENGINE_SANDBOX", "Game Engine Sandbox",
 		WS_OVERLAPPEDWINDOW, 0, 0,
 		rc.right - rc.left, rc.bottom - rc.top, 
@@ -104,7 +104,7 @@ BOOL InitInstance(HINSTANCE hInstance) {
 		PFD_SUPPORT_OPENGL |		   // Format Must Support OpenGL
 		PFD_DOUBLEBUFFER,              // Must Support Double Buffering
 		PFD_TYPE_RGBA,                 // Request An RGBA Format
-		(BYTE)16,                      // Select Our Color Depth
+		static_cast<BYTE>(16),         // Select Our Color Depth
 		0,
 		0,
 		0,
@@ -133,12 +133,12 @@ BOOL InitInstance(HINSTANCE hInstance) {
 		return false;
 	}
 
-	auto pixelFormat = ChoosePixelFormat(hDC, &pfd);
+	const auto pixelFormat = ChoosePixelFormat(hDC, &pfd);
 	if (!SetPixelFormat(hDC, pixelFormat, &pfd)) {
 		return false;
 	}
 
-	auto hRC = wglCreateContext(hDC);
+	const auto hRC = wglCreateContext(hDC);
 	if (!hRC) {
 		return false;
 	}
@@ -159,7 +159,7 @@ BOOL InitInstance(HINSTANCE hInstance) {
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 {
-	auto gameParam = GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	const auto gameParam = GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	auto game = reinterpret_cast<Engine::GameLoop *>(gameParam);
 	std::shared_ptr<IInputManager> input;
 	if(game){
