@@ -14,12 +14,13 @@ namespace Engine {
 		TextureManager();
 		~TextureManager();
 
-		void LoadTextures(std::vector<std::wstring> filenames);
-		Texture2D GetTexture(std::wstring filename) const;
-		bool IsLoaded() const { return mInitialized; }
+		// Engine::ITextureManager
+		void LoadTextures(std::vector<std::wstring> fileNames) override;
+		Texture2D GetTexture(std::wstring fileName) const override;
+		bool IsLoaded() const override { return mInitialized; }
 
 	private:
-		Engine::Texture2D CreateEmptyTexture();
+		static Engine::Texture2D CreateEmptyTexture();
 
 		bool mInitialized;
 		std::map<std::wstring, Texture2D> mTextures;

@@ -10,6 +10,7 @@ namespace Engine {
 	
 	class GameScene {
 	public:
+		virtual ~GameScene() = default;
 		std::string ID;
 		virtual void Load() = 0;
 		virtual void Unload() = 0;

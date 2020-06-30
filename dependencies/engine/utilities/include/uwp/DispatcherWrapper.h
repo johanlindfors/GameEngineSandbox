@@ -6,7 +6,7 @@
 #include "IDispatcherWrapper.h"
 
 namespace Utilities {
-    class DispatcherWrapper : public IDispatcherWrapper {
+    class DispatcherWrapper final : public IDispatcherWrapper {
     public:
         DispatcherWrapper(winrt::Windows::UI::Core::CoreDispatcher const& dispatcher);
         
@@ -14,9 +14,9 @@ namespace Utilities {
             winrt::Windows::UI::Core::DispatchedHandler agileCallback
         ) const;
 
-        void ScheduleOnGameThread(const std::function<void()>& handler);
-
-        void ProcessScheduledFunctions();
+    	// Utilities::IDispatcherWrapper
+        void ScheduleOnGameThread(const std::function<void()>& handler) override;
+        void ProcessScheduledFunctions() override;
 
     private:
         winrt::Windows::UI::Core::CoreDispatcher mDispatcher = { nullptr };

@@ -1,9 +1,7 @@
 #include "textures/TextureManager.h"
 #include "textures/TextureLoader.h"
 #include <memory>
-#include <algorithm>
 #include "GLHelper.h"
-#include "filesystem/FileSystem.h"
 #include "File.h"
 
 using namespace std;
@@ -28,21 +26,21 @@ Texture2D TextureManager::CreateEmptyTexture() {
 	texture.Height = 1;
 	texture.Name = EMPTY_TEXTURE_NAME;
 
-	auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
+	const auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
 	SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
 	delete[] pixels;
 
 	return texture;
 }
 
-void TextureManager::LoadTextures(vector<wstring> filenames)
+void TextureManager::LoadTextures(vector<wstring> fileNames)
 {
 	if (!mInitialized) {
-		auto emptyTexture = CreateEmptyTexture();
+		const auto emptyTexture = CreateEmptyTexture();
 		mTextures[emptyTexture.Name] = emptyTexture;
 	}
 
-	for (auto const& filename : filenames)
+	for (auto const& filename : fileNames)
 	{
 		Texture2D texture;
 		texture.Name = filename;
@@ -61,11 +59,11 @@ void TextureManager::LoadTextures(vector<wstring> filenames)
 	mInitialized = true;
 }
 
-Texture2D TextureManager::GetTexture(wstring filename) const
+Texture2D TextureManager::GetTexture(wstring fileName) const
 {
-	if (mTextures.count(filename) == 1) {
-		auto texture = mTextures.at(filename);
-		if (texture.Name == filename) {
+	if (mTextures.count(fileName) == 1) {
+		auto texture = mTextures.at(fileName);
+		if (texture.Name == fileName) {
 			return texture;
 		}
 	}

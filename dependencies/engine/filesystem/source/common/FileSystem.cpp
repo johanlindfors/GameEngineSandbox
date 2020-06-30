@@ -19,8 +19,8 @@ using namespace Engine;
 std::wstring FileSystem::GetResourcesDirectory()
 {
 #ifdef UWP
-    auto folder = Package::Current().InstalledLocation();
-	auto folderPath = folder.Path();
+	const auto folder = Package::Current().InstalledLocation();
+	const auto folderPath = folder.Path();
 #elif WIN32
 	unsigned int bufferSize = 512;
 	std::vector<char> buffer(bufferSize + 1);
@@ -36,7 +36,7 @@ std::wstring FileSystem::GetResourcesDirectory()
 
 std::shared_ptr<File> FileSystem::LoadFile(std::wstring filename)
 {
-	auto directory = GetResourcesDirectory();
+	const auto directory = GetResourcesDirectory();
 	auto file = std::make_shared<File>();
 	file->Open(directory + filename);
 	return file;

@@ -1,5 +1,4 @@
 #include "renderer/SpriteRenderer.h"
-#include <vector>
 #include <string>
 #include "MathHelper.h"
 #include "GLHelper.h"
@@ -59,7 +58,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 	glEnableVertexAttribArray(mVertexAttribLocation);
-	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	
 	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
 	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
@@ -71,7 +70,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
 	glEnableVertexAttribArray(mUVAttribLocation);
-	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	Vector2 textureSize(static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height));
 	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));

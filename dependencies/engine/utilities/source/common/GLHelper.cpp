@@ -7,10 +7,10 @@ namespace Engine {
 
 	GLuint CompileShader(GLenum type, const string& source)
 	{
-		GLuint shader = glCreateShader(type);
+		const auto shader = glCreateShader(type);
 
 		const char* sourceArray[1] = { source.c_str() };
-		glShaderSource(shader, 1, sourceArray, NULL);
+		glShaderSource(shader, 1, sourceArray, nullptr);
 		glCompileShader(shader);
 
 		GLint compileResult;
@@ -22,9 +22,9 @@ namespace Engine {
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
 
 			vector<GLchar> infoLog(infoLogLength);
-			glGetShaderInfoLog(shader, (GLsizei)infoLog.size(), NULL, infoLog.data());
+			glGetShaderInfoLog(shader, static_cast<GLsizei>(infoLog.size()), nullptr, infoLog.data());
 
-			wstring errorMessage = wstring(L"Shader compilation failed: ");
+			wstring errorMessage(L"Shader compilation failed: ");
 			errorMessage += wstring(infoLog.begin(), infoLog.end());
 		}
 
@@ -33,15 +33,15 @@ namespace Engine {
 
 	GLuint CompileProgram(const string& vsSource, const string& fsSource)
 	{
-		GLuint program = glCreateProgram();
+		const auto program = glCreateProgram();
 
 		if (program == 0)
 		{
 			//throw winrt::hresult_error(E_FAIL, winrt::hstring(L"Program creation failed"));
 		}
 
-		GLuint vs = CompileShader(GL_VERTEX_SHADER, vsSource);
-		GLuint fs = CompileShader(GL_FRAGMENT_SHADER, fsSource);
+		const auto vs = CompileShader(GL_VERTEX_SHADER, vsSource);
+		const auto fs = CompileShader(GL_FRAGMENT_SHADER, fsSource);
 
 		if (vs == 0 || fs == 0)
 		{
@@ -69,9 +69,9 @@ namespace Engine {
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
 
 			vector<GLchar> infoLog(infoLogLength);
-			glGetProgramInfoLog(program, (GLsizei)infoLog.size(), NULL, infoLog.data());
+			glGetProgramInfoLog(program, static_cast<GLsizei>(infoLog.size()), nullptr, infoLog.data());
 
-			wstring errorMessage = std::wstring(L"Program link failed: ");
+			wstring errorMessage(L"Program link failed: ");
 			errorMessage += wstring(infoLog.begin(), infoLog.end());
 		}
 
@@ -106,12 +106,12 @@ namespace Engine {
 	}
 
 	void DeleteTexture(int textureIndex) {
-		GLuint glTextureIndex = static_cast<GLuint>(textureIndex);
+		auto glTextureIndex = static_cast<GLuint>(textureIndex);
 		glDeleteTextures(1, &glTextureIndex);
 	}
 
 	void CheckOpenGLError() {
-		GLenum err = glGetError();
+		const auto err = glGetError();
 		if (err != GL_NO_ERROR) {
 			printf("OpenGL error %08x\n", err);
 		}

@@ -8,7 +8,7 @@ using namespace Windows::Foundation::Collections;
 using namespace Engine;
 
 OpenGLES::OpenGLES()
-	: mEglConfig(nullptr), mEglDisplay(EGL_NO_DISPLAY), mEglContext(EGL_NO_CONTEXT) {
+	: mEglDisplay(EGL_NO_DISPLAY), mEglContext(EGL_NO_CONTEXT), mEglConfig(nullptr) {
 }
 
 OpenGLES::~OpenGLES() {
@@ -86,7 +86,7 @@ void OpenGLES::Initialize() {
 	};
 
 	// eglGetPlatformDisplayEXT is an alternative to eglGetDisplay. It allows us to pass in display attributes, used to configure D3D11.
-	PFNEGLGETPLATFORMDISPLAYEXTPROC eglGetPlatformDisplayEXT = reinterpret_cast<PFNEGLGETPLATFORMDISPLAYEXTPROC>(eglGetProcAddress("eglGetPlatformDisplayEXT"));
+	const PFNEGLGETPLATFORMDISPLAYEXTPROC eglGetPlatformDisplayEXT = reinterpret_cast<PFNEGLGETPLATFORMDISPLAYEXTPROC>(eglGetProcAddress("eglGetPlatformDisplayEXT"));
 	if (!eglGetPlatformDisplayEXT) {
 		throw ANGLE_ERROR(E_FAIL, L"Failed to get function eglGetPlatformDisplayEXT");
 	}
@@ -113,21 +113,21 @@ void OpenGLES::Initialize() {
 		throw ANGLE_ERROR(E_FAIL, L"Failed to get EGL display");
 	}
 
-	if (eglInitialize(mEglDisplay, NULL, NULL) == EGL_FALSE) {
+	if (eglInitialize(mEglDisplay, nullptr, nullptr) == EGL_FALSE) {
 		// This tries to initialize EGL to D3D11 Feature Level 9_3, if 10_0+ is unavailable (e.g. on some mobile devices).
 		mEglDisplay = eglGetPlatformDisplayEXT(EGL_PLATFORM_ANGLE_ANGLE, EGL_DEFAULT_DISPLAY, fl9_3DisplayAttributes);
 		if (mEglDisplay == EGL_NO_DISPLAY) {
 			throw ANGLE_ERROR(E_FAIL, L"Failed to get EGL display");
 		}
 
-		if (eglInitialize(mEglDisplay, NULL, NULL) == EGL_FALSE) {
+		if (eglInitialize(mEglDisplay, nullptr, nullptr) == EGL_FALSE) {
 			// This initializes EGL to D3D11 Feature Level 11_0 on WARP, if 9_3+ is unavailable on the default GPU.
 			mEglDisplay = eglGetPlatformDisplayEXT(EGL_PLATFORM_ANGLE_ANGLE, EGL_DEFAULT_DISPLAY, warpDisplayAttributes);
 			if (mEglDisplay == EGL_NO_DISPLAY) {
 				throw ANGLE_ERROR(E_FAIL, L"Failed to get EGL display");
 			}
 
-			if (eglInitialize(mEglDisplay, NULL, NULL) == EGL_FALSE) {
+			if (eglInitialize(mEglDisplay, nullptr, nullptr) == EGL_FALSE) {
 				// If all of the calls to eglInitialize returned EGL_FALSE then an error has occurred.
 				throw ANGLE_ERROR(E_FAIL, L"Failed to initialize EGL");
 			}
@@ -157,7 +157,8 @@ void OpenGLES::Cleanup() {
 	}
 }
 
-void OpenGLES::GetSurfaceDimensions(const EGLSurface surface, EGLint* width, EGLint* height) {
+void OpenGLES::GetSurfaceDimensions(const EGLSurface surface, EGLint* width, EGLint* height) const
+{
 	eglQuerySurface(mEglDisplay, surface, EGL_WIDTH, width);
 	eglQuerySurface(mEglDisplay, surface, EGL_HEIGHT, height);
 }
@@ -167,7 +168,8 @@ void OpenGLES::Reset() {
 	Initialize();
 }
 
-EGLSurface OpenGLES::CreateSurface(Windows::Foundation::IInspectable const& panel, const Size* renderSurfaceSize, const float* resolutionScale) {
+EGLSurface OpenGLES::CreateSurface(Windows::Foundation::IInspectable const& panel, const Size* renderSurfaceSize, const float* resolutionScale) const
+{
 	if (!panel) {
 		throw ANGLE_ERROR(E_INVALIDARG, L"SwapChainPanel parameter is invalid");
 	}
@@ -175,8 +177,6 @@ EGLSurface OpenGLES::CreateSurface(Windows::Foundation::IInspectable const& pane
 	if (renderSurfaceSize != nullptr && resolutionScale != nullptr) {
 		throw ANGLE_ERROR(E_INVALIDARG, L"A size and a scale can't both be specified");
 	}
-
-	EGLSurface surface = EGL_NO_SURFACE;
 
 	const EGLint surfaceAttributes[] =
 	{
@@ -187,7 +187,7 @@ EGLSurface OpenGLES::CreateSurface(Windows::Foundation::IInspectable const& pane
 	};
 
 	// Create a PropertySet and initialize with the EGLNativeWindowType.
-	PropertySet surfaceCreationProperties;
+	const PropertySet surfaceCreationProperties;
 	surfaceCreationProperties.Insert(hstring(EGLNativeWindowTypeProperty), panel);
 
 	// If a render surface size is specified, add it to the surface creation properties
@@ -200,9 +200,9 @@ EGLSurface OpenGLES::CreateSurface(Windows::Foundation::IInspectable const& pane
 		surfaceCreationProperties.Insert(hstring(EGLRenderResolutionScaleProperty), PropertyValue::CreateSingle(*resolutionScale));
 	}
 
-	auto parameters = reinterpret_cast<::IInspectable*>(winrt::get_abi(surfaceCreationProperties));
+	const auto parameters = static_cast<::IInspectable*>(winrt::get_abi(surfaceCreationProperties));
 
-	surface = eglCreateWindowSurface(mEglDisplay, mEglConfig, parameters, surfaceAttributes);
+	const auto surface = eglCreateWindowSurface(mEglDisplay, mEglConfig, parameters, surfaceAttributes);
 	if (surface == EGL_NO_SURFACE) {
 		throw ANGLE_ERROR(E_FAIL, L"Failed to create EGL surface");
 	}
@@ -210,18 +210,21 @@ EGLSurface OpenGLES::CreateSurface(Windows::Foundation::IInspectable const& pane
 	return surface;
 }
 
-void OpenGLES::DestroySurface(const EGLSurface surface) {
+void OpenGLES::DestroySurface(const EGLSurface surface) const
+{
 	if (mEglDisplay != EGL_NO_DISPLAY && surface != EGL_NO_SURFACE) {
 		eglDestroySurface(mEglDisplay, surface);
 	}
 }
 
-void OpenGLES::MakeCurrent(const EGLSurface surface) {
+void OpenGLES::MakeCurrent(const EGLSurface surface) const
+{
 	if (eglMakeCurrent(mEglDisplay, surface, surface, mEglContext) == EGL_FALSE) {
 		throw ANGLE_ERROR(E_FAIL, L"Failed to make EGLSurface current");
 	}
 }
 
-EGLBoolean OpenGLES::SwapBuffers(const EGLSurface surface) {
+EGLBoolean OpenGLES::SwapBuffers(const EGLSurface surface) const
+{
 	return (eglSwapBuffers(mEglDisplay, surface));
 }

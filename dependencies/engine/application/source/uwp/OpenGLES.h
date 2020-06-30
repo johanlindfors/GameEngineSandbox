@@ -9,11 +9,11 @@ namespace Engine {
 		virtual ~OpenGLES();
 
 		void Initialize();
-		EGLSurface CreateSurface(winrt::Windows::Foundation::IInspectable const& panel, const winrt::Windows::Foundation::Size* renderSurfaceSize, const float* renderResolutionScale);
-		void GetSurfaceDimensions(const EGLSurface surface, EGLint* width, EGLint* height);
-		void DestroySurface(const EGLSurface surface);
-		void MakeCurrent(const EGLSurface surface);
-		EGLBoolean SwapBuffers(const EGLSurface surface);
+		EGLSurface CreateSurface(winrt::Windows::Foundation::IInspectable const& panel, const winrt::Windows::Foundation::Size* renderSurfaceSize, const float* renderResolutionScale) const;
+		void GetSurfaceDimensions(const EGLSurface surface, EGLint* width, EGLint* height) const;
+		void DestroySurface(const EGLSurface surface) const;
+		void MakeCurrent(const EGLSurface surface) const;
+		EGLBoolean SwapBuffers(const EGLSurface surface) const;
 		void Reset();
 		void Cleanup();
 

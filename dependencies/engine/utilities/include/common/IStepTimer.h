@@ -7,6 +7,7 @@ namespace Utilities
 	class IStepTimer
 	{
 	public:
+		virtual ~IStepTimer() = default;
 		virtual void ResetElapsedTime() = 0;
 
 		virtual void Tick(std::function<void()>) = 0;

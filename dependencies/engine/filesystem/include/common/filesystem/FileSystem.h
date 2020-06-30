@@ -3,9 +3,9 @@
 
 namespace Engine
 {
-    class FileSystem : public IFileSystem
+    class FileSystem final : public IFileSystem
     {
-        std::wstring GetResourcesDirectory();
-        std::shared_ptr<File> LoadFile(std::wstring filename);
+        std::wstring GetResourcesDirectory() override;
+        std::shared_ptr<File> LoadFile(std::wstring filename) override;
     };
 }

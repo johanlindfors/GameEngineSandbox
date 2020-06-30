@@ -60,8 +60,8 @@ namespace Utilities
 
     inline static Matrix4 SimpleModelMatrix(float radians)
     {
-        float cosine = cosf(radians);
-        float sine = sinf(radians);
+	    const auto cosine = cosf(radians);
+	    const auto sine = sinf(radians);
 
         return Matrix4(cosine, 0.0f,  -sine, 0.0f,
                         0.0f, 1.0f,   0.0f, 0.0f,
@@ -74,8 +74,8 @@ namespace Utilities
         // Camera is at 60 degrees to the ground, in the YZ plane.
         // Camera Look-At is hardcoded to (0, 0, 0).
         // Camera Up is hardcoded to (0, 1, 0).
-        const float sqrt3over2 = 0.86603f;
-        const float cameraDistance = 5.0f;
+        const auto sqrt3over2 = 0.86603f;
+        const auto cameraDistance = 5.0f;
 
         return Matrix4(1.0f,       0.0f,            0.0f, 0.0f,
                     0.0f, sqrt3over2,            0.5f, 0.0f,
@@ -87,7 +87,7 @@ namespace Utilities
     {
         // Far plane is at 50.0f, near plane is at 1.0f.
         // FoV is hardcoded to pi/3.
-        const float cotangent = 1 / tanf(3.14159f / 6.0f);
+        const auto cotangent = 1 / tanf(3.14159f / 6.0f);
 
         return Matrix4(cotangent / aspectRatio,      0.0f,                    0.0f,                             0.0f,
                                         0.0f, cotangent,                    0.0f,                             0.0f,

@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "glwrapper.h"
 
 namespace Engine {
     struct Texture2D {
