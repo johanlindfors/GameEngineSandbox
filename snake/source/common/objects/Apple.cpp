@@ -37,10 +37,10 @@ void Apple::Reset(std::shared_ptr<Snake> snake, std::shared_ptr<VectorCollider> 
     bool collide;
     do {
         collide = false;
-        auto x = static_cast<float>(std::rand() % SCREEN_SIZE);
-        auto y = static_cast<float>(std::rand() % SCREEN_SIZE);
+        auto const x = static_cast<float>(std::rand() % SCREEN_SIZE);
+        auto const y = static_cast<float>(std::rand() % SCREEN_SIZE);
         newPosition = Vector2(x, y);
-        for(Vector2 const& snakeBody: snake->mTrail) {
+        for(auto const& snakeBody: snake->mTrail) {
             if(collider->Collides(newPosition, snakeBody)) {
                 collide = true;
             }

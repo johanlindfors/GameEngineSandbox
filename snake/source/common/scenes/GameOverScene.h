@@ -21,11 +21,13 @@ class GameOverScene : public Engine::GameScene
 public:
 	GameOverScene(IGameStateCallback* gameCallback);
     ~GameOverScene();
-    void Load();
-	void Unload();
-	void UpdateScreenSize(int width, int height);
-	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void Draw(std::shared_ptr<Utilities::IStepTimer> timer);
+
+	// Engine::GameScene
+    void Load() override;
+	void Unload() override;
+	void UpdateScreenSize(int width, int height) override;
+	void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+	void Draw(std::shared_ptr<Utilities::IStepTimer> timer) override;
 
 private:
 	void HandleInput();

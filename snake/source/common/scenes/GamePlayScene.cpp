@@ -22,11 +22,11 @@ using Utilities::IOCContainer;
 using Utilities::Vector2;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mScreenSizeX(0)
-	, mScreenSizeY(0)
-	, mApple(make_shared<Apple>(Vector2(SCREEN_SIZE / 4.0f, SCREEN_SIZE / 4.0f)))
+	: mApple(make_shared<Apple>(Vector2(SCREEN_SIZE / 4.0f, SCREEN_SIZE / 4.0f)))
 	, mSnake(make_shared<Snake>(Vector2(SCREEN_SIZE / 2.0f, SCREEN_SIZE / 2.0f)))
 	, mCollider(make_shared<VectorCollider>())
+	, mScreenSizeX(0)
+	, mScreenSizeY(0)
 	, mGame(gameCallback)
 	, mSpacePressedBefore(false)
 {
@@ -35,7 +35,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 
 GamePlayScene::~GamePlayScene()
 {
-	Unload();
+
 }
 
 void GamePlayScene::Load()
@@ -63,7 +63,7 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 
 void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 {
-	bool spacePressed = mInputManager->IsKeyDown(32);
+	auto const spacePressed = mInputManager->IsKeyDown(32);
 	if (mGame->GetCurrentState() == GameState::GamePlay) {
 		mSnake->HandleInput(mInputManager);
 

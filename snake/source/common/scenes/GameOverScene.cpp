@@ -52,7 +52,7 @@ void GameOverScene::UpdateScreenSize(int width, int height)
 
 void GameOverScene::HandleInput() 
 {
-	if (mInputManager->IsKeyDown(32)) // Spacebar
+	if (mInputManager->IsKeyDown(32)) // SpaceBar
 	{
 		mGame->GoToState(GameState::GamePlay);
 	}

@@ -40,8 +40,8 @@ void Snake::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCa
 {
     Entity::Update(screenWidth, screenHeight);
 
-	auto newX = static_cast<int>(mSprite->Position.m[0] + mSprite->Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
-	auto newY = static_cast<int>(mSprite->Position.m[1] + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
+	auto const newX = static_cast<int>(mSprite->Position.m[0] + mSprite->Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
+	auto const newY = static_cast<int>(mSprite->Position.m[1] + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
 
 	if (CheckCollision(newX, newY)) {
 		gameCallback->GoToState(GameState::GameOver);

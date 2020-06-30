@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 
 namespace Utilities
 {
@@ -8,5 +7,5 @@ namespace Utilities
 
 class VectorCollider {
 public:
-    bool Collides(Utilities::Vector2 vector1, Utilities::Vector2 vector2) const;
+	static bool Collides(Utilities::Vector2 vector1, Utilities::Vector2 vector2);
 };
