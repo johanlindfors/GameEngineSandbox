@@ -3,8 +3,8 @@
 namespace Engine {
     ref class UwpApplication sealed : public Windows::UI::Xaml::Application
     {
-	public: 
+	public:
 		UwpApplication() { };
-        virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^) override;
+        void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^) override;
     };
 }

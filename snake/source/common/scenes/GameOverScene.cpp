@@ -19,10 +19,7 @@ GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
 	ID = typeid(GameOverScene).name();
 }
 
-GameOverScene::~GameOverScene()
-{
-
-}
+GameOverScene::~GameOverScene() { }
 
 void GameOverScene::Load()
 {
@@ -34,10 +31,7 @@ void GameOverScene::Load()
     mText->Texture = mTextureManager->GetTexture(L"gameover/text.png");
 }
 
-void GameOverScene::Unload()
-{
-
-}
+void GameOverScene::Unload() { }
 
 void GameOverScene::UpdateScreenSize(int width, int height) 
 {

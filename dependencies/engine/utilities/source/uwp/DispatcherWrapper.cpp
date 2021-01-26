@@ -8,10 +8,7 @@ using namespace Windows::Foundation;
 using namespace Utilities;
 
 DispatcherWrapper::DispatcherWrapper(CoreDispatcher const& dispatcher)
-    : mDispatcher(dispatcher)
-{
-
-}
+    : mDispatcher(dispatcher) { }
 
 IAsyncAction DispatcherWrapper::RunAsync(DispatchedHandler agileCallback) const
 {
