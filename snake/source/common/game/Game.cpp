@@ -10,12 +10,9 @@ using namespace std;
 using namespace Utilities;
 using namespace Engine;
 
-Game::Game() 
+Game::Game()
 	: mCurrentState(GameState::Unknown)
-	, mNextState(GameState::Unknown)
-{
-
-}
+	, mNextState(GameState::Unknown) { }
 
 void Game::Initialize()
 {
@@ -50,16 +47,21 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 		break;
 
 	case GameState::GamePlay:
-		if(mCurrentState == GameState::Splash) {
-			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
-			mSceneManager->RemoveScene(typeid(SplashScene));
-		}
-		else if (mCurrentState == GameState::GameOver) {
-			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
-			mSceneManager->RemoveScene(typeid(GameOverScene));
-		}
-		else if (mCurrentState == GameState::Pause) {
-			mSceneManager->RemoveScene(typeid(PauseScene));
+		switch (mCurrentState)
+		{
+			case GameState::Splash:
+				mSceneManager->AddScene(make_shared<GamePlayScene>(this));
+				mSceneManager->RemoveScene(typeid(SplashScene));
+				break;
+			case GameState::GameOver:
+				mSceneManager->AddScene(make_shared<GamePlayScene>(this));
+				mSceneManager->RemoveScene(typeid(GameOverScene));
+				break;
+			case GameState::Pause:
+				mSceneManager->RemoveScene(typeid(PauseScene));
+				break;
+			default:
+				break;
 		}
 		mCurrentState = GameState::GamePlay;
 		break;
@@ -86,7 +88,7 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 	}
 }
 
-void Game::GoToState(GameState gameState) 
+void Game::GoToState(GameState gameState)
 {
 	mNextState = gameState;
 }

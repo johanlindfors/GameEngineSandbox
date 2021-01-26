@@ -13,10 +13,7 @@ using namespace Engine;
 using namespace Utilities;
 
 GameLoop::GameLoop() 
-	: mIsInitialized(false)
-{
-
-}
+	: mIsInitialized(false) { }
 
 void GameLoop::Initialize(int fps) {
 	mTimer = make_shared<StepTimer>();
@@ -48,9 +45,7 @@ void GameLoop::Initialize(int fps) {
 	mIsInitialized = true;
 }
 
-GameLoop::~GameLoop() {
-
-}
+GameLoop::~GameLoop() { }
 
 void GameLoop::Tick() {
 	if (!mIsInitialized)

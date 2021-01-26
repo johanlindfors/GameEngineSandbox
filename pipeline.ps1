@@ -23,10 +23,10 @@ Param(
 
     [Parameter(Mandatory = $False)]
     [switch]$release,
-    
+
     [Parameter(Mandatory = $False)]
     [switch]$vs2017
-    
+
 )
 
 $Cmake = "cmake.exe"
@@ -73,7 +73,7 @@ if($generate -OR $build -OR $update) {
     $GenerateParameters += $BuildType
     $GenerateParameters += ("-A", "x64", "../..")
     & $Cmake $GenerateParameters
-    
+
     if($uwp) {
         $InjectCommand = $BuildDirectory + "/inject.py"
         & python @($InjectCommand)

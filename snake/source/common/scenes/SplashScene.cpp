@@ -21,10 +21,7 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	ID = typeid(SplashScene).name();
 }
 
-SplashScene::~SplashScene()
-{
-
-}
+SplashScene::~SplashScene() { }
 
 void SplashScene::Load()
 {
@@ -46,10 +43,7 @@ void SplashScene::Load()
 	mSprite->Texture = mTextureManager->GetTexture(L"coderox.png");
 }
 
-void SplashScene::Unload()
-{
-
-}
+void SplashScene::Unload() { }
 
 void SplashScene::UpdateScreenSize(int width, int height) 
 {

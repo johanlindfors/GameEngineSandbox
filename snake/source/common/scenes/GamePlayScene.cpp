@@ -33,10 +33,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	ID = typeid(GamePlayScene).name();
 }
 
-GamePlayScene::~GamePlayScene()
-{
-
-}
+GamePlayScene::~GamePlayScene() { }
 
 void GamePlayScene::Load()
 {
@@ -58,7 +55,6 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 {
 	mScreenSizeX = width;
 	mScreenSizeY = height;
-
 }
 
 void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
