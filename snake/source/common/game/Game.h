@@ -24,6 +24,14 @@ public:
 	GameState GetCurrentState() override { return mCurrentState; }
 
 private:
+
+    void HandleUnknownState();
+    void HandleBootState();
+    void HandleSplashState();
+    void HandleGamePlayState();
+    void HandleGameOverState();
+    void HandlePauseState();
+
 	std::shared_ptr<Engine::ISceneManager> mSceneManager;
 	GameState mCurrentState;
     GameState mNextState;
