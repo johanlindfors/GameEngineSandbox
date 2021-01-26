@@ -24,7 +24,6 @@ public:
 	GameState GetCurrentState() override { return mCurrentState; }
 
 private:
-
     void HandleUnknownState();
     void HandleBootState();
     void HandleSplashState();
