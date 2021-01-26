@@ -1,6 +1,7 @@
 # GameEngineSandbox
 
 ![Azure pipeline badge](https://coderox.visualstudio.com/Game%20Engine%20Sandbox/_apis/build/status/Build%20master%20branch)
+[![CodeFactor](https://www.codefactor.io/repository/github/coderox/gameenginesandbox/badge)](https://www.codefactor.io/repository/github/coderox/gameenginesandbox)
 
 To try this small game engine follow these steps:
 
