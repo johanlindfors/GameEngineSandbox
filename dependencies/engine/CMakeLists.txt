@@ -1,20 +1,19 @@
-project(engine)
+add_subdirectory(application ${CMAKE_CURRENT_BINARY_DIR}/engine/application)
 
-set(DEPENDENCIES
-    utilities
-)
+add_subdirectory(filesystem ${CMAKE_CURRENT_BINARY_DIR}/engine/filesystem)
 
-if(UWP)
-    list(APPEND DEPENDENCIES 
-        libEGL
-        libGLESv2
-    )
-else()
-    find_package(GLEW REQUIRED)
-    list(APPEND DEPENDENCIES 
-        GLEW::GLEW
-        opengl32.lib
-    )
+add_subdirectory(game-loop ${CMAKE_CURRENT_BINARY_DIR}/engine/game-loop)
+
+add_subdirectory(input ${CMAKE_CURRENT_BINARY_DIR}/engine/input)
+
+add_subdirectory(renderer ${CMAKE_CURRENT_BINARY_DIR}/engine/renderer)
+
+add_subdirectory(scenes ${CMAKE_CURRENT_BINARY_DIR}/engine/scenes)
+
+add_subdirectory(textures ${CMAKE_CURRENT_BINARY_DIR}/engine/textures)
+
+if(WINDOWS_STORE)
+    add_subdirectory(updatetask ${CMAKE_CURRENT_BINARY_DIR}/engine/updatetask)
 endif()
 
-build_library(${PROJECT_NAME} "${DEPENDENCIES}")
+add_subdirectory(utilities ${CMAKE_CURRENT_BINARY_DIR}/engine/utilities)
