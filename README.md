@@ -2,6 +2,7 @@
 
 ![Azure pipeline badge](https://coderox.visualstudio.com/Game%20Engine%20Sandbox/_apis/build/status/Build%20master%20branch)
 [![CodeFactor](https://www.codefactor.io/repository/github/johanlindfors/gameenginesandbox/badge)](https://www.codefactor.io/repository/github/johanlindfors/gameenginesandbox)
+[![CodeQL](https://github.com/johanlindfors/GameEngineSandbox/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/johanlindfors/GameEngineSandbox/actions/workflows/codeql-analysis.yml)
 
 To try this small game engine follow these steps:
 
