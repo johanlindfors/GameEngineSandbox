@@ -69,7 +69,8 @@ namespace Engine {
 							// bottom, but OpenGL expect it bottom to top
 							// so the order or swapped
 							const auto destination = pixels + textureWidth * (textureHeight - 1 - i);
-							const auto source = &dpPixels[i * textureWidth];
+							const auto index = static_cast<uint8_t>((i * textureWidth) % UINT8_MAX);
+							const auto source = &dpPixels[index];
 							memcpy(destination, source, textureWidth);
 						}
 						SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
