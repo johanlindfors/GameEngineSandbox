@@ -60,7 +60,7 @@ jobs:
     #    uses a compiled language
 
     - run: |
-      pipeline.ps1 -uwp -build
+      ./pipeline.ps1 -uwp -build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
