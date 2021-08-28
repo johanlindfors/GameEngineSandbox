@@ -12,12 +12,16 @@ using namespace Windows::ApplicationModel;
 #include <vector>
 #include <filesystem>
 namespace fs = std::filesystem;
+#elif OSX
+#include <stdio.h>
+#include <unistd.h>
 #endif
 
 using namespace Engine;
 
 std::wstring FileSystem::GetResourcesDirectory()
 {
+	std::wstring folderPath;
 #ifdef UWP
 	const auto folder = Package::Current().InstalledLocation();
 	const auto folderPath = folder.Path();
@@ -29,6 +33,10 @@ std::wstring FileSystem::GetResourcesDirectory()
 	const fs::path p = s;
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_wstring();
+#elif OSX
+	char buff[FILENAME_MAX];
+	getcwd( buff, FILENAME_MAX );
+	std::string current_working_dir(buff);
 #endif
     std::wstring path(folderPath + L"\\resources\\");
     return path;

@@ -63,7 +63,9 @@ if(LINUX)
     )
 endif()
 
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib")
+if(MSVC)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib")
+endif()
 
 build_executable(${PROJECT_NAME} "${DEPENDENCIES}" "${RESOURCES}")
 source_group("resources" ${RESOURCES})

@@ -14,7 +14,7 @@ namespace Engine {
         void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
         void Draw(std::shared_ptr<Utilities::IStepTimer> timer) override;
         void AddScene(std::shared_ptr<GameScene> scene) override;
-        void RemoveScene(const type_info& sceneType) override;
+        void RemoveScene(const std::type_info& sceneType) override;
 
     private:
         bool mInitialized;
