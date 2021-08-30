@@ -70,7 +70,7 @@ void StepTimer::Tick(std::function<void()> update)
 	timeDelta *= TicksPerSecond;
 	timeDelta /= m_qpcFrequency.QuadPart;
 
-	uint32_t lastFrameCount = m_frameCount;
+	const auto lastFrameCount = m_frameCount;
 
 	if (m_isFixedTimeStep)
 	{

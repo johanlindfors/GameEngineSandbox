@@ -15,13 +15,13 @@ class Game : public Engine::IGameLoopCallback, public IGameStateCallback
 public:
     Game();
 
-    // IGameLoopCallback
-    void Initialize();
-    void Update(std::shared_ptr<Utilities::IStepTimer> timer);
+    // Engine::IGameLoopCallback
+    void Initialize() override;
+    void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
 
-    // IGameStateCallback
-    void GoToState(GameState gameState);
-	GameState GetCurrentState() { return mCurrentState; }
+    // Engine::IGameStateCallback
+    void GoToState(GameState gameState) override;
+	GameState GetCurrentState() override { return mCurrentState; }
 
 private:
 	std::shared_ptr<Engine::ISceneManager> mSceneManager;

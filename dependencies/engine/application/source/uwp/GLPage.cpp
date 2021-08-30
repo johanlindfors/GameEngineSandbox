@@ -22,13 +22,16 @@ using namespace Windows::System::Threading;
 GLPage::GLPage(shared_ptr<OpenGLES> openGLES) 
 	: mOpenGLES(openGLES)
 {
-	SetThreadName((DWORD)-1, "UI Thread");
+	SetThreadName(static_cast<DWORD>(-1), "UI Thread");
 	
 	mContentRoot.BorderThickness(Thickness{ 0 });
 	mContentRoot.Background(SolidColorBrush(Colors::Black()));
 	mContentRoot.Children().Append(mSwapChainPanel);
 
 	Content(mContentRoot);
+
+	KeyDown(KeyEventHandler(this, &GLPage::HandleKeyDown));
+	KeyUp(KeyEventHandler(this, &GLPage::HandleKeyUp));
 	
 	Loaded({ this, &GLPage::OnPageLoaded });
 }
@@ -39,14 +42,14 @@ void GLPage::OnPageLoaded(IInspectable const&, RoutedEventArgs const&)
 	ThreadPool::RunAsync(WorkItemHandler(this, &GLPage::RenderLoop), WorkItemPriority::High, WorkItemOptions::TimeSliced);
 }
 
-void GLPage::OnKeyDown(KeyRoutedEventArgs const& args) const
+void GLPage::HandleKeyDown(IInspectable const& /*sender*/, KeyRoutedEventArgs const& args) const
 {
 	if (mInputManager) {
 		mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), true);
 	}
 }
 
-void GLPage::OnKeyUp(KeyRoutedEventArgs const& args) const
+void GLPage::HandleKeyUp(IInspectable const& /*sender*/, KeyRoutedEventArgs const& args) const
 {
 	if (mInputManager) {
 		mInputManager->AddKeyboardEvent(static_cast<int>(args.Key()), false);
@@ -57,7 +60,7 @@ void GLPage::RenderLoop(IAsyncAction const& /*action*/)
 {
 	auto dispatcher = IOCContainer::Instance().Resolve<IDispatcherWrapper>();
 	
-	SetThreadName((DWORD)-1, "Game Thread");
+	SetThreadName(static_cast<DWORD>(-1), "Game Thread");
 	
 	mOpenGLES->Initialize();
 	auto renderSurface = mOpenGLES->CreateSurface(mSwapChainPanel, nullptr, nullptr);
@@ -90,7 +93,7 @@ void GLPage::RecreateRenderer()
 	if (!mGameLoop)
 	{
 		mGameLoop.reset(new GameLoop());
-		auto config = IOCContainer::Instance().Resolve<Config>();
+		const auto config = IOCContainer::Instance().Resolve<Config>();
         mGameLoop->Initialize(config->FPS);
 
 		if (mInputManager == nullptr) {

@@ -17,7 +17,7 @@ public:
 	Entity(Utilities::Vector2 position);
 	void SetTexture(Engine::Texture2D texture) ;
 	void Update(int screenWidth, int screenHeight);
-	std::shared_ptr<Engine::Sprite> GetSprite() { return mSprite; }
+	std::shared_ptr<Engine::Sprite> GetSprite() const { return mSprite; }
 
 protected:
 	std::shared_ptr<Engine::Sprite> mSprite;

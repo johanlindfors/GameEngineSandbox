@@ -10,41 +10,49 @@ using namespace Windows::ApplicationModel;
 #elif WIN32
 #include <Windows.h>
 #include <vector>
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#elif LINUX
+#include <filesystem>
+namespace fs = std::filesystem;
+#elif __linux__
+#include <vector>
+#include <filesystem>
+#include <libgen.h>
 #include <stdio.h>
 #include <unistd.h>
+namespace fs = std::filesystem;
 #endif
 
+using namespace std;
 using namespace Engine;
 
-std::wstring FileSystem::GetResourcesDirectory()
+wstring FileSystem::GetResourcesDirectory()
 {
-	std::wstring folderPath;
+	wstring path;
 #ifdef UWP
-    auto folder = Package::Current().InstalledLocation();
-	folderPath = folder.Path();
+	const auto folder = Package::Current().InstalledLocation();
+	const auto folderPath = folder.Path();
+	path = std::wstring(folderPath + L"\\resources\\");    
 #elif WIN32
-	unsigned int bufferSize = 512;
-	std::vector<char> buffer(bufferSize + 1);
-	::GetModuleFileName(NULL, &buffer[0], bufferSize);
-	std::string s = &buffer[0];
-	fs::path p = s;
-	auto executableDirectory = p.parent_path();
-	folderPath = executableDirectory.generic_wstring();
-#elif LINUX
-	char buff[FILENAME_MAX];
-	getcwd( buff, FILENAME_MAX );
-	std::string current_working_dir(buff);
+	const unsigned int bufferSize = 512;
+	vector<char> buffer(bufferSize + 1);
+	::GetModuleFileName(nullptr, &buffer[0], bufferSize);
+	const string s = &buffer[0];
+	const fs::path p = s;
+	const auto executableDirectory = p.parent_path();
+	const auto folderPath = executableDirectory.generic_wstring();
+	path = wstring(folderPath + L"\\resources\\");
+#elif __linux__
+	const auto currentPath = string(get_current_dir_name());
+	const fs::path p = currentPath;
+	const auto executableDirectory = p.parent_path();
+	const auto folderPath = executableDirectory.generic_wstring();
+	path = wstring(folderPath + L"/linux/snake/resources/");
 #endif
-	std::wstring path(folderPath + L"\\resources\\");
     return path;
 }
 
 std::shared_ptr<File> FileSystem::LoadFile(std::wstring filename)
 {
-	auto directory = GetResourcesDirectory();
+	const auto directory = GetResourcesDirectory();
 	auto file = std::make_shared<File>();
 	file->Open(directory + filename);
 	return file;

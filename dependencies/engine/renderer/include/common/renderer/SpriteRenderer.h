@@ -6,9 +6,11 @@ namespace Engine {
 	public:
 		SpriteRenderer();
 		~SpriteRenderer();
-		void UpdateWindowSize(GLsizei width, GLsizei height);
-		void Clear();
-		void DrawSprite(std::shared_ptr<Sprite> sprite);
+
+		// Engine::ISpriteRenderer
+		void UpdateWindowSize(GLsizei width, GLsizei height) override;
+		void Clear() override;
+		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
 
 	private:
 		void InitializeShaders();

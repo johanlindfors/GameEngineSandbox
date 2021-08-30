@@ -1,8 +1,6 @@
 #pragma once
 
 #include <windows.h>
-#include <cmath>
-#include <exception>
 #include <stdint.h>
 #include <functional>
 #include "IStepTimer.h"
@@ -14,30 +12,30 @@ namespace Utilities
 	{
 	public:
 		StepTimer() noexcept(false);
-		void ResetElapsedTime();
+		void ResetElapsedTime() override;
 
-		void Tick(std::function<void()>);
+		void Tick(std::function<void()>) override;
 
 		// Get elapsed time since the previous Update call.
-		uint64_t GetElapsedTicks() const { return m_elapsedTicks; }
-		double GetElapsedSeconds() const { return TicksToSeconds(m_elapsedTicks); }
+		uint64_t GetElapsedTicks() const override { return m_elapsedTicks; }
+		double GetElapsedSeconds() const override { return TicksToSeconds(m_elapsedTicks); }
 
 		// Get total time since the start of the program.
-		uint64_t GetTotalTicks() const { return m_totalTicks; }
-		double GetTotalSeconds() const { return TicksToSeconds(m_totalTicks); }
+		uint64_t GetTotalTicks() const override { return m_totalTicks; }
+		double GetTotalSeconds() const override { return TicksToSeconds(m_totalTicks); }
 
 		// Get total number of updates since start of the program.
-		uint32_t GetFrameCount() const { return m_frameCount; }
+		uint32_t GetFrameCount() const override { return m_frameCount; }
 
-		// Get the current framerate.
-		uint32_t GetFramesPerSecond() const { return m_framesPerSecond; }
+		// Get the current frame rate.
+		uint32_t GetFramesPerSecond() const override { return m_framesPerSecond; }
 
-		// Set whether to use fixed or variable timestep mode.
-		void SetFixedTimeStep(bool isFixedTimestep) { m_isFixedTimeStep = isFixedTimestep; }
+		// Set whether to use fixed or variable time step mode.
+		void SetFixedTimeStep(bool isFixedTimeStep) override { m_isFixedTimeStep = isFixedTimeStep; }
 
-		// Set how often to call Update when in fixed timestep mode.
-		void SetTargetElapsedTicks(uint64_t targetElapsed) { m_targetElapsedTicks = targetElapsed; }
-		void SetTargetElapsedSeconds(double targetElapsed) { m_targetElapsedTicks = SecondsToTicks(targetElapsed); }
+		// Set how often to call Update when in fixed time step mode.
+		void SetTargetElapsedTicks(uint64_t targetElapsed) override { m_targetElapsedTicks = targetElapsed; }
+		void SetTargetElapsedSeconds(double targetElapsed) override { m_targetElapsedTicks = SecondsToTicks(targetElapsed); }
 
 		// Integer format represents time using 10,000,000 ticks per second.
 		static const uint64_t TicksPerSecond = 10000000;

@@ -1,5 +1,4 @@
 #include "renderer/SpriteRenderer.h"
-#include <vector>
 #include <string>
 #include "MathHelper.h"
 #include "GLHelper.h"
@@ -52,6 +51,8 @@ void SpriteRenderer::Clear() {
 
 void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 {
+	printf("[SpriteRenderer::DrawSprite] Id: %d\n", sprite->Texture.TextureIndex);
+	CheckOpenGLError();
 	glUseProgram(mProgram);
 
 	glEnable(GL_BLEND);
@@ -59,7 +60,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 	glEnableVertexAttribArray(mVertexAttribLocation);
-	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	
 	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
 	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
@@ -71,14 +72,13 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
 	glEnableVertexAttribArray(mUVAttribLocation);
-	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	Vector2 textureSize(static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height));
 	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));
-
 	// Set the sampler texture unit to 0
 	glUniform1i(mTextureUniformLocation, 0);
 
@@ -155,11 +155,14 @@ void SpriteRenderer::InitializeShaders() {
 		}
 	);
 
+	printf("[SpriteRenderer::InitializeShaders] About to compile program\n");
 	// Set up the shader and its uniform/attribute locations.
 	mProgram = CompileProgram(vs, fs);
+	printf("[SpriteRenderer::InitializeShaders] Program compiled\n");
 
 	// Vertex shader parameters
 	mVertexAttribLocation = glGetAttribLocation(mProgram, "a_position");
+	CheckOpenGLError();
 	mUVAttribLocation = glGetAttribLocation(mProgram, "a_uv");
 	mScreenSizeUniformLocation = glGetUniformLocation(mProgram, "screenSize");
 	mSpriteRectUniformLocation = glGetUniformLocation(mProgram, "spriteRect");

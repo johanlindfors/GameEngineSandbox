@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <stdexcept>
+#include <memory>
 
 namespace Utilities {
     class IOCContainer final : public Singleton<IOCContainer> {
@@ -10,9 +11,9 @@ namespace Utilities {
             template<class T>
             void Register(std::shared_ptr<T> t)
             {
-                auto id = typeid(T).name();
+	            const auto id = typeid(T).name();
 
-                std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
+	            const std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
                 if (iter == _map.end())
                 {
                     _map[id] = t;
@@ -22,9 +23,9 @@ namespace Utilities {
             template<class T>
             std::shared_ptr<T> Resolve()
             {
-                auto id = typeid(T).name();
+	            const auto id = typeid(T).name();
 
-                std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
+	            const std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
                 if (iter != _map.end())
                 {
                     return std::static_pointer_cast<T>(iter->second);
@@ -34,7 +35,7 @@ namespace Utilities {
 
             template<class T>
             void Remove() {
-                auto id = typeid(T).name();
+	            const auto id = typeid(T).name();
 
                 _map.erase(id);
             }

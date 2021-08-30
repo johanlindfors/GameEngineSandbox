@@ -5,7 +5,7 @@ using namespace Engine;
 
 void File::Open(wstring filename)
 {
-    auto err = _wfopen_s(&mFileHandle, filename.c_str(), L"rb");
+	const auto err = _wfopen_s(&mFileHandle, filename.c_str(), L"rb");
     if ( err != 0) {
         mFileHandle = nullptr;
     }
@@ -13,7 +13,7 @@ void File::Open(wstring filename)
 
 void File::Close() {
     if(mFileHandle)  {
-        auto err = fclose(mFileHandle);
+	    const auto err = fclose(mFileHandle);
         if(err != 0) {
             mFileHandle = nullptr;
         }

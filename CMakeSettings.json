@@ -12,19 +12,6 @@
       "cmakeToolchain": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "variables": []
-    },
-    {
-      "name": "x64-uwp-Debug",
-      "generator": "Ninja",
-      "configurationType": "Debug",
-      "buildRoot": "${workspaceRoot}/build/${name}",
-      "installRoot": "${env.USERPROFILE}/CMakeBuilds/${workspaceHash}/install/${name}",
-      "cmakeCommandArgs": "-DCMAKE_SYSTEM_NAME='WindowsStore' -DCMAKE_SYSTEM_VERSION='10.0'",
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": "",
-      "cmakeToolchain": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "variables": []
     }
   ]
 }

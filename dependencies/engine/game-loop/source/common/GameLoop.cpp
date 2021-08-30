@@ -20,26 +20,34 @@ GameLoop::GameLoop()
 
 void GameLoop::Initialize(int fps) {
 	mTimer = make_shared<StepTimer>();
-	mTimer->SetFixedTimeStep(true);
+	//mTimer->SetFixedTimeStep(true);
 	mTimer->SetTargetElapsedSeconds(1.0f/fps);
 
-	// Ordering is important
-	auto fileSystem = make_shared<FileSystem>();
-	IOCContainer::Instance().Register<IFileSystem>(fileSystem);
+    printf("[GameLoop::Initialize] Timer initialized\n");
 
-	auto textureManager = make_shared<TextureManager>();
+	// Ordering is important
+	const auto fileSystem = make_shared<FileSystem>();
+	IOCContainer::Instance().Register<IFileSystem>(fileSystem);
+	printf("[GameLoop::Initialize] FileSystem registered\n");
+
+	const auto textureManager = make_shared<TextureManager>();
 	IOCContainer::Instance().Register<ITextureManager>(textureManager);
+    printf("[GameLoop::Initialize] TextureManager registered\n");
 
 	mSpriteRenderer = make_shared<SpriteRenderer>();
 	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
+	printf("[GameLoop::Initialize] SpriteRenderer registered\n");
 
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);
+	printf("[GameLoop::Initialize] InputManager registered\n");
 
 	mSceneManager = make_shared<SceneManager>();
 	IOCContainer::Instance().Register<ISceneManager>(mSceneManager);
+	printf("[GameLoop::Initialize] SceneManager registered\n");
 
 	mSceneManager->Initialize();
+	printf("[GameLoop::Initialize] SceneManager initialized\n");
 
 	// Game must register callback
 	mGameLoopCallback = IOCContainer::Instance().Resolve<IGameLoopCallback>();
@@ -55,11 +63,14 @@ GameLoop::~GameLoop() {
 void GameLoop::Tick() {
 	if (!mIsInitialized)
 		return;
-	mTimer->Tick([&]() { Update(); });
+	mTimer->Tick([&]() { 
+		Update(); 
+	});
 	Render();
 }
 
-void GameLoop::UpdateWindowSize(int width, int height) {
+void GameLoop::UpdateWindowSize(int width, int height)
+{
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
@@ -67,13 +78,15 @@ void GameLoop::UpdateWindowSize(int width, int height) {
 	mSceneManager->UpdateScreenSize(width, height);
 }
 
-void GameLoop::GetDefaultSize(int &width, int &height) const {
+void GameLoop::GetDefaultSize(int &width, int &height)
+{
 	// TODO: Change to desired default window size (note minimum size is 320x200).
 	width = 500;
 	height = 500;
 }
 
-void GameLoop::Update() {
+void GameLoop::Update() const
+{
 	if (!mIsInitialized)
 		return;
 
@@ -85,7 +98,6 @@ void GameLoop::Update() {
 void GameLoop::Render() {
 	if (!mIsInitialized)
 		return;
-
 	// Don't try to render anything before the first Update.
 	if (mTimer->GetFrameCount() == 0) {
 		return;
@@ -96,7 +108,8 @@ void GameLoop::Render() {
 	mSceneManager->Draw(mTimer);
 }
 
-void GameLoop::Clear() {
+void GameLoop::Clear() const
+{
 	// TODO: Add your clearing code here
 	mSpriteRenderer->Clear();
 }

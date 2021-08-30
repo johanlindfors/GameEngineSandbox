@@ -16,10 +16,10 @@ using Utilities::IOCContainer;
 namespace Engine {
 	class TextureLoaderImpl {
 	private:
-		bool loadPngImage(std::shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
+		static bool loadPngImage(std::shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
 			png_structp png_ptr;
 			png_infop info_ptr;
-			unsigned int sig_read = 0;
+			const unsigned int sig_read = 0;
 			int color_type, interlace_type;
 			FILE *fp;
 
@@ -41,9 +41,9 @@ namespace Engine {
 			* of the library.  REQUIRED
 			*/
 			png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING,
-				NULL, NULL, NULL);
+				nullptr, nullptr, nullptr);
 
-			if (png_ptr == NULL) {
+			if (png_ptr == nullptr) {
 				fclose(fp);
 				return false;
 			}
@@ -51,9 +51,9 @@ namespace Engine {
 			/* Allocate/initialize the memory
 			* for image information.  REQUIRED. */
 			info_ptr = png_create_info_struct(png_ptr);
-			if (info_ptr == NULL) {
+			if (info_ptr == nullptr) {
 				fclose(fp);
-				png_destroy_read_struct(&png_ptr, NULL, NULL);
+				png_destroy_read_struct(&png_ptr, nullptr, nullptr);
 				return false;
 			}
 
@@ -69,7 +69,7 @@ namespace Engine {
 			if (setjmp(png_jmpbuf(png_ptr))) {
 				/* Free all of the memory associated
 				* with the png_ptr and info_ptr */
-				png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+				png_destroy_read_struct(&png_ptr, &info_ptr, nullptr);
 				fclose(fp);
 				/* If we get here, we had a
 				* problem reading the file */
@@ -103,21 +103,21 @@ namespace Engine {
 			* PNG_TRANSFORM_EXPAND forces to
 			*  expand a palette into RGB
 			*/
-			png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, NULL);
+			png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, nullptr);
 
 			png_uint_32 width, height;
 			int bit_depth;
 			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type,
-				&interlace_type, NULL, NULL);
+				&interlace_type, nullptr, nullptr);
 			outWidth = width;
 			outHeight = height;
 
-			unsigned int row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
-			*outData = (unsigned char*)malloc(row_bytes * outHeight);
+			const auto row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
+			*outData = static_cast<unsigned char*>(malloc(row_bytes * outHeight));
 
-			png_bytepp row_pointers = png_get_rows(png_ptr, info_ptr);
+			const auto row_pointers = png_get_rows(png_ptr, info_ptr);
 
-			for (int i = 0; i < outHeight; i++) {
+			for (auto i = 0; i < outHeight; i++) {
 				// note that png is ordered top to
 				// bottom, but OpenGL expect it bottom to top
 				// so the order or swapped
@@ -126,7 +126,7 @@ namespace Engine {
 
 			/* Clean up after the read,
 			* and free any memory allocated */
-			png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+			png_destroy_read_struct(&png_ptr, &info_ptr, nullptr);
 
 			/* Close the file */
 			fclose(fp);
@@ -144,12 +144,12 @@ namespace Engine {
 		void LoadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				auto file = mFileSystem->LoadFile(std::wstring(L"textures\\" + texture.Name));
+				const auto file = mFileSystem->LoadFile(std::wstring(L"textures\\" + texture.Name));
 				if(file){
 					int width, height;
-					bool hasAlpha = false;
+					auto hasAlpha = false;
 					GLubyte *textureImage;
-					bool success = loadPngImage(file, width, height, hasAlpha, &textureImage);
+					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
 						texture.Name = L"";
 						std::cout << "Unable to load png file" << std::endl;

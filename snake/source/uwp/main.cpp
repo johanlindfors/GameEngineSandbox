@@ -11,7 +11,7 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 {
 	winrt::init_apartment();
 
-	auto config = std::make_shared<Engine::Config>();
+	const auto config = std::make_shared<Engine::Config>();
 	config->FPS = 15;
 	Utilities::IOCContainer::Instance().Register<Engine::Config>(config);
 	Utilities::IOCContainer::Instance().Register<Engine::IGameLoopCallback>(std::make_shared<Game>());

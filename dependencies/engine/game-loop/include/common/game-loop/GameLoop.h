@@ -22,13 +22,13 @@ namespace Engine
 		void Initialize(int fps);
 		void Tick();
 		void UpdateWindowSize(int width, int height);
-		void GetDefaultSize(int &width, int &height) const;
+		static void GetDefaultSize(int &width, int &height);
 		std::shared_ptr<IInputManager> GetInput() const { return mInputManager; }
 
 	private:
-		void Update();
+		void Update() const;
 		void Render();
-		void Clear();
+		void Clear() const;
 
 		std::shared_ptr<Utilities::IStepTimer> mTimer;
 		std::shared_ptr<ISpriteRenderer> mSpriteRenderer;

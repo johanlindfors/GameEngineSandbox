@@ -7,25 +7,31 @@ namespace Engine {
 
 	GLuint CompileShader(GLenum type, const string& source)
 	{
-		GLuint shader = glCreateShader(type);
+		printf("[GLHelper::CompileShader] Copmiling shader\n");
 
+		const auto shader = glCreateShader(type);
+
+		printf("[GLHelper::CompileShader] Shader created\n");
 		const char* sourceArray[1] = { source.c_str() };
-		glShaderSource(shader, 1, sourceArray, NULL);
+		glShaderSource(shader, 1, sourceArray, nullptr);
 		glCompileShader(shader);
+		printf("[GLHelper::CompileShader] Shader compiled\n");
+
+		CheckOpenGLError();
 
 		GLint compileResult;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &compileResult);
-
+		
 		if (compileResult == 0)
 		{
 			GLint infoLogLength;
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
 
-			vector<GLchar> infoLog(infoLogLength);
-			glGetShaderInfoLog(shader, (GLsizei)infoLog.size(), NULL, infoLog.data());
+			GLchar* strInfoLog = new GLchar[infoLogLength + 1];
+    		glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
 
-			wstring errorMessage = wstring(L"Shader compilation failed: ");
-			errorMessage += wstring(infoLog.begin(), infoLog.end());
+			fprintf(stderr, "Compilation error in shader: '%s'\n", strInfoLog);
+    		delete[] strInfoLog;
 		}
 
 		return shader;
@@ -33,15 +39,18 @@ namespace Engine {
 
 	GLuint CompileProgram(const string& vsSource, const string& fsSource)
 	{
-		GLuint program = glCreateProgram();
+		const auto program = glCreateProgram();
+		printf("[GLHelper::CompileProgram] Program created\n");
 
 		if (program == 0)
 		{
 			//throw winrt::hresult_error(E_FAIL, winrt::hstring(L"Program creation failed"));
 		}
 
-		GLuint vs = CompileShader(GL_VERTEX_SHADER, vsSource);
-		GLuint fs = CompileShader(GL_FRAGMENT_SHADER, fsSource);
+		const auto vs = CompileShader(GL_VERTEX_SHADER, vsSource);
+		printf("[GLHelper::CompileProgram] Vertex shader compiled\n");
+		const auto fs = CompileShader(GL_FRAGMENT_SHADER, fsSource);
+		printf("[GLHelper::CompileProgram] Fragment shader compiled\n");
 
 		if (vs == 0 || fs == 0)
 		{
@@ -58,6 +67,7 @@ namespace Engine {
 		glDeleteShader(fs);
 
 		glLinkProgram(program);
+		printf("[GLHelper::CompileProgram] Program linked\n");
 
 		GLint linkStatus;
 		glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
@@ -69,9 +79,9 @@ namespace Engine {
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
 
 			vector<GLchar> infoLog(infoLogLength);
-			glGetProgramInfoLog(program, (GLsizei)infoLog.size(), NULL, infoLog.data());
+			glGetProgramInfoLog(program, static_cast<GLsizei>(infoLog.size()), nullptr, infoLog.data());
 
-			wstring errorMessage = std::wstring(L"Program link failed: ");
+			wstring errorMessage(L"Program link failed: ");
 			errorMessage += wstring(infoLog.begin(), infoLog.end());
 		}
 
@@ -85,6 +95,7 @@ namespace Engine {
 		GLuint textureId = 0;
 		// Generate a texture object
 		glGenTextures(1, &textureId);
+		printf("[GLHelper::GenerateTexture] TextureId: '%d'\n", textureId);
 		CheckOpenGLError();
 		return textureId;
 	}
@@ -92,6 +103,7 @@ namespace Engine {
 	// Need to be called on UI thread
 	void SetTexturePixels(int textureIndex, int width, int height, GLubyte* pixels)
 	{
+		printf("[GLHelper::SetTexturePixels]\n");
 		// Bind the texture object
 		glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(textureIndex));
 		glPixelStorei(GL_PACK_ALIGNMENT, 1);
@@ -106,14 +118,15 @@ namespace Engine {
 	}
 
 	void DeleteTexture(int textureIndex) {
-		GLuint glTextureIndex = static_cast<GLuint>(textureIndex);
+		auto glTextureIndex = static_cast<GLuint>(textureIndex);
 		glDeleteTextures(1, &glTextureIndex);
 	}
 
 	void CheckOpenGLError() {
-		GLenum err = glGetError();
+		const auto err = glGetError();
 		if (err != GL_NO_ERROR) {
 			printf("OpenGL error %08x\n", err);
+			exit(1);
 		}
 	}
 }

@@ -55,10 +55,12 @@ void SceneManager::Update(std::shared_ptr<Utilities::IStepTimer> timer)
 			scene->Update(timer);
 		}
 	}
+	// printf("[SceneManager::Update] Scenes updated\n");
 }
 
 void SceneManager::Draw(std::shared_ptr<Utilities::IStepTimer> timer)
 {
+	printf("[SceneManager::Draw] \n");
 	if (!mInitialized || mScenes.size() == 0) {
 		return;
 	}
@@ -81,13 +83,12 @@ void SceneManager::AddScene(shared_ptr<GameScene> scene)
 
 void SceneManager::RemoveScene(const type_info& sceneType)
 {
-	shared_ptr<GameScene> scene;
-	std::string sceneId = sceneType.name();
+	const std::string sceneId = sceneType.name();
 
 	for (size_t i = 0; i < mScenes.size(); i++)
 	{
 		if (mScenes.at(i)->ID == sceneId) {
-			scene = mScenes.at(i);
+			auto scene = mScenes.at(i);
 			scene->Unload();
 			mScenes.erase(mScenes.begin() + i);
 		}
