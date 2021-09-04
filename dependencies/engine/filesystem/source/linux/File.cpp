@@ -10,6 +10,7 @@ using namespace Utilities;
 void File::Open(wstring filename)
 {
     auto sFilename = ws2s(filename);
+    std::cout << "[File::Open] Loading file '" << sFilename << "'!" << endl;
     mFileHandle = fopen(sFilename.c_str(), "rb");
     if(!mFileHandle) {
         std::cout << "Failed to open file!" << endl;

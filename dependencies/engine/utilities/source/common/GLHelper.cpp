@@ -40,11 +40,13 @@ namespace Engine {
 	GLuint CompileProgram(const string& vsSource, const string& fsSource)
 	{
 		const auto program = glCreateProgram();
-		printf("[GLHelper::CompileProgram] Program created\n");
-
 		if (program == 0)
 		{
+			printf("[GLHelper::CompileProgram] Failed to create program -- should exit!\n");
+			CheckOpenGLError();
 			//throw winrt::hresult_error(E_FAIL, winrt::hstring(L"Program creation failed"));
+		} else {
+			printf("[GLHelper::CompileProgram] Program created\n");
 		}
 
 		const auto vs = CompileShader(GL_VERTEX_SHADER, vsSource);

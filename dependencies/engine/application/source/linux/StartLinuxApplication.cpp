@@ -15,8 +15,6 @@ void StartLinuxApplication(int argc, char **argv) {
     printf("[StartLinuxApplication] game created\n");
     auto config = IOCContainer::Instance().Resolve<Config>();
     printf("[StartLinuxApplication] found config\n");
-    game->Initialize(config->FPS);
-    printf("[StartLinuxApplication] initialized\n");
 
     int width, height;
     game->GetDefaultSize(width, height);
@@ -28,6 +26,9 @@ void StartLinuxApplication(int argc, char **argv) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     window = glfwCreateWindow(width, height, __FILE__, NULL, NULL);
     glfwMakeContextCurrent(window);
+
+    game->Initialize(config->FPS);
+    printf("[StartLinuxApplication] initialized\n");
 
     game->UpdateWindowSize(width, height);
     printf("[StartLinuxApplication] Windows size updated\n");

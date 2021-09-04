@@ -45,7 +45,7 @@ wstring FileSystem::GetResourcesDirectory()
 	const fs::path p = currentPath;
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_wstring();
-	path = wstring(folderPath + L"/linux/snake/resources/");
+	path = wstring(folderPath + L"/build/snake/resources/");
 #endif
     return path;
 }
