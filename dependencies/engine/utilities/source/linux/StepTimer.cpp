@@ -3,22 +3,48 @@
 #include <exception>
 #include <stdint.h>
 #include <stdio.h>
+#include <iostream>
 
+using namespace std;
 using namespace Utilities;
+
+
+StepTimer::StepTimer() :
+	m_elapsedMilliseconds(0),
+	m_targetMilliseconds(1000 / 15),//CLOCKS_PER_SEC), //CLOCKS_PER_SEC / 60),
+	m_elapsedSeconds(0),
+	m_frameCount(0),
+	m_framesPerSecond(0),
+	m_framesThisSecond(0)
+{
+	// Initialisation
+	gettimeofday(&m_lastFrameTime, NULL);
+}
 
 // Update timer state, calling the specified Update function the appropriate number of times.
 void StepTimer::Tick(std::function<void()> update)
 {
-	clock_t currentTime = clock();
-
-	auto delta = (currentTime - m_lastFrameTime);
-	m_elapsedMilliseconds += delta;
-    //printf("Elapsed milliseconds: %d delta: %i\n", m_elapsedMilliseconds, delta);
+	timeval currentTime;
+	gettimeofday(&currentTime, NULL);
+	
+	unsigned int delta = (currentTime.tv_usec - m_lastFrameTime.tv_usec) / 1000;
+	if(delta < 0) delta = 0;
+	if(delta > 100) delta = 100;
+	m_elapsedMilliseconds += (int)delta;
+	m_elapsedSeconds += (int)delta;
 	if(m_elapsedMilliseconds >= m_targetMilliseconds) {
-		m_lastFrameTime = currentTime;
 		m_elapsedMilliseconds -= m_targetMilliseconds;
-		//printf("Elapsed milliseconds: %d delta: %i\n", m_elapsedMilliseconds, delta);
 		m_frameCount++;
+		m_framesThisSecond++;
 		update();
+
+		if(m_elapsedSeconds >= 1000) {
+			m_elapsedSeconds -= 1000;
+			m_framesPerSecond = m_framesThisSecond;
+			m_framesThisSecond = 0;
+			//printf("FPS: %i\n", m_framesPerSecond);
+		}
 	}
+
+	m_lastFrameTime = currentTime;
 }
