@@ -2,14 +2,18 @@
 #include "game-loop/GameLoop.h"
 #include "application/Config.h"
 #include "IOC.hpp"
+#include "input/IInputManager.h"
 #include <memory>
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
+void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input);
+
 void StartLinuxApplication(int argc, char **argv) {
     GLFWwindow* window;
+    shared_ptr<IInputManager> input;
 
     auto game = std::make_unique<GameLoop>();
     printf("[StartLinuxApplication] game created\n");
@@ -39,9 +43,41 @@ void StartLinuxApplication(int argc, char **argv) {
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
+
+  	    if(game) {
+            if(!input) {
+		        input = game->GetInput();
+            }
+            InputHandler(window, input);
+	    }
+
         game->Tick();
         glfwSwapBuffers(window);
     }
     
     glfwTerminate();
+}
+
+void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input) 
+{
+        // Check left
+        bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
+        input->AddKeyboardEvent(0x25, pressed);
+
+        // Check right
+        pressed = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
+        input->AddKeyboardEvent(0x27, pressed);
+        
+        // Check up
+        pressed = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
+        input->AddKeyboardEvent(0x26, pressed);
+
+        // Check down
+        pressed = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
+        input->AddKeyboardEvent(0x28, pressed);
+
+        // Space
+        pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
+        input->AddKeyboardEvent(32, pressed);
+
 }
