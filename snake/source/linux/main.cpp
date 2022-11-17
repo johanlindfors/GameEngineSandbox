@@ -1,11 +1,19 @@
-#include "glwrapper.h"
+#include <iostream>
+#include "IOC.hpp"
+#include "game/Game.h"
+#include "application/Config.h"
 
-int main (int argc, char **argv)
+void StartLinuxApplication(int argc, char **argv);
+
+int main(int argc, char **argv)
 {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-    glutInitWindowSize(800, 600);
-    glutInitWindowPosition(100, 100);
-    glutCreateWindow("My new window");
-    /* ... */
+    setbuf(stdout, NULL);
+    auto config = std::make_shared<Engine::Config>();
+    config->FPS = 15;
+    Utilities::IOCContainer::Instance().Register<Engine::Config>(config);
+    Utilities::IOCContainer::Instance().Register<Engine::IGameLoopCallback>(std::make_shared<Game>());
+
+    StartLinuxApplication(argc, argv);
+  
+    return 0;
 }

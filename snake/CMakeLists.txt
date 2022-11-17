@@ -56,14 +56,19 @@ if(WINDOWS_STORE)
 endif()
 
 if(LINUX)
-    message(STATUS "Temporary solution for Linux: Finding GLUT")
-    find_package(GLUT REQUIRED)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLFW REQUIRED glfw3)
+
+    message(STATUS "GLFW: ${GLFW_LIBRARIES}")
     list(APPEND DEPENDENCIES 
-        GLUT::GLUT
+        GLESv2
+        ${GLFW_LIBRARIES}
     )
 endif()
 
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib")
+if(WINDOWS_STORE)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib")
+endif()
 
 build_executable(${PROJECT_NAME} "${DEPENDENCIES}" "${RESOURCES}")
 source_group("resources" ${RESOURCES})

@@ -55,10 +55,12 @@ void SceneManager::Update(std::shared_ptr<Utilities::IStepTimer> timer)
 			scene->Update(timer);
 		}
 	}
+	// printf("[SceneManager::Update] Scenes updated\n");
 }
 
 void SceneManager::Draw(std::shared_ptr<Utilities::IStepTimer> timer)
 {
+	// printf("[SceneManager::Draw] \n");
 	if (!mInitialized || mScenes.size() == 0) {
 		return;
 	}

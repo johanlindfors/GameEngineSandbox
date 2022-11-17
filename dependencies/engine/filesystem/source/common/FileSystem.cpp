@@ -12,25 +12,41 @@ using namespace Windows::ApplicationModel;
 #include <vector>
 #include <filesystem>
 namespace fs = std::filesystem;
+#elif __linux__
+#include <vector>
+#include <filesystem>
+#include <libgen.h>
+#include <stdio.h>
+#include <unistd.h>
+namespace fs = std::filesystem;
 #endif
 
+using namespace std;
 using namespace Engine;
 
-std::wstring FileSystem::GetResourcesDirectory()
+wstring FileSystem::GetResourcesDirectory()
 {
+	wstring path;
 #ifdef UWP
 	const auto folder = Package::Current().InstalledLocation();
 	const auto folderPath = folder.Path();
+	path = std::wstring(folderPath + L"\\resources\\");    
 #elif WIN32
 	const unsigned int bufferSize = 512;
-	std::vector<char> buffer(bufferSize + 1);
+	vector<char> buffer(bufferSize + 1);
 	::GetModuleFileName(nullptr, &buffer[0], bufferSize);
-	const std::string s = &buffer[0];
+	const string s = &buffer[0];
 	const fs::path p = s;
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_wstring();
+	path = wstring(folderPath + L"\\resources\\");
+#elif __linux__
+	const auto currentPath = string(get_current_dir_name());
+	const fs::path p = currentPath;
+	const auto executableDirectory = p.parent_path();
+	const auto folderPath = executableDirectory.generic_wstring();
+	path = wstring(folderPath + L"/build/snake/resources/");
 #endif
-    std::wstring path(folderPath + L"\\resources\\");
     return path;
 }
 

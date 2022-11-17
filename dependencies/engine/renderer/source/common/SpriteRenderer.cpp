@@ -51,6 +51,8 @@ void SpriteRenderer::Clear() {
 
 void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 {
+	//printf("[SpriteRenderer::DrawSprite] Id: %d Program: %d\n", sprite->Texture.TextureIndex, mProgram);
+	CheckOpenGLError();
 	glUseProgram(mProgram);
 
 	glEnable(GL_BLEND);
@@ -60,8 +62,11 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 	glEnableVertexAttribArray(mVertexAttribLocation);
 	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	
+	// printf("[SpriteRenderer::DrawSprite] Width : %d\n", sprite->Width);
+	// printf("[SpriteRenderer::DrawSprite] Height: %d\n", sprite->Height);
 	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
 	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
+	// CheckOpenGLError();
 
 	glUniform2fv(mSpriteWorldUniformLocation, 1, &(sprite->Position.m[0]));
 
@@ -77,7 +82,6 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));
-
 	// Set the sampler texture unit to 0
 	glUniform1i(mTextureUniformLocation, 0);
 
@@ -154,8 +158,11 @@ void SpriteRenderer::InitializeShaders() {
 		}
 	);
 
+	printf("[SpriteRenderer::InitializeShaders] About to compile program\n");
 	// Set up the shader and its uniform/attribute locations.
 	mProgram = CompileProgram(vs, fs);
+	printf("[SpriteRenderer::InitializeShaders] Program %d compiled\n", mProgram);
+	CheckOpenGLError();
 
 	// Vertex shader parameters
 	mVertexAttribLocation = glGetAttribLocation(mProgram, "a_position");
@@ -165,8 +172,16 @@ void SpriteRenderer::InitializeShaders() {
 	mSpriteWorldUniformLocation = glGetUniformLocation(mProgram, "spriteWorld");
 	mTextureSizeUniformLocation = glGetUniformLocation(mProgram, "textureSize");
 
+	printf("[SpriteRenderer::InitializeShaders] mVertexAttribLocation: %d\n", mVertexAttribLocation);
+	printf("[SpriteRenderer::InitializeShaders] mUVAttribLocation: %d\n", mUVAttribLocation);
+	printf("[SpriteRenderer::InitializeShaders] mScreenSizeUniformLocation: %d\n", mScreenSizeUniformLocation);
+	printf("[SpriteRenderer::InitializeShaders] mSpriteRectUniformLocation: %d\n", mSpriteRectUniformLocation);
+	printf("[SpriteRenderer::InitializeShaders] mSpriteWorldUniformLocation: %d\n", mSpriteWorldUniformLocation);
+	printf("[SpriteRenderer::InitializeShaders] mTextureSizeUniformLocation: %d\n", mTextureSizeUniformLocation);
+
 	// Fragment shader parameters
 	mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
+	printf("[SpriteRenderer::InitializeShaders] mTextureUniformLocation: %d\n", mTextureUniformLocation);
 }
 
 void SpriteRenderer::InitializeBuffers() {

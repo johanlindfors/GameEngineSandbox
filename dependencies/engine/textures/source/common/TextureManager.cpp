@@ -32,6 +32,7 @@ Texture2D TextureManager::CreateEmptyTexture() {
 
 void TextureManager::LoadTextures(vector<wstring> fileNames)
 {
+	printf("[TextureManager::LoadTextures]\n");
 	if (!mInitialized) {
 		const auto emptyTexture = CreateEmptyTexture();
 		mTextures[emptyTexture.Name] = emptyTexture;
