@@ -45,7 +45,7 @@ namespace Engine {
 		{
 			mDispatcher = IOCContainer::Instance().Resolve<IDispatcherWrapper>();
 			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-		}	
+		}
 
 		void LoadTexture(Texture2D& texture) 
 		{
@@ -93,10 +93,7 @@ namespace Engine {
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(std::make_unique<TextureLoaderImpl>())
-{
-
-}
+	: mImpl(std::make_unique<TextureLoaderImpl>()) { }
 
 TextureLoader::~TextureLoader()
 {

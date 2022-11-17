@@ -9,10 +9,7 @@ using namespace Engine;
 
 TextureManager::TextureManager()
 	: mInitialized(false)
-	, mTextureLoader(make_unique<TextureLoader>())
-{
-
-}
+	, mTextureLoader(make_unique<TextureLoader>()) { }
 
 TextureManager::~TextureManager()
 {

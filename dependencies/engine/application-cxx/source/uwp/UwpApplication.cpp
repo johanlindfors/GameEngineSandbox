@@ -15,9 +15,7 @@ using namespace Utilities;
 
 class DispatcherWrapper : public IDispatcherWrapper {
 public:
-	DispatcherWrapper(CoreDispatcher^ dispatcher) {
-
-	}
+	DispatcherWrapper(CoreDispatcher^ dispatcher) { }
 
 	// IDispatcherWrapper
 	void ScheduleOnGameThread(const function<void()>& handler) {

@@ -183,6 +183,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_KEYUP:
+		if(wParam == VK_ESCAPE) {
+			PostQuitMessage(0);
+			break;
+		}
 		if(input){
 			input->AddKeyboardEvent(static_cast<unsigned int>(wParam), false);
 		}

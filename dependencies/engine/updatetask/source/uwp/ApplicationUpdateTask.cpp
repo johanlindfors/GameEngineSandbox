@@ -68,9 +68,7 @@ void NotifyWithLocalXml(String^ filename, String^ id, DateTime dateTime) {
 
 			ToastNotificationManager::CreateToastNotifier()->AddToSchedule(toast);
 		}
-		catch (...) {
-
-		}
+		catch (...) { }
 	}).get();
 }
 
@@ -80,9 +78,7 @@ void ApplicationUpdateTask::Run(IBackgroundTaskInstance^ taskInstance) {
 	try {
 		NotifyWithLocalXml("toast.xml", "GES", GetDueDateTime(5));
 	}
-	catch (...) {
-
-	}
+	catch (...) { }
 
 	deferral->Complete();
 }

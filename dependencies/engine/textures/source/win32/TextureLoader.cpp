@@ -139,7 +139,7 @@ namespace Engine {
 		TextureLoaderImpl()
 		{
 			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-		}	
+		}
 
 		void LoadTexture(Texture2D& texture)
 		{
@@ -172,16 +172,14 @@ namespace Engine {
 				}
 			}
 		}
+
 	private:
 		std::shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(std::make_unique<TextureLoaderImpl>())
-{
-
-}
+	: mImpl(std::make_unique<TextureLoaderImpl>()) { }
 
 TextureLoader::~TextureLoader()
 {
@@ -189,6 +187,6 @@ TextureLoader::~TextureLoader()
 }
 
 void TextureLoader::LoadTexture(Texture2D& texture)
-{		
+{
 	mImpl->LoadTexture(texture);
 }
