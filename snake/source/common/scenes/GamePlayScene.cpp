@@ -33,7 +33,10 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	ID = typeid(GamePlayScene).name();
 }
 
-GamePlayScene::~GamePlayScene() { }
+GamePlayScene::~GamePlayScene()
+{
+
+}
 
 void GamePlayScene::Load()
 {

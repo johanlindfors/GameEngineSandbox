@@ -1,5 +1,7 @@
 #include "File.h"
 
+#include "winrt/Windows.Foundation.h"
+
 using namespace std;
 using namespace winrt;
 using namespace Windows::Storage;
@@ -11,7 +13,7 @@ void File::Open(wstring filename)
     mStorageFile = StorageFile::GetFileFromPathAsync(filename).get();
 }
 
-void File::Close() 
+void File::Close()
 {
     if(mStorageFile) {
         mStorageFile = nullptr;

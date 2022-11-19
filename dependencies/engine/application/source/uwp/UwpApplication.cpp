@@ -19,7 +19,7 @@ void UwpApplication::OnLaunched(LaunchActivatedEventArgs const &)
 	auto dispatcher = window.Dispatcher();
 	const auto dispatcherWrapper = make_shared<DispatcherWrapper>(dispatcher);
 	IOCContainer::Instance().Register<IDispatcherWrapper>(dispatcherWrapper);
-	
+
 	auto openGLES = make_shared<OpenGLES>();
 	const auto glPage = make<GLPage>(openGLES);
 	window.Content(glPage);

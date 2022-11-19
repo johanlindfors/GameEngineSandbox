@@ -14,5 +14,9 @@
     "cmake.configureSettings": {
         "CMAKE_TOOLCHAIN_FILE" : "dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake"
     },
-    "cmake.buildDirectory": "${workspaceRoot}/build/win32-debug"
+    "cmake.buildDirectory": "${workspaceRoot}/build/win32-debug",
+    "files.associations": {
+        "xlocbuf": "cpp",
+        "memory": "cpp"
+    }
 }

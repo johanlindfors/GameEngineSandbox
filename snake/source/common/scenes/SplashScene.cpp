@@ -41,6 +41,7 @@ void SplashScene::Load()
 
 
 	mSprite->Texture = mTextureManager->GetTexture(L"coderox.png");
+    printf("[SplashScene::Load] Loaded\n");
 }
 
 void SplashScene::Unload() { }
@@ -63,11 +64,15 @@ void SplashScene::UpdateScreenSize(int width, int height)
 void SplashScene::Update(shared_ptr<IStepTimer> timer)
 {
 	if(mResourcesToLoad.size() > 0) {
+	    printf("[SplashScene::Update] Loading resources\n");
+
 		isLoadingResources = true;
 		vector<wstring> fileNames;
 		fileNames.emplace_back(mResourcesToLoad.front());
 		mResourcesToLoad.pop();
 		mTextureManager->LoadTextures(vector<wstring>(fileNames));
+		isLoadingResources = false;
+		printf("[SplashScene::Update] Resources loaded\n");
 	}
 	mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
 	if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
@@ -81,7 +86,8 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 
 void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
-	if (mSpriteRenderer) {
+	if (mSpriteRenderer && !isLoadingResources) {
+	    printf("[SplashScene::Draw] Rendering sprite\n");
 		mSpriteRenderer->DrawSprite(mSprite);
 	}
 }

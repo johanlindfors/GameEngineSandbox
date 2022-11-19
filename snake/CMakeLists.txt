@@ -58,8 +58,13 @@ endif()
 if(LINUX OR OSX)
     message(STATUS "Temporary solution for Posix: Finding GLUT")
     find_package(GLUT REQUIRED)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLFW REQUIRED glfw3)
+
+    message(STATUS "GLFW: ${GLFW_LIBRARIES}")
     list(APPEND DEPENDENCIES 
-        GLUT::GLUT
+        GLESv2
+        ${GLFW_LIBRARIES}
     )
 endif()
 
