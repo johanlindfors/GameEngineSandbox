@@ -146,6 +146,9 @@ void SpriteRenderer::InitializeShaders() {
 	// Fragment Shader source
 	const std::string fs = STRING
 	(
+#ifndef __APPLE__
+		precision mediump float;
+#endif
 		//incoming values from the vertex shader stage.
 		//if the vertices of a primitive have different values, they are interpolated!
 		varying vec2 v_uv;
