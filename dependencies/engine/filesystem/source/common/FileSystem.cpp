@@ -11,6 +11,11 @@ using namespace Windows::ApplicationModel;
 #include <Windows.h>
 #include <vector>
 #include <filesystem>
+namespace fs s= std::filesystem;
+#elif __APPLE__
+#include <stdio.h>
+#include <unistd.h>
+#include <filesystem>
 namespace fs = std::filesystem;
 #elif __linux__
 #include <vector>
@@ -39,7 +44,14 @@ wstring FileSystem::GetResourcesDirectory()
 	const fs::path p = s;
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_wstring();
-	path = wstring(folderPath + L"\\resources\\");
+#elif __APPLE__
+	char buff[FILENAME_MAX];
+	getcwd( buff, FILENAME_MAX );
+	std::string current_working_dir(buff);
+	const fs::path p = current_working_dir;
+	const auto executableDirectory = p.parent_path();
+	const auto folderPath = executableDirectory.generic_wstring();
+	path = wstring(folderPath + L"/resources/");
 #elif __linux__
 	const auto currentPath = string(get_current_dir_name());
 	const fs::path p = currentPath;

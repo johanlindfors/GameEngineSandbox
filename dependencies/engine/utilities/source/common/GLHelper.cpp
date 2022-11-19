@@ -39,12 +39,13 @@ namespace Engine {
 
 	GLuint CompileProgram(const string& vsSource, const string& fsSource)
 	{
+		printf("[GLHelper::CompileProgram] Creating program\n");
+		CheckOpenGLError();	
 		const auto program = glCreateProgram();
 		if (program == 0)
 		{
 			printf("[GLHelper::CompileProgram] Failed to create program -- should exit!\n");
-			CheckOpenGLError();
-			//throw winrt::hresult_error(E_FAIL, winrt::hstring(L"Program creation failed"));
+			CheckOpenGLError();	
 		} else {
 			printf("[GLHelper::CompileProgram] Program created\n");
 		}
