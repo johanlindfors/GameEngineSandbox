@@ -55,8 +55,8 @@ if(WINDOWS_STORE)
     )
 endif()
 
-if(LINUX)
-    message(STATUS "Temporary solution for Linux: Finding GLUT")
+if(LINUX OR OSX)
+    message(STATUS "Temporary solution for Posix: Finding GLUT")
     find_package(GLUT REQUIRED)
     list(APPEND DEPENDENCIES 
         GLUT::GLUT

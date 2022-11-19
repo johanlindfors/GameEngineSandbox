@@ -28,19 +28,19 @@ void GameLoop::Initialize(int fps) {
 	IOCContainer::Instance().Register<ITextureManager>(textureManager);
 
 	mSpriteRenderer = make_shared<SpriteRenderer>();
-	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
+	// IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
 
-	mInputManager = make_shared<InputManager>();
-	IOCContainer::Instance().Register<IInputManager>(mInputManager);
+	// mInputManager = make_shared<InputManager>();
+	// IOCContainer::Instance().Register<IInputManager>(mInputManager);
 
-	mSceneManager = make_shared<SceneManager>();
-	IOCContainer::Instance().Register<ISceneManager>(mSceneManager);
+	// mSceneManager = make_shared<SceneManager>();
+	// IOCContainer::Instance().Register<ISceneManager>(mSceneManager);
 
-	mSceneManager->Initialize();
+	// mSceneManager->Initialize();
 
-	// Game must register callback
-	mGameLoopCallback = IOCContainer::Instance().Resolve<IGameLoopCallback>();
-	mGameLoopCallback->Initialize();
+	// // Game must register callback
+	// mGameLoopCallback = IOCContainer::Instance().Resolve<IGameLoopCallback>();
+	// mGameLoopCallback->Initialize();
 
 	mIsInitialized = true;
 }

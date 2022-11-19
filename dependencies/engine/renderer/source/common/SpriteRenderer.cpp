@@ -13,7 +13,7 @@ using namespace Utilities;
 SpriteRenderer::SpriteRenderer()
 {
 	InitializeShaders();
-	InitializeBuffers();
+	// InitializeBuffers();
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -157,16 +157,16 @@ void SpriteRenderer::InitializeShaders() {
 	// Set up the shader and its uniform/attribute locations.
 	mProgram = CompileProgram(vs, fs);
 
-	// Vertex shader parameters
-	mVertexAttribLocation = glGetAttribLocation(mProgram, "a_position");
-	mUVAttribLocation = glGetAttribLocation(mProgram, "a_uv");
-	mScreenSizeUniformLocation = glGetUniformLocation(mProgram, "screenSize");
-	mSpriteRectUniformLocation = glGetUniformLocation(mProgram, "spriteRect");
-	mSpriteWorldUniformLocation = glGetUniformLocation(mProgram, "spriteWorld");
-	mTextureSizeUniformLocation = glGetUniformLocation(mProgram, "textureSize");
+	// // Vertex shader parameters
+	// mVertexAttribLocation = glGetAttribLocation(mProgram, "a_position");
+	// mUVAttribLocation = glGetAttribLocation(mProgram, "a_uv");
+	// mScreenSizeUniformLocation = glGetUniformLocation(mProgram, "screenSize");
+	// mSpriteRectUniformLocation = glGetUniformLocation(mProgram, "spriteRect");
+	// mSpriteWorldUniformLocation = glGetUniformLocation(mProgram, "spriteWorld");
+	// mTextureSizeUniformLocation = glGetUniformLocation(mProgram, "textureSize");
 
-	// Fragment shader parameters
-	mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
+	// // Fragment shader parameters
+	// mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
 }
 
 void SpriteRenderer::InitializeBuffers() {

@@ -34,7 +34,7 @@ namespace Engine {
 	GLuint CompileProgram(const string& vsSource, const string& fsSource)
 	{
 		const auto program = glCreateProgram();
-
+		
 		if (program == 0)
 		{
 			//throw winrt::hresult_error(E_FAIL, winrt::hstring(L"Program creation failed"));

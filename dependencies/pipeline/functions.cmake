@@ -21,6 +21,7 @@ macro(initialize_pipeline)
         else()
             set(PLATFORM OSX)
             set(OSX 1)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLINUX")
         endif()
     endif()
 
