@@ -55,9 +55,7 @@ if(WINDOWS_STORE)
     )
 endif()
 
-if(LINUX OR OSX)
-    message(STATUS "Temporary solution for Posix: Finding GLUT")
-    find_package(GLUT REQUIRED)
+if(LINUX)
     find_package(PkgConfig REQUIRED)
     pkg_search_module(GLFW REQUIRED glfw3)
 
@@ -65,6 +63,15 @@ if(LINUX OR OSX)
     list(APPEND DEPENDENCIES 
         GLESv2
         ${GLFW_LIBRARIES}
+    )
+endif()
+
+if(OSX)
+    find_package(glfw3 3.4 REQUIRED)
+    find_package(OpenGL REQUIRED)
+    list(APPEND DEPENDENCIES 
+        OpenGL::GL
+        glfw
     )
 endif()
 

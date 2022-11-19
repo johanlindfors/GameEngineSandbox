@@ -1,6 +1,5 @@
 #pragma once
 
-// OpenGL and GLEW Header Files and Libraries
-#include <GL/glew.h>
-#include <GL/gl.h>
-#include <GL/glut.h>
+#define GL_SILENCE_DEPRECATION
+#define GLFW_INCLUDE_GLCOREARB
+#include <GLFW/glfw3.h>

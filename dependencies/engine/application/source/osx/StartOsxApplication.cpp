@@ -1,129 +1,95 @@
-#include "game-loop/GameLoop.h"
 #include "glwrapper.h"
-#include <memory>
-#include "input/IInputManager.h"
+#include "game-loop/GameLoop.h"
 #include "application/Config.h"
 #include "IOC.hpp"
+#include "input/IInputManager.h"
+#include "GLHelper.h"
+#include <memory>
 
+using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-namespace {
-  std::unique_ptr<GameLoop> g_gameLoop;
-};
+void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input);
 
-void
-reshape(int w, int h)
-{
-  //g_gameLoop->UpdateWindowSize(w,h);
+void StartOsxApplication(int argc, char **argv) {
+    GLFWwindow* window;
+    shared_ptr<IInputManager> input;
+
+    auto game = std::make_unique<GameLoop>();
+    printf("[StartOsxApplication] game created\n");
+    auto config = IOCContainer::Instance().Resolve<Config>();
+    printf("[StartOsxApplication] found config\n");
+
+    int width, height;
+    game->GetDefaultSize(width, height);
+    printf("[StartOsxApplication] GetDefaultSize returned\n");
+    
+    glfwInit();
+    printf("[StartOsxApplication] GLFW Initialized\n");
+    Engine::CheckOpenGLError();
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+    printf("[StartOsxApplication] GLFW Window Hint\n");
+    Engine::CheckOpenGLError();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    printf("[StartOsxApplication] GLFW Version 2\n");
+    Engine::CheckOpenGLError();
+    printf("[StartOsxApplication] GLFW .0\n");
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    Engine::CheckOpenGLError();
+    printf("[StartOsxApplication] Creating Window\n");
+    window = glfwCreateWindow(width, height, __FILE__, NULL, NULL);
+    printf("[StartOsxApplication] Creating Context\n");
+    glfwMakeContextCurrent(window);
+
+    printf("[StartOsxApplication] Initializing game\n");
+    game->Initialize(config->FPS);
+    printf("[StartOsxApplication] initialized\n");
+
+    game->UpdateWindowSize(width, height);
+    printf("[StartOsxApplication] Windows size updated\n");
+
+    printf("GL_VERSION  : %s\n", glGetString(GL_VERSION) );
+    printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER) );
+
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT);
+
+  	    if(game) {
+            if(!input) {
+		        input = game->GetInput();
+            }
+            InputHandler(window, input);
+	    }
+
+        game->Tick();
+        glfwSwapBuffers(window);
+    }
+    
+    glfwTerminate();
 }
 
-void
-display(void)
+void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input) 
 {
-//  g_gameLoop->Tick();
-  glFlush();  /* Single buffered, so needs a flush. */
+        // Check left
+        bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
+        input->AddKeyboardEvent(0x25, pressed);
+
+        // Check right
+        pressed = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
+        input->AddKeyboardEvent(0x27, pressed);
+        
+        // Check up
+        pressed = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
+        input->AddKeyboardEvent(0x26, pressed);
+
+        // Check down
+        pressed = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
+        input->AddKeyboardEvent(0x28, pressed);
+
+        // Space
+        pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
+        input->AddKeyboardEvent(32, pressed);
+
 }
-
-void StartOsxApplication(int argc, char **argv)
-{
-  glutInit(&argc, argv);
-
-  // Sets up a double buffer with RGBA components and a depth component
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA);
-
-  // Sets the window size to 512*512 square pixels
-  glutInitWindowSize(512, 512);
-
-  // Sets the window position to the upper left
-  glutInitWindowPosition(0, 0);
-
-  glutCreateWindow("a snake");
-  glutDisplayFunc(display);
-  glutReshapeFunc(reshape);
-
-  g_gameLoop = std::make_unique<GameLoop>();
-  auto config = IOCContainer::Instance().Resolve<Config>();
-  g_gameLoop->Initialize(config->FPS);
-  
-  // int width, height;
-  // g_gameLoop->GetDefaultSize(width, height);
-  // g_gameLoop->UpdateWindowSize(width, height);
-
-  glutMainLoop();
-  
-  g_gameLoop.reset();
-}
-
-
-// // The OpenGL libraries, make sure to include the GLUT and OpenGL frameworks
-// #define GL_SILENCE_DEPRECATION
-// #include <GLUT/glut.h>
-// #include <OpenGL/gl.h>
-// #include <OpenGL/glu.h>
-
-
-// // This is just an example using basic glut functionality.
-// // If you want specific Apple functionality, look up AGL
-
-// void init() // Called before main loop to set up the program
-// {
-//     glClearColor(0.0, 0.0, 0.0, 0.0);
-//     glEnable(GL_DEPTH_TEST);
-//     glShadeModel(GL_SMOOTH);
-// }
-
-// // Called at the start of the program, after a glutPostRedisplay() and during idle
-// // to display a frame
-// void display()
-// {
-//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//     glLoadIdentity();
-
-//     glBegin(GL_TRIANGLES);
-//         glVertex3f(0.0, 0.0, -10.0);
-//         glVertex3f(1.0, 0.0, -10.0);
-//         glVertex3f(0.0, 1.0, -10.0);
-//     glEnd();
-
-//     glutSwapBuffers();
-// }
-
-// // Called every time a window is resized to resize the projection matrix
-// void reshape(int w, int h)
-// {
-//     glViewport(0, 0, w, h);
-//     glMatrixMode(GL_PROJECTION);
-//     glLoadIdentity();
-//     glFrustum(-0.1, 0.1, -float(h)/(10.0*float(w)), float(h)/(10.0*float(w)), 0.5, 1000.0);
-//     glMatrixMode(GL_MODELVIEW);
-//     glLoadIdentity();
-// }
-
-
-// void StartOsxApplication(int argc, char **argv)
-// {
-//     glutInit(&argc, argv); // Initializes glut
-
-//     // Sets up a double buffer with RGBA components and a depth component
-//     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA);
-
-//     // Sets the window size to 512*512 square pixels
-//     glutInitWindowSize(512, 512);
-
-//     // Sets the window position to the upper left
-//     glutInitWindowPosition(0, 0);
-
-//     // Creates a window using internal glut functionality
-//     glutCreateWindow("Hello!");
-
-//     // passes reshape and display functions to the OpenGL machine for callback
-//     glutReshapeFunc(reshape);
-//     glutDisplayFunc(display);
-//     glutIdleFunc(display);
-
-//     init();
-
-//     // Starts the program.
-//     glutMainLoop();
-// }
