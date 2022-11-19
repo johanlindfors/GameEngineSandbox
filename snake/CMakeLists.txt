@@ -67,7 +67,7 @@ if(LINUX)
 endif()
 
 if(OSX)
-    find_package(glfw3 3.4 REQUIRED)
+    find_package(glfw3 REQUIRED)
     find_package(OpenGL REQUIRED)
     list(APPEND DEPENDENCIES 
         OpenGL::GL

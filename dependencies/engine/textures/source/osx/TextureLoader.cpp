@@ -144,15 +144,15 @@ namespace Engine {
 		void LoadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				const auto file = mFileSystem->LoadFile(std::wstring(L"textures\\" + texture.Name));
+				const auto file = mFileSystem->LoadFile(std::wstring(L"textures/" + texture.Name));
 				if(file){
 					int width, height;
 					auto hasAlpha = false;
 					GLubyte *textureImage;
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
+						std::cout << "Unable to load png file: " << std::endl;
 						texture.Name = L"";
-						std::cout << "Unable to load png file" << std::endl;
 						return;
 					}
 					texture.Width = width;

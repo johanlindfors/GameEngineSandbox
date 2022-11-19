@@ -25,23 +25,29 @@ void StartOsxApplication(int argc, char **argv) {
     game->GetDefaultSize(width, height);
     printf("[StartOsxApplication] GetDefaultSize returned\n");
     
-    glfwInit();
+    if(!glfwInit()) {
+        printf("Initialization of GLFW failed!");
+        exit(EXIT_FAILURE);
+    }
+    
     printf("[StartOsxApplication] GLFW Initialized\n");
-    Engine::CheckOpenGLError();
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+    glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
     printf("[StartOsxApplication] GLFW Window Hint\n");
-    Engine::CheckOpenGLError();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     printf("[StartOsxApplication] GLFW Version 2\n");
-    Engine::CheckOpenGLError();
-    printf("[StartOsxApplication] GLFW .0\n");
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    Engine::CheckOpenGLError();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     printf("[StartOsxApplication] Creating Window\n");
     window = glfwCreateWindow(width, height, __FILE__, NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+    
     printf("[StartOsxApplication] Creating Context\n");
     glfwMakeContextCurrent(window);
 
+    glfwGetError(NULL);
     printf("[StartOsxApplication] Initializing game\n");
     game->Initialize(config->FPS);
     printf("[StartOsxApplication] initialized\n");
@@ -72,24 +78,23 @@ void StartOsxApplication(int argc, char **argv) {
 
 void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input) 
 {
-        // Check left
-        bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
-        input->AddKeyboardEvent(0x25, pressed);
+    // Check left
+    bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
+    input->AddKeyboardEvent(0x25, pressed);
 
-        // Check right
-        pressed = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
-        input->AddKeyboardEvent(0x27, pressed);
-        
-        // Check up
-        pressed = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
-        input->AddKeyboardEvent(0x26, pressed);
+    // Check right
+    pressed = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
+    input->AddKeyboardEvent(0x27, pressed);
+    
+    // Check up
+    pressed = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
+    input->AddKeyboardEvent(0x26, pressed);
 
-        // Check down
-        pressed = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
-        input->AddKeyboardEvent(0x28, pressed);
+    // Check down
+    pressed = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
+    input->AddKeyboardEvent(0x28, pressed);
 
-        // Space
-        pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
-        input->AddKeyboardEvent(32, pressed);
-
+    // Space
+    pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
+    input->AddKeyboardEvent(32, pressed);
 }

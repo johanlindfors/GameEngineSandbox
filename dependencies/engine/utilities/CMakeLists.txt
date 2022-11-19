@@ -7,7 +7,7 @@ if(WINDOWS_STORE)
     )
 elseif(OSX)
     find_package(PNG REQUIRED)
-    find_package(glfw3 3.4 REQUIRED)
+    find_package(glfw3 REQUIRED)
     find_package(OpenGL REQUIRED)
     list(APPEND DEPENDENCIES 
         OpenGL::GL

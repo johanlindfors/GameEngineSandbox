@@ -46,9 +46,9 @@ void GameLoop::Initialize(int fps) {
 	mSceneManager->Initialize();
 	printf("[GameLoop::Initialize] SceneManager initialized\n");
 
-	// // Game must register callback
-	// mGameLoopCallback = IOCContainer::Instance().Resolve<IGameLoopCallback>();
-	// mGameLoopCallback->Initialize();
+	// Game must register callback
+	mGameLoopCallback = IOCContainer::Instance().Resolve<IGameLoopCallback>();
+	mGameLoopCallback->Initialize();
 
 	mIsInitialized = true;
 }

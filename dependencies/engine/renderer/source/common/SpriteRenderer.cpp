@@ -13,7 +13,7 @@ using namespace Utilities;
 SpriteRenderer::SpriteRenderer()
 {
 	InitializeShaders();
-	// InitializeBuffers();
+	InitializeBuffers();
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -62,8 +62,8 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 	glEnableVertexAttribArray(mVertexAttribLocation);
 	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	
-	// printf("[SpriteRenderer::DrawSprite] Width : %d\n", sprite->Width);
-	// printf("[SpriteRenderer::DrawSprite] Height: %d\n", sprite->Height);
+	//printf("[SpriteRenderer::DrawSprite] Width : %d\n", sprite->Width);
+	//printf("[SpriteRenderer::DrawSprite] Height: %d\n", sprite->Height);
 	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
 	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
 	// CheckOpenGLError();
@@ -87,6 +87,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
+	//printf("[SpriteRenderer::DrawSprite] End\n");
 }
 
 void SpriteRenderer::InitializeShaders() {
@@ -145,7 +146,6 @@ void SpriteRenderer::InitializeShaders() {
 	// Fragment Shader source
 	const std::string fs = STRING
 	(
-		precision mediump float;
 		//incoming values from the vertex shader stage.
 		//if the vertices of a primitive have different values, they are interpolated!
 		varying vec2 v_uv;
@@ -165,12 +165,12 @@ void SpriteRenderer::InitializeShaders() {
 	CheckOpenGLError();
 
 	// // Vertex shader parameters
-	// mVertexAttribLocation = glGetAttribLocation(mProgram, "a_position");
-	// mUVAttribLocation = glGetAttribLocation(mProgram, "a_uv");
-	// mScreenSizeUniformLocation = glGetUniformLocation(mProgram, "screenSize");
-	// mSpriteRectUniformLocation = glGetUniformLocation(mProgram, "spriteRect");
-	// mSpriteWorldUniformLocation = glGetUniformLocation(mProgram, "spriteWorld");
-	// mTextureSizeUniformLocation = glGetUniformLocation(mProgram, "textureSize");
+	mVertexAttribLocation = glGetAttribLocation(mProgram, "a_position");
+	mUVAttribLocation = glGetAttribLocation(mProgram, "a_uv");
+	mScreenSizeUniformLocation = glGetUniformLocation(mProgram, "screenSize");
+	mSpriteRectUniformLocation = glGetUniformLocation(mProgram, "spriteRect");
+	mSpriteWorldUniformLocation = glGetUniformLocation(mProgram, "spriteWorld");
+	mTextureSizeUniformLocation = glGetUniformLocation(mProgram, "textureSize");
 
 	printf("[SpriteRenderer::InitializeShaders] mVertexAttribLocation: %d\n", mVertexAttribLocation);
 	printf("[SpriteRenderer::InitializeShaders] mUVAttribLocation: %d\n", mUVAttribLocation);
