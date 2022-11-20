@@ -22,7 +22,7 @@ Param(
     [switch]$uwp,
 
     [Parameter(Mandatory = $False)]
-    [switch]$release,
+    [switch]$release
 )
 
 $Cmake = "cmake.exe"
