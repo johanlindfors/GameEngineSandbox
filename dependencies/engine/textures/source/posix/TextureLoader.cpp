@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include <cstring>
 #include "IOC.hpp"
 #include "File.h"
 #include "textures/Texture2D.h"
@@ -16,7 +17,7 @@ using Utilities::IOCContainer;
 namespace Engine {
 	class TextureLoaderImpl {
 	private:
-		static bool loadPngImage(std::shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
+		static bool loadPngImage(shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
 			png_structp png_ptr;
 			png_infop info_ptr;
 			const unsigned int sig_read = 0;
@@ -113,7 +114,7 @@ namespace Engine {
 			outHeight = height;
 
 			const auto row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
-			*outData = static_cast<unsigned char*>(malloc(row_bytes * outHeight));
+			*outData = static_cast<unsigned char*>(malloc(static_cast<size_t>(row_bytes) * static_cast<size_t>(outHeight)));
 
 			const auto row_pointers = png_get_rows(png_ptr, info_ptr);
 
@@ -139,25 +140,25 @@ namespace Engine {
 		TextureLoaderImpl()
 		{
 			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-		}
+		}	
 
 		void LoadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				const auto file = mFileSystem->LoadFile(std::wstring(L"textures/" + texture.Name));
+				const auto file = mFileSystem->LoadFile(wstring(L"textures/" + texture.Name));
 				if(file){
 					int width, height;
 					auto hasAlpha = false;
 					GLubyte *textureImage;
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
-						std::cout << "Unable to load png file: " << std::endl;
 						texture.Name = L"";
+						cout << "Unable to load png file" << endl;
 						return;
 					}
 					texture.Width = width;
 					texture.Height = height;
-					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
+					cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << endl;
 					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, textureImage);
 					if (textureImage) {
 						delete textureImage;
@@ -172,14 +173,16 @@ namespace Engine {
 				}
 			}
 		}
-
 	private:
-		std::shared_ptr<IFileSystem> mFileSystem;
+		shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(std::make_unique<TextureLoaderImpl>()) { }
+	: mImpl(make_unique<TextureLoaderImpl>())
+{
+
+}
 
 TextureLoader::~TextureLoader()
 {
@@ -187,6 +190,6 @@ TextureLoader::~TextureLoader()
 }
 
 void TextureLoader::LoadTexture(Texture2D& texture)
-{
+{		
 	mImpl->LoadTexture(texture);
 }
