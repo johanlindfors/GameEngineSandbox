@@ -4,6 +4,13 @@
 #include "GLHelper.h"
 #include "renderer/Sprite.h"
 
+#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #define STRING(s) #s
 
 using namespace std;
@@ -60,25 +67,39 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 	glEnableVertexAttribArray(mVertexAttribLocation);
-	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(mWindowWidth), 
+        static_cast<float>(mWindowHeight), 0.0f, -1.0f, 1.0f);
+	glUniformMatrix4fv(mProjectionMatrix, 1, false, glm::value_ptr(projection));
+	
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(200.0f, 200.0f, 0.0f));//sprite->Position.m[0], sprite->Position.m[1], 0.0f)); 
+	
+	// model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); 
+    // model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f)); 
+    // model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+
+    // model = glm::scale(model, glm::vec3(size, 1.0f));
+  
+	glUniformMatrix4fv(mWorldMatrix, 1, false, glm::value_ptr(model));
 	//printf("[SpriteRenderer::DrawSprite] Width : %d\n", sprite->Width);
 	//printf("[SpriteRenderer::DrawSprite] Height: %d\n", sprite->Height);
-	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
-	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
+	// Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
+	// glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
 	// CheckOpenGLError();
 
-	glUniform2fv(mSpriteWorldUniformLocation, 1, &(sprite->Position.m[0]));
+	// glUniform2fv(mSpriteWorldUniformLocation, 1, &(sprite->Position.m[0]));
 
-	Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
-	glUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
+	// Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
+	// glUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
 	glEnableVertexAttribArray(mUVAttribLocation);
 	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-	Vector2 textureSize(static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height));
-	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
+	// Vector2 textureSize(static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height));
+	// glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));
@@ -94,70 +115,32 @@ void SpriteRenderer::InitializeShaders() {
 	// Vertex Shader source
 	const std::string vs = STRING
 	(
-		//the incoming vertex' position
-		attribute vec4 a_position;
-		//and its texture coordinate
-		attribute vec2 a_uv;
-		uniform vec2 screenSize;
-		// array that contains information on
-		// sprite
-		// [0] -> spriteSourceX
-		// [1] -> spriteSourceY
-		// [2] -> spriteWidth
-		// [3] -> spriteHeight
-		uniform vec4 spriteRect;
+		attribute vec4 vertex; // <vec2 position, vec2 texCoords>
+		attribute vec2 uv;
+		
+		uniform mat4 world;
+		uniform mat4 projection;
 
-		// a vec2 that represents sprite position in the world
-		// [0] -> spriteX
-		// [1] -> spriteY
-		uniform vec2 spriteWorld;
+		varying vec2 TexCoords;
 
-		// texture width and height
-		uniform vec2 textureSize;
-
-		//the varying statement tells the shader pipeline that this variable
-		//has to be passed on to the next stage (so the fragment shader)
-		varying vec2 v_uv;
-
-		//the shader entry point is the main method
 		void main()
 		{
-			gl_Position = a_position; //copy the position
-
-			// adjust position according to
-			// sprite width and height
-			gl_Position.x = ((gl_Position.x * spriteRect[2]) + spriteWorld[0]) / (screenSize[0] / 2.0);
-			gl_Position.y = ((-gl_Position.y * spriteRect[3]) - spriteWorld[1]) / (screenSize[1] / 2.0);
-
-			// coordinates are being written
-			// in homogeneous space, we have
-			// to translate the space origin
-			// to upper-left corner
-			gl_Position.x -= 1.0;
-			gl_Position.y += 1.0;
-
-			// (texCoordX  * spriteWidth / textureWidth) + texSourceX
-			v_uv.x = (a_uv.x ) + spriteRect[0] / textureSize[0];
-			// inverting v component
-			v_uv.y = ((1.0 - a_uv.y)) + spriteRect[1] / textureSize[1];
+			TexCoords = uv;
+			gl_Position = projection * world * vertex;
 		}
 	);
 
 	// Fragment Shader source
 	const std::string fs = STRING
 	(
-#ifndef __APPLE__
 		precision mediump float;
-#endif
-		//incoming values from the vertex shader stage.
-		//if the vertices of a primitive have different values, they are interpolated!
-		varying vec2 v_uv;
+		varying vec2 TexCoords;
+
 		uniform sampler2D texture;
 
 		void main()
-		{
-			// read the fragment color from texture
-			gl_FragColor = texture2D(texture, v_uv);
+		{    
+			gl_FragColor = texture2D(texture, TexCoords);
 		}
 	);
 
@@ -168,19 +151,15 @@ void SpriteRenderer::InitializeShaders() {
 	CheckOpenGLError();
 
 	// // Vertex shader parameters
-	mVertexAttribLocation = glGetAttribLocation(mProgram, "a_position");
-	mUVAttribLocation = glGetAttribLocation(mProgram, "a_uv");
-	mScreenSizeUniformLocation = glGetUniformLocation(mProgram, "screenSize");
-	mSpriteRectUniformLocation = glGetUniformLocation(mProgram, "spriteRect");
-	mSpriteWorldUniformLocation = glGetUniformLocation(mProgram, "spriteWorld");
-	mTextureSizeUniformLocation = glGetUniformLocation(mProgram, "textureSize");
+	mVertexAttribLocation = glGetAttribLocation(mProgram, "vertex");
+	mUVAttribLocation = glGetAttribLocation(mProgram, "uv");
+	mWorldMatrix = glGetUniformLocation(mProgram, "world");
+	mProjectionMatrix = glGetUniformLocation(mProgram, "projection");
 
 	printf("[SpriteRenderer::InitializeShaders] mVertexAttribLocation: %d\n", mVertexAttribLocation);
 	printf("[SpriteRenderer::InitializeShaders] mUVAttribLocation: %d\n", mUVAttribLocation);
-	printf("[SpriteRenderer::InitializeShaders] mScreenSizeUniformLocation: %d\n", mScreenSizeUniformLocation);
-	printf("[SpriteRenderer::InitializeShaders] mSpriteRectUniformLocation: %d\n", mSpriteRectUniformLocation);
-	printf("[SpriteRenderer::InitializeShaders] mSpriteWorldUniformLocation: %d\n", mSpriteWorldUniformLocation);
-	printf("[SpriteRenderer::InitializeShaders] mTextureSizeUniformLocation: %d\n", mTextureSizeUniformLocation);
+	printf("[SpriteRenderer::InitializeShaders] mWorldMatrix: %d\n", mWorldMatrix);
+	printf("[SpriteRenderer::InitializeShaders] mProjectionMatrix: %d\n", mProjectionMatrix);
 
 	// Fragment shader parameters
 	mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
@@ -190,10 +169,10 @@ void SpriteRenderer::InitializeShaders() {
 void SpriteRenderer::InitializeBuffers() {
 	GLfloat vertexPositions[] =
 	{
-		 0.0f, 1.0f, 0.0f,
-		 0.0f, 0.0f, 0.0f,
-		 1.0f, 0.0f, 0.0f,
-		 1.0f, 1.0f, 0.0f,
+		 0.0f, 1.0f, 0.0f, 1.0f,
+		 0.0f, 0.0f, 0.0f, 1.0f,
+		 1.0f, 0.0f, 0.0f, 1.0f,
+		 1.0f, 1.0f, 0.0f, 1.0f,
 	};
 
 	glGenBuffers(1, &mVertexPositionBuffer);

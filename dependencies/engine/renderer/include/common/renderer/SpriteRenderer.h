@@ -23,15 +23,16 @@ namespace Engine {
 		// Vertex shader parameters
 		GLint mVertexAttribLocation;
 		GLint mUVAttribLocation;
-		GLint mSpriteRectUniformLocation;
-		GLint mSpriteWorldUniformLocation;
-		GLint mTextureSizeUniformLocation;
-		GLint mScreenSizeUniformLocation;
+		GLint mWorldMatrix;
+		GLint mProjectionMatrix;
+		// GLint mTextureSizeUniformLocation;
+		// GLint mScreenSizeUniformLocation;
 
 		// Fragment shader parameters
 		GLint mTextureUniformLocation;
 
 		GLuint mVertexPositionBuffer;
 		GLuint mVertexUVBuffer;
+		unsigned int quadVAO;
 	};
 }

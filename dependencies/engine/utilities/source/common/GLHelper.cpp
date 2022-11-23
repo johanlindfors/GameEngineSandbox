@@ -7,7 +7,7 @@ namespace Engine {
 
 	GLuint CompileShader(GLenum type, const string& source)
 	{
-		printf("[GLHelper::CompileShader] Copmiling shader\n");
+		printf("[GLHelper::CompileShader] Compiling shader\n");
 
 		const auto shader = glCreateShader(type);
 

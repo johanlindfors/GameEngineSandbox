@@ -16,7 +16,8 @@ elseif(OSX)
     )
 elseif(LINUX)
     find_package(PNG REQUIRED)
-    find_package(PkgConfig REQUIRED)    
+    find_package(glm REQUIRED)
+    find_package(PkgConfig REQUIRED)
     pkg_search_module(GLFW REQUIRED glfw3)
 
     list(APPEND DEPENDENCIES 

@@ -1,9 +1,8 @@
 #include "GamePlayScene.h"
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
-#include "objects/Snake.h"
-#include "objects/Apple.h"
-#include "objects/VectorCollider.h"
+#include "objects/Bird.h"
+// #include "objects/VectorCollider.h"
 #include "textures/ITextureManager.h"
 #include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
@@ -22,9 +21,8 @@ using Utilities::IOCContainer;
 using Utilities::Vector2;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mApple(make_shared<Apple>(Vector2(SCREEN_SIZE / 4.0f, SCREEN_SIZE / 4.0f)))
-	, mSnake(make_shared<Snake>(Vector2(SCREEN_SIZE / 2.0f, SCREEN_SIZE / 2.0f)))
-	, mCollider(make_shared<VectorCollider>())
+	: mBird(make_shared<Bird>(Vector2(SCREEN_WIDTH / 4.0f, SCREEN_HEIGHT / 4.0f)))
+	// , mCollider(make_shared<VectorCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mGame(gameCallback)
@@ -44,14 +42,12 @@ void GamePlayScene::Load()
 	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mApple->SetTexture(mTextureManager->GetTexture(L"apple.png"));
-	mSnake->SetTexture(mTextureManager->GetTexture(L"snake.png"));
+	mBird->SetTexture(mTextureManager->GetTexture(L"bird.png"));
 }
 
 void GamePlayScene::Unload()
 {
-	mApple.reset();
-	mSnake.reset();
+	mBird.reset();
 }
 
 void GamePlayScene::UpdateScreenSize(int width, int height)
@@ -64,17 +60,15 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 {
 	auto const spacePressed = mInputManager->IsKeyDown(32);
 	if (mGame->GetCurrentState() == GameState::GamePlay) {
-		mSnake->HandleInput(mInputManager);
+		mBird->HandleInput(mInputManager);
 
 		// do updates
-		mApple->Update(mScreenSizeX, mScreenSizeY);
-		mSnake->Update(mScreenSizeX, mScreenSizeY, mGame);
+		mBird->Update(mScreenSizeX, mScreenSizeY);
 
-		if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
-		{
-			mApple->Reset(mSnake, mCollider);
-			mSnake->IncreaseLength();
-		}
+		// if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
+		// {
+
+		// }
 
 		if (spacePressed && !mSpacePressedBefore)
 		{
@@ -92,6 +86,5 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 
 void GamePlayScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
-	mApple->Draw(mSpriteRenderer);
-	mSnake->Draw(mSpriteRenderer);
+	mBird->Draw(mSpriteRenderer);
 }

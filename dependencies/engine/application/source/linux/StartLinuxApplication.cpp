@@ -21,7 +21,8 @@ void StartLinuxApplication(int argc, char **argv) {
     printf("[StartLinuxApplication] found config\n");
 
     int width, height;
-    game->GetDefaultSize(width, height);
+    width = config->Width;
+    height = config->Height;
     printf("[StartLinuxApplication] get default size returned\n");
     
     glfwInit();
@@ -80,4 +81,7 @@ void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input)
         pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
         input->AddKeyboardEvent(32, pressed);
 
+        // Escape
+        pressed = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+        input->AddKeyboardEvent(256, pressed);
 }

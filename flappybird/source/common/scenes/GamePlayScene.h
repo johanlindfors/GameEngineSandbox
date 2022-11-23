@@ -2,8 +2,7 @@
 #include "scenes/GameScene.h"
 
 class IGameStateCallback;
-class Apple;
-class Snake;
+class Bird;
 class VectorCollider;
 
 namespace Engine 
@@ -27,8 +26,7 @@ public:
 	void Draw(std::shared_ptr<Utilities::IStepTimer> timer) override;
 
 private:
-	std::shared_ptr<Apple> mApple;
-	std::shared_ptr<Snake> mSnake;
+	std::shared_ptr<Bird> mBird;
 	std::shared_ptr<VectorCollider> mCollider;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;

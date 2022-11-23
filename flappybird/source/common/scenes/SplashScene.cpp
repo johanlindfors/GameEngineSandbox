@@ -6,6 +6,7 @@
 #include "renderer/ISpriteRenderer.h"
 #include "renderer/Sprite.h"
 #include "IStepTimer.h"
+#include <iostream>
 
 using namespace std;
 using namespace Engine;
@@ -29,30 +30,29 @@ void SplashScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
     
 	vector<wstring> fileNames;
-	fileNames.emplace_back(L"coderox.png");
+	fileNames.emplace_back(L"bird.png");
 	mTextureManager->LoadTextures(vector<wstring>(fileNames));
 
 	// Textures
-	mResourcesToLoad.push(L"background.png");
-	mResourcesToLoad.push(L"bird.png");
-	mResourcesToLoad.push(L"cityscape.png");
-	mResourcesToLoad.push(L"clouds.png");
-	mResourcesToLoad.push(L"gameover.png");
-	mResourcesToLoad.push(L"get-ready.png");
-	mResourcesToLoad.push(L"ground.png");
-	mResourcesToLoad.push(L"instructions.png");
-	mResourcesToLoad.push(L"medals.png");
-	mResourcesToLoad.push(L"pipes.png");
-	mResourcesToLoad.push(L"scoreboard.png");
-	mResourcesToLoad.push(L"sky.png");
-	mResourcesToLoad.push(L"start-button.png");
-	mResourcesToLoad.push(L"title.png");
-	mResourcesToLoad.push(L"trees.png");
+	//mResourcesToLoad.push(L"bird.png");
+	// mResourcesToLoad.push(L"cityscape.png");
+	// mResourcesToLoad.push(L"clouds.png");
+	// mResourcesToLoad.push(L"gameover.png");
+	// mResourcesToLoad.push(L"get-ready.png");
+	// mResourcesToLoad.push(L"ground.png");
+	// mResourcesToLoad.push(L"instructions.png");
+	// mResourcesToLoad.push(L"medals.png");
+	// mResourcesToLoad.push(L"pipes.png");
+	// mResourcesToLoad.push(L"scoreboard.png");
+	// //mResourcesToLoad.push(L"sky.png");
+	// mResourcesToLoad.push(L"start-button.png");
+	// mResourcesToLoad.push(L"title.png");
+	// mResourcesToLoad.push(L"trees.png");
 
 	// Audio
 	// mResourcesToLoad.push(L"background.png");
 
-	mSprite->Texture = mTextureManager->GetTexture(L"coderox.png");
+	mSprite->Texture = mTextureManager->GetTexture(L"bird.png");
     printf("[SplashScene::Load] Loaded\n");
 }
 
@@ -70,36 +70,36 @@ void SplashScene::UpdateScreenSize(int width, int height)
 		mSprite->Height = height;
 		mSprite->Width = static_cast<int>(height / spriteAspectRatio);
 	}
-	mSprite->Position = { width / 2.0f - mSprite->Width / 2.0f, height / 2.0f - mSprite->Height / 2.0f };
+	cout << "mSprite w: " << width << " h: " << height << std::endl;
+					
+	mSprite->Position = { 0, 0};// { width / 2.0f - mSprite->Width / 2.0f, height / 2.0f - mSprite->Height / 2.0f };
 }
 
 void SplashScene::Update(shared_ptr<IStepTimer> timer)
 {
+	isLoadingResources = true;
 	if(mResourcesToLoad.size() > 0) {
-	    printf("[SplashScene::Update] Loading resources\n");
-
-		isLoadingResources = true;
+	    printf("[SplashScene::Update] Loading resource\n");
 		vector<wstring> fileNames;
 		fileNames.emplace_back(mResourcesToLoad.front());
 		mResourcesToLoad.pop();
 		mTextureManager->LoadTextures(vector<wstring>(fileNames));
-		isLoadingResources = false;
-		printf("[SplashScene::Update] Resources loaded\n");
+		printf("[SplashScene::Update] Resource loaded\n");
 	}
-	mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
-	if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
-		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
-		if (!hasLoadedGamePlay) {
-			mGame->GoToState(GameState::GamePlay);
-			hasLoadedGamePlay = true;
-		}
-	}
+	isLoadingResources = false;
+	// mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
+	// if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
+	// 	auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
+	// 	if (!hasLoadedGamePlay) {
+	// 		mGame->GoToState(GameState::GamePlay);
+	// 		hasLoadedGamePlay = true;
+	// 	}
+	// }
 }
 
 void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
 	if (mSpriteRenderer && !isLoadingResources) {
-	    printf("[SplashScene::Draw] Rendering sprite\n");
 		mSpriteRenderer->DrawSprite(mSprite);
 	}
 }

@@ -24,8 +24,8 @@ void Entity::SetTexture(Texture2D texture)
 
 void Entity::Update(int screenWidth, int screenHeight)
 {
-    mSprite->Width = screenWidth / SCREEN_SIZE - 1;
-    mSprite->Height = screenHeight / SCREEN_SIZE - 1;
+    mSprite->Width = screenWidth / SCREEN_WIDTH - 1;
+    mSprite->Height = screenHeight / SCREEN_HEIGHT - 1;
 
 	mScreenWidth = screenWidth;
 	mScreenHeight = screenHeight;

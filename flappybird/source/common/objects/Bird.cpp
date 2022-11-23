@@ -1,4 +1,4 @@
-#include "Snake.h"
+#include "Bird.h"
 #include "game/GameDefines.h"
 #include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
@@ -21,7 +21,7 @@ void Bird::Reset() {
 	mSprite->Position = Vector2(10, 10);
 }
 
-void Bird::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback)
+void Bird::Update(int screenWidth, int screenHeight)
 {
     Entity::Update(screenWidth, screenHeight);
 }

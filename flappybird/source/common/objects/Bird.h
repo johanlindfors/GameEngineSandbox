@@ -18,7 +18,7 @@ class IGameStateCallback;
 class Bird : public Entity {
 public:
 	Bird(Utilities::Vector2 position);
-	void Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback);
+	void Update(int screenWidth, int screenHeight);
 	void HandleInput(std::shared_ptr<Engine::IInputManager> input);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 
