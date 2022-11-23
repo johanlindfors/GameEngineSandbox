@@ -42,6 +42,7 @@ SpriteRenderer::~SpriteRenderer()
 		glDeleteBuffers(1, &mVertexUVBuffer);
 		mVertexUVBuffer = 0;
 	}
+	glDeleteVertexArrays(1, &this->quadVAO);
 }
 
 void SpriteRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
@@ -58,57 +59,45 @@ void SpriteRenderer::Clear() {
 
 void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 {
-	//printf("[SpriteRenderer::DrawSprite] Id: %d Program: %d\n", sprite->Texture.TextureIndex, mProgram);
 	CheckOpenGLError();
 	glUseProgram(mProgram);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-	glEnableVertexAttribArray(mVertexAttribLocation);
-	glVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(mWindowWidth), 
-        static_cast<float>(mWindowHeight), 0.0f, -1.0f, 1.0f);
+	// glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
+	// glEnableVertexAttribArray(mVertexAttribLocation);
+	// glVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+	glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f); 
+	// glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(mWindowWidth), 
+    //     static_cast<float>(mWindowHeight), 0.0f, -1.0f, 1.0f);
 	glUniformMatrix4fv(mProjectionMatrix, 1, false, glm::value_ptr(projection));
 	
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(200.0f, 200.0f, 0.0f));//sprite->Position.m[0], sprite->Position.m[1], 0.0f)); 
-	
+	model = glm::translate(model, glm::vec3(sprite->Position.m[0], sprite->Position.m[1], 0.0f)); 
 	// model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); 
     // model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f)); 
     // model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
-
     // model = glm::scale(model, glm::vec3(size, 1.0f));
-  
 	glUniformMatrix4fv(mWorldMatrix, 1, false, glm::value_ptr(model));
-	//printf("[SpriteRenderer::DrawSprite] Width : %d\n", sprite->Width);
-	//printf("[SpriteRenderer::DrawSprite] Height: %d\n", sprite->Height);
-	// Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
-	// glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
-	// CheckOpenGLError();
-
-	// glUniform2fv(mSpriteWorldUniformLocation, 1, &(sprite->Position.m[0]));
-
-	// Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
-	// glUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
-
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	glEnableVertexAttribArray(mUVAttribLocation);
-	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-	// Vector2 textureSize(static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height));
-	// glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
+	
+	// glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
+	// glEnableVertexAttribArray(mUVAttribLocation);
+	// glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));
+
 	// Set the sampler texture unit to 0
 	glUniform1i(mTextureUniformLocation, 0);
 
-	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
-	//printf("[SpriteRenderer::DrawSprite] End\n");
+  	glBindVertexArray(this->quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+
+	// GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
+	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
 }
 
 void SpriteRenderer::InitializeShaders() {
@@ -116,7 +105,7 @@ void SpriteRenderer::InitializeShaders() {
 	const std::string vs = STRING
 	(
 		attribute vec4 vertex; // <vec2 position, vec2 texCoords>
-		attribute vec2 uv;
+		//attribute vec2 uv;
 		
 		uniform mat4 world;
 		uniform mat4 projection;
@@ -125,7 +114,7 @@ void SpriteRenderer::InitializeShaders() {
 
 		void main()
 		{
-			TexCoords = uv;
+			TexCoords = vertex.zw;
 			gl_Position = projection * world * vertex;
 		}
 	);
@@ -137,10 +126,10 @@ void SpriteRenderer::InitializeShaders() {
 		varying vec2 TexCoords;
 
 		uniform sampler2D texture;
-
+		
 		void main()
 		{    
-			gl_FragColor = texture2D(texture, TexCoords);
+			gl_FragColor = vec4(texture2D(texture, TexCoords).xyz, 0.5);
 		}
 	);
 
@@ -152,12 +141,12 @@ void SpriteRenderer::InitializeShaders() {
 
 	// // Vertex shader parameters
 	mVertexAttribLocation = glGetAttribLocation(mProgram, "vertex");
-	mUVAttribLocation = glGetAttribLocation(mProgram, "uv");
+	//mUVAttribLocation = glGetAttribLocation(mProgram, "uv");
 	mWorldMatrix = glGetUniformLocation(mProgram, "world");
 	mProjectionMatrix = glGetUniformLocation(mProgram, "projection");
 
 	printf("[SpriteRenderer::InitializeShaders] mVertexAttribLocation: %d\n", mVertexAttribLocation);
-	printf("[SpriteRenderer::InitializeShaders] mUVAttribLocation: %d\n", mUVAttribLocation);
+	//printf("[SpriteRenderer::InitializeShaders] mUVAttribLocation: %d\n", mUVAttribLocation);
 	printf("[SpriteRenderer::InitializeShaders] mWorldMatrix: %d\n", mWorldMatrix);
 	printf("[SpriteRenderer::InitializeShaders] mProjectionMatrix: %d\n", mProjectionMatrix);
 
@@ -167,27 +156,53 @@ void SpriteRenderer::InitializeShaders() {
 }
 
 void SpriteRenderer::InitializeBuffers() {
-	GLfloat vertexPositions[] =
-	{
-		 0.0f, 1.0f, 0.0f, 1.0f,
-		 0.0f, 0.0f, 0.0f, 1.0f,
-		 1.0f, 0.0f, 0.0f, 1.0f,
-		 1.0f, 1.0f, 0.0f, 1.0f,
-	};
 
-	glGenBuffers(1, &mVertexPositionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
+    // configure VAO/VBO
+    unsigned int VBO;
+    float vertices[] = { 
+        // pos      // tex
+        0.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 0.0f, 
 
-	GLfloat vertexUVs[] =
-	{
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-	};
+        0.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, 1.0f, 1.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 0.0f
+    };
 
-	glGenBuffers(1, &mVertexUVBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexUVs), vertexUVs, GL_STATIC_DRAW);
+    glGenVertexArrays(1, &this->quadVAO);
+    glGenBuffers(1, &VBO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindVertexArray(this->quadVAO);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+	// GLfloat vertexPositions[] =
+	// {
+	// 	 0.0f, 1.0f, 0.0f, 1.0f,
+	// 	 0.0f, 0.0f, 0.0f, 1.0f,
+	// 	 1.0f, 0.0f, 0.0f, 1.0f,
+	// 	 1.0f, 1.0f, 0.0f, 1.0f,
+	// };
+
+	// glGenBuffers(1, &mVertexPositionBuffer);
+	// glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
+	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
+
+	// GLfloat vertexUVs[] =
+	// {
+	// 	0.0f, 1.0f,
+	// 	0.0f, 0.0f,
+	// 	1.0f, 0.0f,
+	// 	1.0f, 1.0f,
+	// };
+
+	// glGenBuffers(1, &mVertexUVBuffer);
+	// glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
+	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertexUVs), vertexUVs, GL_STATIC_DRAW);
 }

@@ -71,8 +71,12 @@ void SplashScene::UpdateScreenSize(int width, int height)
 		mSprite->Width = static_cast<int>(height / spriteAspectRatio);
 	}
 	cout << "mSprite w: " << width << " h: " << height << std::endl;
-					
-	mSprite->Position = { 0, 0};// { width / 2.0f - mSprite->Width / 2.0f, height / 2.0f - mSprite->Height / 2.0f };
+
+	float positionX = width / 2.0f - mSprite->Texture.Width / 2.0f;
+	float positionY = height / 2.0f - mSprite->Texture.Height / 2.0f;	
+	cout << "mSprite x: " << positionX << " y: " << positionY << std::endl;
+
+	mSprite->Position = { positionX, positionY };
 }
 
 void SplashScene::Update(shared_ptr<IStepTimer> timer)
@@ -100,6 +104,7 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
 	if (mSpriteRenderer && !isLoadingResources) {
+		printf("[SplashScene::Draw] Render sprite\n");
 		mSpriteRenderer->DrawSprite(mSprite);
 	}
 }
