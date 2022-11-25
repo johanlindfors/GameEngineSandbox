@@ -5,9 +5,11 @@
 #include "MathHelper.h"
 #include "renderer/Sprite.h"
 #include "game/IGameStateCallback.h"
+#include "IStepTimer.h"
 
 using std::shared_ptr;
 using Utilities::Vector2;
+using Utilities::IStepTimer;
 using Engine::ISpriteRenderer;
 using Engine::IInputManager;
 
@@ -15,15 +17,17 @@ Bird::Bird(Vector2 position)
     : Entity(position)
 {
     mSprite->Velocity = Vector2(0.0f, 1.0f);
+	mSprite->Width = 30;
+	mSprite->Height = 30;
 }
 
 void Bird::Reset() {
 	mSprite->Position = Vector2(10, 10);
 }
 
-void Bird::Update(int screenWidth, int screenHeight)
+void Bird::Update(shared_ptr<IStepTimer> timer)
 {
-    Entity::Update(screenWidth, screenHeight);
+    Entity::Update(timer);
 }
 
 void Bird::HandleInput(shared_ptr<IInputManager> input)

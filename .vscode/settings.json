@@ -60,7 +60,19 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "typeinfo": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "codecvt": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "list": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "iomanip": "cpp",
+        "sstream": "cpp",
+        "cinttypes": "cpp"
     },
     "cmake.configureOnOpen": true
 }

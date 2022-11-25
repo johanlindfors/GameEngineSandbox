@@ -3,9 +3,12 @@
 #include "textures/Texture2D.h"
 #include "renderer/Sprite.h"
 #include "game/GameDefines.h"
+#include "IStepTimer.h"
 
 using std::make_shared;
+using std::shared_ptr;
 using Utilities::Vector2;
+using Utilities::IStepTimer;
 using Engine::Texture2D;
 using Engine::Sprite;
 
@@ -22,11 +25,7 @@ void Entity::SetTexture(Texture2D texture)
     mSprite->Texture = texture;
 }
 
-void Entity::Update(int screenWidth, int screenHeight)
+void Entity::Update(shared_ptr<IStepTimer> timer)
 {
-    mSprite->Width = screenWidth / SCREEN_WIDTH - 1;
-    mSprite->Height = screenHeight / SCREEN_HEIGHT - 1;
 
-	mScreenWidth = screenWidth;
-	mScreenHeight = screenHeight;
 }
