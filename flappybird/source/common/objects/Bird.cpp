@@ -17,8 +17,8 @@ Bird::Bird(Vector2 position)
     : Entity(position)
 {
     mSprite->Velocity = Vector2(0.0f, 1.0f);
-	mSprite->Width = 30;
-	mSprite->Height = 30;
+	mSprite->Width = 34;
+	mSprite->Height = 24;
 }
 
 void Bird::Reset() {
@@ -51,5 +51,5 @@ void Bird::HandleInput(shared_ptr<IInputManager> input)
 }
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
-
+	renderer->DrawSprite(mSprite);
 }

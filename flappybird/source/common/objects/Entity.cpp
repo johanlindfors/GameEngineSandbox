@@ -27,5 +27,5 @@ void Entity::SetTexture(Texture2D texture)
 
 void Entity::Update(shared_ptr<IStepTimer> timer)
 {
-
+    printf("Elpased %u\n", timer->GetElapsedMilliSeconds());
 }

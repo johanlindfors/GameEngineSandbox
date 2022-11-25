@@ -80,7 +80,7 @@ void SplashScene::UpdateScreenSize(int width, int height)
 	float positionY = height / 2.0f - mTitle->Texture.Height / 2.0f;
 
 	mBackground->Position = { 0, 0 };
-	mTitle->Position = { positionX, positionY + 100 };
+	mTitle->Position = { positionX, positionY + 500 };
 }
 
 void SplashScene::Update(shared_ptr<IStepTimer> timer)
@@ -92,13 +92,15 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 		mTextureManager->LoadTextures(vector<wstring>(fileNames));
 	} else {
 		mIsLoadingResources = false;
-		mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
-		if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
-			if (!mHasLoadedGamePlay) {
-				mGame->GoToState(GameState::GamePlay);
-				mHasLoadedGamePlay = true;
-			}
-		}
+		auto milliseconds = static_cast<float>(timer->GetElapsedMilliSeconds());
+		mMillisecondsToLoad -= milliseconds;
+		mTitle->Position.m[1] -= milliseconds/10;
+		// if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
+		// 	if (!mHasLoadedGamePlay) {
+		// 		mGame->GoToState(GameState::GamePlay);
+		// 		mHasLoadedGamePlay = true;
+		// 	}
+		// }
 	}
 }
 

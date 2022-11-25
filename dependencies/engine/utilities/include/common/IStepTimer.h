@@ -15,7 +15,7 @@ namespace Utilities
 		// // Get elapsed time since the previous Update call.
 		// virtual uint64_t GetElapsedTicks() const = 0;
 		virtual double GetElapsedSeconds() const = 0;
-
+		virtual unsigned int GetElapsedMilliSeconds() const = 0;
 		// // Get total time since the start of the program.
 		// virtual uint64_t GetTotalTicks() const = 0;
 		// virtual double GetTotalSeconds() const  = 0;

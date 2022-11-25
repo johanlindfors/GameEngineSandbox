@@ -27,13 +27,11 @@ void StepTimer::Tick(std::function<void()> update)
 	timeval currentTime;
 	gettimeofday(&currentTime, NULL);
 	
-	unsigned int delta = (currentTime.tv_usec - m_lastFrameTime.tv_usec) / 1000;
+	int delta = (currentTime.tv_usec - m_lastFrameTime.tv_usec) / 1000;
 	if(delta < 0) delta = 0;
-	if(delta > 100) delta = 100;
-	m_elapsedMilliseconds += (int)delta;
-	m_elapsedSeconds += (int)delta;
+	m_elapsedMilliseconds += delta;
+	m_elapsedSeconds += delta;
 	if(m_elapsedMilliseconds >= m_targetMilliseconds) {
-		m_elapsedMilliseconds -= m_targetMilliseconds;
 		m_frameCount++;
 		m_framesThisSecond++;
 		update();
@@ -42,8 +40,8 @@ void StepTimer::Tick(std::function<void()> update)
 			m_elapsedSeconds -= 1000;
 			m_framesPerSecond = m_framesThisSecond;
 			m_framesThisSecond = 0;
-			//printf("FPS: %i\n", m_framesPerSecond);
 		}
+		m_elapsedMilliseconds -= m_targetMilliseconds;
 	}
 
 	m_lastFrameTime = currentTime;

@@ -18,6 +18,7 @@ namespace Utilities
 
 		// Get elapsed time since the previous Update call.
 		double GetElapsedSeconds() const { return m_elapsedSeconds; }
+		unsigned int GetElapsedMilliSeconds() const { return m_elapsedMilliseconds; }
 
 		// Get total number of updates since start of the program.
 		uint32_t GetFrameCount() const { return m_frameCount; }

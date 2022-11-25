@@ -66,6 +66,9 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 	glEnableVertexAttribArray(mVertexAttribLocation);
 	glVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
