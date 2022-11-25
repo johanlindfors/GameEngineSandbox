@@ -21,7 +21,7 @@ using Utilities::IOCContainer;
 using Utilities::Vector2;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mBird(make_shared<Bird>(Vector2(SCREEN_WIDTH / 4.0f, SCREEN_HEIGHT / 4.0f)))
+	: mBackground(make_shared<Engine::Sprite>())
 	// , mCollider(make_shared<VectorCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
@@ -42,12 +42,14 @@ void GamePlayScene::Load()
 	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mBird->SetTexture(mTextureManager->GetTexture(L"bird.png"));
+	mBackground->Texture = mTextureManager->GetTexture(L"background.png");
+	mBackground->Width = 288;
+	mBackground->Height = 505;
 }
 
 void GamePlayScene::Unload()
 {
-	mBird.reset();
+	mBackground.reset();
 }
 
 void GamePlayScene::UpdateScreenSize(int width, int height)
@@ -60,10 +62,10 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 {
 	auto const spacePressed = mInputManager->IsKeyDown(32);
 	if (mGame->GetCurrentState() == GameState::GamePlay) {
-		mBird->HandleInput(mInputManager);
+		//mBird->HandleInput(mInputManager);
 
 		// do updates
-		mBird->Update(mScreenSizeX, mScreenSizeY);
+		//mBackground->Update(mScreenSizeX, mScreenSizeY);
 
 		// if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
 		// {
@@ -86,5 +88,5 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 
 void GamePlayScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
-	mBird->Draw(mSpriteRenderer);
+	mSpriteRenderer->DrawSprite(mBackground);
 }

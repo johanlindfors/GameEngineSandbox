@@ -10,6 +10,7 @@ namespace Engine
 	class ITextureManager;
 	class ISpriteRenderer;
 	class IInputManager;
+	class Sprite;
 }
 
 class GamePlayScene : public Engine::GameScene 
@@ -26,7 +27,7 @@ public:
 	void Draw(std::shared_ptr<Utilities::IStepTimer> timer) override;
 
 private:
-	std::shared_ptr<Bird> mBird;
+	std::shared_ptr<Engine::Sprite> mBackground;
 	std::shared_ptr<VectorCollider> mCollider;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
