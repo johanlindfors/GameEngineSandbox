@@ -3,7 +3,7 @@
         ".gitattributes": true,
         ".gitignore": true,
         //".gitmodules": true,
-        //"build/": true,
+        "build/": true,
         ".vs/": true,
         ".exe/": true,
         ".vscode/ipch/": true
