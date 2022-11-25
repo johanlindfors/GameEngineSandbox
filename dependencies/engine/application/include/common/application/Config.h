@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace Engine
 {
@@ -7,5 +8,6 @@ namespace Engine
         int FPS = 60;
         int Width = 288;
         int Height = 505;
+        std::string Title = "";
     };
 }

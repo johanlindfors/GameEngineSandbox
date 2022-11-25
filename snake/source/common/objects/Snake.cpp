@@ -69,10 +69,10 @@ void Snake::HandleInput(shared_ptr<IInputManager> input)
 	}
 	if (mSprite->Velocity.m[1] == 0) {
 		if (input->IsKeyDown(40)) {
-			mSprite->Velocity = Utilities::Vector2(0.0f, 1.0f);
+			mSprite->Velocity = Utilities::Vector2(0.0f, -1.0f);
 		}
 		if (input->IsKeyDown(38)) {
-			mSprite->Velocity = Utilities::Vector2(0.0f, -1.0f);
+			mSprite->Velocity = Utilities::Vector2(0.0f, 1.0f);
 		}
 	}
 }

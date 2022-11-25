@@ -24,7 +24,7 @@ Texture2D TextureManager::CreateEmptyTexture() {
 	texture.Name = EMPTY_TEXTURE_NAME;
 
 	const auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
-	SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+	SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, true, pixels);
 	delete[] pixels;
 
 	return texture;

@@ -31,10 +31,13 @@ public:
 	void Draw(std::shared_ptr<Utilities::IStepTimer> timer) override;
 
 private:
-	std::shared_ptr<Engine::Sprite> mSprite;
+	std::shared_ptr<Engine::Sprite> mBackground;
+	std::shared_ptr<Engine::Sprite> mTitle;
 	float mMillisecondsToLoad;
-	bool hasLoadedGamePlay;
-	bool isLoadingResources;
+	bool mHasLoadedGamePlay;
+	bool mIsLoadingResources;
+	int mWindowWidth;
+	int mWindowHeight;
 	std::queue<std::wstring> mResourcesToLoad;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;

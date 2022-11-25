@@ -104,7 +104,7 @@ namespace Engine {
 	}
 
 	// Need to be called on UI thread
-	void SetTexturePixels(int textureIndex, int width, int height, GLubyte* pixels)
+	void SetTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte* pixels)
 	{
 		printf("[GLHelper::SetTexturePixels]\n");
 		// Bind the texture object
@@ -113,7 +113,7 @@ namespace Engine {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		CheckOpenGLError();
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		glTexImage2D(GL_TEXTURE_2D, 0, hasAlpha ? GL_RGBA : GL_RGB, static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, hasAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, pixels);
 		CheckOpenGLError();
 		// Set the filtering mode
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

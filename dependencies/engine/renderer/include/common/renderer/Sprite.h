@@ -10,6 +10,7 @@ namespace Engine {
 			, Velocity({ 0.0f, 0.0f })
 			, Width(0)
 			, Height(0)
+			, Rotation(0.0f)
 		{}
 		~Sprite() = default;
 		
@@ -18,5 +19,6 @@ namespace Engine {
 		Utilities::Vector2 Velocity;
 		int Width;
 		int Height;
+		float Rotation;
 	};
 }

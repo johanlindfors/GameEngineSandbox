@@ -13,6 +13,7 @@ int main(int argc, char **argv)
     config->FPS = 15;
     config->Width = SCREEN_WIDTH;
     config->Height = SCREEN_HEIGHT;
+    config->Title = "Flappy Bird";
     Utilities::IOCContainer::Instance().Register<Engine::Config>(config);
     Utilities::IOCContainer::Instance().Register<Engine::IGameLoopCallback>(std::make_shared<Game>());
 

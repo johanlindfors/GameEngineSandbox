@@ -113,6 +113,7 @@ namespace Engine {
 			outWidth = width;
 			outHeight = height;
 
+			outHasAlpha = color_type & PNG_COLOR_MASK_ALPHA;			
 			const auto row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
 			*outData = static_cast<unsigned char*>(malloc(row_bytes * outHeight));
 
@@ -148,7 +149,7 @@ namespace Engine {
 				const auto file = mFileSystem->LoadFile(std::wstring(L"textures/" + texture.Name));
 				if(file){
 					int width, height;
-					auto hasAlpha = false;
+					bool hasAlpha;
 					GLubyte *textureImage;
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
@@ -159,7 +160,7 @@ namespace Engine {
 					texture.Width = width;
 					texture.Height = height;
 					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
-					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, textureImage);
+					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, hasAlpha, textureImage);
 					if (textureImage) {
 						delete textureImage;
 					}

@@ -9,7 +9,7 @@ namespace Engine {
 
     GLuint GenerateTexture();
 
-    void SetTexturePixels(int textureIndex, int width, int height, GLubyte* pixels);
+    void SetTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte* pixels);
 
     void DeleteTexture(int textureIndex);
 
