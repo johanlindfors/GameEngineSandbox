@@ -33,30 +33,13 @@ void SplashScene::Load()
     mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
     
 	vector<wstring> fileNames;
-	fileNames.emplace_back(L"background.png");
-	fileNames.emplace_back(L"title.png");
+	fileNames.emplace_back(L"atlas.png");
 	mTextureManager->LoadTextures(vector<wstring>(fileNames));
-
-	// Textures
-	mResourcesToLoad.push(L"bird.png");
-	mResourcesToLoad.push(L"cityscape.png");
-	mResourcesToLoad.push(L"clouds.png");
-	mResourcesToLoad.push(L"gameover.png");
-	mResourcesToLoad.push(L"get-ready.png");
-	mResourcesToLoad.push(L"sky.png");
-	mResourcesToLoad.push(L"instructions.png");
-	mResourcesToLoad.push(L"medals.png");
-	mResourcesToLoad.push(L"pipes.png");
-	mResourcesToLoad.push(L"scoreboard.png");
-	mResourcesToLoad.push(L"ground.png");
-	mResourcesToLoad.push(L"start-button.png");
-	mResourcesToLoad.push(L"trees.png");
 
 	// Audio
 	// mResourcesToLoad.push(L"background.png");
 
-	mBackground->Texture = mTextureManager->GetTexture(L"background.png");
-	mTitle->Texture = mTextureManager->GetTexture(L"title.png");
+	mBackground->Texture = mTextureManager->GetTexture(L"atlas.png");
     printf("[SplashScene::Load] Loaded\n");
 }
 

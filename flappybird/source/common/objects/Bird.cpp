@@ -17,7 +17,7 @@ Bird::Bird(Vector2 position)
     : Entity(position)
 {
     mSprite->Velocity = Vector2(0.0f, 1.0f);
-	mSprite->Width = 34;
+	mSprite->Width = 33;
 	mSprite->Height = 24;
 }
 

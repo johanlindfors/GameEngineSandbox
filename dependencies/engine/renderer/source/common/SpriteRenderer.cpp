@@ -170,12 +170,31 @@ void SpriteRenderer::InitializeBuffers()
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
 
+	// Bird fram 1 = 1,1 - 35,25
+	GLfloat x1orig = 0.0f;
+	GLfloat y1orig = 512.0f;
+	GLfloat x2orig = 512.0f;
+	GLfloat y2orig = 0.0f;
+
+	GLfloat width = 512.0;
+	GLfloat height = 512.0;
+
+	GLfloat x1 = 2;
+	GLfloat y1 = 173;
+	GLfloat x2 = 45;
+	GLfloat y2 = 216;
+
+	GLfloat s1 = x1/width;
+	GLfloat t1 = (height - y1)/height;
+	GLfloat s2 = x2/width;
+	GLfloat t2 = (height - y2)/height;
+
 	GLfloat vertexUVs[] =
 	{
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
+		s1, t1,
+		s1, t2,
+		s2, t2,
+		s2, t1,
 	};
 
 	glGenBuffers(1, &mVertexUVBuffer);
