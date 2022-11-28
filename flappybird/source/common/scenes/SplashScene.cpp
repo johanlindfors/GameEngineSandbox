@@ -42,19 +42,9 @@ void SplashScene::Load()
 	// Audio
 	// mResourcesToLoad.push(L"background.png");
 
-	//mBackground->Texture = mTextureManager->GetTexture(L"atlas.png");
-	// mBackground->Offset = 3;
-	// mBackground->Width = 288;
-	// mBackground->Height = 505;
-
-	//mTitle->Texture = mTextureManager->GetTexture(L"atlas.png");
 	mTitle->Offset = 13;
 	mTitle->Width = 179;
 	mTitle->Height = 48;
-
-	// mClouds->Offset = 5;
-	// mClouds->Width = 288;
-	// mClouds->Height = 200;
 
     printf("[SplashScene::Load] Loaded\n");
 }
@@ -82,13 +72,12 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	mBackground->Update(timer);
 
 	mBird->Update(timer);
-	// mTitle->Position.m[1] -= milliseconds/10;
-	// if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
-	// 	if (!mHasLoadedGamePlay) {
-	// 		mGame->GoToState(GameState::GamePlay);
-	// 		mHasLoadedGamePlay = true;
-	// 	}
-	// }
+	if (mMillisecondsToLoad <= 0) {
+		if (!mHasLoadedGamePlay) {
+			mGame->GoToState(GameState::GamePlay);
+			mHasLoadedGamePlay = true;
+		}
+	}
 }
 
 void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
