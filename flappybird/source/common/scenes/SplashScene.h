@@ -5,6 +5,7 @@
 
 class IGameStateCallback;
 class ParallaxBackground;
+class Bird;
 
 namespace Engine
 {
@@ -34,6 +35,7 @@ public:
 private:
 	std::shared_ptr<ParallaxBackground> mBackground;
 	std::shared_ptr<Engine::Sprite> mTitle;
+	std::unique_ptr<Bird> mBird;
 	float mMillisecondsToLoad;
 	bool mHasLoadedGamePlay;
 	bool mIsLoadingResources;

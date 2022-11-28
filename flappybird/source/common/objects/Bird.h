@@ -25,4 +25,6 @@ public:
 
 private:
 	void Reset();
+	int mAnimationCounter;
+	int mFramesPerAnimation;
 };

@@ -15,19 +15,27 @@ using Engine::IInputManager;
 
 Bird::Bird(Vector2 position)
     : Entity(position)
+	// , mAnimationCounter(0)
+	// , mFramesPerAnimation(1)
 {
-    mSprite->Velocity = Vector2(0.0f, 1.0f);
-	mSprite->Width = 33;
+    mSprite->Width = 33;
 	mSprite->Height = 24;
 }
 
 void Bird::Reset() {
-	mSprite->Position = Vector2(10, 10);
+	mSprite->Position = Vector2(132, 300);
 }
 
 void Bird::Update(shared_ptr<IStepTimer> timer)
 {
     Entity::Update(timer);
+	// if(mAnimationCounter++ >= mFramesPerAnimation) {
+		auto offset = mSprite->Offset;
+		offset++;
+		offset %= 3;
+		mSprite->Offset = offset;
+		mAnimationCounter = 0;
+	// }
 }
 
 void Bird::HandleInput(shared_ptr<IInputManager> input)

@@ -8,6 +8,7 @@
 #include "IStepTimer.h"
 #include <iostream>
 #include "objects/ParallaxBackground.h"
+#include "objects/Bird.h"
 
 using namespace std;
 using namespace Engine;
@@ -16,6 +17,7 @@ using namespace Utilities;
 SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<ParallaxBackground>())
 	, mTitle(make_shared<Sprite>())
+	, mBird(make_unique<Bird>(Vector2(132,250)))
 	, mMillisecondsToLoad(2000.0f)
 	, mHasLoadedGamePlay(false)
 	, mIsLoadingResources(true)
@@ -78,6 +80,8 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	auto milliseconds = static_cast<float>(timer->GetElapsedMilliSeconds());
 	mMillisecondsToLoad -= milliseconds;
 	mBackground->Update(timer);
+
+	mBird->Update(timer);
 	// mTitle->Position.m[1] -= milliseconds/10;
 	// if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
 	// 	if (!mHasLoadedGamePlay) {
@@ -92,5 +96,6 @@ void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 	if (mSpriteRenderer) {
 		mBackground->Draw(mSpriteRenderer);
 		mSpriteRenderer->DrawSprite(mTitle);
+		mBird->Draw(mSpriteRenderer);
 	}
 }

@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 {
     setbuf(stdout, NULL);
     auto config = std::make_shared<Engine::Config>();
-    config->FPS = 60;
+    config->FPS = 15;
     config->Width = SCREEN_WIDTH;
     config->Height = SCREEN_HEIGHT;
     config->Title = "Flappy Bird";
