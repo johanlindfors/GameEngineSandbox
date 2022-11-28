@@ -41,7 +41,7 @@ void StepTimer::Tick(std::function<void()> update)
 			m_framesPerSecond = m_framesThisSecond;
 			m_framesThisSecond = 0;
 		}
-		m_elapsedMilliseconds -= m_targetMilliseconds;
+		m_elapsedMilliseconds = 0;//= m_targetMilliseconds;
 	}
 
 	m_lastFrameTime = currentTime;

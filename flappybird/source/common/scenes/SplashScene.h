@@ -2,9 +2,9 @@
 #include "scenes/GameScene.h"
 #include <memory>
 #include <queue>
-#include "objects/Clouds.h"
 
 class IGameStateCallback;
+class ParallaxBackground;
 
 namespace Engine
 {
@@ -32,12 +32,8 @@ public:
 	void Draw(std::shared_ptr<Utilities::IStepTimer> timer) override;
 
 private:
-	std::shared_ptr<Engine::Sprite> mBackground;
+	std::shared_ptr<ParallaxBackground> mBackground;
 	std::shared_ptr<Engine::Sprite> mTitle;
-	std::unique_ptr<Clouds> mClouds;
-	std::shared_ptr<Engine::Sprite> mGround;
-	std::shared_ptr<Engine::Sprite> mTrees;
-	std::shared_ptr<Engine::Sprite> mCity;
 	float mMillisecondsToLoad;
 	bool mHasLoadedGamePlay;
 	bool mIsLoadingResources;

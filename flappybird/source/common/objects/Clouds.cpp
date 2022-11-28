@@ -27,7 +27,6 @@ Clouds::Clouds(Vector2 position, Vector2 velocity)
 void Clouds::Update(shared_ptr<IStepTimer> timer)
 {
     mPosition.m[0] += mVelocity.m[0] * (timer->GetElapsedMilliSeconds()/1000.0f);
-    //mPosition.m[1] += mVelocity.m[1] * (timer->GetElapsedMilliSeconds()/1000.0f);
     if(mPosition.m[0] <= -351.0) {
         mPosition.m[0] += 351.0;
     }

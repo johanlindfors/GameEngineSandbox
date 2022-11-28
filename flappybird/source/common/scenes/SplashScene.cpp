@@ -7,17 +7,15 @@
 #include "renderer/Sprite.h"
 #include "IStepTimer.h"
 #include <iostream>
+#include "objects/ParallaxBackground.h"
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
 SplashScene::SplashScene(IGameStateCallback* gameCallback)
-	: mBackground(make_shared<Sprite>())
+	: mBackground(make_shared<ParallaxBackground>())
 	, mTitle(make_shared<Sprite>())
-	, mClouds(make_unique<Clouds>(Vector2(0,200), Vector2(-10,0)))
-	// , mGround(make_shared<Sprite>())
-	// , mTrees(make_shared<Sprite>())
 	, mMillisecondsToLoad(2000.0f)
 	, mHasLoadedGamePlay(false)
 	, mIsLoadingResources(true)
@@ -43,9 +41,9 @@ void SplashScene::Load()
 	// mResourcesToLoad.push(L"background.png");
 
 	//mBackground->Texture = mTextureManager->GetTexture(L"atlas.png");
-	mBackground->Offset = 3;
-	mBackground->Width = 288;
-	mBackground->Height = 505;
+	// mBackground->Offset = 3;
+	// mBackground->Width = 288;
+	// mBackground->Height = 505;
 
 	//mTitle->Texture = mTextureManager->GetTexture(L"atlas.png");
 	mTitle->Offset = 13;
@@ -79,7 +77,7 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 {
 	auto milliseconds = static_cast<float>(timer->GetElapsedMilliSeconds());
 	mMillisecondsToLoad -= milliseconds;
-	mClouds->Update(timer);
+	mBackground->Update(timer);
 	// mTitle->Position.m[1] -= milliseconds/10;
 	// if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
 	// 	if (!mHasLoadedGamePlay) {
@@ -92,11 +90,7 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
 	if (mSpriteRenderer) {
-		mSpriteRenderer->DrawSprite(mBackground);
-		mClouds->Draw(mSpriteRenderer);
-		// mSpriteRenderer->DrawSprite(mTrees);
-		// mSpriteRenderer->DrawSprite(mCity);
-		// mSpriteRenderer->DrawSprite(mGround);
+		mBackground->Draw(mSpriteRenderer);
 		mSpriteRenderer->DrawSprite(mTitle);
 	}
 }
