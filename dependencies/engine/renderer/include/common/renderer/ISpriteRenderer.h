@@ -2,6 +2,11 @@
 #include <memory>
 #include "glwrapper.h"
 
+namespace Utilities
+{
+	struct Vector2;
+}
+
 namespace Engine {
 	struct Sprite;
 
@@ -10,6 +15,7 @@ namespace Engine {
 		virtual ~ISpriteRenderer() = default;
 		virtual void UpdateWindowSize(GLsizei width, GLsizei height) = 0;
 		virtual void Clear() = 0;
-		virtual void DrawSprite(std::shared_ptr<Sprite> texture) = 0;
+		virtual void DrawSprite(std::shared_ptr<Sprite> sprite) = 0;
+		virtual void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Vector2 position) = 0;
 	};
 }

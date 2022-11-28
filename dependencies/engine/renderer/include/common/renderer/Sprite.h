@@ -11,6 +11,7 @@ namespace Engine {
 			, Width(0)
 			, Height(0)
 			, Rotation(0.0f)
+			, Offset(0)
 		{}
 		~Sprite() = default;
 		
@@ -20,5 +21,6 @@ namespace Engine {
 		int Width;
 		int Height;
 		float Rotation;
+		int Offset;
 	};
 }

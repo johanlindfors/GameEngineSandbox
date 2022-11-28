@@ -1,5 +1,6 @@
 #pragma once
 #include "ISpriteRenderer.h"
+#include <vector>
 
 namespace Engine {
 	class SpriteRenderer : public ISpriteRenderer {
@@ -11,10 +12,14 @@ namespace Engine {
 		void UpdateWindowSize(GLsizei width, GLsizei height) override;
 		void Clear() override;
 		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
+		void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Vector2 position) override;
 
 	private:
 		void InitializeShaders();
 		void InitializeBuffers();
+		void InitializeVertexBuffer();
+		void InitializeUVBuffer();
+		void AddUVs(int x1, int y1, int x2, int y2);
 
 		GLuint mProgram;
 		GLsizei mWindowWidth;
@@ -33,6 +38,7 @@ namespace Engine {
 
 		GLuint mVertexPositionBuffer;
 		GLuint mVertexUVBuffer;
-		unsigned int quadVAO;
+		std::vector<GLfloat> mUVVertices;
+		bool mInitialized;
 	};
 }

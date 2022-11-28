@@ -2,6 +2,7 @@
 #include "scenes/GameScene.h"
 #include <memory>
 #include <queue>
+#include "objects/Clouds.h"
 
 class IGameStateCallback;
 
@@ -33,12 +34,15 @@ public:
 private:
 	std::shared_ptr<Engine::Sprite> mBackground;
 	std::shared_ptr<Engine::Sprite> mTitle;
+	std::unique_ptr<Clouds> mClouds;
+	std::shared_ptr<Engine::Sprite> mGround;
+	std::shared_ptr<Engine::Sprite> mTrees;
+	std::shared_ptr<Engine::Sprite> mCity;
 	float mMillisecondsToLoad;
 	bool mHasLoadedGamePlay;
 	bool mIsLoadingResources;
 	int mWindowWidth;
 	int mWindowHeight;
-	std::queue<std::wstring> mResourcesToLoad;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
     std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;

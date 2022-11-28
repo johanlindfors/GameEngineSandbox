@@ -56,6 +56,7 @@ wstring FileSystem::GetResourcesDirectory()
 	const fs::path currentPath = string(get_current_dir_name());
 	const auto folderPath = currentPath.generic_wstring();
 	path = wstring(folderPath + L"/resources/");
+	printf("[FileSystem::GetResourcesDirectory] Path: %S\n", folderPath.c_str());
 #endif
     return path;
 }
