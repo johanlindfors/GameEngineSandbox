@@ -13,21 +13,9 @@ namespace Engine
 	class ITextureManager;
 	class ISpriteRenderer;
 	class IInputManager;
+	class IPhysicsEngine;
 	class Sprite;
 }
-
-class IPhysicsBody;
-
-class PhysicsEngine 
-{
-private:
-	const float GRAVITY = 9.1f;
-    std::vector<std::shared_ptr<IPhysicsBody>> mBodies;
-
-public:
-	void AddBody(std::shared_ptr<IPhysicsBody> body);
-	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
-};
 
 class GamePlayScene : public Engine::GameScene 
 {
@@ -49,7 +37,7 @@ private:
 	std::shared_ptr<VectorCollider> mCollider;
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
-	std::unique_ptr<PhysicsEngine> mPhysicsEngine;
+	std::shared_ptr<Engine::IPhysicsEngine> mPhysicsEngine;
 	int mScreenSizeX;
 	int mScreenSizeY;
 	IGameStateCallback* mGame;

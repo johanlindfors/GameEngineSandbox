@@ -18,6 +18,7 @@ set(DEPENDENCIES
     textures
     input
     scenes
+    physics
 )
 
 if(WINDOWS_STORE)

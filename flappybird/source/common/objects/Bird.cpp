@@ -45,26 +45,6 @@ void Bird::Flap()
 	}
 }
 
-void Bird::HandleInput(shared_ptr<IInputManager> input)
-{
-	if (mSprite->Velocity.m[0] == 0) {
-		if (input->IsKeyDown(37)) {
-			mSprite->Velocity = Utilities::Vector2(-1.0f, 0.0f);
-		}
-		if (input->IsKeyDown(39)) {
-			mSprite->Velocity = Utilities::Vector2(1.0f, 0.0f);
-		}
-	}
-	if (mSprite->Velocity.m[1] == 0) {
-		if (input->IsKeyDown(40)) {
-			mSprite->Velocity = Utilities::Vector2(0.0f, 1.0f);
-		}
-		if (input->IsKeyDown(38)) {
-			mSprite->Velocity = Utilities::Vector2(0.0f, -1.0f);
-		}
-	}
-}
-
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
 	renderer->DrawSprite(mSprite, Vector2(mSprite->Position.m[0] + this->X, mSprite->Position.m[1] + this->Y));
 }
