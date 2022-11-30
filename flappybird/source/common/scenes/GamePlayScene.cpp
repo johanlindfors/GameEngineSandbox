@@ -23,7 +23,7 @@ using Utilities::Vector2;
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Engine::Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
-	, mBird(make_shared<Bird>(Vector2(100,100)))
+	, mBird(make_shared<Bird>(Vector2(132,250)))
 	// , mCollider(make_shared<VectorCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
@@ -43,18 +43,15 @@ void GamePlayScene::Load()
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mBackground->Texture = mTextureManager->GetTexture(L"sky.png");
+	mBackground->Offset = 3;
 	mBackground->Width = 288;
 	mBackground->Height = 505;
-
-	mBird->SetTexture(mTextureManager->GetTexture(L"bird.png"));
-	mBird->GetSprite()->Width = 30;
-	mBird->GetSprite()->Height = 30;
 }
 
 void GamePlayScene::Unload()
 {
 	mBackground.reset();
+	mSkyline.reset();
 }
 
 void GamePlayScene::UpdateScreenSize(int width, int height)
@@ -69,6 +66,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 	if (mGame->GetCurrentState() == GameState::GamePlay) {
 		//mBird->HandleInput(mInputManager);
 
+		mSkyline->Update(timer);
 		// do updates
 		mBird->Update(timer);
 
@@ -94,5 +92,6 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
 	renderer->DrawSprite(mBackground);
+	mSkyline->Draw(renderer);
 	mBird->Draw(renderer);
 }

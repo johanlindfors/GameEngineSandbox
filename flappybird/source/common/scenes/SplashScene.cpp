@@ -3,6 +3,7 @@
 #include "scenes/ISceneManager.h"
 #include "game/IGameStateCallback.h"
 #include "textures/ITextureManager.h"
+#include "input/IInputManager.h"
 #include "renderer/ISpriteRenderer.h"
 #include "renderer/Sprite.h"
 #include "IStepTimer.h"
@@ -18,7 +19,7 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_shared<ParallaxBackground>())
 	, mTitle(make_shared<Sprite>())
-	, mBird(make_unique<Bird>(Vector2(132,250)))
+	, mInstructions(make_shared<Sprite>())
 	, mMillisecondsToLoad(2000.0f)
 	, mHasLoadedGamePlay(false)
 	, mIsLoadingResources(true)
@@ -30,6 +31,13 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	mBackground->Offset = 3;
 	mBackground->Width = 288;
 	mBackground->Height = 505;
+	
+	mInstructions->Offset = 6;
+	mInstructions->Position = Vector2(100,180);
+	mInstructions->Width = 103;
+	mInstructions->Height = 102;
+
+	mSkyline->Pause();
 }
 
 SplashScene::~SplashScene() {
@@ -39,6 +47,7 @@ SplashScene::~SplashScene() {
 void SplashScene::Load()
 {
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
+	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
     
 	vector<wstring> fileNames;
 	fileNames.emplace_back(L"atlas.png");
@@ -75,14 +84,22 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	auto milliseconds = static_cast<float>(timer->GetElapsedMilliSeconds());
 	mMillisecondsToLoad -= milliseconds;
 	mSkyline->Update(timer);
-
-	mBird->Update(timer);
-	if (mMillisecondsToLoad <= 0) {
-		if (!mHasLoadedGamePlay) {
-			mGame->GoToState(GameState::GamePlay);
-			mHasLoadedGamePlay = true;
+	
+	auto const spacePressed = mInputManager->IsKeyDown(32);
+	if (mGame->GetCurrentState() == GameState::GamePlay) {
+		if (spacePressed && !mSpacePressedBefore) {
+			if (!mHasLoadedGamePlay) {
+				mGame->GoToState(GameState::GamePlay);
+				mHasLoadedGamePlay = true;
+			}
 		}
 	}
+	else {
+		if (spacePressed && !mSpacePressedBefore) {
+			mGame->GoToState(GameState::GamePlay);
+		}
+	}
+	mSpacePressedBefore = spacePressed;
 }
 
 void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)
@@ -91,6 +108,6 @@ void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 		renderer->DrawSprite(mBackground);
 		mSkyline->Draw(renderer);
 		renderer->DrawSprite(mTitle);
-		mBird->Draw(renderer);
+		renderer->DrawSprite(mInstructions);
 	}
 }

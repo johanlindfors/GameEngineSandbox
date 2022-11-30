@@ -10,6 +10,7 @@ class Bird;
 namespace Engine
 {
 	class ITextureManager;
+	class IInputManager;
 	class ISpriteRenderer;
 	struct Sprite;
 }
@@ -36,13 +37,15 @@ private:
 	std::shared_ptr<Engine::Sprite> mBackground;
 	std::shared_ptr<ParallaxBackground> mSkyline;
 	std::shared_ptr<Engine::Sprite> mTitle;
-	std::unique_ptr<Bird> mBird;
+	std::shared_ptr<Engine::Sprite> mInstructions;
 	float mMillisecondsToLoad;
 	bool mHasLoadedGamePlay;
 	bool mIsLoadingResources;
 	int mWindowWidth;
 	int mWindowHeight;
+	bool mSpacePressedBefore;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
+	std::shared_ptr<Engine::IInputManager> mInputManager;
 	IGameStateCallback* mGame;
 };
