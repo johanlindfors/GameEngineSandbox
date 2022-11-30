@@ -10,9 +10,9 @@
 #include "MathHelper.h"
 #include "game/GameDefines.h"
 #include "renderer/Sprite.h"
+#include "objects/ParallaxBackground.h"
 
-using std::make_shared;
-using std::shared_ptr;
+using namespace std;
 using Engine::IInputManager;
 using Engine::ISpriteRenderer;
 using Engine::ITextureManager;
@@ -22,6 +22,7 @@ using Utilities::Vector2;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Engine::Sprite>())
+	, mSkyline(make_unique<ParallaxBackground>())
 	, mBird(make_shared<Bird>(Vector2(100,100)))
 	// , mCollider(make_shared<VectorCollider>())
 	, mScreenSizeX(0)
@@ -40,7 +41,6 @@ GamePlayScene::~GamePlayScene()
 void GamePlayScene::Load()
 {
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
-	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
 	mBackground->Texture = mTextureManager->GetTexture(L"sky.png");
@@ -91,8 +91,8 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 	mSpacePressedBefore = spacePressed;
 }
 
-void GamePlayScene::Draw(shared_ptr<IStepTimer> /*timer*/)
+void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
-	mSpriteRenderer->DrawSprite(mBackground);
-	mBird->Draw(mSpriteRenderer);
+	renderer->DrawSprite(mBackground);
+	mBird->Draw(renderer);
 }

@@ -24,7 +24,6 @@ GameOverScene::~GameOverScene() { }
 void GameOverScene::Load()
 {
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
-    mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
 	mBackground->Texture = mTextureManager->GetTexture(L"gameover/background.png");
@@ -57,10 +56,10 @@ void GameOverScene::Update(shared_ptr<IStepTimer> timer)
 	HandleInput();
 }
 
-void GameOverScene::Draw(shared_ptr<IStepTimer> /*timer*/)
+void GameOverScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
-	if (mSpriteRenderer) {
-		mSpriteRenderer->DrawSprite(mBackground);
-        mSpriteRenderer->DrawSprite(mText);
+	if (renderer) {
+		renderer->DrawSprite(mBackground);
+        renderer->DrawSprite(mText);
 	}
 }

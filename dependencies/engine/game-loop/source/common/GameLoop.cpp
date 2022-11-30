@@ -100,7 +100,7 @@ void GameLoop::Render() {
 
 	Clear();
 
-	mSceneManager->Draw(mTimer);
+	mSceneManager->Draw(mSpriteRenderer);
 }
 
 void GameLoop::Clear() const

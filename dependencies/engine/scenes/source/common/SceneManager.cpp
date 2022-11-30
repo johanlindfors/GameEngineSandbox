@@ -1,5 +1,6 @@
 #include "scenes/SceneManager.h"
 #include "IOC.hpp"
+#include "renderer/ISpriteRenderer.h"
 #include <string>
 
 using namespace std;
@@ -10,6 +11,7 @@ SceneManager::SceneManager()
 	, mScreenWidth(0)
 	, mScreenHeight(0)
 {
+
 }
 
 void SceneManager::Initialize() 
@@ -58,7 +60,7 @@ void SceneManager::Update(std::shared_ptr<Utilities::IStepTimer> timer)
 	// printf("[SceneManager::Update] Scenes updated\n");
 }
 
-void SceneManager::Draw(std::shared_ptr<Utilities::IStepTimer> timer)
+void SceneManager::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
 	// printf("[SceneManager::Draw] \n");
 	if (!mInitialized || mScenes.size() == 0) {
@@ -67,7 +69,7 @@ void SceneManager::Draw(std::shared_ptr<Utilities::IStepTimer> timer)
 
 	for (auto const& scene : mScenes)
 	{
-		scene->Draw(timer);
+		scene->Draw(renderer);
 	}
 }
 

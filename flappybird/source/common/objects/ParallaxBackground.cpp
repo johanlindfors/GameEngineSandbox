@@ -11,20 +11,16 @@ using namespace Engine;
 using namespace Utilities;
 
 ParallaxBackground::ParallaxBackground()
-	: mBackground(make_shared<Sprite>())
-	, mClouds(make_unique<Clouds>(Vector2(0,210), Vector2(-10,0)))
+	: mClouds(make_unique<Clouds>(Vector2(0,210), Vector2(-10,0)))
 	, mTrees(make_unique<Trees>(Vector2(0,175), Vector2(-15,0)))
 	, mSkyline(make_unique<Skyline>(Vector2(0,155), Vector2(-20,0)))
 	, mGround(make_unique<Ground>(Vector2(0,-70), Vector2(-30,0)))
+    , mIsRunning(true)
 {
-	mBackground->Offset = 3;
-	mBackground->Width = 288;
-	mBackground->Height = 505;
 }
 
 ParallaxBackground::~ParallaxBackground() 
 {
-    mBackground.reset();
     mClouds.release();
     mTrees.release();
     mSkyline.release();
@@ -33,15 +29,16 @@ ParallaxBackground::~ParallaxBackground()
 
 void ParallaxBackground::Update(shared_ptr<IStepTimer> timer)
 {
-	mClouds->Update(timer);
-	mTrees->Update(timer);
-	mSkyline->Update(timer);
-	mGround->Update(timer);
+    if(mIsRunning) {
+        mClouds->Update(timer);
+        mTrees->Update(timer);
+        mSkyline->Update(timer);
+        mGround->Update(timer);
+    }
 }
 
 void ParallaxBackground::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
-    renderer->DrawSprite(mBackground);
     mClouds->Draw(renderer);
     mTrees->Draw(renderer);
     mSkyline->Draw(renderer);

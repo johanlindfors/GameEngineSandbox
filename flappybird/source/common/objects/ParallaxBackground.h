@@ -26,10 +26,12 @@ public:
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> timer);
 
+    void Pause() { mIsRunning = false; }
+    void Resume() { mIsRunning = true; }
 private:
-	std::shared_ptr<Engine::Sprite> mBackground;
 	std::unique_ptr<Clouds> mClouds;
 	std::unique_ptr<Trees> mTrees;
 	std::unique_ptr<Skyline> mSkyline;
 	std::unique_ptr<Ground> mGround;
+    bool mIsRunning;
 };
