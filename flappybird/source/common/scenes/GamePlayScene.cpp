@@ -11,6 +11,7 @@
 #include "game/GameDefines.h"
 #include "renderer/Sprite.h"
 #include "objects/ParallaxBackground.h"
+#include "IStepTimer.h"
 
 using namespace std;
 using Engine::IInputManager;
@@ -24,6 +25,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Engine::Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
 	, mBird(make_shared<Bird>(Vector2(132,250)))
+	, mPhysicsEngine(make_unique<PhysicsEngine>())
 	// , mCollider(make_shared<VectorCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
@@ -46,6 +48,8 @@ void GamePlayScene::Load()
 	mBackground->Offset = 3;
 	mBackground->Width = 288;
 	mBackground->Height = 505;
+
+	mPhysicsEngine->AddBody(mBird);
 }
 
 void GamePlayScene::Unload()
@@ -69,7 +73,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		mSkyline->Update(timer);
 		// do updates
 		mBird->Update(timer);
-
+		mPhysicsEngine->Update(timer);
 		// if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
 		// {
 
@@ -77,7 +81,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 
 		if (spacePressed && !mSpacePressedBefore)
 		{
-			mGame->GoToState(GameState::Pause);
+			mBird->Flap();
 		}
 	}
 	else {
@@ -94,4 +98,27 @@ void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 	renderer->DrawSprite(mBackground);
 	mSkyline->Draw(renderer);
 	mBird->Draw(renderer);
+}
+
+void PhysicsEngine::AddBody(shared_ptr<IPhysicsBody> body)
+{
+	mBodies.push_back(body);
+}
+
+void PhysicsEngine::Update(shared_ptr<IStepTimer> timer)
+{
+	for (auto body : mBodies)
+	{
+		if(!body->IsAlive) continue;
+		
+		auto velocity = body->Velocity;
+		if (body->AllowGravity)
+		{
+			velocity.m[1] = velocity.m[1] - (GRAVITY * timer->GetElapsedMilliSeconds() / 10);
+		}
+
+		body->Y = body->Y + (velocity.m[1] * timer->GetElapsedMilliSeconds() / 1000);
+		body->X = body->X + (velocity.m[0] * timer->GetElapsedMilliSeconds() / 1000);
+		body->Velocity = velocity;
+	}	
 }

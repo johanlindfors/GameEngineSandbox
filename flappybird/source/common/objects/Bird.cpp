@@ -15,8 +15,8 @@ using Engine::IInputManager;
 
 Bird::Bird(Vector2 position)
     : Entity(position)
-	// , mAnimationCounter(0)
-	// , mFramesPerAnimation(1)
+	, mAnimationCounter(0)
+	, mFramesPerAnimation(4)
 {
     mSprite->Width = 33;
 	mSprite->Height = 24;
@@ -29,13 +29,20 @@ void Bird::Reset() {
 void Bird::Update(shared_ptr<IStepTimer> timer)
 {
     Entity::Update(timer);
-	// if(mAnimationCounter++ >= mFramesPerAnimation) {
+	if(mAnimationCounter++ >= mFramesPerAnimation) {
 		auto offset = mSprite->Offset;
 		offset++;
 		offset %= 3;
 		mSprite->Offset = offset;
 		mAnimationCounter = 0;
-	// }
+	}
+}
+
+void Bird::Flap()
+{
+	if(IsAlive) {
+		Velocity.m[1] = 400;
+	}
 }
 
 void Bird::HandleInput(shared_ptr<IInputManager> input)
@@ -59,5 +66,5 @@ void Bird::HandleInput(shared_ptr<IInputManager> input)
 }
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
-	renderer->DrawSprite(mSprite);
+	renderer->DrawSprite(mSprite, Vector2(mSprite->Position.m[0] + this->X, mSprite->Position.m[1] + this->Y));
 }
