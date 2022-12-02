@@ -105,7 +105,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Vector2 position)
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
-	CheckOpenGLError();
+	// CheckOpenGLError();
 }
 
 void SpriteRenderer::InitializeShaders() {

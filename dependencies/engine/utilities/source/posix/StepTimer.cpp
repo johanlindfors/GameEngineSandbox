@@ -18,16 +18,15 @@ StepTimer::StepTimer() :
 	m_framesThisSecond(0)
 {
 	// Initialisation
-	gettimeofday(&m_lastFrameTime, NULL);
+	m_lastFrameTime = std::chrono::system_clock::now();
 }
 
 // Update timer state, calling the specified Update function the appropriate number of times.
 void StepTimer::Tick(std::function<void()> update)
 {
-	timeval currentTime;
-	gettimeofday(&currentTime, NULL);
+	auto currentTime =  std::chrono::system_clock::now();
 	
-	int delta = (currentTime.tv_usec - m_lastFrameTime.tv_usec) / 1000;
+	auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - m_lastFrameTime).count();
 	if(delta < 0) delta = 0;
 	m_elapsedMilliseconds += delta;
 	m_elapsedSeconds += delta;
@@ -40,6 +39,7 @@ void StepTimer::Tick(std::function<void()> update)
 			m_elapsedSeconds -= 1000;
 			m_framesPerSecond = m_framesThisSecond;
 			m_framesThisSecond = 0;
+			//printf("FPS %d\n", m_framesPerSecond);
 		}
 		m_elapsedMilliseconds = 0;//= m_targetMilliseconds;
 	}

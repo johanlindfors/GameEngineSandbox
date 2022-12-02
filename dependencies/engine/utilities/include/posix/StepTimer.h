@@ -6,7 +6,7 @@
 #include <functional>
 #include "IStepTimer.h"
 #include <sys/time.h> 
-
+#include <chrono>
 
 namespace Utilities
 {
@@ -44,7 +44,7 @@ namespace Utilities
 
 	private:
 		//clock_t m_lastFrameTime;
-		timeval m_lastFrameTime;
+		 std::chrono::time_point<std::chrono::system_clock> m_lastFrameTime;
 		
 		// Derived timing data uses a canonical tick format.
 		unsigned int m_elapsedMilliseconds;

@@ -30,8 +30,8 @@ Pipes::Pipes(Vector2 position)
 
 void Pipes::Update(shared_ptr<IStepTimer> timer)
 {
-	Vector2 velocity(-30,0);
-	Vector2 delta = Vector2(velocity.m[0] * (timer->GetElapsedMilliSeconds() /1000.0f), 0);
+	Vector2 velocity(-200,0);
+	Vector2 delta = Vector2(velocity.m[0] * (timer->GetElapsedMilliSeconds() / 1000.0f), 0);
 	TopPipe->Position = TopPipe->Position + delta;
 	TopPipeSprite->Position = TopPipeSprite->Position + delta;
 	BottomPipe->Position = BottomPipe->Position + delta;

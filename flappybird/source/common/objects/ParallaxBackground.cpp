@@ -5,16 +5,17 @@
 #include "objects/Skyline.h"
 #include "objects/Ground.h"
 #include "renderer/Sprite.h"
+#include "game/GameDefines.h"
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
 ParallaxBackground::ParallaxBackground()
-	: mClouds(make_unique<Clouds>(Vector2(0,210), Vector2(-10,0)))
-	, mTrees(make_unique<Trees>(Vector2(0,175), Vector2(-15,0)))
-	, mSkyline(make_unique<Skyline>(Vector2(0,155), Vector2(-20,0)))
-	, mGround(make_unique<Ground>(Vector2(0,-70), Vector2(-30,0)))
+	: mClouds(make_unique<Clouds>(Vector2(0,210), Vector2(CLOUD_SPEED,0)))
+	, mSkyline(make_unique<Skyline>(Vector2(0,175), Vector2(SKYLINE_SPEED,0)))
+	, mTrees(make_unique<Trees>(Vector2(0,150), Vector2(TREES_SPEED,0)))
+	, mGround(make_unique<Ground>(Vector2(0,-70), Vector2(GROUND_SPEED,0)))
     , mIsRunning(true)
 {
 }
@@ -22,8 +23,8 @@ ParallaxBackground::ParallaxBackground()
 ParallaxBackground::~ParallaxBackground() 
 {
     mClouds.release();
-    mTrees.release();
     mSkyline.release();
+    mTrees.release();
     mGround.release();
 }
 
@@ -31,8 +32,8 @@ void ParallaxBackground::Update(shared_ptr<IStepTimer> timer)
 {
     if(mIsRunning) {
         mClouds->Update(timer);
-        mTrees->Update(timer);
         mSkyline->Update(timer);
+        mTrees->Update(timer);
         mGround->Update(timer);
     }
 }
@@ -40,7 +41,7 @@ void ParallaxBackground::Update(shared_ptr<IStepTimer> timer)
 void ParallaxBackground::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
     mClouds->Draw(renderer);
-    mTrees->Draw(renderer);
     mSkyline->Draw(renderer);
+    mTrees->Draw(renderer);
     mGround->Draw(renderer);
 }
