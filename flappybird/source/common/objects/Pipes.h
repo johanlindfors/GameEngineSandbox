@@ -38,6 +38,8 @@ public:
 	Pipes(Utilities::Vector2 position);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	bool IsAlive;
+	void Reset(Utilities::Vector2 position);
 
 	std::shared_ptr<Pipe> TopPipe;
 	std::shared_ptr<Pipe> BottomPipe;

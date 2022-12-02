@@ -10,6 +10,24 @@
 
 namespace Utilities
 {
+	class Timer 
+	{
+	public:
+		Timer();
+
+		void SetInterval(double milliseconds);
+		void Update(std::function<void()> tick);
+
+		void Pause();
+		void Resume();
+
+	private:
+		std::chrono::time_point<std::chrono::system_clock> mLastFrameTime;
+		double mMillisecondsInterval;
+		double mElapsedMilliseconds;
+		bool mIsEnabled;
+	};
+
 	// Helper class for animation and simulation timing.
 	class StepTimer : public IStepTimer
 	{

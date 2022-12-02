@@ -14,6 +14,8 @@
 #include "objects/ParallaxBackground.h"
 #include "IStepTimer.h"
 #include "objects/Pipes.h"
+#include <cstdlib> 
+#include <ctime> 
 
 using namespace std;
 using Engine::IInputManager;
@@ -29,7 +31,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
 	, mBird(make_shared<Bird>(Vector2(132,250)))
-	, mPipes(make_shared<Pipes>(Vector2(300,270)))
+	, mPipes(vector<shared_ptr<Pipes>>())
 	// , mCollider(make_shared<VectorCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
@@ -37,6 +39,9 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mSpacePressedBefore(false)
 {
 	ID = typeid(GamePlayScene).name();
+	mPipesGenerator.SetInterval(1250);
+
+	srand((unsigned)time(0));
 }
 
 GamePlayScene::~GamePlayScene()
@@ -53,7 +58,7 @@ void GamePlayScene::Load()
 	mBackground->Offset = 3;
 	mBackground->Width = 288;
 	mBackground->Height = 505;
-	
+
 	mPhysicsEngine->AddBody(mBird);
 }
 
@@ -69,6 +74,24 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 	mScreenSizeY = height;
 }
 
+void GamePlayScene::GeneratePipes()
+{
+	shared_ptr<Pipes> newPipes = nullptr;
+	for (auto pipe : mPipes)
+	{
+		if(!pipe->IsAlive) {
+			newPipes = pipe;
+			break;
+		}
+	}
+	if(newPipes == nullptr) {
+		newPipes = make_shared<Pipes>(Vector2(0.0f, 0.0f));
+		mPipes.push_back(newPipes);
+	}
+	auto y = (rand()%200) - 100;
+	newPipes->Reset(Vector2(288.0f + 45.0f, static_cast<float>(y)));
+}
+
 void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 {
 	auto const spacePressed = mInputManager->IsKeyDown(32);
@@ -77,7 +100,13 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		// do updates
 		mBird->Update(timer);
 		mPhysicsEngine->Update(timer);
-		mPipes->Update(timer);
+		for(auto pipe : mPipes)
+			pipe->Update(timer);
+
+		mPipesGenerator.Update([&]()
+		{
+			GeneratePipes();
+		});
 		// if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
 		// {
 
@@ -102,5 +131,6 @@ void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 	renderer->DrawSprite(mBackground);
 	mSkyline->Draw(renderer);
 	mBird->Draw(renderer);
-	mPipes->Draw(renderer);
+	for(auto pipe : mPipes)
+		pipe->Draw(renderer);
 }
