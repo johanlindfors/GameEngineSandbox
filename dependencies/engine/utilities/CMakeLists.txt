@@ -5,18 +5,26 @@ if(WINDOWS_STORE)
         libEGL
         libGLESv2
     )
+elseif(OSX)
+    find_package(PNG REQUIRED)
+    find_package(glfw3 REQUIRED)
+    find_package(OpenGL REQUIRED)
+    list(APPEND DEPENDENCIES 
+        OpenGL::GL
+        glfw
+        PNG::PNG
+    )
 elseif(LINUX)
     find_package(PNG REQUIRED)
     find_package(PkgConfig REQUIRED)    
     pkg_search_module(GLFW REQUIRED glfw3)
 
-    message(STATUS "GLFW: ${GLFW_LIBRARIES}")
     list(APPEND DEPENDENCIES 
         GLESv2
-        ${GLFW_LIBRARIES}
+        ${GLFWs_LIBRARIES}
         PNG::PNG
     )
-else()
+else() # WIN32
     find_package(GLEW REQUIRED)
     find_package(PNG REQUIRED)
     list(APPEND DEPENDENCIES 

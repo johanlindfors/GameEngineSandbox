@@ -87,7 +87,6 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
 {
 	if (mSpriteRenderer && !isLoadingResources) {
-	    printf("[SplashScene::Draw] Rendering sprite\n");
-		mSpriteRenderer->DrawSprite(mSprite);
+	    mSpriteRenderer->DrawSprite(mSprite);
 	}
 }

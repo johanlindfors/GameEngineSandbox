@@ -22,11 +22,7 @@ Param(
     [switch]$uwp,
 
     [Parameter(Mandatory = $False)]
-    [switch]$release,
-
-    [Parameter(Mandatory = $False)]
-    [switch]$vs2017
-
+    [switch]$release
 )
 
 $Cmake = "cmake.exe"
@@ -35,10 +31,6 @@ $PlatformParameters = ""
 $Generator = "Visual Studio 17 2022"
 $BuildType = ""
 $BuildConfiguration = "Debug"
-
-If($vs2017){
-    $Generator = "Visual Studio 15 2017"
-}
 
 If($win32) {
     $BuildDirectory = "build/win32"
