@@ -13,20 +13,23 @@
 #include "renderer/Sprite.h"
 #include "objects/ParallaxBackground.h"
 #include "IStepTimer.h"
+#include "objects/Pipes.h"
 
 using namespace std;
 using Engine::IInputManager;
 using Engine::ISpriteRenderer;
 using Engine::ITextureManager;
 using Engine::IPhysicsEngine;
+using Engine::Sprite;
 using Utilities::IStepTimer;
 using Utilities::IOCContainer;
 using Utilities::Vector2;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mBackground(make_shared<Engine::Sprite>())
+	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
 	, mBird(make_shared<Bird>(Vector2(132,250)))
+	, mPipes(make_shared<Pipes>(Vector2(300,270)))
 	// , mCollider(make_shared<VectorCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
@@ -50,7 +53,7 @@ void GamePlayScene::Load()
 	mBackground->Offset = 3;
 	mBackground->Width = 288;
 	mBackground->Height = 505;
-
+	
 	mPhysicsEngine->AddBody(mBird);
 }
 
@@ -74,6 +77,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		// do updates
 		mBird->Update(timer);
 		mPhysicsEngine->Update(timer);
+		mPipes->Update(timer);
 		// if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
 		// {
 
@@ -81,7 +85,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 
 		if (spacePressed && !mSpacePressedBefore)
 		{
-			mBird->Flap();
+			mBird->Flap();	
 		}
 	}
 	else {
@@ -98,4 +102,5 @@ void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 	renderer->DrawSprite(mBackground);
 	mSkyline->Draw(renderer);
 	mBird->Draw(renderer);
+	mPipes->Draw(renderer);
 }

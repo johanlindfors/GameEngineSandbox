@@ -45,6 +45,17 @@ namespace Utilities
         }
 
         float m[2];
+
+        // Overloading "+" operator
+        Vector2 operator+ (Vector2 const& vec)
+        {
+            return Vector2(m[0] + vec.m[0], m[1] + vec.m[1]);
+        }
+
+        Vector2 operator* (float value)
+        {
+            return Vector2(m[0] * value, m[1] * value);
+        }
     };
 
 	struct Point {
@@ -57,6 +68,21 @@ namespace Utilities
 		int x;
 		int y;
 	};
+
+    struct Rectangle {
+        Rectangle(int x, int y, int width, int height)
+        {
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+        }
+
+        int X;
+        int Y;
+        int Width;
+        int Height;
+    };
 
     inline static Matrix4 SimpleModelMatrix(float radians)
     {

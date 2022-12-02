@@ -223,11 +223,12 @@ void SpriteRenderer::InitializeUVBuffer()
 	AddUVs(116, 298, 295, 346); // 13 title
 	AddUVs(2, 478, 417, 510); 	// 14 trees
 	AddUVs(108, 1, 131, 27); 	// 15 ground
-	AddUVs(402, 110, 454, 429); // 16 pipetop
-	AddUVs(458, 110, 510, 429); // 17 pipebottom
+	AddUVs(402, 405, 454, 430); // 16 pipetop
+	AddUVs(458, 110, 510, 135); // 17 pipebottom
 	AddUVs(1, 102, 2, 103);		// 18 clouds background
 	AddUVs(2, 509, 3, 510);		// 19 trees background
 	AddUVs(108, 26, 109, 27);	// 20 ground background
+	AddUVs(402, 110, 454, 120); // 21 pipe
 
 	glGenBuffers(1, &mVertexUVBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);

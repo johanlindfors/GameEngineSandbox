@@ -4,7 +4,6 @@
 #include "input/IInputManager.h"
 #include "MathHelper.h"
 #include "renderer/Sprite.h"
-#include "game/IGameStateCallback.h"
 #include "IStepTimer.h"
 
 using std::shared_ptr;
@@ -15,6 +14,7 @@ using Engine::IInputManager;
 
 Bird::Bird(Vector2 position)
     : Entity(position)
+	, IPhysicsBody(position)
 	, mAnimationCounter(0)
 	, mFramesPerAnimation(4)
 {
@@ -46,5 +46,5 @@ void Bird::Flap()
 }
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
-	renderer->DrawSprite(mSprite, Vector2(mSprite->Position.m[0] + this->X, mSprite->Position.m[1] + this->Y));
+	renderer->DrawSprite(mSprite, Vector2(X, Y));
 }

@@ -1,13 +1,15 @@
 #pragma once
 #include "MathHelper.h"
 
-namespace Engine {
-	class IPhysicsBody {
+namespace Engine 
+{
+	class IPhysicsBody
+	{
 		public: 
-			IPhysicsBody() 
+			IPhysicsBody(Utilities::Vector2 position) 
 				: IsAlive(true)
-				, X(0)
-				, Y(0)
+				, X(position.m[0])
+				, Y(position.m[1])
 				, Velocity(Utilities::Vector2(0.0f,0.0f))
 				, AllowGravity(true)
 			{}

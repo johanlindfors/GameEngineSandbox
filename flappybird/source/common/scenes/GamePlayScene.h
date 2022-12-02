@@ -7,6 +7,7 @@ class IGameStateCallback;
 class Bird;
 class VectorCollider;
 class ParallaxBackground;
+class Pipes;
 
 namespace Engine 
 {
@@ -35,6 +36,7 @@ private:
 	std::unique_ptr<ParallaxBackground> mSkyline;
 	std::shared_ptr<Bird> mBird;
 	std::shared_ptr<VectorCollider> mCollider;
+	std::shared_ptr<Pipes> mPipes;
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
 	std::shared_ptr<Engine::IPhysicsEngine> mPhysicsEngine;
