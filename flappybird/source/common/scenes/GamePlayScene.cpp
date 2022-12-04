@@ -103,8 +103,8 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		bool collision = false;
 		for(auto pipe : mPipes) {
 			pipe->Update(timer);
-			pipe->TopSpriteCollided = pipe->Intersects(mBird->AABB, pipe->TopPipe->AABB);
-			pipe->BottomSpriteCollided = pipe->Intersects(mBird->AABB, pipe->BottomPipe->AABB);
+			pipe->TopSpriteCollided = pipe->Intersects(mBird->Bounds, pipe->TopPipe->AABB);
+			pipe->BottomSpriteCollided = pipe->Intersects(mBird->Bounds, pipe->BottomPipe->AABB);
 			if(collision) {
 				// mGame->GoToState(GameState::GameOver);
 			}

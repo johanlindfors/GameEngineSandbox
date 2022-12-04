@@ -48,22 +48,28 @@ void Pipes::Reset(Vector2 position)
 	IsAlive = true;
 }
 
+// Reference: https://www.jeffreythompson.org/collision-detection/circle-rect.php
 bool Pipes::Intersects(Circle circle, Rectangle rect)
 {
-	Vector2 circleDistance(0,0);
-    circleDistance.m[0] = abs(circle.X - rect.X);
-    circleDistance.m[1] = abs(circle.Y - rect.Y);
+	float testX = circle.X;
+	float testY = circle.Y;
 
-    if (circleDistance.m[0] > (rect.Width/2 + circle.Radius)) { return false; }
-    if (circleDistance.m[1] > (rect.Height/2 + circle.Radius)) { return false; }
+	// which edge is closest?
+	if (circle.X < rect.X) testX = rect.X;      						// test left edge
+	else if (circle.X > rect.X+rect.Width) testX = rect.X+rect.Width;   // right edge
+	if (circle.Y < rect.Y) testY = rect.Y;      						// top edge
+	else if (circle.Y > rect.Y+rect.Height) testY = rect.Y+rect.Height; // bottom edge
 
-    if (circleDistance.m[0] <= (rect.Width/2)) { return true; } 
-    if (circleDistance.m[1] <= (rect.Height/2)) { return true; }
+	// get distance from closest edges
+	float distX = circle.X-testX;
+	float distY = circle.Y-testY;
+	float distance = sqrt( (distX*distX) + (distY*distY) );
 
-    auto cornerDistance_sq = pow(circleDistance.m[0] - rect.Width/2, 2) +
-                         	 pow(circleDistance.m[1] - rect.Height/2, 2);
-
-    return (cornerDistance_sq <= (circle.Radius)^2);
+	// if the distance is less than the radius, collision!
+	if (distance <= circle.Radius) {
+		return true;
+	}
+	return false;
 }
 
 bool Pipes::Intersects(Rectangle r1, Rectangle r2)

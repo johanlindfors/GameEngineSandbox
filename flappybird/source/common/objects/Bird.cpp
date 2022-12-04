@@ -64,7 +64,7 @@ void Bird::Flap()
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
 #ifdef _DEBUG
-	renderer->DrawSprite(mDebugSprite);
+	renderer->DrawSprite(mDebugSprite, Vector2(X, Y));
 #endif
 	renderer->DrawSprite(mSprite, Vector2(X, Y));
 }
