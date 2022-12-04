@@ -229,6 +229,7 @@ void SpriteRenderer::InitializeUVBuffer()
 	AddUVs(2, 509, 3, 510);		// 19 trees background
 	AddUVs(108, 26, 109, 27);	// 20 ground background
 	AddUVs(402, 110, 454, 120); // 21 pipe
+	AddUVs(1, 364, 8, 371);		// 22 pink border
 
 	glGenBuffers(1, &mVertexUVBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);

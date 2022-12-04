@@ -69,7 +69,8 @@ namespace Utilities
 		int y;
 	};
 
-    struct Rectangle {
+    struct Rectangle
+    {
         Rectangle(int x, int y, int width, int height)
         {
             X = x;
@@ -82,6 +83,20 @@ namespace Utilities
         int Y;
         int Width;
         int Height;
+    };
+
+    struct Circle 
+    {
+        Circle(float x, float y, float radius)
+        {
+            X = x;
+            Y = y;
+            Radius = radius;
+        }
+
+        float X;
+        float Y;
+        float Radius;
     };
 
     inline static Matrix4 SimpleModelMatrix(float radians)

@@ -33,7 +33,7 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	mBackground->Height = 505;
 	
 	mInstructions->Offset = 6;
-	mInstructions->Position = Vector2(100,180);
+	mInstructions->Position = Vector2(96,180);
 	mInstructions->Width = 103;
 	mInstructions->Height = 102;
 

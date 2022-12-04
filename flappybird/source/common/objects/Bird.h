@@ -23,9 +23,14 @@ public:
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 	void Flap();
+	Utilities::Circle Bounds;
+	Utilities::Rectangle AABB;
 
 private:
 	void Reset();
 	int mAnimationCounter;
 	int mFramesPerAnimation;
+#ifdef _DEBUG
+	std::shared_ptr<Engine::Sprite> mDebugSprite;
+#endif
 };

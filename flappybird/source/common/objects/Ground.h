@@ -24,6 +24,9 @@ public:
 private:
 	std::vector<std::shared_ptr<Engine::Sprite>> mGround;
 	std::shared_ptr<Engine::Sprite> mGroundBackground;
+#ifdef _DEBUG
+	std::shared_ptr<Engine::Sprite> mGroundDebugSprite;	
+#endif
 	Utilities::Vector2 mVelocity;
 	Utilities::Vector2 mPosition;
 	int mGroundOffset;

@@ -12,6 +12,9 @@ Ground::Ground(Vector2 position, Vector2 velocity)
     , mVelocity(velocity)
     , mGround(vector<shared_ptr<Sprite>>())
     , mGroundBackground(make_shared<Sprite>())
+#ifdef _DEBUG
+    , mGroundDebugSprite(make_shared<Sprite>())
+#endif
 {
     for (size_t i = 0; i < 14; i++)
     {
@@ -27,6 +30,12 @@ Ground::Ground(Vector2 position, Vector2 velocity)
     mGroundBackground->Width = 288;
     mGroundBackground->Height = 200;
     mGroundBackground->Offset = 20;
+
+#ifdef _DEBUG
+    mGroundDebugSprite->Width = 288;
+    mGroundDebugSprite->Height = 155;
+    mGroundDebugSprite->Offset = 22;
+#endif
 }
 
 void Ground::Update(shared_ptr<IStepTimer> timer)
@@ -45,4 +54,7 @@ void Ground::Draw(shared_ptr<ISpriteRenderer> renderer)
     for(auto ground: mGround) {
         renderer->DrawSprite(ground, ground->Position);
     }
+#ifdef _DEBUG
+    renderer->DrawSprite(mGroundDebugSprite);
+#endif
 }

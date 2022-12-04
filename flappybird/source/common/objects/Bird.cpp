@@ -6,17 +6,20 @@
 #include "renderer/Sprite.h"
 #include "IStepTimer.h"
 
-using std::shared_ptr;
-using Utilities::Vector2;
-using Utilities::IStepTimer;
-using Engine::ISpriteRenderer;
-using Engine::IInputManager;
+using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
 Bird::Bird(Vector2 position)
     : Entity(position)
 	, IPhysicsBody(position)
 	, mAnimationCounter(0)
 	, mFramesPerAnimation(4)
+	, Bounds(Circle(position.m[0]+16, position.m[1]+12, 16))
+	, AABB(Rectangle(0, 0, 0, 0))
+#ifdef _DEBUG
+	, mDebugSprite(make_shared<Sprite>())
+#endif
 {
     mSprite->Width = 33;
 	mSprite->Height = 24;
@@ -36,6 +39,20 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 		mSprite->Offset = offset;
 		mAnimationCounter = 0;
 	}
+
+	AABB = Rectangle(X,
+					 Y,
+					 mSprite->Width,
+					 mSprite->Height);
+	Bounds = Circle(X + mSprite->Width/2,
+					Y + mSprite->Height/2,
+					16);
+#ifdef _DEBUG
+	mDebugSprite->Position = Vector2(AABB.X, AABB.Y);
+	mDebugSprite->Offset = 22;
+	mDebugSprite->Width = AABB.Width;
+	mDebugSprite->Height = AABB.Height;
+#endif
 }
 
 void Bird::Flap()
@@ -46,5 +63,8 @@ void Bird::Flap()
 }
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
+#ifdef _DEBUG
+	renderer->DrawSprite(mDebugSprite);
+#endif
 	renderer->DrawSprite(mSprite, Vector2(X, Y));
 }

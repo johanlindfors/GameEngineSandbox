@@ -30,7 +30,7 @@ using Utilities::Vector2;
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
-	, mBird(make_shared<Bird>(Vector2(132,250)))
+	, mBird(make_shared<Bird>(Vector2(128,250)))
 	, mPipes(vector<shared_ptr<Pipes>>())
 	// , mCollider(make_shared<VectorCollider>())
 	, mScreenSizeX(0)
@@ -85,10 +85,10 @@ void GamePlayScene::GeneratePipes()
 		}
 	}
 	if(newPipes == nullptr) {
-		newPipes = make_shared<Pipes>(Vector2(0.0f, 0.0f));
+		newPipes = make_shared<Pipes>(Vector2(288 + 45, 0));
 		mPipes.push_back(newPipes);
 	}
-	auto y = (rand()%200) - 100;
+	auto y = 0;//rand()%200) - 100;
 	newPipes->Reset(Vector2(288.0f + 45.0f, static_cast<float>(y)));
 }
 
@@ -100,13 +100,23 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		// do updates
 		mBird->Update(timer);
 		mPhysicsEngine->Update(timer);
-		for(auto pipe : mPipes)
+		bool collision = false;
+		for(auto pipe : mPipes) {
 			pipe->Update(timer);
+			pipe->TopSpriteCollided = pipe->Intersects(mBird->AABB, pipe->TopPipe->AABB);
+			pipe->BottomSpriteCollided = pipe->Intersects(mBird->AABB, pipe->BottomPipe->AABB);
+			if(collision) {
+				// mGame->GoToState(GameState::GameOver);
+			}
+		}
 
 		mPipesGenerator.Update([&]()
 		{
 			GeneratePipes();
 		});
+
+		
+
 		// if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
 		// {
 

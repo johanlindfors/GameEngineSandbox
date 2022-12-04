@@ -40,10 +40,18 @@ public:
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 	bool IsAlive;
 	void Reset(Utilities::Vector2 position);
+	bool Intersects(Utilities::Circle circle, Utilities::Rectangle rect);
+	bool Intersects(Utilities::Rectangle r1, Utilities::Rectangle r2);
 
 	std::shared_ptr<Pipe> TopPipe;
 	std::shared_ptr<Pipe> BottomPipe;
 	std::shared_ptr<Engine::Sprite> TopPipeSprite;
 	std::shared_ptr<Engine::Sprite> BottomPipeSprite;
+	bool TopSpriteCollided;
+	bool BottomSpriteCollided;
+#ifdef _DEBUG
+	std::shared_ptr<Engine::Sprite> TopPipeDebugSprite;
+	std::shared_ptr<Engine::Sprite> BottomPipeDebugSprite;	
+#endif
 };
  

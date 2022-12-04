@@ -6,6 +6,20 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(GAME_TO_BUILD flappybird)
 project(${GAME_TO_BUILD})
 
+if (CMAKE_BUILD_TYPE STREQUAL "")
+    # Build type is not set eg. command was "cmake .."
+    message(STATUS "  Diag: Build type was unspecified, set to Release")
+    set(CMAKE_BUILD_TYPE Release)
+else ()
+    message(STATUS "  Diag: Build type specified as '${CMAKE_BUILD_TYPE}'")
+endif ()
+
+if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+    set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "_DEBUG")
+else ()
+    set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "NDEBUG")
+endif ()
+
 include(dependencies/pipeline/functions.cmake)
 initialize_pipeline()
 
