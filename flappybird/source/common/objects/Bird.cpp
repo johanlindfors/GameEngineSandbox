@@ -19,6 +19,7 @@ Bird::Bird(Vector2 position)
 	, mFramesPerAnimation(4)
 	, Bounds(Circle(position.m[0]+16, position.m[1]+12, 16))
 	, AABB(Rectangle(0, 0, 0, 0))
+	, IsKilled(false)
 #ifdef _DEBUG
 	, mDebugSprite(make_shared<Sprite>())
 #endif
@@ -28,7 +29,15 @@ Bird::Bird(Vector2 position)
 }
 
 void Bird::Reset() {
-	mSprite->Position = Vector2(132, 300);
+	mSprite->Position = Vector2(80, 300);
+	X = 80;
+	Y = 300;
+	mSprite->Rotation = 0;
+	mAnimationCounter = 0;
+	IsKilled = false;
+	IsAlive = true;
+	AllowGravity = true;
+	Flap();
 }
 
 void Bird::Update(shared_ptr<IStepTimer> timer)
@@ -43,7 +52,7 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 			mAnimationCounter = 0;
 		}
 
-		 if (mSprite->Rotation > -90 && IsAlive)
+		if (mSprite->Rotation > -90 && IsAlive)
 		{
 			mSprite->Rotation -= 2.5f;
 		}
@@ -66,7 +75,7 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 
 void Bird::Flap()
 {
-	if(IsAlive) {
+	if(IsAlive && !IsKilled) {
 		Velocity.m[1] = 400;
 
 		auto tweenEngine = IOCContainer::Instance().Resolve<ITweenEngine>();
@@ -79,7 +88,7 @@ void Bird::Flap()
 
 void Bird::CollideWithPipe()
 {
-	IsAlive = false;
+	IsKilled = true;
 }
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {

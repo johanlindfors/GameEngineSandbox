@@ -20,6 +20,7 @@ namespace Utilities
 
 		void Pause();
 		void Resume();
+		void Reset();
 
 	private:
 		std::chrono::time_point<std::chrono::system_clock> mLastFrameTime;

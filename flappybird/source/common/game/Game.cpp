@@ -54,7 +54,7 @@ void Game::HandleGamePlayState()
 			mSceneManager->RemoveScene(typeid(SplashScene));
 			break;
 		case GameState::GameOver:
-			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
+			//mSceneManager->AddScene(make_shared<GamePlayScene>(this));
 			mSceneManager->RemoveScene(typeid(GameOverScene));
 			break;
 		case GameState::Pause:
@@ -71,7 +71,7 @@ void Game::HandleGameOverState()
 	if (mCurrentState == GameState::GamePlay) {
 		mCurrentState = GameState::GameOver;
 		mSceneManager->AddScene(make_shared<GameOverScene>(this));
-		mSceneManager->RemoveScene(typeid(GamePlayScene));
+		//mSceneManager->RemoveScene(typeid(GamePlayScene));
 	}
 }
 

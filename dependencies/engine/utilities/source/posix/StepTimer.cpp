@@ -47,6 +47,12 @@ void Timer::Resume()
 	mIsEnabled = true;
 }
 
+void Timer::Reset()
+{
+	mElapsedMilliseconds = 0;
+	Resume();
+}
+
 StepTimer::StepTimer() :
 	m_elapsedMilliseconds(0),
 	m_targetMilliseconds(1000 / 15),//CLOCKS_PER_SEC), //CLOCKS_PER_SEC / 60),

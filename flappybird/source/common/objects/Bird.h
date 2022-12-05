@@ -28,10 +28,11 @@ public:
 	void Flap();
 	Utilities::Circle Bounds;
 	Utilities::Rectangle AABB;
+	bool IsKilled;
 	void CollideWithPipe();
+	void Reset();
 	
 private:
-	void Reset();
 	int mAnimationCounter;
 	int mFramesPerAnimation;
 #ifdef _DEBUG

@@ -25,9 +25,8 @@ using namespace Utilities;
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
-	, mBird(make_shared<Bird>(Vector2(128,250)))
+	, mBird(make_shared<Bird>(Vector2(80,250)))
 	, mPipes(vector<shared_ptr<Pipes>>())
-	, mTextureManager(IOCContainer::Instance().Resolve<ITextureManager>())
 	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
 	, mPhysicsEngine(IOCContainer::Instance().Resolve<IPhysicsEngine>())
 	, mCollider(IOCContainer::Instance().Resolve<IObjectCollider>())
@@ -69,6 +68,14 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 	mScreenSizeY = height;
 }
 
+void GamePlayScene::Reset()
+{
+	mPipes.clear();
+	mBird->Reset();
+	mPipesGenerator.Reset();
+	mSkyline->Resume();
+}
+
 void GamePlayScene::GeneratePipes()
 {
 	shared_ptr<Pipes> newPipes = nullptr;
@@ -95,23 +102,29 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		// do updates
 		mBird->Update(timer);
 		mPhysicsEngine->Update(timer);
+		
 		bool collision = false;
 		for(auto pipe : mPipes) {
-			pipe->Update(timer);
-			// collision = mCollider->Intersects(mBird->Bounds, pipe->TopPipe->AABB) || 
-			// 			mCollider->Intersects(mBird->Bounds, pipe->BottomPipe->AABB);
-			// if(collision && mBird->IsAlive) { // Collided with a pipe
-			// 	mBird->CollideWithPipe();
-			// }
-			// collision = mCollider->Intersects(mBird->Bounds, mSkyline->GetGroundAABB());
-			// if(collision) {
-			// 	mBird->AllowGravity = false;
-			// 	mSkyline->Pause();
-			// 	mPipesGenerator.Pause();
-			// 	mGame->GoToState(GameState::GameOver);
-			// }
+			collision = mCollider->Intersects(mBird->Bounds, pipe->TopPipe->AABB) || 
+						mCollider->Intersects(mBird->Bounds, pipe->BottomPipe->AABB);
+			if(collision && mBird->IsAlive) { // Collided with a pipe
+				mBird->CollideWithPipe();
+				mPipesGenerator.Pause();
+				mSkyline->Pause();
+			}
+
+			collision = mCollider->Intersects(mBird->Bounds, mSkyline->GetGroundAABB());
+			if(collision) {
+				mBird->AllowGravity = false;
+				mGame->GoToState(GameState::GameOver);
+			}
 		}
-		
+		if(!mBird->IsKilled) {
+			for(auto pipe : mPipes) {
+				pipe->Update(timer);
+			}
+		}
+
 		mPipesGenerator.Update([&]()
 		{
 			GeneratePipes();
@@ -127,6 +140,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 	else {
 		if (spacePressed && !mSpacePressedBefore)
 		{
+			Reset();
 			mGame->GoToState(GameState::GamePlay);
 		}
 	}

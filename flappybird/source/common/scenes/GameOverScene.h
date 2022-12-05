@@ -6,6 +6,7 @@ class IGameStateCallback;
 namespace Utilities
 {
 	class IStepTimer;
+	class ITweenEngine;
 }
 
 namespace Engine
@@ -34,7 +35,7 @@ private:
 
 	std::shared_ptr<Engine::Sprite> mBackground;
     std::shared_ptr<Engine::Sprite> mText;
-	std::shared_ptr<Engine::ITextureManager> mTextureManager;
+	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
   	std::shared_ptr<Engine::IInputManager> mInputManager;
 	IGameStateCallback* mGame;
 };
