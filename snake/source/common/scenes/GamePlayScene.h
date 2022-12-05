@@ -24,7 +24,7 @@ public:
 	void Unload() override;
 	void UpdateScreenSize(int width, int height) override;
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
-	void Draw(std::shared_ptr<Utilities::IStepTimer> timer) override;
+	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer) override;
 
 private:
 	std::shared_ptr<Apple> mApple;
@@ -32,7 +32,6 @@ private:
 	std::shared_ptr<VectorCollider> mCollider;
 
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
-    std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
 	int mScreenSizeX;
 	int mScreenSizeY;

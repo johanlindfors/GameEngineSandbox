@@ -1,5 +1,5 @@
 #include "Entity.h"
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 #include "textures/Texture2D.h"
 #include "renderer/Sprite.h"
 #include "game/GameDefines.h"

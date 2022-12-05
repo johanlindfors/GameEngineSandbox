@@ -1,11 +1,11 @@
 #include "SplashScene.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.h"
 #include "game/IGameStateCallback.h"
 #include "textures/ITextureManager.h"
 #include "renderer/ISpriteRenderer.h"
 #include "renderer/Sprite.h"
-#include "IStepTimer.h"
+#include "utilities/IStepTimer.h"
 
 using namespace std;
 using namespace Engine;
@@ -26,7 +26,6 @@ SplashScene::~SplashScene() { }
 void SplashScene::Load()
 {
 	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
-    mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
     
 	vector<wstring> fileNames;
 	fileNames.emplace_back(L"coderox.png");
@@ -84,9 +83,9 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	}
 }
 
-void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
+void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
-	if (mSpriteRenderer && !isLoadingResources) {
-	    mSpriteRenderer->DrawSprite(mSprite);
+	if (renderer && !isLoadingResources) {
+	    renderer->DrawSprite(mSprite);
 	}
 }

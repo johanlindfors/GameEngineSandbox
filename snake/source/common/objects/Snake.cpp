@@ -2,7 +2,7 @@
 #include "game/GameDefines.h"
 #include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 #include "renderer/Sprite.h"
 #include "game/IGameStateCallback.h"
 

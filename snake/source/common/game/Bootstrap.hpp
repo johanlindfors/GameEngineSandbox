@@ -1,5 +1,5 @@
 #pragma once
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "game/Game.h"
 #include "application/Config.h"
 

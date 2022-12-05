@@ -1,5 +1,5 @@
 #include "VectorCollider.h"
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 
 using Utilities::Vector2;
 
