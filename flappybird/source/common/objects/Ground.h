@@ -3,6 +3,7 @@
 #include <list>
 #include "MathHelper.h"
 #include <vector>
+#include "physics/ICollidable.h"
 
 namespace Utilities
 {
@@ -15,7 +16,8 @@ namespace Engine
 	class Sprite;
 }
 
-class Ground {
+class Ground
+	: public Engine::ICollidable {
 public:
 	Ground(Utilities::Vector2 position, Utilities::Vector2 velocity);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);

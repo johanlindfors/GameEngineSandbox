@@ -19,6 +19,12 @@ namespace Engine
 	class Sprite;
 }
 
+namespace Utilities
+{
+	class IObjectCollider;
+	class ITweenEngine;
+}
+
 class GamePlayScene : public Engine::GameScene 
 {
 public:
@@ -38,11 +44,12 @@ private:
 	std::shared_ptr<Engine::Sprite> mBackground;
 	std::unique_ptr<ParallaxBackground> mSkyline;
 	std::shared_ptr<Bird> mBird;
-	std::shared_ptr<VectorCollider> mCollider;
 	std::vector<std::shared_ptr<Pipes>> mPipes;
 	std::shared_ptr<Engine::ITextureManager> mTextureManager;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
 	std::shared_ptr<Engine::IPhysicsEngine> mPhysicsEngine;
+	std::shared_ptr<Utilities::IObjectCollider> mCollider;
+	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
 	int mScreenSizeX;
 	int mScreenSizeY;
 	IGameStateCallback* mGame;

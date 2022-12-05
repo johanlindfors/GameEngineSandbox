@@ -12,6 +12,7 @@ Ground::Ground(Vector2 position, Vector2 velocity)
     , mVelocity(velocity)
     , mGround(vector<shared_ptr<Sprite>>())
     , mGroundBackground(make_shared<Sprite>())
+    , ICollidable::ICollidable(Vector2(0,0))
 #ifdef _DEBUG
     , mGroundDebugSprite(make_shared<Sprite>())
 #endif
@@ -30,6 +31,9 @@ Ground::Ground(Vector2 position, Vector2 velocity)
     mGroundBackground->Width = 288;
     mGroundBackground->Height = 200;
     mGroundBackground->Offset = 20;
+
+    AABB.Width = 288;
+    AABB.Height = 155;
 
 #ifdef _DEBUG
     mGroundDebugSprite->Width = 288;

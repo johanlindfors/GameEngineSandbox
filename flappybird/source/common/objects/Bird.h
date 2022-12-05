@@ -3,6 +3,9 @@
 #include <list>
 #include "MathHelper.h"
 #include "physics/IPhysicsBody.h"
+#include <functional>
+#include "IStepTimer.h"
+#include <vector>
 
 namespace Utilities
 {
@@ -25,7 +28,8 @@ public:
 	void Flap();
 	Utilities::Circle Bounds;
 	Utilities::Rectangle AABB;
-
+	void CollideWithPipe();
+	
 private:
 	void Reset();
 	int mAnimationCounter;

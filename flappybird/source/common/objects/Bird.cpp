@@ -2,9 +2,11 @@
 #include "game/GameDefines.h"
 #include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
+#include "ITweenEngine.h"
 #include "MathHelper.h"
 #include "renderer/Sprite.h"
 #include "IStepTimer.h"
+#include "IOC.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -31,35 +33,53 @@ void Bird::Reset() {
 
 void Bird::Update(shared_ptr<IStepTimer> timer)
 {
-    Entity::Update(timer);
-	if(mAnimationCounter++ >= mFramesPerAnimation) {
-		auto offset = mSprite->Offset;
-		offset++;
-		offset %= 3;
-		mSprite->Offset = offset;
-		mAnimationCounter = 0;
-	}
+	if(IsAlive) {
+		Entity::Update(timer);
+		if(mAnimationCounter++ >= mFramesPerAnimation) {
+			auto offset = mSprite->Offset;
+			offset++;
+			offset %= 3;
+			mSprite->Offset = offset;
+			mAnimationCounter = 0;
+		}
 
-	AABB = Rectangle(X,
-					 Y,
-					 mSprite->Width,
-					 mSprite->Height);
-	Bounds = Circle(X + mSprite->Width/2,
-					Y + mSprite->Height/2,
-					16);
+		 if (mSprite->Rotation > -90 && IsAlive)
+		{
+			mSprite->Rotation -= 2.5f;
+		}
+
+		AABB = Rectangle(X,
+						Y,
+						mSprite->Width,
+						mSprite->Height);
+		Bounds = Circle(X + mSprite->Width/2,
+						Y + mSprite->Height/2,
+						16);
 #ifdef _DEBUG
-	mDebugSprite->Position = Vector2(AABB.X, AABB.Y);
-	mDebugSprite->Offset = 22;
-	mDebugSprite->Width = AABB.Width;
-	mDebugSprite->Height = AABB.Height;
+		mDebugSprite->Position = Vector2(AABB.X, AABB.Y);
+		mDebugSprite->Offset = 22;
+		mDebugSprite->Width = AABB.Width;
+		mDebugSprite->Height = AABB.Height;
 #endif
+	}
 }
 
 void Bird::Flap()
 {
 	if(IsAlive) {
 		Velocity.m[1] = 400;
+
+		auto tweenEngine = IOCContainer::Instance().Resolve<ITweenEngine>();
+		tweenEngine->Add(mSprite->Rotation, [&](float value)
+		{
+ 			mSprite->Rotation = value;
+		}, 40, 100);
 	}
+}
+
+void Bird::CollideWithPipe()
+{
+	IsAlive = false;
 }
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {

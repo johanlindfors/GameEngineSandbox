@@ -1,9 +1,6 @@
 #pragma once
-
-// These are some simple math helpers to enable the template to render a spinning cube. It is not a complete math library.
-// You can replace this with your favorite math library that's suitable for your target platforms, e.g. DirectXMath or GLM.
-
 #include <math.h>
+#include <memory>
 
 namespace Utilities
 {
@@ -61,12 +58,12 @@ namespace Utilities
 	struct Point {
 		Point(int newx, int newy) 
 		{
-			x = newx;
-			y = newy;
+			X = newx;
+			Y = newy;
 		}
 
-		int x;
-		int y;
+		int X;
+		int Y;
 	};
 
     struct Rectangle
@@ -134,5 +131,10 @@ namespace Utilities
                                         0.0f, cotangent,                    0.0f,                             0.0f,
                                         0.0f,      0.0f, -50.0f / (50.0f - 1.0f), (-50.0f * 1.0f) / (50.0f - 1.0f),
                                         0.0f,      0.0f,                   -1.0f,                             0.0f);
+    }
+
+    inline static float Lerp(float a, float b, float t) 
+    {
+        return a + t * (b - a);
     }
 }

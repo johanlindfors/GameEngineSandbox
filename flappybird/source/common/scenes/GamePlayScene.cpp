@@ -2,10 +2,11 @@
 #include "textures/TextureManager.h"
 #include "IOC.hpp"
 #include "objects/Bird.h"
-// #include "objects/VectorCollider.h"
+#include "physics/IObjectCollider.h"
 #include "textures/ITextureManager.h"
 #include "renderer/ISpriteRenderer.h"
 #include "physics/IPhysicsEngine.h"
+#include "TweenEngine.h"
 #include "input/IInputManager.h"
 #include "game/IGameStateCallback.h"
 #include "MathHelper.h"
@@ -18,21 +19,19 @@
 #include <ctime> 
 
 using namespace std;
-using Engine::IInputManager;
-using Engine::ISpriteRenderer;
-using Engine::ITextureManager;
-using Engine::IPhysicsEngine;
-using Engine::Sprite;
-using Utilities::IStepTimer;
-using Utilities::IOCContainer;
-using Utilities::Vector2;
+using namespace Engine;
+using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
 	, mBird(make_shared<Bird>(Vector2(128,250)))
 	, mPipes(vector<shared_ptr<Pipes>>())
-	// , mCollider(make_shared<VectorCollider>())
+	, mTextureManager(IOCContainer::Instance().Resolve<ITextureManager>())
+	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
+	, mPhysicsEngine(IOCContainer::Instance().Resolve<IPhysicsEngine>())
+	, mCollider(IOCContainer::Instance().Resolve<IObjectCollider>())
+	, mTweenEngine(IOCContainer::Instance().Resolve<ITweenEngine>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mGame(gameCallback)
@@ -51,10 +50,6 @@ GamePlayScene::~GamePlayScene()
 
 void GamePlayScene::Load()
 {
-	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
-	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
-	mPhysicsEngine = IOCContainer::Instance().Resolve<IPhysicsEngine>();
-
 	mBackground->Offset = 3;
 	mBackground->Width = 288;
 	mBackground->Height = 505;
@@ -88,7 +83,7 @@ void GamePlayScene::GeneratePipes()
 		newPipes = make_shared<Pipes>(Vector2(288 + 45, 0));
 		mPipes.push_back(newPipes);
 	}
-	auto y = 0;//rand()%200) - 100;
+	auto y = rand()%200 - 100;
 	newPipes->Reset(Vector2(288.0f + 45.0f, static_cast<float>(y)));
 }
 
@@ -103,28 +98,30 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		bool collision = false;
 		for(auto pipe : mPipes) {
 			pipe->Update(timer);
-			pipe->TopSpriteCollided = pipe->Intersects(mBird->Bounds, pipe->TopPipe->AABB);
-			pipe->BottomSpriteCollided = pipe->Intersects(mBird->Bounds, pipe->BottomPipe->AABB);
-			if(collision) {
-				// mGame->GoToState(GameState::GameOver);
-			}
+			// collision = mCollider->Intersects(mBird->Bounds, pipe->TopPipe->AABB) || 
+			// 			mCollider->Intersects(mBird->Bounds, pipe->BottomPipe->AABB);
+			// if(collision && mBird->IsAlive) { // Collided with a pipe
+			// 	mBird->CollideWithPipe();
+			// }
+			// collision = mCollider->Intersects(mBird->Bounds, mSkyline->GetGroundAABB());
+			// if(collision) {
+			// 	mBird->AllowGravity = false;
+			// 	mSkyline->Pause();
+			// 	mPipesGenerator.Pause();
+			// 	mGame->GoToState(GameState::GameOver);
+			// }
 		}
-
+		
 		mPipesGenerator.Update([&]()
 		{
 			GeneratePipes();
 		});
 
-		
-
-		// if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
-		// {
-
-		// }
+		mTweenEngine->Update(timer);
 
 		if (spacePressed && !mSpacePressedBefore)
 		{
-			mBird->Flap();	
+			mBird->Flap();
 		}
 	}
 	else {
