@@ -2,11 +2,11 @@
 #include "game/GameDefines.h"
 #include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
-#include "ITweenEngine.h"
-#include "MathHelper.h"
+#include "utilities/ITweenEngine.h"
+#include "utilities/MathHelper.h"
 #include "renderer/Sprite.h"
-#include "IStepTimer.h"
-#include "IOC.hpp"
+#include "utilities/IStepTimer.h"
+#include "utilities/IOC.hpp"
 
 using namespace std;
 using namespace Engine;

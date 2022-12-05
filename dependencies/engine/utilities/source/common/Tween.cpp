@@ -1,6 +1,6 @@
-#include "Tween.h"
-#include "IStepTimer.h"
-#include "MathHelper.h"
+#include "utilities/Tween.h"
+#include "utilities/IStepTimer.h"
+#include "utilities/MathHelper.h"
 
 using namespace std;
 using namespace Utilities;

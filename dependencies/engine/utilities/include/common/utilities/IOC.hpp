@@ -1,5 +1,5 @@
 #pragma once
-#include <Singleton.h>
+#include "utilities/Singleton.h"
 #include <map>
 #include <string>
 #include <stdexcept>

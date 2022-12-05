@@ -1,5 +1,5 @@
 #include "Clouds.h"
-#include "IStepTimer.h"
+#include "utilities/IStepTimer.h"
 #include "renderer/ISpriteRenderer.h"
 #include "renderer/Sprite.h"
 

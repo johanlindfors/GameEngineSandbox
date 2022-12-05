@@ -1,7 +1,7 @@
 #include "renderer/SpriteRenderer.h"
 #include <string>
-#include "MathHelper.h"
-#include "GLHelper.h"
+#include "utilities/MathHelper.h"
+#include "utilities/GLHelper.h"
 #include "renderer/Sprite.h"
 
 #include <glm/glm.hpp>

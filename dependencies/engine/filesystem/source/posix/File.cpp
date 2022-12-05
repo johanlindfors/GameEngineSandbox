@@ -1,7 +1,7 @@
 #include "File.h"
 #include <cstdio>
 #include <iostream>
-#include "StringHelpers.h"
+#include "utilities/StringHelpers.h"
 
 using namespace std;
 using namespace Engine;

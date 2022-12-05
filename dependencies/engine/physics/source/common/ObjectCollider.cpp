@@ -1,5 +1,5 @@
 #include "physics/ObjectCollider.h"
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 
 using namespace Utilities;
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "textures/Texture2D.h"
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 
 namespace Engine {
 	struct Sprite {

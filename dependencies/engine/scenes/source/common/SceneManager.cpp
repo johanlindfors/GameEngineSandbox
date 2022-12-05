@@ -1,5 +1,5 @@
 #include "scenes/SceneManager.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "renderer/ISpriteRenderer.h"
 #include <string>
 

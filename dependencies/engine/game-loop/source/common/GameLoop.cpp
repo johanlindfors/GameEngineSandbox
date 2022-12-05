@@ -1,5 +1,5 @@
 #include "game-loop/GameLoop.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "scenes/SceneManager.h"
 #include "input/InputManager.h"
 #include "textures/TextureManager.h"

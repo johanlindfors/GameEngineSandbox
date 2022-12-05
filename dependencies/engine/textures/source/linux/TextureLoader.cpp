@@ -1,12 +1,12 @@
 #include "textures/TextureLoader.h"
 #include "filesystem/FileSystem.h"
-#include "GLHelper.h"
+#include "utilities/GLHelper.h"
 #include "png.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
 #include <cstring>
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "File.h"
 #include "textures/Texture2D.h"
 

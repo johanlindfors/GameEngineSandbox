@@ -4,7 +4,7 @@
 #include "input/IInputManager.h"
 #include "renderer/SpriteRenderer.h"
 #include "renderer/Sprite.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "game/IGameStateCallback.h"
 
 using namespace std;

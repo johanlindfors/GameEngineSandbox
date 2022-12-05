@@ -1,7 +1,7 @@
 #include "textures/TextureManager.h"
 #include "textures/TextureLoader.h"
 #include <memory>
-#include "GLHelper.h"
+#include "utilities/GLHelper.h"
 #include "File.h"
 
 using namespace std;

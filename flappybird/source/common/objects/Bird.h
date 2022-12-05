@@ -1,10 +1,10 @@
 #pragma once
 #include "Entity.h"
 #include <list>
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 #include "physics/IPhysicsBody.h"
 #include <functional>
-#include "IStepTimer.h"
+#include "utilities/IStepTimer.h"
 #include <vector>
 
 namespace Utilities

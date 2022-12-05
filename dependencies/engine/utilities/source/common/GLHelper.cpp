@@ -1,4 +1,4 @@
-#include "GLHelper.h"
+#include "utilities/GLHelper.h"
 #include <vector>
 
 using namespace std;

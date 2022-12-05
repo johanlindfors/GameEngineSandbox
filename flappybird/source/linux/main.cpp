@@ -1,11 +1,11 @@
 #include <iostream>
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "game/Game.h"
 #include "application/Config.h"
 #include "game/GameDefines.h"
 #include "physics/PhysicsEngine.h"
 #include "physics/ObjectCollider.h"
-#include "TweenEngine.h"
+#include "utilities/TweenEngine.h"
 
 using namespace std;
 using namespace Engine;

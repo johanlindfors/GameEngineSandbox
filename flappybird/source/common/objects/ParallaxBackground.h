@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 #include "Ground.h"
 
 class Clouds;

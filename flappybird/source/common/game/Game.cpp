@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "scenes/SplashScene.h"
 #include "scenes/GamePlayScene.h"
 #include "scenes/GameOverScene.h"

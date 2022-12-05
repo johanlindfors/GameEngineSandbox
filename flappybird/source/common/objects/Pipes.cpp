@@ -1,8 +1,8 @@
 #include "Pipes.h"
 #include "game/GameDefines.h"
 #include "renderer/ISpriteRenderer.h"
-#include "MathHelper.h"
-#include "IStepTimer.h"
+#include "utilities/MathHelper.h"
+#include "utilities/IStepTimer.h"
 #include "game/GameDefines.h"
 
 using namespace std;

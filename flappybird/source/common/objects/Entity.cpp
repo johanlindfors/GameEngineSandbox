@@ -1,9 +1,9 @@
 #include "Entity.h"
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 #include "textures/Texture2D.h"
 #include "renderer/Sprite.h"
 #include "game/GameDefines.h"
-#include "IStepTimer.h"
+#include "utilities/IStepTimer.h"
 
 using std::make_shared;
 using std::shared_ptr;

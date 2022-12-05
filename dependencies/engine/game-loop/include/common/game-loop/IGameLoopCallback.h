@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "IStepTimer.h"
+#include "utilities/IStepTimer.h"
 
 namespace Engine {
     class IGameLoopCallback {

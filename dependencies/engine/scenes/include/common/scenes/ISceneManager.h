@@ -1,6 +1,6 @@
 #pragma once
 #include "GameScene.h"
-#include "IStepTimer.h"
+#include "utilities/IStepTimer.h"
 #include <memory>
 
 namespace Engine {

@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include <list>
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 #include <vector>
 
 namespace Utilities
