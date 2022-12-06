@@ -14,7 +14,7 @@ Pipes::Pipes(Vector2 position)
 	, BottomPipe(make_shared<Pipe>(position))
 	, TopPipeSprite(make_shared<Sprite>())
 	, BottomPipeSprite(make_shared<Sprite>())
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	, TopPipeDebugSprite(make_shared<Sprite>())
 	, BottomPipeDebugSprite(make_shared<Sprite>())
 #endif
@@ -106,7 +106,7 @@ void Pipes::Update(shared_ptr<IStepTimer> timer)
 
 		TopPipe->AABB = topAABB;
 		BottomPipe->AABB = bottomAABB;
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 		BottomPipeDebugSprite->Position = Vector2(bottomAABB.X, bottomAABB.Y);
 		BottomPipeDebugSprite->Width = bottomAABB.Width;
 		BottomPipeDebugSprite->Height = bottomAABB.Height;
@@ -129,7 +129,7 @@ void Pipes::Draw(shared_ptr<ISpriteRenderer> renderer)
 		renderer->DrawSprite(BottomPipe, BottomPipe->Position);
 		renderer->DrawSprite(BottomPipeSprite, BottomPipeSprite->Position);
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 		if(BottomSpriteCollided)
 			renderer->DrawSprite(BottomPipeDebugSprite);
 		if(TopSpriteCollided)

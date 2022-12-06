@@ -6,6 +6,7 @@
 #include <functional>
 #include "utilities/IStepTimer.h"
 #include <vector>
+#include "game/GameDefines.h"
 
 namespace Utilities
 {
@@ -35,7 +36,7 @@ public:
 private:
 	int mAnimationCounter;
 	int mFramesPerAnimation;
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	std::shared_ptr<Engine::Sprite> mDebugSprite;
 #endif
 };

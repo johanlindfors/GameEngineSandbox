@@ -20,7 +20,7 @@ Bird::Bird(Vector2 position)
 	, Bounds(Circle(position.m[0]+16, position.m[1]+12, 16))
 	, AABB(Rectangle(0, 0, 0, 0))
 	, IsKilled(false)
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	, mDebugSprite(make_shared<Sprite>())
 #endif
 {
@@ -64,7 +64,7 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 		Bounds = Circle(X + mSprite->Width/2,
 						Y + mSprite->Height/2,
 						16);
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 		mDebugSprite->Position = Vector2(AABB.X, AABB.Y);
 		mDebugSprite->Offset = 22;
 		mDebugSprite->Width = AABB.Width;
@@ -92,7 +92,7 @@ void Bird::CollideWithPipe()
 }
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	renderer->DrawSprite(mDebugSprite, Vector2(X, Y));
 #endif
 	renderer->DrawSprite(mSprite, Vector2(X, Y));

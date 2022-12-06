@@ -2,6 +2,7 @@
 #include "physics/ICollidable.h"
 #include "physics/IPhysicsBody.h"
 #include "renderer/Sprite.h"
+#include "game/GameDefines.h"
 #include <memory>
 
 namespace Utilities
@@ -49,7 +50,7 @@ public:
 	std::shared_ptr<Engine::Sprite> BottomPipeSprite;
 	bool TopSpriteCollided;
 	bool BottomSpriteCollided;
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	std::shared_ptr<Engine::Sprite> TopPipeDebugSprite;
 	std::shared_ptr<Engine::Sprite> BottomPipeDebugSprite;	
 #endif

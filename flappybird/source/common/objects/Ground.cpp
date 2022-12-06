@@ -13,7 +13,7 @@ Ground::Ground(Vector2 position, Vector2 velocity)
     , mGround(vector<shared_ptr<Sprite>>())
     , mGroundBackground(make_shared<Sprite>())
     , ICollidable::ICollidable(Vector2(0,0))
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
     , mGroundDebugSprite(make_shared<Sprite>())
 #endif
 {
@@ -35,7 +35,7 @@ Ground::Ground(Vector2 position, Vector2 velocity)
     AABB.Width = 288;
     AABB.Height = 155;
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
     mGroundDebugSprite->Width = 288;
     mGroundDebugSprite->Height = 155;
     mGroundDebugSprite->Offset = 22;
@@ -58,7 +58,7 @@ void Ground::Draw(shared_ptr<ISpriteRenderer> renderer)
     for(auto ground: mGround) {
         renderer->DrawSprite(ground, ground->Position);
     }
-#ifdef _DEBUG
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
     renderer->DrawSprite(mGroundDebugSprite);
 #endif
 }
