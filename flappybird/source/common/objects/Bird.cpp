@@ -13,13 +13,13 @@ using namespace Engine;
 using namespace Utilities;
 
 Bird::Bird(Point position)
-    : Entity(position)
-	, IPhysicsBody(position)
-	, mAnimationCounter(0)
-	, mFramesPerAnimation(4)
+    : IPhysicsBody(position)
 	, Bounds(Circle(position.X+16, position.X+12, 12))
 	, AABB(Rectangle(0, 0, 0, 0))
 	, IsKilled(false)
+	, mAnimationCounter(0)
+	, mFramesPerAnimation(4)
+	, mSprite(make_shared<Sprite>())
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	, mDebugSprite(make_shared<Sprite>())
 #endif
@@ -42,7 +42,6 @@ void Bird::Reset() {
 void Bird::Update(shared_ptr<IStepTimer> timer)
 {
 	if(IsAlive) {
-		Entity::Update(timer);
 		if(mAnimationCounter++ >= mFramesPerAnimation) {
 			auto offset = mSprite->Offset;
 			offset++;

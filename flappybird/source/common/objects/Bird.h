@@ -1,5 +1,4 @@
 #pragma once
-#include "Entity.h"
 #include <list>
 #include "utilities/MathHelper.h"
 #include "physics/IPhysicsBody.h"
@@ -17,11 +16,12 @@ namespace Engine
 {
 	class IInputManager;
 	class ISpriteRenderer;
+	class Sprite;
 }
 
 class IGameStateCallback;
 
-class Bird : public Entity, public Engine::IPhysicsBody {
+class Bird : public Engine::IPhysicsBody {
 public:
 	Bird(Utilities::Point position);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
@@ -36,6 +36,7 @@ public:
 private:
 	int mAnimationCounter;
 	int mFramesPerAnimation;
+	std::shared_ptr<Engine::Sprite> mSprite;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	std::shared_ptr<Engine::Sprite> mDebugSprite;
 #endif
