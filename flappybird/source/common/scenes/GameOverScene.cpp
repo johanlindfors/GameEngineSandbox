@@ -60,7 +60,7 @@ void GameOverScene::HandleInput()
 void GameOverScene::Update(shared_ptr<IStepTimer> timer)
 {
 	mTweenEngine->Update(timer);
-	mBackground->Position = { 288 / 2.0f - mBackground->Width / 2.0f, 505 / 2.0f - mBackground->Height / 2.0f + 100};
+	mBackground->Position = { 288 / 2 - mBackground->Width / 2, 505 / 2 - mBackground->Height / 2 + 100};
 	HandleInput();
 }
 
