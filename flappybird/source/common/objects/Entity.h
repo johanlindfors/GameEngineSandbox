@@ -3,7 +3,7 @@
 
 namespace Utilities
 {
-	struct Vector2;
+	struct Point;
 	class IStepTimer;
 }
 
@@ -15,7 +15,7 @@ namespace Engine
 
 class Entity {
 public:
-	Entity(Utilities::Vector2 position);
+	Entity(Utilities::Point position);
 	void SetTexture(Engine::Texture2D texture);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	std::shared_ptr<Engine::Sprite> GetSprite() const { return mSprite; }

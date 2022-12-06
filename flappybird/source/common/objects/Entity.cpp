@@ -7,12 +7,12 @@
 
 using std::make_shared;
 using std::shared_ptr;
-using Utilities::Vector2;
+using Utilities::Point;
 using Utilities::IStepTimer;
 using Engine::Texture2D;
 using Engine::Sprite;
 
-Entity::Entity(Vector2 position)
+Entity::Entity(Point position)
     : mSprite(std::make_shared<Sprite>())
 	, mScreenWidth(0)
 	, mScreenHeight(0)

@@ -9,7 +9,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Pipes::Pipes(Vector2 position)
+Pipes::Pipes(Point position)
 	: TopPipe(make_shared<Pipe>(position))
 	, BottomPipe(make_shared<Pipe>(position))
 	, TopPipeSprite(make_shared<Sprite>())
@@ -31,51 +31,21 @@ Pipes::Pipes(Vector2 position)
 	BottomPipeSprite->Width = TopPipe->Width;
 }
 
-void Pipes::Reset(Vector2 position)
+void Pipes::Reset(Point position)
 {
 	TopPipe->Position = position;
 	BottomPipe->Position = position;
 
-	TopPipe->Position.m[1] += 400;
-	BottomPipe->Position.m[1] += 250;
+	TopPipe->Position.Y += 400;
+	BottomPipe->Position.Y += 250;
 
-	TopPipeSprite->Height = 505 - TopPipe->Position.m[1] - TopPipe->Height;
-	TopPipeSprite->Position = TopPipe->Position + Vector2(0,25);
+	TopPipeSprite->Height = 505 - TopPipe->Position.Y - TopPipe->Height;
+	TopPipeSprite->Position = TopPipe->Position + Point(0,25);
 
-	BottomPipeSprite->Height = BottomPipe->Position.m[1] - 155;
-	BottomPipeSprite->Position = BottomPipe->Position + Vector2(0,-BottomPipeSprite->Height);
+	BottomPipeSprite->Height = BottomPipe->Position.Y - 155;
+	BottomPipeSprite->Position = BottomPipe->Position + Point(0,-BottomPipeSprite->Height);
 
 	IsAlive = true;
-}
-
-// Reference: https://www.jeffreythompson.org/collision-detection/circle-rect.php
-bool Pipes::Intersects(Circle circle, Rectangle rect)
-{
-	float testX = circle.X;
-	float testY = circle.Y;
-
-	// which edge is closest?
-	if (circle.X < rect.X) testX = rect.X;      						// test left edge
-	else if (circle.X > rect.X+rect.Width) testX = rect.X+rect.Width;   // right edge
-	if (circle.Y < rect.Y) testY = rect.Y;      						// top edge
-	else if (circle.Y > rect.Y+rect.Height) testY = rect.Y+rect.Height; // bottom edge
-
-	// get distance from closest edges
-	float distX = circle.X-testX;
-	float distY = circle.Y-testY;
-	float distance = sqrt( (distX*distX) + (distY*distY) );
-
-	// if the distance is less than the radius, collision!
-	if (distance <= circle.Radius) {
-		return true;
-	}
-	return false;
-}
-
-bool Pipes::Intersects(Rectangle r1, Rectangle r2)
-{
-	return r1.X <= (r2.X + r2.Width) && (r1.X + r1.Width) >= r2.X &&
-           r1.Y <= (r2.Y + r2.Height) && (r1.Y + r1.Height) >= r2.Y;
 }
 
 void Pipes::Update(shared_ptr<IStepTimer> timer)
@@ -87,19 +57,19 @@ void Pipes::Update(shared_ptr<IStepTimer> timer)
 		TopPipeSprite->Position = TopPipeSprite->Position + delta;
 		BottomPipe->Position = BottomPipe->Position + delta;
 		BottomPipeSprite->Position = BottomPipeSprite->Position + delta;
-		if(TopPipe->Position.m[0] <= -54) {
+		if(TopPipe->Position.X <= -54) {
 			IsAlive = false;
 		}
 		Rectangle topAABB(
-			TopPipe->Position.m[0],
-			TopPipe->Position.m[1],
+			TopPipe->Position.X,
+			TopPipe->Position.Y,
 			TopPipe->Width,
 			TopPipe->Height + TopPipeSprite->Height
 		);
 	
 		Rectangle bottomAABB(
-			BottomPipe->Position.m[0],
-			BottomPipe->Position.m[1] - BottomPipeSprite->Height,
+			BottomPipe->Position.X,
+			BottomPipe->Position.Y - BottomPipeSprite->Height,
 			BottomPipe->Width,
 			BottomPipe->Height + BottomPipeSprite->Height
 		);

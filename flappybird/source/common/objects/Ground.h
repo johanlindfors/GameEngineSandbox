@@ -20,7 +20,7 @@ namespace Engine
 class Ground
 	: public Engine::ICollidable {
 public:
-	Ground(Utilities::Vector2 position, Utilities::Vector2 velocity);
+	Ground(Utilities::Point position, Utilities::Vector2 velocity);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 
@@ -31,7 +31,7 @@ private:
 	std::shared_ptr<Engine::Sprite> mGroundDebugSprite;	
 #endif
 	Utilities::Vector2 mVelocity;
-	Utilities::Vector2 mPosition;
+	Utilities::Point mPosition;
 	int mGroundOffset;
 	int mGroundBackgroundOffset;
 };

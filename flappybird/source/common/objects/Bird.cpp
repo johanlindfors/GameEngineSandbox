@@ -12,12 +12,12 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Bird::Bird(Vector2 position)
+Bird::Bird(Point position)
     : Entity(position)
 	, IPhysicsBody(position)
 	, mAnimationCounter(0)
 	, mFramesPerAnimation(4)
-	, Bounds(Circle(position.m[0]+16, position.m[1]+12, 16))
+	, Bounds(Circle(position.X+16, position.X+12, 12))
 	, AABB(Rectangle(0, 0, 0, 0))
 	, IsKilled(false)
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
@@ -29,9 +29,8 @@ Bird::Bird(Vector2 position)
 }
 
 void Bird::Reset() {
-	mSprite->Position = Vector2(80, 300);
-	X = 80;
-	Y = 300;
+	mSprite->Position = Point(80, 300); // TODO: Remove one positional property
+	Position = Point(80, 300);
 	mSprite->Rotation = 0;
 	mAnimationCounter = 0;
 	IsKilled = false;
@@ -57,15 +56,15 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 			mSprite->Rotation -= 2.5f;
 		}
 
-		AABB = Rectangle(X,
-						Y,
+		AABB = Rectangle(Position.X,
+						Position.Y,
 						mSprite->Width,
 						mSprite->Height);
-		Bounds = Circle(X + mSprite->Width/2,
-						Y + mSprite->Height/2,
-						16);
+		Bounds = Circle(Position.X + mSprite->Width/2,
+						Position.Y + mSprite->Height/2,
+						12);
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		mDebugSprite->Position = Vector2(AABB.X, AABB.Y);
+		mDebugSprite->Position = Vector2(AABB.Position.X, AABB.Position.Y);
 		mDebugSprite->Offset = 22;
 		mDebugSprite->Width = AABB.Width;
 		mDebugSprite->Height = AABB.Height;
@@ -93,7 +92,7 @@ void Bird::CollideWithPipe()
 
 void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-	renderer->DrawSprite(mDebugSprite, Vector2(X, Y));
+	renderer->DrawSprite(mDebugSprite, Position);
 #endif
-	renderer->DrawSprite(mSprite, Vector2(X, Y));
+	renderer->DrawSprite(mSprite, Position);
 }

@@ -22,7 +22,9 @@ class Pipe
 	, public Engine::ICollidable
 {
 public:
-	Pipe(Utilities::Vector2 position)
+	using Engine::IPhysicsBody::Position;
+
+	Pipe(Utilities::Point position)
 		: Sprite::Sprite()
 		, IPhysicsBody::IPhysicsBody(position) 
 		, ICollidable::ICollidable(position)
@@ -36,11 +38,11 @@ public:
 class Pipes
 {
 public:
-	Pipes(Utilities::Vector2 position);
+	Pipes(Utilities::Point position);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 	bool IsAlive;
-	void Reset(Utilities::Vector2 position);
+	void Reset(Utilities::Point position);
 	bool Intersects(Utilities::Circle circle, Utilities::Rectangle rect);
 	bool Intersects(Utilities::Rectangle r1, Utilities::Rectangle r2);
 

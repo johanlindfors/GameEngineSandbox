@@ -6,7 +6,7 @@ namespace Engine {
 	struct Sprite {
 		Sprite() 
 			: Texture({})
-			, Position({ 0.0f, 0.0f })
+			, Position({ 0, 0 })
 			, Velocity({ 0.0f, 0.0f })
 			, Width(0)
 			, Height(0)
@@ -16,7 +16,7 @@ namespace Engine {
 		~Sprite() = default;
 		
 		Texture2D Texture;
-		Utilities::Vector2 Position;
+		Utilities::Point Position;
 		Utilities::Vector2 Velocity;
 		int Width;
 		int Height;

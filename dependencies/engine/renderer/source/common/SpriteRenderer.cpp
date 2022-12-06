@@ -66,7 +66,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 	this->DrawSprite(sprite, sprite->Position);
 }
 
-void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Vector2 position)
+void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point position)
 {
 	if(!mInitialized) {
 		glUseProgram(mProgram);
@@ -90,7 +90,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Vector2 position)
 	glUniformMatrix4fv(mProjectionMatrix, 1, false, glm::value_ptr(projection));
 
 	glm::mat4 world = glm::mat4(1.0f);
-	world= glm::translate(world, glm::vec3(position.m[0], position.m[1], 0.0f)); 
+	world= glm::translate(world, glm::vec3(position.X, position.Y, 0.0f)); 
 	if(sprite->Rotation != 0.0f) {
 		world = glm::translate(world, glm::vec3(0.5f * sprite->Texture.Width, 0.5f * sprite->Texture.Height, 0.0f)); 
     	world = glm::rotate(world, glm::radians(sprite->Rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 

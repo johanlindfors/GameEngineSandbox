@@ -25,8 +25,8 @@ void PhysicsEngine::Update(shared_ptr<IStepTimer> timer)
 			velocity.m[1] = velocity.m[1] - (GRAVITY * timer->GetElapsedMilliSeconds() / 10);
 		}
 
-		body->Y = body->Y + (velocity.m[1] * timer->GetElapsedMilliSeconds() / 1000);
-		body->X = body->X + (velocity.m[0] * timer->GetElapsedMilliSeconds() / 1000);
+		body->Position.Y = body->Position.Y + (velocity.m[1] * timer->GetElapsedMilliSeconds() / 1000);
+		body->Position.X = body->Position.X + (velocity.m[0] * timer->GetElapsedMilliSeconds() / 1000);
 		body->Velocity = velocity;
 	}	
 }

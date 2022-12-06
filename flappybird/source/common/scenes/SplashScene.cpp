@@ -33,7 +33,7 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	mBackground->Height = 505;
 	
 	mInstructions->Offset = 6;
-	mInstructions->Position = Vector2(96,180);
+	mInstructions->Position = Point(96,180);
 	mInstructions->Width = 103;
 	mInstructions->Height = 102;
 
@@ -70,7 +70,7 @@ void SplashScene::UpdateScreenSize(int width, int height)
 	if(mWindowWidth == width && mWindowHeight == height)
 		return;
 
-	mTitle->Position = Vector2(
+	mTitle->Position = Point(
 		width/2 - mTitle->Width/2, 
 		height/2 - mTitle->Height/2 + 100
 	);

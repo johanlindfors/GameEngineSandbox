@@ -7,7 +7,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Trees::Trees(Vector2 position, Vector2 velocity)
+Trees::Trees(Point position, Vector2 velocity)
     : mPosition(position)
     , mVelocity(velocity)
     , mTrees(make_shared<Sprite>())
@@ -24,15 +24,15 @@ Trees::Trees(Vector2 position, Vector2 velocity)
 
 void Trees::Update(shared_ptr<IStepTimer> timer)
 {
-    mPosition.m[0] += mVelocity.m[0] * (timer->GetElapsedMilliSeconds()/1000.0f);
-    if(mPosition.m[0] <= -415.0) {
-        mPosition.m[0] += 415.0;
+    mPosition.X += mVelocity.m[0] * (timer->GetElapsedMilliSeconds()/1000.0f);
+    if(mPosition.X <= -415.0) {
+        mPosition.X += 415.0;
     }
 }
 
 void Trees::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
     renderer->DrawSprite(mTrees, mPosition);
-    renderer->DrawSprite(mTrees, Vector2(mPosition.m[0] + 415, mPosition.m[1]));
-    renderer->DrawSprite(mTreesBackground, Vector2(0, mPosition.m[1]-200));
+    renderer->DrawSprite(mTrees, Point(mPosition.X + 415, mPosition.Y));
+    renderer->DrawSprite(mTreesBackground, Point(0, mPosition.Y-200));
 }

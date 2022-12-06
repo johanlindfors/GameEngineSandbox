@@ -56,28 +56,36 @@ namespace Utilities
     };
 
 	struct Point {
-		Point(int newx, int newy) 
-		{
-			X = newx;
-			Y = newy;
-		}
+		Point(int x, int y)
+            : X(x)
+            , Y(y) 
+		{ }
 
 		int X;
 		int Y;
+
+        // Overloading "+" operator
+        Point operator+ (Point const& point)
+        {
+            return Point(X + point.X, Y + point.Y);
+        }
+        
+        // Overloading "+" operator
+        Point operator+ (Vector2 const& vec)
+        {
+            return Point(X + vec.m[0], Y + vec.m[1]);
+        }
 	};
 
     struct Rectangle
     {
         Rectangle(int x, int y, int width, int height)
-        {
-            X = x;
-            Y = y;
-            Width = width;
-            Height = height;
-        }
+            : Position(Point(x,y))
+            , Width(width)
+            , Height(height)
+        { }
 
-        int X;
-        int Y;
+        Point Position;
         int Width;
         int Height;
     };
@@ -85,14 +93,11 @@ namespace Utilities
     struct Circle 
     {
         Circle(float x, float y, float radius)
-        {
-            X = x;
-            Y = y;
-            Radius = radius;
-        }
+            : Position(Point(x, y))
+            , Radius(radius)
+        { }
 
-        float X;
-        float Y;
+        Point Position;
         float Radius;
     };
 

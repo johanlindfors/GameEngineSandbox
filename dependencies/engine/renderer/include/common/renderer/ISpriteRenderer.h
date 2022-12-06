@@ -4,7 +4,7 @@
 
 namespace Utilities
 {
-	struct Vector2;
+	struct Point;
 }
 
 namespace Engine {
@@ -16,6 +16,6 @@ namespace Engine {
 		virtual void UpdateWindowSize(GLsizei width, GLsizei height) = 0;
 		virtual void Clear() = 0;
 		virtual void DrawSprite(std::shared_ptr<Sprite> sprite) = 0;
-		virtual void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Vector2 position) = 0;
+		virtual void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point position) = 0;
 	};
 }

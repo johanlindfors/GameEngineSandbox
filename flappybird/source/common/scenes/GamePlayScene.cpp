@@ -25,7 +25,7 @@ using namespace Utilities;
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
-	, mBird(make_shared<Bird>(Vector2(80,250)))
+	, mBird(make_shared<Bird>(Point(80,250)))
 	, mPipes(vector<shared_ptr<Pipes>>())
 	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
 	, mPhysicsEngine(IOCContainer::Instance().Resolve<IPhysicsEngine>())
@@ -83,7 +83,7 @@ void GamePlayScene::Reset()
 
 void GamePlayScene::GeneratePipes()
 {
-	shared_ptr<Pipes> newPipes = nullptr;
+ 	shared_ptr<Pipes> newPipes = nullptr;
 	for (auto pipe : mPipes)
 	{
 		if(!pipe->IsAlive) {
@@ -92,11 +92,11 @@ void GamePlayScene::GeneratePipes()
 		}
 	}
 	if(newPipes == nullptr) {
-		newPipes = make_shared<Pipes>(Vector2(288 + 45, 0));
+		newPipes = make_shared<Pipes>(Point(288 + 45, 0));
 		mPipes.push_back(newPipes);
 	}
 	auto y = rand()%200 - 100;
-	newPipes->Reset(Vector2(288.0f + 45.0f, static_cast<float>(y)));
+	newPipes->Reset(Point(288 + 45, y));
 }
 
 void GamePlayScene::Update(shared_ptr<IStepTimer> timer)

@@ -7,4 +7,4 @@
 #define CLOUD_SPEED -20
 #define TREES_SPEED -60
 #define SKYLINE_SPEED -30
-#define DEBUG_TEXTURES_ENABLED true
+#define DEBUG_TEXTURES_ENABLED false
