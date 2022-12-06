@@ -4,7 +4,7 @@
 
 namespace Utilities
 {
-	struct Vector2;
+	struct Point;
 }
 
 namespace Engine
@@ -18,7 +18,7 @@ class Apple;
 
 class Snake : public Entity {
 public:
-	Snake(Utilities::Vector2 position);
+	Snake(Utilities::Point position);
 	bool CheckCollision(int x, int y);
 	void Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback);
 	void HandleInput(std::shared_ptr<Engine::IInputManager> input);
@@ -27,7 +27,7 @@ public:
 
 private:
 	int mTail;
-	std::list<Utilities::Vector2> mTrail;
+	std::list<Utilities::Point> mTrail;
 	void Reset();
 
 	friend class Apple;

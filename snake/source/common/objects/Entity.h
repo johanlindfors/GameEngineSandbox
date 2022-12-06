@@ -3,7 +3,7 @@
 
 namespace Utilities
 {
-	struct Vector2;
+	struct Point;
 }
 
 namespace Engine
@@ -14,7 +14,7 @@ namespace Engine
 
 class Entity {
 public:
-	Entity(Utilities::Vector2 position);
+	Entity(Utilities::Point position);
 	void SetTexture(Engine::Texture2D texture) ;
 	void Update(int screenWidth, int screenHeight);
 	std::shared_ptr<Engine::Sprite> GetSprite() const { return mSprite; }

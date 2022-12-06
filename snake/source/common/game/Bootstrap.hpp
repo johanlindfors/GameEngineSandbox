@@ -2,6 +2,7 @@
 #include "utilities/IOC.hpp"
 #include "game/Game.h"
 #include "application/Config.h"
+#include "renderer/SpriteRenderer.h"
 
 using namespace std;
 using namespace Engine;
@@ -14,4 +15,5 @@ void Bootstrap() {
     config->FPS = 15;
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<Game>());
+    IOCContainer::Instance().Register<ISpriteRenderer>(make_shared<SpriteRenderer>());
 }

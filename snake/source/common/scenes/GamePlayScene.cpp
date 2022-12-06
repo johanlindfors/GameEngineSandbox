@@ -3,7 +3,7 @@
 #include "utilities/IOC.hpp"
 #include "objects/Snake.h"
 #include "objects/Apple.h"
-#include "objects/VectorCollider.h"
+#include "objects/PointCollider.h"
 #include "textures/ITextureManager.h"
 #include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
@@ -19,12 +19,12 @@ using Engine::ISpriteRenderer;
 using Engine::ITextureManager;
 using Utilities::IStepTimer;
 using Utilities::IOCContainer;
-using Utilities::Vector2;
+using Utilities::Point;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mApple(make_shared<Apple>(Vector2(SCREEN_SIZE / 4.0f, SCREEN_SIZE / 4.0f)))
-	, mSnake(make_shared<Snake>(Vector2(SCREEN_SIZE / 2.0f, SCREEN_SIZE / 2.0f)))
-	, mCollider(make_shared<VectorCollider>())
+	: mApple(make_shared<Apple>(Point(SCREEN_SIZE / 4, SCREEN_SIZE / 4)))
+	, mSnake(make_shared<Snake>(Point(SCREEN_SIZE / 2, SCREEN_SIZE / 2)))
+	, mCollider(make_shared<PointCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mGame(gameCallback)
