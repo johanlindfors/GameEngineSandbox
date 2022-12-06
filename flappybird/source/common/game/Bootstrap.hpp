@@ -5,7 +5,9 @@
 #include "game/GameDefines.h"
 #include "physics/PhysicsEngine.h"
 #include "physics/ObjectCollider.h"
-#include "utilities/TweenEngine.h"
+
+#include "utilities/ITweenEngine.h"
+#include "systems/TweenyEngine.h"
 
 using namespace std;
 using namespace Engine;
@@ -19,7 +21,7 @@ void Bootstrap() {
     config->Title = "Flappy Bird";
     IOCContainer::Instance().Register<IPhysicsEngine>(make_shared<PhysicsEngine>());
     IOCContainer::Instance().Register<IObjectCollider>(make_shared<ObjectCollider>());
-    IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenEngine>());
+    IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenyEngine>());
 
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<Game>());

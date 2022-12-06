@@ -19,6 +19,7 @@ set(DEPENDENCIES
     input
     scenes
     physics
+    tweeny
 )
 
 if(WINDOWS_STORE)

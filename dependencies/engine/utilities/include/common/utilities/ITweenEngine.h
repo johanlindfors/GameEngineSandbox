@@ -9,7 +9,7 @@ namespace Utilities
     class ITweenEngine
     {
         public:
-            virtual void Add(float original, std::function<void(float)> setter, float target, float durationInMilliseconds) = 0;
+            virtual void Add(int original, std::function<void(int)> setter, int target, int durationInMilliseconds, bool bounce) = 0;
             virtual void Update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
     };
 }

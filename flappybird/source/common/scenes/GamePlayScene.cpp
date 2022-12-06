@@ -70,6 +70,11 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 
 void GamePlayScene::Reset()
 {
+	for (auto pipe : mPipes)
+	{
+		pipe.reset();
+	}
+	
 	mPipes.clear();
 	mBird->Reset();
 	mPipesGenerator.Reset();

@@ -33,11 +33,11 @@ void GameOverScene::Load()
 	mTweenEngine->Add(mBackground->Width,[&](float value)
 	{ 
 		mBackground->Width = value; 
-	}, 192, 300);
+	}, 192, 1000, true);
 	mTweenEngine->Add(mBackground->Height,[&](float value)
 	{ 
 		mBackground->Height = value;
-	}, 48, 300);
+	}, 48, 1000, true);
 }
 
 void GameOverScene::Unload() { }

@@ -79,10 +79,10 @@ void Bird::Flap()
 		Velocity.m[1] = 400;
 
 		auto tweenEngine = IOCContainer::Instance().Resolve<ITweenEngine>();
-		tweenEngine->Add(mSprite->Rotation, [&](float value)
+		tweenEngine->Add(mSprite->Rotation, [&](int value)
 		{
  			mSprite->Rotation = value;
-		}, 40, 100);
+		}, 40, 100, false);
 	}
 }
 
