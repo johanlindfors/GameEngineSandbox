@@ -1,4 +1,4 @@
-#include "renderer/SpriteRenderer.h"
+#include "renderer/SpriteSheetRenderer.h"
 #include <string>
 #include "utilities/MathHelper.h"
 #include "utilities/GLHelper.h"
@@ -14,21 +14,23 @@
 #include <vector>
 
 #define STRING(s) #s
+#define BUFFER_OFFSET(i) ((void*)(i))
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-SpriteRenderer::SpriteRenderer()
+SpriteSheetRenderer::SpriteSheetRenderer()
 	: mInitialized(false)
+{ }
+
+void SpriteSheetRenderer::Initialize()
 {
 	InitializeShaders();
 	InitializeBuffers();
 }
 
-#define BUFFER_OFFSET(i) ((void*)(i))
-
-SpriteRenderer::~SpriteRenderer()
+SpriteSheetRenderer::~SpriteSheetRenderer()
 {
 	if (mProgram != 0)
 	{
@@ -49,24 +51,24 @@ SpriteRenderer::~SpriteRenderer()
 	}
 }
 
-void SpriteRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
+void SpriteSheetRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
 {
 	glViewport(0, 0, width, height);
 	mWindowWidth = width;
 	mWindowHeight = height;
 }
 
-void SpriteRenderer::Clear() {
+void SpriteSheetRenderer::Clear() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
+void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 {
 	this->DrawSprite(sprite, sprite->Position);
 }
 
-void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point position)
+void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point position)
 {
 	if(!mInitialized) {
 		glUseProgram(mProgram);
@@ -108,7 +110,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point position)
 	// CheckOpenGLError();
 }
 
-void SpriteRenderer::InitializeShaders() {
+void SpriteSheetRenderer::InitializeShaders() {
 	// Vertex Shader source
 	const std::string vs = STRING
 	(
@@ -163,14 +165,14 @@ void SpriteRenderer::InitializeShaders() {
 	printf("[SpriteRenderer::InitializeShaders] mTextureUniformLocation: %d\n", mTextureUniformLocation);
 }
 
-void SpriteRenderer::InitializeBuffers() {
+void SpriteSheetRenderer::InitializeBuffers() {
 	InitializeVertexBuffer();
 	InitializeUVBuffer();
 
     printf("[SpriteRenderer::InitializeBuffers] done\n");
 }
 
-void SpriteRenderer::InitializeVertexBuffer()
+void SpriteSheetRenderer::InitializeVertexBuffer()
 {
 	GLfloat vertexPositions[] =
 	{
@@ -185,7 +187,7 @@ void SpriteRenderer::InitializeVertexBuffer()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
 }
 
-void SpriteRenderer::AddUVs(int x1, int y1, int x2, int y2)
+void SpriteSheetRenderer::AddUVs(int x1, int y1, int x2, int y2)
 {
 	GLfloat width = 512.0;
 	GLfloat height = 512.0;
@@ -205,7 +207,7 @@ void SpriteRenderer::AddUVs(int x1, int y1, int x2, int y2)
 	mUVVertices.push_back(t1);
 }
 
-void SpriteRenderer::InitializeUVBuffer() 
+void SpriteSheetRenderer::InitializeUVBuffer() 
 {
 	AddUVs(1, 1, 35, 25); 		//  0 bird1
 	AddUVs(35, 1, 69, 25); 		//  1 bird2

@@ -3,7 +3,7 @@
 #include "scenes/SceneManager.h"
 #include "input/InputManager.h"
 #include "textures/TextureManager.h"
-#include "renderer/SpriteRenderer.h"
+#include "renderer/ISpriteRenderer.h"
 #include "StepTimer.h"
 #include "game-loop/IGameLoopCallback.h"
 #include "filesystem/FileSystem.h"
@@ -31,9 +31,11 @@ void GameLoop::Initialize(int fps) {
 	IOCContainer::Instance().Register<ITextureManager>(textureManager);
     printf("[GameLoop::Initialize] TextureManager registered\n");
 
-	mSpriteRenderer = make_shared<SpriteRenderer>();
-	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
-	printf("[GameLoop::Initialize] SpriteRenderer registered\n");
+	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
+	mSpriteRenderer->Initialize();
+	// mSpriteRenderer = make_shared<SpriteRenderer>();
+	// IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
+	// printf("[GameLoop::Initialize] SpriteRenderer registered\n");
 
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);

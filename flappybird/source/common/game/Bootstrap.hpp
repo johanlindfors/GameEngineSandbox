@@ -5,6 +5,7 @@
 #include "game/GameDefines.h"
 #include "physics/PhysicsEngine.h"
 #include "physics/ObjectCollider.h"
+#include "renderer/SpriteSheetRenderer.h"
 
 #include "utilities/ITweenEngine.h"
 #include "systems/TweenyEngine.h"
@@ -22,6 +23,7 @@ void Bootstrap() {
     IOCContainer::Instance().Register<IPhysicsEngine>(make_shared<PhysicsEngine>());
     IOCContainer::Instance().Register<IObjectCollider>(make_shared<ObjectCollider>());
     IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenyEngine>());
+    IOCContainer::Instance().Register<ISpriteRenderer>(make_shared<SpriteSheetRenderer>());
 
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<Game>());

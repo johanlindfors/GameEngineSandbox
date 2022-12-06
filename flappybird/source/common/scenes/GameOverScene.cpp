@@ -2,7 +2,7 @@
 #include "textures/TextureManager.h"
 #include "scenes/ISceneManager.h"
 #include "input/IInputManager.h"
-#include "renderer/SpriteRenderer.h"
+#include "renderer/ISpriteRenderer.h"
 #include "renderer/Sprite.h"
 #include "utilities/IOC.hpp"
 #include "game/IGameStateCallback.h"
