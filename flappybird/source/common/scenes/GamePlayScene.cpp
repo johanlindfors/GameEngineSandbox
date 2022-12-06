@@ -120,6 +120,8 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 
 			collision = mCollider->Intersects(mBird->Bounds, mSkyline->GetGroundAABB());
 			if(collision) {
+				mPipesGenerator.Pause();
+				mSkyline->Pause();
 				mBird->AllowGravity = false;
 				mGame->GoToState(GameState::GameOver);
 			}

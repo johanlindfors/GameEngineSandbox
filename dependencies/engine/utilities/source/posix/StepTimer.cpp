@@ -49,6 +49,7 @@ void Timer::Resume()
 
 void Timer::Reset()
 {
+	mLastFrameTime = std::chrono::system_clock::now();
 	mElapsedMilliseconds = 0;
 	Resume();
 }
