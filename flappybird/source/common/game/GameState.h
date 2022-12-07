@@ -7,7 +7,6 @@ enum class GameState
     Splash,
     Menu,
     GamePlay,
-    Pause,
     GameOver,
     Loading,
 };

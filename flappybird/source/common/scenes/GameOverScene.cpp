@@ -44,17 +44,12 @@ void GameOverScene::Unload() { }
 
 void GameOverScene::UpdateScreenSize(int width, int height) 
 {
-// 	mText->Height = static_cast<int>(height / 4.0f);
-// 	mText->Width = static_cast<int>(width / 4.0f);
-// 	mText->Position = { width / 2.0f - mText->Width / 2.0f, height / 2.0f - mText->Height / 2.0f };
+
 }
 
 void GameOverScene::HandleInput() 
 {
-	// if (mInputManager->IsKeyDown(32)) // SpaceBar
-	// {
-	// 	mGame->GoToState(GameState::GamePlay);
-	// }
+
 }
 
 void GameOverScene::Update(shared_ptr<IStepTimer> timer)

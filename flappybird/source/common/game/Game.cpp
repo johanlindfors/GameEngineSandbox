@@ -3,7 +3,6 @@
 #include "scenes/SplashScene.h"
 #include "scenes/GamePlayScene.h"
 #include "scenes/GameOverScene.h"
-#include "scenes/PauseScene.h"
 #include "scenes/ISceneManager.h"
 
 using namespace std;
@@ -54,11 +53,7 @@ void Game::HandleGamePlayState()
 			mSceneManager->RemoveScene(typeid(SplashScene));
 			break;
 		case GameState::GameOver:
-			//mSceneManager->AddScene(make_shared<GamePlayScene>(this));
 			mSceneManager->RemoveScene(typeid(GameOverScene));
-			break;
-		case GameState::Pause:
-			mSceneManager->RemoveScene(typeid(PauseScene));
 			break;
 		default:
 			break;
@@ -71,15 +66,6 @@ void Game::HandleGameOverState()
 	if (mCurrentState == GameState::GamePlay) {
 		mCurrentState = GameState::GameOver;
 		mSceneManager->AddScene(make_shared<GameOverScene>(this));
-		//mSceneManager->RemoveScene(typeid(GamePlayScene));
-	}
-}
-
-void Game::HandlePauseState()
-{
-	if (mCurrentState == GameState::GamePlay) {
-		mCurrentState = GameState::Pause;
-		mSceneManager->AddScene(make_shared<PauseScene>());
 	}
 }
 
@@ -105,10 +91,6 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 
 	case GameState::GameOver:
 		HandleGameOverState();
-		break;
-
-	case GameState::Pause:
-		HandlePauseState();
 		break;
 
 	case GameState::Menu:
