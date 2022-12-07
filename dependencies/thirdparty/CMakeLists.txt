@@ -22,3 +22,5 @@ if (${GAME_TO_BUILD} STREQUAL flappybird)
     message(STATUS "Adding the tweeny library to game")
     add_subdirectory(tweeny ${CMAKE_CURRENT_BINARY_DIR}/tweeny)
 endif()
+
+add_subdirectory(glm ${CMAKE_CURRENT_BINARY_DIR}/glm)
