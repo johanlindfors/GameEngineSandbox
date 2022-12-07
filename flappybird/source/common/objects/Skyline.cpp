@@ -28,7 +28,6 @@ void Skyline::Update(shared_ptr<IStepTimer> timer)
     for(auto & position: mSkyline) {
         position.X = position.X + (mVelocity.m[0] * (timer->GetElapsedMilliSeconds()/1000.0f));
         if(position.X < -100.0) {
-            printf("Moving building to the end\n");
             position.X += 6 * 86;
         } 
     }
