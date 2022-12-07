@@ -6,7 +6,7 @@ namespace Engine
     class ICollidable
     {
         public:
-            ICollidable(Utilities::Point position)
+            ICollidable(Utilities::Point<float> position)
                 : IsCollidable(false)
                 , AABB(Utilities::Rectangle(
                     position.X,

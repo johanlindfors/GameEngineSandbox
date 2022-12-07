@@ -23,7 +23,7 @@ class IGameStateCallback;
 
 class Bird : public Engine::IPhysicsBody {
 public:
-	Bird(Utilities::Point position);
+	Bird(Utilities::Point<float> position);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 	void Flap();

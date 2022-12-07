@@ -7,18 +7,18 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Clouds::Clouds(Point position, Vector2 velocity)
+Clouds::Clouds(Point<float> position, Vector2 velocity)
     : mPosition(position)
     , mVelocity(velocity)
     , mClouds(make_shared<Sprite>())
     , mCloudsBackground(make_shared<Sprite>())
 {
-    mClouds->Position = Point(position.X, position.Y + 200);
+    mClouds->Position = Point<float>(position.X, position.Y + 200);
     mClouds->Width = 351;
     mClouds->Height = 33;
     mClouds->Offset = 5;
 
-    mCloudsBackground->Position = Point(position.X, position.Y);
+    mCloudsBackground->Position = Point<float>(position.X, position.Y);
     mCloudsBackground->Width = 288;
     mCloudsBackground->Height = 200;
     mCloudsBackground->Offset = 18;   
@@ -35,6 +35,6 @@ void Clouds::Update(shared_ptr<IStepTimer> timer)
 void Clouds::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
     renderer->DrawSprite(mClouds, mPosition);
-    renderer->DrawSprite(mClouds, Point(mPosition.X + 351, mPosition.Y));
-    renderer->DrawSprite(mCloudsBackground, Point(0, mPosition.Y - 200));
+    renderer->DrawSprite(mClouds, Point<float>(mPosition.X + 351, mPosition.Y));
+    renderer->DrawSprite(mCloudsBackground, Point<float>(0, mPosition.Y - 200));
 }

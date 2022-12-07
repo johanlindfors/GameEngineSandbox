@@ -12,7 +12,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Bird::Bird(Point position)
+Bird::Bird(Point<float> position)
     : IPhysicsBody(position)
 	, Bounds(Circle(position.X+16, position.X+12, 12))
 	, AABB(Rectangle(0, 0, 0, 0))
@@ -29,8 +29,7 @@ Bird::Bird(Point position)
 }
 
 void Bird::Reset() {
-	mSprite->Position = Point(80, 300); // TODO: Remove one positional property
-	Position = Point(80, 300);
+	Position = Point<float>(80.0f, 300.0f);
 	mSprite->Rotation = 0;
 	mAnimationCounter = 0;
 	IsKilled = false;
@@ -93,5 +92,5 @@ void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	renderer->DrawSprite(mDebugSprite, Position);
 #endif
-	renderer->DrawSprite(mSprite, Position);
+	renderer->DrawSprite(mSprite, Point<float>(Position.X, Position.Y));
 }

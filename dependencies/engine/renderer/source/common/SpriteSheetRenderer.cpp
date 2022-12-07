@@ -68,7 +68,7 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 	this->DrawSprite(sprite, sprite->Position);
 }
 
-void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point position)
+void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position)
 {
 	if(!mInitialized) {
 		glUseProgram(mProgram);

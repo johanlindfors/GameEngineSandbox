@@ -2,6 +2,7 @@
 #include <list>
 #include "utilities/MathHelper.h"
 #include <vector>
+#include "utilities/MathHelper.h"
 
 namespace Utilities
 {
@@ -16,13 +17,13 @@ namespace Engine
 
 class Skyline {
 public:
-	Skyline(Utilities::Point position, Utilities::Vector2 velocity);
+	Skyline(Utilities::Point<float> position, Utilities::Vector2 velocity);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 
 private:
-	std::vector<std::shared_ptr<Engine::Sprite>> mSkyline;
+	std::shared_ptr<Engine::Sprite> mSprite;
+	std::vector<Utilities::Point<float>> mSkyline;
 	Utilities::Vector2 mVelocity;
-	Utilities::Point mPosition;
 	int mTextureOffset;
 };

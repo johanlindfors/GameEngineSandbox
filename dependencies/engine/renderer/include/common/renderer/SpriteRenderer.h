@@ -12,7 +12,7 @@ namespace Engine {
 		void UpdateWindowSize(GLsizei width, GLsizei height) override;
 		void Clear() override;
 		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
-        void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point position) override;
+        void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
 
 	private:
 		void InitializeShaders();

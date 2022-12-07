@@ -55,37 +55,60 @@ namespace Utilities
         }
     };
 
+	// struct Point {
+	// 	Point(int x, int y)
+    //         : X(x)
+    //         , Y(y) 
+	// 	{ }
+
+	// 	int X;
+	// 	int Y;
+
+    //     // Overloading "+" operator
+    //     Point operator+ (Point const& point)
+    //     {
+    //         return Point(X + point.X, Y + point.Y);
+    //     }
+        
+    //     // Overloading "+" operator
+    //     Point operator+ (Vector2 const& vec)
+    //     {
+    //         return Point(X + vec.m[0], Y + vec.m[1]);
+    //     }
+	// };
+
+    template <typename T>
 	struct Point {
-		Point(int x, int y)
+		Point(T x, T y)
             : X(x)
             , Y(y) 
 		{ }
 
-		int X;
-		int Y;
+		T X;
+		T Y;
 
         // Overloading "+" operator
-        Point operator+ (Point const& point)
+        Point<T> operator+ (Point<T> const& point)
         {
-            return Point(X + point.X, Y + point.Y);
+            return Point<T>(X + point.X, Y + point.Y);
         }
         
         // Overloading "+" operator
-        Point operator+ (Vector2 const& vec)
+        Point<T> operator+ (Vector2 const& vec)
         {
-            return Point(X + vec.m[0], Y + vec.m[1]);
+            return Point<T>(X + vec.m[0], Y + vec.m[1]);
         }
 	};
 
     struct Rectangle
     {
         Rectangle(int x, int y, int width, int height)
-            : Position(Point(x,y))
+            : Position(Point<float>(x,y))
             , Width(width)
             , Height(height)
         { }
 
-        Point Position;
+        Point<float> Position;
         int Width;
         int Height;
     };
@@ -93,11 +116,11 @@ namespace Utilities
     struct Circle 
     {
         Circle(float x, float y, float radius)
-            : Position(Point(x, y))
+            : Position(Point<float>(x, y))
             , Radius(radius)
         { }
 
-        Point Position;
+        Point<float> Position;
         float Radius;
     };
 

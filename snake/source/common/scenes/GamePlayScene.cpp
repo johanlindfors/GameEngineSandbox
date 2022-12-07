@@ -22,8 +22,8 @@ using Utilities::IOCContainer;
 using Utilities::Point;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mApple(make_shared<Apple>(Point(SCREEN_SIZE / 4, SCREEN_SIZE / 4)))
-	, mSnake(make_shared<Snake>(Point(SCREEN_SIZE / 2, SCREEN_SIZE / 2)))
+	: mApple(make_shared<Apple>(Point<float>(SCREEN_SIZE / 4, SCREEN_SIZE / 4)))
+	, mSnake(make_shared<Snake>(Point<float>(SCREEN_SIZE / 2, SCREEN_SIZE / 2)))
 	, mCollider(make_shared<PointCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)

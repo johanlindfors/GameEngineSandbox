@@ -24,25 +24,25 @@ class Pipe
 public:
 	using Engine::IPhysicsBody::Position;
 
-	Pipe(Utilities::Point position)
+	Pipe(Utilities::Point<float> position)
 		: Sprite::Sprite()
 		, IPhysicsBody::IPhysicsBody(position) 
 		, ICollidable::ICollidable(position)
 	{
 		Width = 52,
 		Height = 25;
-		Position = position;
+		Position = Utilities::Point<float>(position.X, position.Y);
 	}
 };
 
 class Pipes
 {
 public:
-	Pipes(Utilities::Point position);
+	Pipes(Utilities::Point<float> position);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 	bool IsAlive;
-	void Reset(Utilities::Point position);
+	void Reset(Utilities::Point<float> position);
 	bool Intersects(Utilities::Circle circle, Utilities::Rectangle rect);
 	bool Intersects(Utilities::Rectangle r1, Utilities::Rectangle r2);
 

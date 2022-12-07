@@ -7,7 +7,7 @@
 
 namespace Utilities
 {
-	class IStepTimer;	
+	class IStepTimer;
 }
 
 namespace Engine
@@ -19,18 +19,19 @@ namespace Engine
 class Ground
 	: public Engine::ICollidable {
 public:
-	Ground(Utilities::Point position, Utilities::Vector2 velocity);
+	Ground(Utilities::Point<float> position, Utilities::Vector2 velocity);
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 
 private:
-	std::vector<std::shared_ptr<Engine::Sprite>> mGround;
-	std::shared_ptr<Engine::Sprite> mGroundBackground;
+	std::vector<Utilities::Point<float>> mGround;
+	std::shared_ptr<Engine::Sprite> mGroundSprite;
+	std::shared_ptr<Engine::Sprite> mGroundBackgroundSprite;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	std::shared_ptr<Engine::Sprite> mGroundDebugSprite;	
 #endif
 	Utilities::Vector2 mVelocity;
-	Utilities::Point mPosition;
+	Utilities::Point<float> mPosition;
 	int mGroundOffset;
 	int mGroundBackgroundOffset;
 };

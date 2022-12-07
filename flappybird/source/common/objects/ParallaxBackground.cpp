@@ -12,10 +12,10 @@ using namespace Engine;
 using namespace Utilities;
 
 ParallaxBackground::ParallaxBackground()
-	: mClouds(make_unique<Clouds>(Point(0,210), Vector2(CLOUD_SPEED,0)))
-	, mSkyline(make_unique<Skyline>(Point(0,175), Vector2(SKYLINE_SPEED,0)))
-	, mTrees(make_unique<Trees>(Point(0,150), Vector2(TREES_SPEED,0)))
-	, mGround(make_shared<Ground>(Point(0,-70), Vector2(GROUND_SPEED,0)))
+	: mClouds(make_unique<Clouds>(Point<float>(0,210), Vector2(CLOUD_SPEED,0)))
+	, mSkyline(make_unique<Skyline>(Point<float>(0,175), Vector2(SKYLINE_SPEED,0)))
+	, mTrees(make_unique<Trees>(Point<float>(0,150), Vector2(TREES_SPEED,0)))
+	, mGround(make_shared<Ground>(Point<float>(0,-70), Vector2(GROUND_SPEED,0)))
     , mIsRunning(true)
 {
 }

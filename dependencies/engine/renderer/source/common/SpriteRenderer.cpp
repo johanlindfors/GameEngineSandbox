@@ -59,7 +59,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
     DrawSprite(sprite, sprite->Position);
 }
 
-void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Utilities::Point position)
+void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position)
 {
 	//printf("[SpriteRenderer::DrawSprite] Id: %d Program: %d\n", sprite->Texture.TextureIndex, mProgram);
 	CheckOpenGLError();

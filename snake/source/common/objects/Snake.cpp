@@ -34,7 +34,7 @@ void Snake::IncreaseLength() {
 
 void Snake::Reset() {
 	mTail = INITIAL_TAIL;
-	mSprite->Position = Point(10, 10);
+	mSprite->Position = Point<float>(10, 10);
 }
 
 void Snake::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback)
@@ -81,6 +81,6 @@ void Snake::HandleInput(shared_ptr<IInputManager> input)
 void Snake::Draw(shared_ptr<ISpriteRenderer> renderer) {
 	for (auto const& body : mTrail)
 	{
-        renderer->DrawSprite(mSprite, Point(body.X * mScreenWidth / SCREEN_SIZE, body.Y * mScreenHeight / SCREEN_SIZE));
+        renderer->DrawSprite(mSprite, Point<float>(body.X * mScreenWidth / SCREEN_SIZE, body.Y * mScreenHeight / SCREEN_SIZE));
     }
 }

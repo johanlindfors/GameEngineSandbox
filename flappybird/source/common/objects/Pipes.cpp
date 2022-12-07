@@ -9,7 +9,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Pipes::Pipes(Point position)
+Pipes::Pipes(Point<float> position)
 	: TopPipe(make_shared<Pipe>(position))
 	, BottomPipe(make_shared<Pipe>(position))
 	, TopPipeSprite(make_shared<Sprite>())
@@ -31,19 +31,19 @@ Pipes::Pipes(Point position)
 	BottomPipeSprite->Width = TopPipe->Width;
 }
 
-void Pipes::Reset(Point position)
+void Pipes::Reset(Point<float> position)
 {
-	TopPipe->Position = position;
-	BottomPipe->Position = position;
+	TopPipe->Position = Point<float>(position.X, position.Y);
+	BottomPipe->Position = Point<float>(position.X, position.Y);
 
 	TopPipe->Position.Y += 400;
 	BottomPipe->Position.Y += 250;
 
 	TopPipeSprite->Height = 505 - TopPipe->Position.Y - TopPipe->Height;
-	TopPipeSprite->Position = TopPipe->Position + Point(0,25);
+	TopPipeSprite->Position = Point<float>(TopPipe->Position.X, TopPipe->Position.Y + 25);
 
 	BottomPipeSprite->Height = BottomPipe->Position.Y - 155;
-	BottomPipeSprite->Position = BottomPipe->Position + Point(0,-BottomPipeSprite->Height);
+	BottomPipeSprite->Position = Point<float>(BottomPipe->Position.X, BottomPipe->Position.Y - BottomPipeSprite->Height);
 
 	IsAlive = true;
 }
@@ -93,10 +93,10 @@ void Pipes::Update(shared_ptr<IStepTimer> timer)
 void Pipes::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
 	if(IsAlive) {
-		renderer->DrawSprite(TopPipe, TopPipe->Position);
+		renderer->DrawSprite(TopPipe, Point<float>(TopPipe->Position.X, TopPipe->Position.Y));
 		renderer->DrawSprite(TopPipeSprite, TopPipeSprite->Position);
 		
-		renderer->DrawSprite(BottomPipe, BottomPipe->Position);
+		renderer->DrawSprite(BottomPipe, Point<float>(BottomPipe->Position.X, BottomPipe->Position.Y));
 		renderer->DrawSprite(BottomPipeSprite, BottomPipeSprite->Position);
 
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)

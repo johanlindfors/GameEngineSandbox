@@ -19,7 +19,7 @@ Apple::Apple(Point position)
 }
 
 void Apple::Draw(std::shared_ptr<ISpriteRenderer> renderer) {
-    renderer->DrawSprite(mSprite, Point(mScreenPositionX, mScreenPositionY));
+    renderer->DrawSprite(mSprite, Point<float>(mScreenPositionX, mScreenPositionY));
 }
 
 void Apple::Update(int screenWidth, int screenHeight)
@@ -37,7 +37,7 @@ void Apple::Reset(std::shared_ptr<Snake> snake, std::shared_ptr<PointCollider> c
         collide = false;
         auto const x = std::rand() % SCREEN_SIZE;
         auto const y = std::rand() % SCREEN_SIZE;
-        newPosition = Point(x, y);
+        newPosition = Point<float>(x, y);
         for(auto const& snakeBody: snake->mTrail) {
             if(collider->Collides(newPosition, snakeBody)) {
                 collide = true;

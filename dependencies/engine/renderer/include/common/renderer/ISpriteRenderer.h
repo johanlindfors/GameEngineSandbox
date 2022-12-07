@@ -1,11 +1,7 @@
 #pragma once
 #include <memory>
 #include "glwrapper.h"
-
-namespace Utilities
-{
-	struct Point;
-}
+#include "utilities/MathHelper.h"
 
 namespace Engine {
 	struct Sprite;
@@ -17,6 +13,6 @@ namespace Engine {
 		virtual void UpdateWindowSize(GLsizei width, GLsizei height) = 0;
 		virtual void Clear() = 0;
 		virtual void DrawSprite(std::shared_ptr<Sprite> sprite) = 0;
-		virtual void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point position) = 0;
+		virtual void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) = 0;
 	};
 }

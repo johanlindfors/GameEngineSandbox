@@ -16,7 +16,7 @@ namespace Engine {
 		~Sprite() = default;
 		
 		Texture2D Texture;
-		Utilities::Point Position;
+		Utilities::Point<float> Position;
 		Utilities::Vector2 Velocity;
 		int Width;
 		int Height;
