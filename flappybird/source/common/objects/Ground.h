@@ -23,6 +23,9 @@ public:
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 
+    void Pause() { mIsRunning = false; }
+    void Resume() { mIsRunning = true; }
+
 private:
 	std::vector<Utilities::Point<float>> mGround;
 	std::shared_ptr<Engine::Sprite> mGroundSprite;
@@ -34,4 +37,5 @@ private:
 	Utilities::Point<float> mPosition;
 	int mGroundOffset;
 	int mGroundBackgroundOffset;
+    bool mIsRunning;
 };

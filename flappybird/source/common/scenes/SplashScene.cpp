@@ -10,6 +10,7 @@
 #include <iostream>
 #include "objects/ParallaxBackground.h"
 #include "objects/Bird.h"
+#include "objects/Ground.h"
 
 using namespace std;
 using namespace Engine;
@@ -18,6 +19,7 @@ using namespace Utilities;
 SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_shared<ParallaxBackground>())
+	, mGround(make_shared<Ground>(Point<float>(0,-70), Vector2(0,0)))
 	, mTitle(make_shared<Sprite>())
 	, mInstructions(make_shared<Sprite>())
 	, mMillisecondsToLoad(2000.0f)
@@ -109,5 +111,6 @@ void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 		mSkyline->Draw(renderer);
 		renderer->DrawSprite(mTitle);
 		renderer->DrawSprite(mInstructions);
+		mGround->Draw(renderer);
 	}
 }

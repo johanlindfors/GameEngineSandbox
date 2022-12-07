@@ -15,7 +15,6 @@ ParallaxBackground::ParallaxBackground()
 	: mClouds(make_unique<Clouds>(Point<float>(0,210), Vector2(CLOUD_SPEED,0)))
 	, mSkyline(make_unique<Skyline>(Point<float>(0,175), Vector2(SKYLINE_SPEED,0)))
 	, mTrees(make_unique<Trees>(Point<float>(0,150), Vector2(TREES_SPEED,0)))
-	, mGround(make_shared<Ground>(Point<float>(0,-70), Vector2(GROUND_SPEED,0)))
     , mIsRunning(true)
 {
 }
@@ -25,7 +24,6 @@ ParallaxBackground::~ParallaxBackground()
     mClouds.release();
     mSkyline.release();
     mTrees.release();
-    mGround.reset();
 }
 
 void ParallaxBackground::Update(shared_ptr<IStepTimer> timer)
@@ -34,7 +32,6 @@ void ParallaxBackground::Update(shared_ptr<IStepTimer> timer)
         mClouds->Update(timer);
         mSkyline->Update(timer);
         mTrees->Update(timer);
-        mGround->Update(timer);
     }
 }
 
@@ -43,5 +40,4 @@ void ParallaxBackground::Draw(shared_ptr<ISpriteRenderer> renderer)
     mClouds->Draw(renderer);
     mSkyline->Draw(renderer);
     mTrees->Draw(renderer);
-    mGround->Draw(renderer);
 }
