@@ -5,8 +5,8 @@
 #include <winrt/Windows.ApplicationModel.h>
 #include <memory>
 #include "IDispatcherWrapper.h"
-#include "IOC.hpp"
-#include "GLHelper.h"
+#include "utilities/IOC.hpp"
+#include "utilities/GLHelper.h"
 #include "filesystem/FileSystem.h"
 #include "File.h"
 #include "textures/Texture2D.h"
@@ -72,7 +72,8 @@ namespace Engine {
 							const auto source = &dpPixels[i * textureWidth];
 							memcpy(destination, source, textureWidth);
 						}
-						SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, pixels);
+						bool hasAlpha = true;
+						SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, hasAlpha, pixels);
 						free(pixels);
 					});
 				}

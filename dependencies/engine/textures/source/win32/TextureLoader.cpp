@@ -1,11 +1,11 @@
 #include "textures/TextureLoader.h"
 #include "filesystem/FileSystem.h"
-#include "GLHelper.h"
+#include "utilities/GLHelper.h"
 #include "png.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "File.h"
 #include "textures/Texture2D.h"
 
@@ -158,7 +158,7 @@ namespace Engine {
 					texture.Width = width;
 					texture.Height = height;
 					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
-					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, textureImage);
+					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, hasAlpha, textureImage);
 					if (textureImage) {
 						delete textureImage;
 					}

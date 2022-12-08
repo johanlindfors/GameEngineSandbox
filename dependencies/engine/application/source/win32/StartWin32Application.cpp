@@ -4,7 +4,7 @@
 #include "glwrapper.h"
 #include "input/IInputManager.h"
 #include "application/Config.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 
 using namespace Engine;
 using namespace Utilities;

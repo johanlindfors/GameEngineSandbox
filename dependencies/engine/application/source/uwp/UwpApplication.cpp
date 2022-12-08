@@ -3,7 +3,7 @@
 #include "OpenGLES.h"
 #include "GLPage.h"
 #include "DispatcherWrapper.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 
 using namespace std;
 using namespace winrt;

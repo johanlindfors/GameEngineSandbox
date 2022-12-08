@@ -1,9 +1,9 @@
 #include "glwrapper.h"
 #include "game-loop/GameLoop.h"
 #include "application/Config.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "input/IInputManager.h"
-#include "GLHelper.h"
+#include "utilities/GLHelper.h"
 #include <memory>
 
 using namespace std;

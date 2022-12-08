@@ -4,6 +4,7 @@ set(DEPENDENCIES
     utilities
     filesystem
     textures
+    glm
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

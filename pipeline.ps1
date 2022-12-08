@@ -22,7 +22,7 @@ Param(
     [switch]$uwp,
 
     [Parameter(Mandatory = $False)]
-    [switch]$release,
+    [switch]$release
 )
 
 $Cmake = "cmake.exe"
@@ -40,7 +40,7 @@ If($win32) {
     $PlatformParameters = "-DCMAKE_TOOLCHAIN_FILE='$toolchainFile'"
 } ElseIf($uwp) {
     $BuildDirectory = "build/uwp"
-    $PlatformParameters = @("-DCMAKE_SYSTEM_NAME='WindowsStore'", "-DCMAKE_SYSTEM_VERSION='10.0'")
+    $PlatformParameters = @("-DCMAKE_SYSTEM_NAME='WindowsStore'", "-DCMAKE_SYSTEM_VERSION='10.0.22000.0'")
 }
 
 If($release) {
@@ -52,6 +52,7 @@ If($release) {
         $BuildConfiguration = "RelWithDebInfo"
     }
 } Else {
+    $BuildType = "-DCMAKE_BUILD_TYPE=Debug"
     $BuildDirectory += "-debug"
 }
 

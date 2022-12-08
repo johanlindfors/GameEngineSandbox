@@ -1,5 +1,5 @@
 #include "GLPage.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "IDispatcherWrapper.h"
 #include "SetThreadName.h"
 #include "game-loop/GameLoop.h"

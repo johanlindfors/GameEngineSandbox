@@ -32,7 +32,7 @@ void PauseScene::UpdateScreenSize(int width, int height)
 
 	mText->Height = static_cast<int>(height / 4);
 	mText->Width = static_cast<int>(width / 4);
-	mText->Position = { width / 2 - mText->Width / 2, height / 2 - mText->Height / 2 };
+	mText->Position = { width / 2.0f - mText->Width / 2.0f, height / 2.0f - mText->Height / 2.0f };
 }
 
 void PauseScene::Draw(shared_ptr<ISpriteRenderer> renderer)
