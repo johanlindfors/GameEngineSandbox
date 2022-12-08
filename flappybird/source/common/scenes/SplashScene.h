@@ -6,6 +6,7 @@
 class IGameStateCallback;
 class ParallaxBackground;
 class Bird;
+class Ground;
 
 namespace Engine
 {
@@ -36,6 +37,7 @@ public:
 private:
 	std::shared_ptr<Engine::Sprite> mBackground;
 	std::shared_ptr<ParallaxBackground> mSkyline;
+	std::shared_ptr<Ground> mGround;
 	std::shared_ptr<Engine::Sprite> mTitle;
 	std::shared_ptr<Engine::Sprite> mInstructions;
 	float mMillisecondsToLoad;

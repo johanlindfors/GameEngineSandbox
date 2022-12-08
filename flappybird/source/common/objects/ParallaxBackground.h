@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 #include "utilities/MathHelper.h"
-#include "Ground.h"
 
 class Clouds;
 class Trees;
@@ -30,12 +29,9 @@ public:
     void Pause() { mIsRunning = false; }
     void Resume() { mIsRunning = true; }
 
-	Utilities::Rectangle GetGroundAABB() { return mGround->AABB; }
-
 private:
 	std::unique_ptr<Clouds> mClouds;
 	std::unique_ptr<Trees> mTrees;
 	std::unique_ptr<Skyline> mSkyline;
-	std::shared_ptr<Ground> mGround;
     bool mIsRunning;
 };

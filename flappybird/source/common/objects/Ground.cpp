@@ -14,6 +14,8 @@ Ground::Ground(Point<float> position, Vector2 velocity)
     , mGroundSprite(make_shared<Sprite>())
     , mGroundBackgroundSprite(make_shared<Sprite>())
     , ICollidable::ICollidable(position)
+    , mIsRunning(true)
+
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
     , mGroundDebugSprite(make_shared<Sprite>())
 #endif
@@ -45,6 +47,8 @@ Ground::Ground(Point<float> position, Vector2 velocity)
 
 void Ground::Update(shared_ptr<IStepTimer> timer)
 {
+    if(!mIsRunning)
+        return;
     for(auto &ground: mGround) {
         ground.X += (int)(mVelocity.m[0] * (timer->GetElapsedMilliSeconds()/1000.0f));
         if(ground.X <= -30) {

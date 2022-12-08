@@ -15,6 +15,7 @@
 #include "objects/ParallaxBackground.h"
 #include "utilities/IStepTimer.h"
 #include "objects/Pipes.h"
+#include "objects/Ground.h"
 #include <cstdlib> 
 #include <ctime> 
 
@@ -26,6 +27,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
 	, mBird(make_shared<Bird>(Point<float>(80,250)))
+	, mGround(make_shared<Ground>(Point<float>(0,-70), Vector2(GROUND_SPEED,0)))
 	, mPipes(vector<shared_ptr<Pipes>>())
 	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
 	, mPhysicsEngine(IOCContainer::Instance().Resolve<IPhysicsEngine>())
@@ -60,6 +62,7 @@ void GamePlayScene::Unload()
 {
 	mBackground.reset();
 	mSkyline.reset();
+	mGround.reset();
 }
 
 void GamePlayScene::UpdateScreenSize(int width, int height)
@@ -79,6 +82,7 @@ void GamePlayScene::Reset()
 	mBird->Reset();
 	mPipesGenerator.Reset();
 	mSkyline->Resume();
+	mGround->Resume();
 }
 
 void GamePlayScene::GeneratePipes()
@@ -104,6 +108,8 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 	auto const spacePressed = mInputManager->IsKeyDown(32);
 	if (mGame->GetCurrentState() == GameState::GamePlay) {
 		mSkyline->Update(timer);
+		mGround->Update(timer);
+
 		// do updates
 		mBird->Update(timer);
 		mPhysicsEngine->Update(timer);
@@ -116,9 +122,10 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 				mBird->CollideWithPipe();
 				mPipesGenerator.Pause();
 				mSkyline->Pause();
+				mGround->Pause();
 			}
 
-			collision = mCollider->Intersects(mBird->Bounds, mSkyline->GetGroundAABB());
+			collision = mCollider->Intersects(mBird->Bounds, mGround->AABB);
 			if(collision) {
 				mPipesGenerator.Pause();
 				mSkyline->Pause();
@@ -161,4 +168,5 @@ void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 	mBird->Draw(renderer);
 	for(auto pipe : mPipes)
 		pipe->Draw(renderer);
+	mGround->Draw(renderer);
 }

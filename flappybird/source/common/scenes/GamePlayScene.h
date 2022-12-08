@@ -9,6 +9,7 @@ class Bird;
 class VectorCollider;
 class ParallaxBackground;
 class Pipes;
+class Ground;
 
 namespace Engine 
 {
@@ -44,6 +45,8 @@ private:
 
 	std::shared_ptr<Engine::Sprite> mBackground;
 	std::unique_ptr<ParallaxBackground> mSkyline;
+	std::shared_ptr<Ground> mGround;
+
 	std::shared_ptr<Bird> mBird;
 	std::vector<std::shared_ptr<Pipes>> mPipes;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
