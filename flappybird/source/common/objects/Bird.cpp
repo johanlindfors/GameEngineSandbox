@@ -29,7 +29,7 @@ Bird::Bird(Point<float> position)
 }
 
 void Bird::Reset() {
-	Position = Point<float>(80.0f, 300.0f);
+	Position = Point<float>(100.0f, 300.0f);
 	mSprite->Rotation = 0;
 	mAnimationCounter = 0;
 	IsKilled = false;
@@ -41,6 +41,9 @@ void Bird::Reset() {
 void Bird::Update(shared_ptr<IStepTimer> timer)
 {
 	if(IsAlive) {
+		if(Position.Y >=465){
+			Position.Y = 465;
+		}
 		if(mAnimationCounter++ >= mFramesPerAnimation) {
 			auto offset = mSprite->Offset;
 			offset++;
@@ -62,7 +65,7 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 						Position.Y + mSprite->Height/2,
 						12);
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		mDebugSprite->Position = Vector2(AABB.Position.X, AABB.Position.Y);
+		mDebugSprite->Position = Point<float>(AABB.Position.X, AABB.Position.Y);
 		mDebugSprite->Offset = 22;
 		mDebugSprite->Width = AABB.Width;
 		mDebugSprite->Height = AABB.Height;

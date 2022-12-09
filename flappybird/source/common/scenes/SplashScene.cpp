@@ -19,9 +19,10 @@ using namespace Utilities;
 SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_shared<ParallaxBackground>())
-	, mGround(make_shared<Ground>(Point<float>(0,-70), Vector2(0,0)))
+	, mGround(make_shared<Ground>(Point<float>(0,79), Vector2(SCROLL_SPEED,0)))
 	, mTitle(make_shared<Sprite>())
-	, mInstructions(make_shared<Sprite>())
+	, mButton(make_shared<Sprite>())
+	, mBird(make_shared<Bird>(Point<float>(0,0)))
 	, mMillisecondsToLoad(2000.0f)
 	, mHasLoadedGamePlay(false)
 	, mIsLoadingResources(true)
@@ -34,12 +35,10 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	mBackground->Width = 288;
 	mBackground->Height = 505;
 	
-	mInstructions->Offset = 6;
-	mInstructions->Position = Point<float>(96,180);
-	mInstructions->Width = 103;
-	mInstructions->Height = 102;
-
-	mSkyline->Pause();
+	mButton->Offset = 12;
+	mButton->Width = 104;
+	mButton->Height = 58;
+	mButton->Position = Point<float>(92,176);
 }
 
 SplashScene::~SplashScene() {
@@ -72,10 +71,8 @@ void SplashScene::UpdateScreenSize(int width, int height)
 	if(mWindowWidth == width && mWindowHeight == height)
 		return;
 
-	mTitle->Position = Point<float>(
-		width/2 - mTitle->Width/2, 
-		height/2 - mTitle->Height/2 + 100
-	);
+	mTitle->Position = Point<float>(30.0f, height - 100.0f - mTitle->Height);
+	mBird->Position = Point<float>(230.0f, height - 129.0f);
 
 	mWindowWidth = width;
 	mWindowHeight = height;
@@ -86,6 +83,7 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	auto milliseconds = static_cast<float>(timer->GetElapsedMilliSeconds());
 	mMillisecondsToLoad -= milliseconds;
 	mSkyline->Update(timer);
+	mGround->Update(timer);
 	
 	auto const spacePressed = mInputManager->IsKeyDown(32);
 	if (mGame->GetCurrentState() == GameState::GamePlay) {
@@ -110,7 +108,8 @@ void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 		renderer->DrawSprite(mBackground);
 		mSkyline->Draw(renderer);
 		renderer->DrawSprite(mTitle);
-		renderer->DrawSprite(mInstructions);
+		renderer->DrawSprite(mButton);
 		mGround->Draw(renderer);
+		mBird->Draw(renderer);
 	}
 }

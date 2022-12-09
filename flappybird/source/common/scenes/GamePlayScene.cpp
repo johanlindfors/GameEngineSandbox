@@ -26,8 +26,8 @@ using namespace Utilities;
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
-	, mBird(make_shared<Bird>(Point<float>(80,250)))
-	, mGround(make_shared<Ground>(Point<float>(0,-70), Vector2(GROUND_SPEED,0)))
+	, mBird(make_shared<Bird>(Point<float>(100,240)))
+	, mGround(make_shared<Ground>(Point<float>(0,70), Vector2(SCROLL_SPEED,0)))
 	, mPipes(vector<shared_ptr<Pipes>>())
 	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
 	, mPhysicsEngine(IOCContainer::Instance().Resolve<IPhysicsEngine>())
@@ -36,7 +36,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mGame(gameCallback)
-	, mSpacePressedBefore(false)
+	, mSpacePressedBefore(true)
 {
 	ID = typeid(GamePlayScene).name();
 	mPipesGenerator.SetInterval(1250);
@@ -124,15 +124,15 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 				mSkyline->Pause();
 				mGround->Pause();
 			}
-
-			collision = mCollider->Intersects(mBird->Bounds, mGround->AABB);
-			if(collision) {
-				mPipesGenerator.Pause();
-				mSkyline->Pause();
-				mBird->AllowGravity = false;
-				mGame->GoToState(GameState::GameOver);
-			}
 		}
+		collision = mCollider->Intersects(mBird->Bounds, mGround->AABB);
+		if(collision) {
+			mPipesGenerator.Pause();
+			mSkyline->Pause();
+			mBird->AllowGravity = false;
+			mGame->GoToState(GameState::GameOver);
+		}
+
 		if(!mBird->IsKilled) {
 			for(auto pipe : mPipes) {
 				pipe->Update(timer);

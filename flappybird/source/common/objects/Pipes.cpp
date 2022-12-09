@@ -42,7 +42,7 @@ void Pipes::Reset(Point<float> position)
 	TopPipeSprite->Height = 505 - TopPipe->Position.Y - TopPipe->Height;
 	TopPipeSprite->Position = Point<float>(TopPipe->Position.X, TopPipe->Position.Y + 25);
 
-	BottomPipeSprite->Height = BottomPipe->Position.Y - 155;
+	BottomPipeSprite->Height = BottomPipe->Position.Y - 95;
 	BottomPipeSprite->Position = Point<float>(BottomPipe->Position.X, BottomPipe->Position.Y - BottomPipeSprite->Height);
 
 	IsAlive = true;
@@ -51,8 +51,7 @@ void Pipes::Reset(Point<float> position)
 void Pipes::Update(shared_ptr<IStepTimer> timer)
 {
 	if(IsAlive) {
-		Vector2 velocity(GROUND_SPEED, 0);
-		Vector2 delta = Vector2(velocity.m[0] * (timer->GetElapsedMilliSeconds() / 1000.0f), 0);
+		Vector2 delta = Vector2((SCROLL_SPEED * timer->GetElapsedMilliSeconds() / 1000.0f), 0);
 		TopPipe->Position = TopPipe->Position + delta;
 		TopPipeSprite->Position = TopPipeSprite->Position + delta;
 		BottomPipe->Position = BottomPipe->Position + delta;
@@ -77,12 +76,12 @@ void Pipes::Update(shared_ptr<IStepTimer> timer)
 		TopPipe->AABB = topAABB;
 		BottomPipe->AABB = bottomAABB;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		BottomPipeDebugSprite->Position = Vector2(bottomAABB.X, bottomAABB.Y);
+		BottomPipeDebugSprite->Position = Point<float>(bottomAABB.Position.X, bottomAABB.Position.Y);
 		BottomPipeDebugSprite->Width = bottomAABB.Width;
 		BottomPipeDebugSprite->Height = bottomAABB.Height;
 		BottomPipeDebugSprite->Offset = 22;
 
-		TopPipeDebugSprite->Position = Vector2(topAABB.X, topAABB.Y);
+		TopPipeDebugSprite->Position = Point<float>(topAABB.Position.X, topAABB.Position.Y);
 		TopPipeDebugSprite->Width = topAABB.Width;
 		TopPipeDebugSprite->Height = topAABB.Height;
 		TopPipeDebugSprite->Offset = 22;

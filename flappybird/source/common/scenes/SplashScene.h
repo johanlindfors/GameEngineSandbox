@@ -39,7 +39,8 @@ private:
 	std::shared_ptr<ParallaxBackground> mSkyline;
 	std::shared_ptr<Ground> mGround;
 	std::shared_ptr<Engine::Sprite> mTitle;
-	std::shared_ptr<Engine::Sprite> mInstructions;
+	std::shared_ptr<Engine::Sprite> mButton;
+	std::shared_ptr<Bird> mBird;
 	float mMillisecondsToLoad;
 	bool mHasLoadedGamePlay;
 	bool mIsLoadingResources;

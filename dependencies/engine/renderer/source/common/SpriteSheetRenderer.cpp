@@ -3,6 +3,9 @@
 #include "utilities/MathHelper.h"
 #include "utilities/GLHelper.h"
 #include "renderer/Sprite.h"
+#include "filesystem/IFileSystem.h"
+#include "utilities/IOC.hpp"
+#include "File.h"
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
@@ -20,14 +23,26 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-SpriteSheetRenderer::SpriteSheetRenderer()
-	: mInitialized(false)
+
+SpriteSheetRenderer::SpriteSheetRenderer(wstring filename)
+	: mFilename(filename)
+	, mInitialized(false)
 { }
 
 void SpriteSheetRenderer::Initialize()
 {
 	InitializeShaders();
-	InitializeBuffers();
+	InitializeVertexBuffer();
+
+	LoadSpriteSheet(mFilename);
+}
+
+void SpriteSheetRenderer::LoadSpriteSheet(wstring fileName)
+{
+	// auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
+	// auto file = filesystem->LoadFile(fileName);
+
+	InitializeUVBuffer();
 }
 
 SpriteSheetRenderer::~SpriteSheetRenderer()
@@ -163,13 +178,6 @@ void SpriteSheetRenderer::InitializeShaders() {
 	// Fragment shader parameters
 	mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
 	printf("[SpriteRenderer::InitializeShaders] mTextureUniformLocation: %d\n", mTextureUniformLocation);
-}
-
-void SpriteSheetRenderer::InitializeBuffers() {
-	InitializeVertexBuffer();
-	InitializeUVBuffer();
-
-    printf("[SpriteRenderer::InitializeBuffers] done\n");
 }
 
 void SpriteSheetRenderer::InitializeVertexBuffer()

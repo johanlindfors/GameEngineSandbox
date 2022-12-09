@@ -22,25 +22,26 @@ Ground::Ground(Point<float> position, Vector2 velocity)
 {
     for (size_t i = 0; i < 14; i++)
     {
-        auto ground = Point<float>(position.X + i * 23, position.Y + 200);
+        auto ground = Point<float>(position.X + i * 23, position.Y);
         mGround.push_back(ground);
     }
 
     mGroundSprite->Width = 23;
     mGroundSprite->Height = 26;
-    mGroundSprite->Offset = 15;    
+    mGroundSprite->Offset = 15;
 
-    mGroundBackgroundSprite->Position = Point<float>(position.X, position.Y);
+    mGroundBackgroundSprite->Position = Point<float>(position.X, position.Y-200);
     mGroundBackgroundSprite->Width = 288;
     mGroundBackgroundSprite->Height = 200;
     mGroundBackgroundSprite->Offset = 20;
 
     AABB.Width = 288;
-    AABB.Height = 155;
-
+    AABB.Height = 105;
+    AABB.Position.Y = 0;
+    
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
     mGroundDebugSprite->Width = 288;
-    mGroundDebugSprite->Height = 155;
+    mGroundDebugSprite->Height = 105;
     mGroundDebugSprite->Offset = 22;
 #endif
 }
@@ -50,7 +51,7 @@ void Ground::Update(shared_ptr<IStepTimer> timer)
     if(!mIsRunning)
         return;
     for(auto &ground: mGround) {
-        ground.X += (int)(mVelocity.m[0] * (timer->GetElapsedMilliSeconds()/1000.0f));
+        ground.X += (mVelocity.m[0] * timer->GetElapsedMilliSeconds() / 1000.0);
         if(ground.X <= -30) {
             ground.X += 14 * 23;
         } 

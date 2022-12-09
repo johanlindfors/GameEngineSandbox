@@ -1,11 +1,12 @@
 #pragma once
 #include "ISpriteRenderer.h"
 #include <vector>
+#include <string>
 
 namespace Engine {
 	class SpriteSheetRenderer : public ISpriteRenderer {
 	public:
-		SpriteSheetRenderer();
+		SpriteSheetRenderer(std::wstring filename);
 		~SpriteSheetRenderer();
 
 		// Engine::ISpriteRenderer
@@ -14,14 +15,16 @@ namespace Engine {
 		void Clear() override;
 		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
 		void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
+		
+		void LoadSpriteSheet(std::wstring fileName);
 
 	private:
 		void InitializeShaders();
-		void InitializeBuffers();
 		void InitializeVertexBuffer();
 		void InitializeUVBuffer();
 		void AddUVs(int x1, int y1, int x2, int y2);
 
+		std::wstring mFilename;
 		GLuint mProgram;
 		GLsizei mWindowWidth;
 		GLsizei mWindowHeight;
