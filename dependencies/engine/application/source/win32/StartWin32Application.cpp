@@ -3,8 +3,8 @@
 #include <memory>
 #include "glwrapper.h"
 #include "input/IInputManager.h"
-#include "application/Config.h"
 #include "utilities/IOC.hpp"
+#include "utilities/Config.h"
 
 using namespace Engine;
 using namespace Utilities;
@@ -22,7 +22,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-void StartWin32Application() {
+void StartWin32Appli	cation() {
 	const HINSTANCE hInstance = GetModuleHandle(nullptr);
 	MyRegisterClass(hInstance);
 
@@ -32,7 +32,7 @@ void StartWin32Application() {
 		return;
 	}
 	const auto config = IOCContainer::Instance().Resolve<Config>();
-	g_gameLoop->Initialize(config->FPS);
+	g_gameLoop->Initialize(config);
 	int width, height;
 	g_gameLoop->GetDefaultSize(width, height);
 	g_gameLoop->UpdateWindowSize(width, height);

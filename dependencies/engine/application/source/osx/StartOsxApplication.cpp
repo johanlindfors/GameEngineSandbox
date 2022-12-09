@@ -1,7 +1,7 @@
 #include "glwrapper.h"
 #include "game-loop/GameLoop.h"
-#include "application/Config.h"
 #include "utilities/IOC.hpp"
+#include "utilities/Config.h"
 #include "input/IInputManager.h"
 #include "utilities/GLHelper.h"
 #include <memory>
@@ -49,7 +49,7 @@ void StartOsxApplication(int argc, char **argv) {
 
     glfwGetError(NULL);
     printf("[StartOsxApplication] Initializing game\n");
-    game->Initialize(config->FPS);
+    game->Initialize(config);
     printf("[StartOsxApplication] initialized\n");
 
     game->UpdateWindowSize(width, height);
