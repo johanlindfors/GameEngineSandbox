@@ -1,13 +1,13 @@
 #pragma once
 #include "utilities/IOC.hpp"
 #include "game/Game.h"
-#include "application/Config.h"
+#include "utilities/Config.h"
 #include "game/GameDefines.h"
 #include "physics/PhysicsEngine.h"
 #include "physics/ObjectCollider.h"
 #include "renderer/SpriteSheetRenderer.h"
 
-#include "utilities/ITweenEngine.h"
+#include "utilities/TweenEngine.h"
 #include "systems/TweenyEngine.h"
 #include <string>
 
@@ -18,6 +18,7 @@ using namespace Utilities;
 void Bootstrap() {
     auto config = make_shared<Config>();
     config->FPS = 60;
+    config->UseFixedTimeStamp = false;
     config->Width = SCREEN_WIDTH;
     config->Height = SCREEN_HEIGHT;
     config->Title = "Flappy Bird";

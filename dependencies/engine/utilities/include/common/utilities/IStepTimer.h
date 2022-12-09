@@ -27,7 +27,7 @@ namespace Utilities
 		// virtual uint32_t GetFramesPerSecond() const = 0;
 
 		// Set whether to use fixed or variable timestep mode.
-		// virtual void SetFixedTimeStep(bool isFixedTimestep) = 0;
+		virtual void SetFixedTimeStep(bool isFixedTimestep) = 0;
 
 		// // Set how often to call Update when in fixed timestep mode.
 		// virtual void SetTargetElapsedTicks(uint64_t targetElapsed) = 0;

@@ -4,6 +4,7 @@
 namespace Utilities
 {
 	class IStepTimer;
+	struct Config;
 }
 
 namespace Engine 
@@ -19,7 +20,7 @@ namespace Engine
 		GameLoop();
 		~GameLoop();
 
-		void Initialize(int fps);
+		void Initialize(std::shared_ptr<Utilities::Config> config);
 		void Tick();
 		void UpdateWindowSize(int width, int height);
 		static void GetDefaultSize(int &width, int &height);

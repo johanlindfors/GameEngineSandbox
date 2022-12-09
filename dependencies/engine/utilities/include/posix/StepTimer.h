@@ -46,7 +46,7 @@ namespace Utilities
 		uint32_t GetFramesPerSecond() const { return m_framesPerSecond; }
 
 		// Set whether to use fixed or variable timestep mode.
-		// void SetFixedTimeStep(bool isFixedTimestep) { m_isFixedTimeStep = isFixedTimestep; }
+		void SetFixedTimeStep(bool isFixedTimestep) { m_isFixedTimeStep = isFixedTimestep; }
 
 		// Set how often to call Update when in fixed timestep mode.
 		// void SetTargetElapsedTicks(uint64_t targetElapsed) { m_targetElapsedTicks = targetElapsed; }
@@ -69,6 +69,7 @@ namespace Utilities
 		unsigned int m_elapsedMilliseconds;
 		unsigned int m_targetMilliseconds;
 		unsigned int m_elapsedSeconds;
+		bool m_isFixedTimeStep;
 
 		// Members for tracking the framerate.
 		uint32_t m_frameCount;

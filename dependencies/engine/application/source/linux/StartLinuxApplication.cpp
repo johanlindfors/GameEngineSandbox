@@ -1,6 +1,6 @@
 #include "glwrapper.h"
 #include "game-loop/GameLoop.h"
-#include "application/Config.h"
+#include "utilities/Config.h"
 #include "utilities/IOC.hpp"
 #include "input/IInputManager.h"
 #include <memory>
@@ -33,7 +33,7 @@ void StartLinuxApplication(int argc, char **argv) {
     window = glfwCreateWindow(width, height, config->Title.c_str(), NULL, NULL);
     glfwMakeContextCurrent(window);
 
-    game->Initialize(config->FPS);
+    game->Initialize(config);
     printf("[StartLinuxApplication] initialized\n");
 
     game->UpdateWindowSize(width, height);

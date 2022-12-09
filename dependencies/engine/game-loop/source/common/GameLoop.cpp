@@ -1,5 +1,6 @@
 #include "game-loop/GameLoop.h"
 #include "utilities/IOC.hpp"
+#include "utilities/Config.h"
 #include "scenes/SceneManager.h"
 #include "input/InputManager.h"
 #include "textures/TextureManager.h"
@@ -15,10 +16,10 @@ using namespace Utilities;
 GameLoop::GameLoop() 
 	: mIsInitialized(false) { }
 
-void GameLoop::Initialize(int fps) {
+void GameLoop::Initialize(shared_ptr<Config> config) {
 	mTimer = make_shared<StepTimer>();
-	//mTimer->SetFixedTimeStep(true);
-	mTimer->SetTargetElapsedSeconds(1.0f/fps);
+	mTimer->SetFixedTimeStep(config->UseFixedTimeStamp);
+	mTimer->SetTargetElapsedSeconds(1.0f/config->FPS);
 
     printf("[GameLoop::Initialize] Timer initialized\n");
 
@@ -33,9 +34,7 @@ void GameLoop::Initialize(int fps) {
 
 	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
 	mSpriteRenderer->Initialize();
-	// mSpriteRenderer = make_shared<SpriteRenderer>();
-	// IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
-	// printf("[GameLoop::Initialize] SpriteRenderer registered\n");
+	printf("[GameLoop::Initialize] SpriteRenderer initalized\n");
 
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);
