@@ -54,7 +54,7 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 
 		if (mSprite->Rotation > -90 && IsAlive)
 		{
-			mSprite->Rotation -= 2.5f;
+			mSprite->Rotation -= (200.0f * timer->GetElapsedMilliSeconds() / 1000.0f);
 		}
 
 		AABB = Rectangle(Position.X,

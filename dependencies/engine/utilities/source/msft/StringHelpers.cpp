@@ -1,6 +1,5 @@
 #include "utilities/StringHelpers.h"
 #include <locale>
-#include <codecvt>
 #include <Windows.h>
 
 namespace Utilities {
