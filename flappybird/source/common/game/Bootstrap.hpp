@@ -1,6 +1,6 @@
 #pragma once
 #include "utilities/IOC.hpp"
-#include "game/Game.h"
+#include "game/GameStateMachine.h"
 #include "utilities/Config.h"
 #include "game/GameDefines.h"
 #include "physics/PhysicsEngine.h"
@@ -28,5 +28,5 @@ void Bootstrap() {
     IOCContainer::Instance().Register<ISpriteRenderer>(make_shared<SpriteSheetRenderer>(wstring(L"atlas")));
 
     IOCContainer::Instance().Register<Config>(config);
-    IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<Game>());
+    IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<GameStateMachine>());
 }

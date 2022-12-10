@@ -10,10 +10,10 @@ namespace Utilities {
     class IStepTimer;
 }
 
-class Game : public Engine::IGameLoopCallback, public IGameStateCallback
+class GameStateMachine : public Engine::IGameLoopCallback, public IGameStateCallback
 {
 public:
-    Game();
+    GameStateMachine();
 
     // Engine::IGameLoopCallback
     void Initialize() override;

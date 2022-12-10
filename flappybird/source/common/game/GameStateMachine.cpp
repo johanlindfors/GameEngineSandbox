@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "GameStateMachine.h"
 #include "utilities/IOC.hpp"
 #include "scenes/SplashScene.h"
 #include "scenes/GamePlayScene.h"
@@ -9,16 +9,16 @@ using namespace std;
 using namespace Utilities;
 using namespace Engine;
 
-Game::Game()
+GameStateMachine::GameStateMachine()
 	: mCurrentState(GameState::Unknown)
 	, mNextState(GameState::Unknown) { }
 
-void Game::Initialize()
+void GameStateMachine::Initialize()
 {
 	mSceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
 }
 
-void Game::HandleUnknownState()
+void GameStateMachine::HandleUnknownState()
 {
 	if(mCurrentState == GameState::Unknown)
 	{
@@ -26,7 +26,7 @@ void Game::HandleUnknownState()
 	}
 }
 
-void Game::HandleBootState()
+void GameStateMachine::HandleBootState()
 {
 	if(mCurrentState == GameState::Unknown)
 	{
@@ -35,7 +35,7 @@ void Game::HandleBootState()
 	}
 }
 
-void Game::HandleSplashState()
+void GameStateMachine::HandleSplashState()
 {
 	if(mCurrentState == GameState::Boot)
 	{
@@ -44,7 +44,7 @@ void Game::HandleSplashState()
 	}
 }
 
-void Game::HandleGamePlayState()
+void GameStateMachine::HandleGamePlayState()
 {
 	switch (mCurrentState)
 	{
@@ -61,7 +61,7 @@ void Game::HandleGamePlayState()
 	mCurrentState = GameState::GamePlay;
 }
 
-void Game::HandleGameOverState()
+void GameStateMachine::HandleGameOverState()
 {
 	if (mCurrentState == GameState::GamePlay) {
 		mCurrentState = GameState::GameOver;
@@ -69,7 +69,7 @@ void Game::HandleGameOverState()
 	}
 }
 
-void Game::Update(shared_ptr<IStepTimer> timer)
+void GameStateMachine::Update(shared_ptr<IStepTimer> timer)
 {
 	switch (mNextState)
 	{
@@ -100,7 +100,7 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 	}
 }
 
-void Game::GoToState(GameState gameState)
+void GameStateMachine::GoToState(GameState gameState)
 {
 	mNextState = gameState;
 }
