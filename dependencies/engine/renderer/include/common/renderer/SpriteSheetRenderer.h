@@ -29,20 +29,12 @@ namespace Engine {
 
 		std::wstring mFilename;
 		std::unique_ptr<Shader> mShader;
-		// GLuint mProgram;
 		GLsizei mWindowWidth;
 		GLsizei mWindowHeight;
 
 		// Vertex shader parameters
 		GLint mVertexAttribLocation;
 		GLint mUVAttribLocation;
-		// GLint mWorldMatrix;
-		// GLint mProjectionMatrix;
-		// GLint mTextureSizeUniformLocation;
-		// GLint mScreenSizeUniformLocation;
-
-		// Fragment shader parameters
-		// GLint mTextureUniformLocation;
 
 		GLuint mVertexPositionBuffer;
 		GLuint mVertexUVBuffer;
