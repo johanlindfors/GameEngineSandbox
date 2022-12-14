@@ -4,6 +4,9 @@
 #include <string>
 
 namespace Engine {
+
+	class Shader;
+
 	class SpriteSheetRenderer : public ISpriteRenderer {
 	public:
 		SpriteSheetRenderer(std::wstring filename);
@@ -25,20 +28,21 @@ namespace Engine {
 		void AddUVs(int x1, int y1, int x2, int y2);
 
 		std::wstring mFilename;
-		GLuint mProgram;
+		std::unique_ptr<Shader> mShader;
+		// GLuint mProgram;
 		GLsizei mWindowWidth;
 		GLsizei mWindowHeight;
 
 		// Vertex shader parameters
 		GLint mVertexAttribLocation;
 		GLint mUVAttribLocation;
-		GLint mWorldMatrix;
-		GLint mProjectionMatrix;
+		// GLint mWorldMatrix;
+		// GLint mProjectionMatrix;
 		// GLint mTextureSizeUniformLocation;
 		// GLint mScreenSizeUniformLocation;
 
 		// Fragment shader parameters
-		GLint mTextureUniformLocation;
+		// GLint mTextureUniformLocation;
 
 		GLuint mVertexPositionBuffer;
 		GLuint mVertexUVBuffer;

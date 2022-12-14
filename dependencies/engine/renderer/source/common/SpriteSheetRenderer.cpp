@@ -6,6 +6,7 @@
 #include "filesystem/IFileSystem.h"
 #include "utilities/IOC.hpp"
 #include "File.h"
+#include "resources/Shader.h"
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
@@ -26,6 +27,7 @@ using namespace Utilities;
 
 SpriteSheetRenderer::SpriteSheetRenderer(wstring filename)
 	: mFilename(filename)
+	, mShader(make_unique<Shader>())
 	, mInitialized(false)
 { }
 
@@ -47,11 +49,7 @@ void SpriteSheetRenderer::LoadSpriteSheet(wstring fileName)
 
 SpriteSheetRenderer::~SpriteSheetRenderer()
 {
-	if (mProgram != 0)
-	{
-		glDeleteProgram(mProgram);
-		mProgram = 0;
-	}
+	mShader.release();
 
 	if (mVertexPositionBuffer != 0)
 	{
@@ -85,11 +83,13 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite)
 
 void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position)
 {
+	mShader->Use();
+
+	mShader->SetInteger("texture", 0);
+
 	if(!mInitialized) {
-		glUseProgram(mProgram);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));
-		glUniform1i(mTextureUniformLocation, 0);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -104,7 +104,7 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 	}
 
 	glm::mat4 projection = glm::ortho(0.0f, (float)mWindowWidth, 0.0f, (float)mWindowHeight, -1.0f, 1.0f); 
-	glUniformMatrix4fv(mProjectionMatrix, 1, false, glm::value_ptr(projection));
+	mShader->SetMatrix4("projection", projection);
 
 	glm::mat4 world = glm::mat4(1.0f);
 	world= glm::translate(world, glm::vec3(position.X, position.Y, 0.0f)); 
@@ -114,15 +114,14 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
     	world = glm::translate(world, glm::vec3(-0.5f * sprite->Texture.Width, -0.5f * sprite->Texture.Height, 0.0f));		
 	}
     world = glm::scale(world, glm::vec3(sprite->Width, sprite->Height, 1.0f));
-	glUniformMatrix4fv(mWorldMatrix, 1, false, glm::value_ptr(world));
-	
+	mShader->SetMatrix4("world", world);
+
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
 	glEnableVertexAttribArray(mUVAttribLocation);
 	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*sprite->Offset*8));
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
-	// CheckOpenGLError();
 }
 
 void SpriteSheetRenderer::InitializeShaders() {
@@ -158,26 +157,11 @@ void SpriteSheetRenderer::InitializeShaders() {
 		}
 	);
 
-	printf("[SpriteRenderer::InitializeShaders] About to compile program\n");
-	// Set up the shader and its uniform/attribute locations.
-	mProgram = CompileProgram(vs, fs);
-	printf("[SpriteRenderer::InitializeShaders] Program %d compiled\n", mProgram);
-	CheckOpenGLError();
+	mShader->CreateShader("atlas", vs, fs);
 
-	// // Vertex shader parameters
-	mVertexAttribLocation = glGetAttribLocation(mProgram, "vertex");
-	mUVAttribLocation = glGetAttribLocation(mProgram, "a_uv");
-	mWorldMatrix = glGetUniformLocation(mProgram, "world");
-	mProjectionMatrix = glGetUniformLocation(mProgram, "projection");
-
-	printf("[SpriteRenderer::InitializeShaders] mVertexAttribLocation: %d\n", mVertexAttribLocation);
-	printf("[SpriteRenderer::InitializeShaders] mUVAttribLocation: %d\n", mUVAttribLocation);
-	printf("[SpriteRenderer::InitializeShaders] mWorldMatrix: %d\n", mWorldMatrix);
-	printf("[SpriteRenderer::InitializeShaders] mProjectionMatrix: %d\n", mProjectionMatrix);
-
-	// Fragment shader parameters
-	mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
-	printf("[SpriteRenderer::InitializeShaders] mTextureUniformLocation: %d\n", mTextureUniformLocation);
+	// Vertex shader parameters
+	mVertexAttribLocation = glGetAttribLocation(mShader->ID, "vertex");
+	mUVAttribLocation = glGetAttribLocation(mShader->ID, "a_uv");
 }
 
 void SpriteSheetRenderer::InitializeVertexBuffer()
