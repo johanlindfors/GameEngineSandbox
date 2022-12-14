@@ -1,5 +1,5 @@
 #include "GameOverScene.h"
-#include "textures/TextureManager.h"
+#include "resources/ResourceManager.h"
 #include "scenes/ISceneManager.h"
 #include "input/IInputManager.h"
 #include "renderer/SpriteRenderer.h"
@@ -23,11 +23,11 @@ GameOverScene::~GameOverScene() { }
 
 void GameOverScene::Load()
 {
-	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
+	mResouceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mBackground->Texture = mTextureManager->GetTexture(L"gameover/background.png");
-    mText->Texture = mTextureManager->GetTexture(L"gameover/text.png");
+	mBackground->Texture = mResourceManager->GetTexture(L"gameover/background.png");
+    mText->Texture = mResourceManager->GetTexture(L"gameover/text.png");
 }
 
 void GameOverScene::Unload() { }

@@ -11,7 +11,8 @@ namespace Engine
             void Close() override;
             bool IsOpen() override { return mStorageFile != nullptr; }
             winrt::Windows::Storage::IStorageFile Get() const { return mStorageFile; }
-        
+            std::string ReadAllText();
+
         private:
             winrt::Windows::Storage::IStorageFile mStorageFile = { nullptr };
     };

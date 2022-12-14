@@ -1,6 +1,8 @@
 #include "File.h"
 #include <cstdio>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "utilities/StringHelpers.h"
 
 using namespace std;
@@ -9,9 +11,9 @@ using namespace Utilities;
 
 void File::Open(wstring filename)
 {
-    auto sFilename = ws2s(filename);
-    std::cout << "[File::Open] Loading file '" << sFilename << "'!" << endl;
-    mFileHandle = fopen(sFilename.c_str(), "rb");
+    mFilename = ws2s(filename);
+    std::cout << "[File::Open] Loading file '" << mFilename << "'!" << endl;
+    mFileHandle = fopen(mFilename.c_str(), "rb");
     if(!mFileHandle) {
         std::cout << "Failed to open file!" << endl;
     }
@@ -24,4 +26,12 @@ void File::Close() {
             mFileHandle = nullptr;
         }
     }
+}
+
+string File::ReadAllText() {
+    ifstream fileStream;
+    fileStream.open(mFilename);
+    stringstream buffer;
+    buffer << fileStream.rdbuf();
+    return buffer.str();
 }

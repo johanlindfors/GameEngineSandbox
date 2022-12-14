@@ -1,5 +1,4 @@
 #include "GameOverScene.h"
-#include "textures/TextureManager.h"
 #include "scenes/ISceneManager.h"
 #include "input/IInputManager.h"
 #include "renderer/ISpriteRenderer.h"

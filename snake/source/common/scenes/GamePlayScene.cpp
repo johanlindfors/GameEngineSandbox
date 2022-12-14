@@ -1,10 +1,9 @@
 #include "GamePlayScene.h"
-#include "textures/TextureManager.h"
+#include "respirces/IResourceManager.h"
 #include "utilities/IOC.hpp"
 #include "objects/Snake.h"
 #include "objects/Apple.h"
 #include "objects/PointCollider.h"
-#include "textures/ITextureManager.h"
 #include "renderer/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "game/IGameStateCallback.h"
@@ -16,7 +15,7 @@ using std::make_shared;
 using std::shared_ptr;
 using Engine::IInputManager;
 using Engine::ISpriteRenderer;
-using Engine::ITextureManager;
+using Engine::IResourceManager;
 using Utilities::IStepTimer;
 using Utilities::IOCContainer;
 using Utilities::Point;
@@ -40,11 +39,11 @@ GamePlayScene::~GamePlayScene()
 
 void GamePlayScene::Load()
 {
-	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
+	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mApple->SetTexture(mTextureManager->GetTexture(L"apple.png"));
-	mSnake->SetTexture(mTextureManager->GetTexture(L"snake.png"));
+	mApple->SetTexture(mResourceManager->GetTexture(L"apple.png"));
+	mSnake->SetTexture(mResourceManager->GetTexture(L"snake.png"));
 }
 
 void GamePlayScene::Unload()

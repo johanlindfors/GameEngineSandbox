@@ -1,14 +1,13 @@
-#include "textures/TextureLoader.h"
+#include "resources/TextureLoader.h"
 #include "filesystem/FileSystem.h"
 #include "utilities/GLHelper.h"
 #include "png.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
-#include <cstring>
 #include "utilities/IOC.hpp"
 #include "File.h"
-#include "textures/Texture2D.h"
+#include "resources/Texture2D.h"
 
 using namespace std;
 using namespace Engine;
@@ -113,7 +112,6 @@ namespace Engine {
 			outWidth = width;
 			outHeight = height;
 
-			outHasAlpha = color_type & PNG_COLOR_MASK_ALPHA;			
 			const auto row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
 			*outData = static_cast<unsigned char*>(malloc(row_bytes * outHeight));
 
@@ -123,7 +121,7 @@ namespace Engine {
 				// note that png is ordered top to
 				// bottom, but OpenGL expect it bottom to top
 				// so the order or swapped
-				std::memcpy(*outData + (row_bytes * (outHeight - 1 - i)), row_pointers[i], row_bytes);
+				memcpy(*outData + (row_bytes * (outHeight - 1 - i)), row_pointers[i], row_bytes);
 			}
 
 			/* Clean up after the read,
@@ -141,15 +139,15 @@ namespace Engine {
 		TextureLoaderImpl()
 		{
 			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-		}	
+		}
 
 		void LoadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				const auto file = mFileSystem->LoadFile(std::wstring(L"textures/" + texture.Name));
+				const auto file = mFileSystem->LoadFile(std::wstring(L"textures\\" + texture.Name));
 				if(file){
 					int width, height;
-					bool hasAlpha;
+					auto hasAlpha = false;
 					GLubyte *textureImage;
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
@@ -174,16 +172,14 @@ namespace Engine {
 				}
 			}
 		}
+
 	private:
 		std::shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(std::make_unique<TextureLoaderImpl>())
-{
-
-}
+	: mImpl(std::make_unique<TextureLoaderImpl>()) { }
 
 TextureLoader::~TextureLoader()
 {
@@ -191,6 +187,6 @@ TextureLoader::~TextureLoader()
 }
 
 void TextureLoader::LoadTexture(Texture2D& texture)
-{		
+{
 	mImpl->LoadTexture(texture);
 }

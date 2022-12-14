@@ -39,8 +39,8 @@ void SpriteSheetRenderer::Initialize()
 
 void SpriteSheetRenderer::LoadSpriteSheet(wstring fileName)
 {
-	// auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
-	// auto file = filesystem->LoadFile(fileName);
+	auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
+	auto file = filesystem->LoadFile(fileName);
 
 	InitializeUVBuffer();
 }

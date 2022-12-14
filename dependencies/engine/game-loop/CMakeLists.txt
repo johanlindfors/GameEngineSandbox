@@ -4,7 +4,7 @@ set(DEPENDENCIES
     utilities
     scenes
     input
-    textures
+    resources
     renderer
 )
 

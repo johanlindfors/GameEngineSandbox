@@ -1,5 +1,6 @@
-#include "textures/TextureManager.h"
-#include "textures/TextureLoader.h"
+#include "resources/ResourceManager.h"
+#include "resources/TextureLoader.h"
+#include "resources/Shader.h"
 #include <memory>
 #include "utilities/GLHelper.h"
 #include "File.h"
@@ -7,16 +8,16 @@
 using namespace std;
 using namespace Engine;
 
-TextureManager::TextureManager()
+ResourceManager::ResourceManager()
 	: mInitialized(false)
 	, mTextureLoader(make_unique<TextureLoader>()) { }
 
-TextureManager::~TextureManager()
+ResourceManager::~ResourceManager()
 {
 	mTextureLoader.reset();
 }
 
-Texture2D TextureManager::CreateEmptyTexture() {
+Texture2D ResourceManager::CreateEmptyTexture() {
 	Texture2D texture;
 	texture.TextureIndex = GenerateTexture();
 	texture.Width = 1;
@@ -30,9 +31,9 @@ Texture2D TextureManager::CreateEmptyTexture() {
 	return texture;
 }
 
-void TextureManager::LoadTextures(vector<wstring> fileNames)
+void ResourceManager::LoadTextures(vector<wstring> fileNames)
 {
-	printf("[TextureManager::LoadTextures]\n");
+	printf("[ResourceManager::LoadTextures]\n");
 	if (!mInitialized) {
 		const auto emptyTexture = CreateEmptyTexture();
 		mTextures[emptyTexture.Name] = emptyTexture;
@@ -57,7 +58,7 @@ void TextureManager::LoadTextures(vector<wstring> fileNames)
 	mInitialized = true;
 }
 
-Texture2D TextureManager::GetTexture(wstring fileName) const
+Texture2D ResourceManager::GetTexture(wstring fileName) const
 {
 	if (mTextures.count(fileName) == 1) {
 		auto texture = mTextures.at(fileName);
@@ -66,4 +67,14 @@ Texture2D TextureManager::GetTexture(wstring fileName) const
 		}
 	}
 	return mTextures.at(EMPTY_TEXTURE_NAME);
+}
+
+void ResourceManager::LoadShaders(const string& vsFileName, const string& fsFileName)
+{
+	
+}
+
+Shader ResourceManager::GetShader(const string& name)
+{
+	return Shader();
 }

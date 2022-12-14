@@ -1,5 +1,5 @@
 #pragma once
-#include "textures/Texture2D.h"
+#include "resources/Texture2D.h"
 #include "utilities/MathHelper.h"
 
 namespace Engine {

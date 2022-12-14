@@ -12,7 +12,8 @@ namespace Engine
             void Close() override;
             bool IsOpen() override { return mFileHandle != nullptr; }
             FILE * Get() const { return mFileHandle; }
-        
+            std::string ReadAllText();
+            
         private:
             FILE * mFileHandle = nullptr;
     };

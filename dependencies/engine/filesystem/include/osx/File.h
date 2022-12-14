@@ -10,6 +10,7 @@ namespace Engine
             void Close();
             bool IsOpen() { return mFileHandle != nullptr; }
             FILE * Get() { return mFileHandle; }
+            std::string ReadAllText();
         
         private:
             FILE * mFileHandle = nullptr;

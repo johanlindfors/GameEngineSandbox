@@ -2,7 +2,7 @@
 #include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.h"
 #include "game/IGameStateCallback.h"
-#include "textures/ITextureManager.h"
+#include "resources/IResourceManager.h"
 #include "input/IInputManager.h"
 #include "renderer/ISpriteRenderer.h"
 #include "renderer/Sprite.h"
@@ -47,12 +47,12 @@ SplashScene::~SplashScene() {
 
 void SplashScene::Load()
 {
-	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
+	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
     
 	vector<wstring> fileNames;
 	fileNames.emplace_back(L"atlas.png");
-	mTextureManager->LoadTextures(vector<wstring>(fileNames));
+	mResourceManager->LoadTextures(vector<wstring>(fileNames));
 
 	// Audio
 	// mResourcesToLoad.push(L"background.png");

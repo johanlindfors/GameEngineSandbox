@@ -1,4 +1,4 @@
-#include "textures/TextureLoader.h"
+#include "resources/TextureLoader.h"
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Graphics.Imaging.h>
@@ -9,7 +9,7 @@
 #include "utilities/GLHelper.h"
 #include "filesystem/FileSystem.h"
 #include "File.h"
-#include "textures/Texture2D.h"
+#include "resources/Texture2D.h"
 
 using namespace std;
 using namespace winrt;

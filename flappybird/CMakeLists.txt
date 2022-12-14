@@ -15,7 +15,7 @@ set(DEPENDENCIES
     application
     game-loop
     renderer
-    textures
+    resources
     input
     scenes
     physics

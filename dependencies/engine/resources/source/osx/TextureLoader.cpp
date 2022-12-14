@@ -1,4 +1,4 @@
-#include "textures/TextureLoader.h"
+#include "resources/TextureLoader.h"
 #include "filesystem/FileSystem.h"
 #include "utilities/GLHelper.h"
 #include "png.h"
@@ -7,7 +7,7 @@
 #include <iostream>
 #include "utilities/IOC.hpp"
 #include "File.h"
-#include "textures/Texture2D.h"
+#include "resources/Texture2D.h"
 
 using namespace std;
 using namespace Engine;
@@ -144,15 +144,15 @@ namespace Engine {
 		void LoadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				const auto file = mFileSystem->LoadFile(std::wstring(L"textures\\" + texture.Name));
+				const auto file = mFileSystem->LoadFile(std::wstring(L"textures/" + texture.Name));
 				if(file){
 					int width, height;
 					auto hasAlpha = false;
 					GLubyte *textureImage;
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
+						std::cout << "Unable to load png file: " << std::endl;
 						texture.Name = L"";
-						std::cout << "Unable to load png file" << std::endl;
 						return;
 					}
 					texture.Width = width;

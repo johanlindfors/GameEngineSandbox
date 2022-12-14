@@ -3,7 +3,7 @@ project(renderer)
 set(DEPENDENCIES
     utilities
     filesystem
-    textures
+    resources
     glm
 )
 

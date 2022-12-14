@@ -1,5 +1,5 @@
 #include "PauseScene.h"
-#include "textures/TextureManager.h"
+#include "resources/TextureManager.h"
 #include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.h"
 #include "renderer/Sprite.h"

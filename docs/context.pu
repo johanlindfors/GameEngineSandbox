@@ -1,0 +1,12 @@
+@startuml GameEngineSandbox
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(player, "Player")
+
+System_Boundary(boundary, "Flappy Bird") {
+    System(flappyBird, "flappyBird")
+}
+
+Rel(player, flappyBird, Plays)
+
+@enduml
