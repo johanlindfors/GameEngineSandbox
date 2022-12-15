@@ -8,12 +8,12 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Entity::Entity(Point<float> position)
+Entity::Entity(Point<int> position)
     : mSprite(std::make_shared<Sprite>())
 	, mScreenWidth(0)
 	, mScreenHeight(0)
 {
-    mSprite->Position = position;
+    mSprite->Position = Point<float>(position.X, position.Y);
 }
 
 void Entity::SetTexture(Texture2D texture) 

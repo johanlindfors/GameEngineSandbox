@@ -12,7 +12,7 @@ class PointCollider;
 
 class Apple : public Entity {
 public:
-	Apple(Utilities::Point<float> position);
+	Apple(Utilities::Point<int> position);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 	void Update(int screenWidth, int screenHeight);
 	void Reset(std::shared_ptr<Snake> snake, std::shared_ptr<PointCollider> collider);

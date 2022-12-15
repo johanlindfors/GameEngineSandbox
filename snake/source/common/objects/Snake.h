@@ -14,7 +14,7 @@ class Apple;
 
 class Snake : public Entity {
 public:
-	Snake(Utilities::Point<float> position);
+	Snake(Utilities::Point<int> position);
 	bool CheckCollision(int x, int y);
 	void Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback);
 	void HandleInput(std::shared_ptr<Engine::IInputManager> input);
@@ -23,7 +23,7 @@ public:
 
 private:
 	int mTail;
-	std::list<Utilities::Point<float>> mTrail;
+	std::list<Utilities::Point<int>> mTrail;
 	void Reset();
 
 	friend class Apple;

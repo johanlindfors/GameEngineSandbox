@@ -10,7 +10,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Snake::Snake(Point<float> position)
+Snake::Snake(Point<int> position)
     : Entity(position)
 {
     mTail = INITIAL_TAIL;	
@@ -49,7 +49,11 @@ void Snake::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCa
 		mSprite->Position.X = newX;
 		mSprite->Position.Y = newY;
 
-		mTrail.push_back({ mSprite->Position });
+		mTrail.push_back({ 
+			Point<int>(
+				static_cast<int>(mSprite->Position.X), 
+				static_cast<int>(mSprite->Position.Y))
+		});
 		while (mTrail.size() > mTail) {
 			mTrail.pop_front();
 		}
