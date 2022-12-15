@@ -1,5 +1,5 @@
 #include "GamePlayScene.h"
-#include "respirces/IResourceManager.h"
+#include "resources/IResourceManager.h"
 #include "utilities/IOC.hpp"
 #include "objects/Snake.h"
 #include "objects/Apple.h"
@@ -39,11 +39,11 @@ GamePlayScene::~GamePlayScene()
 
 void GamePlayScene::Load()
 {
-	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
+	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mApple->SetTexture(mResourceManager->GetTexture(L"apple.png"));
-	mSnake->SetTexture(mResourceManager->GetTexture(L"snake.png"));
+	mApple->SetTexture(resourceManager->GetTexture(L"apple.png"));
+	mSnake->SetTexture(resourceManager->GetTexture(L"snake.png"));
 }
 
 void GamePlayScene::Unload()

@@ -55,28 +55,6 @@ namespace Utilities
         }
     };
 
-	// struct Point {
-	// 	Point(int x, int y)
-    //         : X(x)
-    //         , Y(y) 
-	// 	{ }
-
-	// 	int X;
-	// 	int Y;
-
-    //     // Overloading "+" operator
-    //     Point operator+ (Point const& point)
-    //     {
-    //         return Point(X + point.X, Y + point.Y);
-    //     }
-        
-    //     // Overloading "+" operator
-    //     Point operator+ (Vector2 const& vec)
-    //     {
-    //         return Point(X + vec.m[0], Y + vec.m[1]);
-    //     }
-	// };
-
     template <typename T>
 	struct Point {
 		Point(T x, T y)

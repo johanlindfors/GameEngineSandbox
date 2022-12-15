@@ -9,7 +9,7 @@ namespace Utilities
 namespace Engine 
 {
     struct Sprite;
-    class ITextureManager;
+    class IResourceManager;
     class ISpriteRenderer;
 }
 
@@ -29,5 +29,4 @@ public:
 private:
 	std::shared_ptr<Engine::Sprite> mBackground;
 	std::shared_ptr<Engine::Sprite> mText;
-    std::shared_ptr<Engine::ITextureManager> mTextureManager;
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include "utilities/IOC.hpp"
 #include "game/Game.h"
-#include "application/Config.h"
+#include "utilities/Config.h"
 #include "renderer/SpriteRenderer.h"
 
 using namespace std;
@@ -13,6 +13,7 @@ void Bootstrap() {
     config->Width = 500;
     config->Height = 500;
     config->FPS = 15;
+    config->UseFixedTimeStamp = true;
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<Game>());
     IOCContainer::Instance().Register<ISpriteRenderer>(make_shared<SpriteRenderer>());

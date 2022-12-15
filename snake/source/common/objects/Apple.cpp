@@ -10,7 +10,7 @@ using std::shared_ptr;
 using Utilities::Point;
 using Engine::ISpriteRenderer;
 
-Apple::Apple(Point position)
+Apple::Apple(Point<float> position)
     : Entity(position)
     , mScreenPositionX(0.0f)
     , mScreenPositionY(0.0f)
@@ -31,7 +31,7 @@ void Apple::Update(int screenWidth, int screenHeight)
 }
 
 void Apple::Reset(std::shared_ptr<Snake> snake, std::shared_ptr<PointCollider> collider) {
-    Point newPosition(0, 0);
+    Point<float> newPosition(0, 0);
     bool collide;
     do {
         collide = false;

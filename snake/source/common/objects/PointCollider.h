@@ -1,11 +1,7 @@
 #pragma once
-
-namespace Utilities
-{
-    struct Point;
-}
+#include "utilities/MathHelper.h"
 
 class PointCollider {
 public:
-	static bool Collides(Utilities::Point point1, Utilities::Point point2);
+	static bool Collides(Utilities::Point<float> point1, Utilities::Point<float> point2);
 };

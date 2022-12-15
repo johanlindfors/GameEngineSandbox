@@ -4,12 +4,11 @@
 #include "renderer/Sprite.h"
 #include "game/GameDefines.h"
 
-using std::make_shared;
-using Utilities::Point;
-using Engine::Texture2D;
-using Engine::Sprite;
+using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
-Entity::Entity(Point position)
+Entity::Entity(Point<float> position)
     : mSprite(std::make_shared<Sprite>())
 	, mScreenWidth(0)
 	, mScreenHeight(0)

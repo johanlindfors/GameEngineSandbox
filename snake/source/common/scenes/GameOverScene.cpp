@@ -23,11 +23,11 @@ GameOverScene::~GameOverScene() { }
 
 void GameOverScene::Load()
 {
-	mResouceManager = IOCContainer::Instance().Resolve<IResourceManager>();
+	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mBackground->Texture = mResourceManager->GetTexture(L"gameover/background.png");
-    mText->Texture = mResourceManager->GetTexture(L"gameover/text.png");
+	mBackground->Texture = resourceManager->GetTexture(L"gameover/background.png");
+    mText->Texture = resourceManager->GetTexture(L"gameover/text.png");
 }
 
 void GameOverScene::Unload() { }

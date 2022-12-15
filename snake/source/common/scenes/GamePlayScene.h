@@ -8,7 +8,6 @@ class PointCollider;
 
 namespace Engine 
 {
-	class ITextureManager;
 	class ISpriteRenderer;
 	class IInputManager;
 }
@@ -31,7 +30,6 @@ private:
 	std::shared_ptr<Snake> mSnake;
 	std::shared_ptr<PointCollider> mCollider;
 
-	std::shared_ptr<Engine::ITextureManager> mTextureManager;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
 	int mScreenSizeX;
 	int mScreenSizeY;

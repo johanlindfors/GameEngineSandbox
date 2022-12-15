@@ -1,5 +1,5 @@
 #include "PauseScene.h"
-#include "resources/TextureManager.h"
+#include "resources/IResourceManager.h"
 #include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.h"
 #include "renderer/Sprite.h"
@@ -18,10 +18,10 @@ PauseScene::PauseScene()
 
 void PauseScene::Load()
 {
-	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
+	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 
-	mBackground->Texture = mTextureManager->GetTexture(L"pause/background.png");
-    mText->Texture = mTextureManager->GetTexture(L"pause/text.png");
+	mBackground->Texture = resourceManager->GetTexture(L"pause/background.png");
+    mText->Texture = resourceManager->GetTexture(L"pause/text.png");
 }
 
 void PauseScene::UpdateScreenSize(int width, int height) 

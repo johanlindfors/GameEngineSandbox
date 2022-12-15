@@ -6,13 +6,11 @@
 #include "renderer/Sprite.h"
 #include "game/IGameStateCallback.h"
 
-using std::shared_ptr;
-using Utilities::Vector2;
-using Utilities::Point;
-using Engine::ISpriteRenderer;
-using Engine::IInputManager;
+using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
-Snake::Snake(Point position)
+Snake::Snake(Point<float> position)
     : Entity(position)
 {
     mTail = INITIAL_TAIL;	

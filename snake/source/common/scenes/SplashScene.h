@@ -7,8 +7,8 @@ class IGameStateCallback;
 
 namespace Engine
 {
-	class ITextureManager;
 	class ISpriteRenderer;
+	class IResourceManager;
 	struct Sprite;
 }
 
@@ -36,7 +36,7 @@ private:
 	bool hasLoadedGamePlay;
 	bool isLoadingResources;
 	std::queue<std::wstring> mResourcesToLoad;
+	std::shared_ptr<Engine::IResourceManager> mResourceManager;
 
-	std::shared_ptr<Engine::ITextureManager> mTextureManager;
 	IGameStateCallback* mGame;
 };
