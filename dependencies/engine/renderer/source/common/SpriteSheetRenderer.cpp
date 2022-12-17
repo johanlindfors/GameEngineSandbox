@@ -146,7 +146,9 @@ void SpriteSheetRenderer::InitializeShaders() {
 	// Fragment Shader source
 	const std::string fs = STRING
 	(
+#ifndef __APPLE__
 		precision mediump float;
+#endif
 		varying vec2 TexCoords;
 
 		uniform sampler2D texture;

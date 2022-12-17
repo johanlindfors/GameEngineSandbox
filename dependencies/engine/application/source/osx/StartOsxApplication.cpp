@@ -22,7 +22,8 @@ void StartOsxApplication(int argc, char **argv) {
     printf("[StartOsxApplication] found config\n");
 
     int width, height;
-    game->GetDefaultSize(width, height);
+    width = config->Width;
+    height = config->Height;
     printf("[StartOsxApplication] GetDefaultSize returned\n");
     
     if(!glfwInit()) {

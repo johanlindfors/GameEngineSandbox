@@ -112,6 +112,7 @@ namespace Engine {
 			outWidth = width;
 			outHeight = height;
 
+			outHasAlpha = color_type & PNG_COLOR_MASK_ALPHA;
 			const auto row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
 			*outData = static_cast<unsigned char*>(malloc(row_bytes * outHeight));
 
