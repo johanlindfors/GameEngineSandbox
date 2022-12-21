@@ -43,7 +43,17 @@ void SpriteSheetRenderer::LoadSpriteSheet(wstring fileName)
 {
 	auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
 	auto file = filesystem->LoadFile(fileName);
-
+	if(file->IsOpen()) {
+		int x1, y1, x2, y2;
+		char buffer[100];
+		auto fileHandle = file->Get();
+		while(!feof(fileHandle)) {
+    	    fscanf(fileHandle, "%d,%d,%d,%d", &x1, &y1, &x2, &y2);
+			AddUVs(x1, y1, x2, y2);
+	        fgets(buffer, 100, fileHandle); // skip the rest of the line
+		}
+    }
+    
 	InitializeUVBuffer();
 }
 
@@ -100,6 +110,7 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 		glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 		glEnableVertexAttribArray(mVertexAttribLocation);
 		glVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+
 		mInitialized = true;
 	}
 
@@ -203,30 +214,6 @@ void SpriteSheetRenderer::AddUVs(int x1, int y1, int x2, int y2)
 
 void SpriteSheetRenderer::InitializeUVBuffer() 
 {
-	AddUVs(1, 1, 35, 25); 		//  0 bird1
-	AddUVs(35, 1, 69, 25); 		//  1 bird2
-	AddUVs(69, 1, 103, 25); 	//  2 bird3
-	AddUVs(1, 70, 2, 71); 		//  3 sky
-	AddUVs(1, 26, 87, 68); 		//  4 city
-	AddUVs(1, 70, 352, 103); 	//  5 clouds
-	AddUVs(382, 2, 495, 104); 	//  6 instructions
-	AddUVs(1, 105, 193, 153); 	//  7 gameover
-	AddUVs(194, 105, 378, 157); //  8 getready
-	AddUVs(2, 173, 46, 217); 	//  9 silver
-	AddUVs(2, 221, 46, 265); 	// 10 gold
-	AddUVs(53, 174, 278, 287); 	// 11 scoreboard
-	AddUVs(2, 293, 106, 351); 	// 12 button
-	AddUVs(116, 298, 295, 346); // 13 title
-	AddUVs(2, 478, 417, 510); 	// 14 trees
-	AddUVs(108, 1, 131, 27); 	// 15 ground
-	AddUVs(402, 405, 454, 430); // 16 pipetop
-	AddUVs(458, 110, 510, 135); // 17 pipebottom
-	AddUVs(1, 102, 2, 103);		// 18 clouds background
-	AddUVs(2, 509, 3, 510);		// 19 trees background
-	AddUVs(108, 26, 109, 27);	// 20 ground background
-	AddUVs(402, 110, 454, 120); // 21 pipe
-	AddUVs(1, 364, 8, 371);		// 22 pink border
-
 	glGenBuffers(1, &mVertexUVBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
 	glBufferData(GL_ARRAY_BUFFER, mUVVertices.size() * sizeof(GLfloat), &mUVVertices.front(), GL_STATIC_DRAW);
