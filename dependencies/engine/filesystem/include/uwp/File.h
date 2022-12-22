@@ -7,7 +7,7 @@ namespace Engine
     class File : public IFile
     {
         public:
-            void Open(std::wstring filename) override;
+            void Open(std::string filename) override;
             void Close() override;
             bool IsOpen() override { return mStorageFile != nullptr; }
             winrt::Windows::Storage::IStorageFile Get() const { return mStorageFile; }

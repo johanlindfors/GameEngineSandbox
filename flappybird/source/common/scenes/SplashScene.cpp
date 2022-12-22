@@ -50,9 +50,9 @@ void SplashScene::Load()
 	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
     
-	vector<wstring> fileNames;
-	fileNames.emplace_back(L"atlas.png");
-	mResourceManager->LoadTextures(vector<wstring>(fileNames));
+	vector<string> fileNames;
+	fileNames.emplace_back("atlas.png");
+	mResourceManager->LoadTextures(vector<string>(fileNames));
 
 	// Audio
 	// mResourcesToLoad.push(L"background.png");

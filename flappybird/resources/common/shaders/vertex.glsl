@@ -1,4 +1,4 @@
-attribute vec4 vertex; // <vec2 position, vec2 texCoords>
+attribute vec4 vertex;
 attribute vec2 a_uv;
 
 uniform mat4 world;

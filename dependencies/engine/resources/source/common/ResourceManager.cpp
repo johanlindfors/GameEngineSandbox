@@ -31,7 +31,7 @@ Texture2D ResourceManager::CreateEmptyTexture() {
 	return texture;
 }
 
-void ResourceManager::LoadTextures(vector<wstring> fileNames)
+void ResourceManager::LoadTextures(vector<string> fileNames)
 {
 	printf("[ResourceManager::LoadTextures]\n");
 	if (!mInitialized) {
@@ -58,7 +58,7 @@ void ResourceManager::LoadTextures(vector<wstring> fileNames)
 	mInitialized = true;
 }
 
-Texture2D ResourceManager::GetTexture(wstring fileName) const
+Texture2D ResourceManager::GetTexture(string fileName) const
 {
 	if (mTextures.count(fileName) == 1) {
 		auto texture = mTextures.at(fileName);

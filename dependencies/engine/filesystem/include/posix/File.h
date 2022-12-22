@@ -7,7 +7,7 @@ namespace Engine
     {
         public:
             // Engine::IFile
-            void Open(std::wstring filename) override;
+            void Open(std::string filename) override;
             void Close() override;
             bool IsOpen() override { return mFileHandle != nullptr; }
             FILE * Get() const { return mFileHandle; }

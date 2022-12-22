@@ -35,7 +35,7 @@ private:
 	float mMillisecondsToLoad;
 	bool hasLoadedGamePlay;
 	bool isLoadingResources;
-	std::queue<std::wstring> mResourcesToLoad;
+	std::queue<std::string> mResourcesToLoad;
 	std::shared_ptr<Engine::IResourceManager> mResourceManager;
 
 	IGameStateCallback* mGame;

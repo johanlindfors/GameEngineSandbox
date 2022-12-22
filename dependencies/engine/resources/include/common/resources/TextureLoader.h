@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-#define EMPTY_TEXTURE_NAME L"empty"
+#define EMPTY_TEXTURE_NAME "empty"
 
 namespace Engine {
 	class TextureLoaderImpl;

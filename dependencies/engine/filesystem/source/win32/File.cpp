@@ -3,7 +3,7 @@
 using namespace std;
 using namespace Engine;
 
-void File::Open(wstring filename)
+void File::Open(string filename)
 {
 	const auto err = _wfopen_s(&mFileHandle, filename.c_str(), L"rb");
     if ( err != 0) {

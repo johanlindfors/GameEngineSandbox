@@ -9,9 +9,9 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void File::Open(wstring filename)
+void File::Open(string filename)
 {
-    mFilename = ws2s(filename);
+    mFilename = filename;
     std::cout << "[File::Open] Loading file '" << mFilename << "'!" << endl;
     mFileHandle = fopen(mFilename.c_str(), "rb");
     if(!mFileHandle) {

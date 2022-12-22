@@ -25,7 +25,7 @@ using namespace Engine;
 using namespace Utilities;
 
 
-SpriteSheetRenderer::SpriteSheetRenderer(wstring filename)
+SpriteSheetRenderer::SpriteSheetRenderer(string filename)
 	: mFilename(filename)
 	, mShader(make_unique<Shader>())
 	, mInitialized(false)
@@ -39,7 +39,7 @@ void SpriteSheetRenderer::Initialize()
 	LoadSpriteSheet(mFilename);
 }
 
-void SpriteSheetRenderer::LoadSpriteSheet(wstring fileName)
+void SpriteSheetRenderer::LoadSpriteSheet(string fileName)
 {
 	auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
 	auto file = filesystem->LoadFile(fileName);

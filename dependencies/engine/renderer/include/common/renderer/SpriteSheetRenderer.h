@@ -9,7 +9,7 @@ namespace Engine {
 
 	class SpriteSheetRenderer : public ISpriteRenderer {
 	public:
-		SpriteSheetRenderer(std::wstring filename);
+		SpriteSheetRenderer(std::string filename);
 		~SpriteSheetRenderer();
 
 		// Engine::ISpriteRenderer
@@ -19,7 +19,7 @@ namespace Engine {
 		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
 		void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
 		
-		void LoadSpriteSheet(std::wstring fileName);
+		void LoadSpriteSheet(std::string fileName);
 
 	private:
 		void InitializeShaders();
@@ -27,7 +27,7 @@ namespace Engine {
 		void InitializeUVBuffer();
 		void AddUVs(int x1, int y1, int x2, int y2);
 
-		std::wstring mFilename;
+		std::string mFilename;
 		std::unique_ptr<Shader> mShader;
 		GLsizei mWindowWidth;
 		GLsizei mWindowHeight;

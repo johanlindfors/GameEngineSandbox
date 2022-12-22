@@ -29,13 +29,13 @@ namespace fs = std::filesystem;
 using namespace std;
 using namespace Engine;
 
-wstring FileSystem::GetResourcesDirectory()
+string FileSystem::GetResourcesDirectory()
 {
-	wstring path;
+	string path;
 #ifdef UWP
 	const auto folder = Package::Current().InstalledLocation();
 	const auto folderPath = folder.Path();
-	path = std::wstring(folderPath + L"\\resources\\");    
+	path = std::string(folderPath + L"\\resources\\");    
 #elif WIN32
 	const unsigned int bufferSize = 512;
 	vector<char> buffer(bufferSize + 1);
@@ -51,17 +51,16 @@ wstring FileSystem::GetResourcesDirectory()
 	const fs::path p = current_working_dir;
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_wstring();
-	path = wstring(folderPath + L"/resources/");
+	path = string(folderPath + L"/resources/");
 #elif __linux__
 	const fs::path currentPath = string(get_current_dir_name());
-	const auto folderPath = currentPath.generic_wstring();
-	path = wstring(folderPath + L"/resources/");
-	printf("[FileSystem::GetResourcesDirectory] Path: %S\n", folderPath.c_str());
+	const auto folderPath = currentPath.generic_string();
+	path = string(folderPath + "/resources/");
 #endif
     return path;
 }
 
-std::shared_ptr<File> FileSystem::LoadFile(std::wstring filename)
+std::shared_ptr<File> FileSystem::LoadFile(std::string filename)
 {
 	const auto directory = GetResourcesDirectory();
 	auto file = std::make_shared<File>();

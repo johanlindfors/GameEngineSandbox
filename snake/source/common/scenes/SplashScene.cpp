@@ -27,9 +27,9 @@ void SplashScene::Load()
 {
 	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
     
-	vector<wstring> fileNames;
+	vector<string> fileNames;
 	fileNames.emplace_back(L"coderox.png");
-	mResourceManager->LoadTextures(vector<wstring>(fileNames));
+	mResourceManager->LoadTextures(vector<string>(fileNames));
 
 	mResourcesToLoad.push(L"apple.png");
 	mResourcesToLoad.push(L"snake.png");
@@ -66,10 +66,10 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	    printf("[SplashScene::Update] Loading resources\n");
 
 		isLoadingResources = true;
-		vector<wstring> fileNames;
+		vector<string> fileNames;
 		fileNames.emplace_back(mResourcesToLoad.front());
 		mResourcesToLoad.pop();
-		mResourceManager->LoadTextures(vector<wstring>(fileNames));
+		mResourceManager->LoadTextures(vector<string>(fileNames));
 		isLoadingResources = false;
 		printf("[SplashScene::Update] Resources loaded\n");
 	}
