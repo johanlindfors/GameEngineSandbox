@@ -1,4 +1,4 @@
-project(renderer)
+project(renderers)
 
 set(DEPENDENCIES
     utilities

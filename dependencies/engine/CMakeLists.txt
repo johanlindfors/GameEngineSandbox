@@ -8,7 +8,7 @@ add_subdirectory(input ${CMAKE_CURRENT_BINARY_DIR}/engine/input)
 
 add_subdirectory(physics ${CMAKE_CURRENT_BINARY_DIR}/engine/physics)
 
-add_subdirectory(renderer ${CMAKE_CURRENT_BINARY_DIR}/engine/renderer)
+add_subdirectory(renderers ${CMAKE_CURRENT_BINARY_DIR}/engine/renderers)
 
 add_subdirectory(scenes ${CMAKE_CURRENT_BINARY_DIR}/engine/scenes)
 

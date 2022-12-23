@@ -1,10 +1,10 @@
 #include "Bird.h"
 #include "game/GameDefines.h"
-#include "renderer/ISpriteRenderer.h"
+#include "renderers/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "utilities/ITweenEngine.h"
 #include "utilities/MathHelper.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 #include "utilities/IStepTimer.h"
 #include "utilities/IOC.hpp"
 

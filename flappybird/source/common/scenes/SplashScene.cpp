@@ -4,8 +4,8 @@
 #include "game/IGameStateCallback.h"
 #include "resources/IResourceManager.h"
 #include "input/IInputManager.h"
-#include "renderer/ISpriteRenderer.h"
-#include "renderer/Sprite.h"
+#include "renderers/ISpriteRenderer.h"
+#include "renderers/Sprite.h"
 #include "utilities/IStepTimer.h"
 #include <iostream>
 #include "objects/ParallaxBackground.h"

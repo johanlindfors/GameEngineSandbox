@@ -1,10 +1,10 @@
 #include "ParallaxBackground.h"
-#include "renderer/ISpriteRenderer.h"
+#include "renderers/ISpriteRenderer.h"
 #include "objects/Clouds.h"
 #include "objects/Trees.h"
 #include "objects/Skyline.h"
 #include "objects/Ground.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 #include "game/GameDefines.h"
 
 using namespace std;

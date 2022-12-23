@@ -1,6 +1,6 @@
 #include "Pipes.h"
 #include "game/GameDefines.h"
-#include "renderer/ISpriteRenderer.h"
+#include "renderers/ISpriteRenderer.h"
 #include "utilities/MathHelper.h"
 #include "utilities/IStepTimer.h"
 #include "game/GameDefines.h"

@@ -1,7 +1,7 @@
 #include "Entity.h"
 #include "utilities/MathHelper.h"
 #include "resources/Texture2D.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 #include "game/GameDefines.h"
 
 using namespace std;

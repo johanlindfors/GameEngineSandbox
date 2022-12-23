@@ -1,8 +1,8 @@
-#include "renderer/SpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include <string>
 #include "utilities/MathHelper.h"
 #include "utilities/GLHelper.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 
 #define STRING(s) #s
 

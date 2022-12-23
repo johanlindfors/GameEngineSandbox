@@ -4,12 +4,12 @@
 #include "objects/Snake.h"
 #include "objects/Apple.h"
 #include "objects/PointCollider.h"
-#include "renderer/ISpriteRenderer.h"
+#include "renderers/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "game/IGameStateCallback.h"
 #include "utilities/MathHelper.h"
 #include "game/GameDefines.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 
 using std::make_shared;
 using std::shared_ptr;

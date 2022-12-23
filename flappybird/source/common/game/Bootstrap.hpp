@@ -5,7 +5,7 @@
 #include "game/GameDefines.h"
 #include "physics/PhysicsEngine.h"
 #include "physics/ObjectCollider.h"
-#include "renderer/SpriteSheetRenderer.h"
+#include "renderers/SpriteSheetRenderer.h"
 
 #include "utilities/TweenEngine.h"
 #include "systems/TweenyEngine.h"

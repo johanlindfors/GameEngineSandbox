@@ -1,7 +1,7 @@
 #pragma once
 #include "physics/ICollidable.h"
 #include "physics/IPhysicsBody.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 #include "game/GameDefines.h"
 #include <memory>
 

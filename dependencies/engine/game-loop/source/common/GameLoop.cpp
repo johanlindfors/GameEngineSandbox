@@ -4,7 +4,7 @@
 #include "scenes/SceneManager.h"
 #include "input/InputManager.h"
 #include "resources/ResourceManager.h"
-#include "renderer/ISpriteRenderer.h"
+#include "renderers/ISpriteRenderer.h"
 #include "StepTimer.h"
 #include "game-loop/IGameLoopCallback.h"
 #include "filesystem/FileSystem.h"

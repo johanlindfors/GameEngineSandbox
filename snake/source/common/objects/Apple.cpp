@@ -1,7 +1,7 @@
 #include "Apple.h"
 #include "game/GameDefines.h"
-#include "renderer/ISpriteRenderer.h"
-#include "renderer/Sprite.h"
+#include "renderers/ISpriteRenderer.h"
+#include "renderers/Sprite.h"
 #include "Snake.h"
 #include "PointCollider.h"
 #include <ctime>

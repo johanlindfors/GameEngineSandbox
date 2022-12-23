@@ -5,7 +5,7 @@ set(DEPENDENCIES
     scenes
     input
     resources
-    renderer
+    renderers
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

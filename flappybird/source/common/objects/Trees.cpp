@@ -1,7 +1,7 @@
 #include "Trees.h"
 #include "utilities/IStepTimer.h"
-#include "renderer/ISpriteRenderer.h"
-#include "renderer/Sprite.h"
+#include "renderers/ISpriteRenderer.h"
+#include "renderers/Sprite.h"
 
 using namespace std;
 using namespace Engine;

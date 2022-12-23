@@ -1,9 +1,9 @@
 #include "Snake.h"
 #include "game/GameDefines.h"
-#include "renderer/ISpriteRenderer.h"
+#include "renderers/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "utilities/MathHelper.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 #include "game/IGameStateCallback.h"
 
 using namespace std;

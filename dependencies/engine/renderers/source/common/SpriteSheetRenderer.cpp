@@ -1,8 +1,8 @@
-#include "renderer/SpriteSheetRenderer.h"
+#include "renderers/SpriteSheetRenderer.h"
 #include <string>
 #include "utilities/MathHelper.h"
 #include "utilities/GLHelper.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 #include "filesystem/IFileSystem.h"
 #include "utilities/IOC.hpp"
 #include "File.h"
