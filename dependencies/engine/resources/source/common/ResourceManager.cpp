@@ -1,5 +1,6 @@
 #include "resources/ResourceManager.h"
 #include "resources/TextureLoader.h"
+#include "resources/ShaderLoader.h"
 #include "resources/Shader.h"
 #include <memory>
 #include "utilities/GLHelper.h"
@@ -10,11 +11,13 @@ using namespace Engine;
 
 ResourceManager::ResourceManager()
 	: mInitialized(false)
-	, mTextureLoader(make_unique<TextureLoader>()) { }
+	, mTextureLoader(make_unique<TextureLoader>())
+	, mShaderLoader(make_unique<ShaderLoader>()) { }
 
 ResourceManager::~ResourceManager()
 {
 	mTextureLoader.reset();
+	mShaderLoader.reset();
 }
 
 Texture2D ResourceManager::CreateEmptyTexture() {
@@ -69,12 +72,16 @@ Texture2D ResourceManager::GetTexture(string fileName) const
 	return mTextures.at(EMPTY_TEXTURE_NAME);
 }
 
-void ResourceManager::LoadShaders(const string& vsFileName, const string& fsFileName)
+void ResourceManager::LoadShader(const string& name, const string& vsFileName, const string& fsFileName)
 {
-	
+	const auto vs = mShaderLoader->LoadShader(vsFileName);
+	const auto fs = mShaderLoader->LoadShader(fsFileName);
+	auto shader = make_shared<Shader>();
+	shader->CreateShader(name, vs, fs);
+	mShaders[name] = shader;
 }
 
-Shader ResourceManager::GetShader(const string& name)
+shared_ptr<Shader> ResourceManager::GetShader(const string& name) const
 {
-	return Shader();
+	return mShaders.at(name);
 }

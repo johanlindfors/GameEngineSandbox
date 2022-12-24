@@ -7,6 +7,7 @@
 #include "renderers/ISpriteRenderer.h"
 #include "renderers/Sprite.h"
 #include "utilities/IStepTimer.h"
+#include "utilities/ILazyInitialized.h"
 #include <iostream>
 #include "objects/ParallaxBackground.h"
 #include "objects/Bird.h"
@@ -53,7 +54,10 @@ void SplashScene::Load()
 	vector<string> fileNames;
 	fileNames.emplace_back("atlas.png");
 	mResourceManager->LoadTextures(vector<string>(fileNames));
-
+	mResourceManager->LoadShader("spritesheet", "vertex.glsl", "fragment.glsl");
+	auto lazyInitializedSpriteSheetRenderer = IOCContainer::Instance().Resolve<ILazyInitialized>();
+	lazyInitializedSpriteSheetRenderer->LazyInitialize();
+	
 	// Audio
 	// mResourcesToLoad.push(L"background.png");
 

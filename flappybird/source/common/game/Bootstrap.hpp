@@ -25,7 +25,9 @@ void Bootstrap() {
     IOCContainer::Instance().Register<IPhysicsEngine>(make_shared<PhysicsEngine>());
     IOCContainer::Instance().Register<IObjectCollider>(make_shared<ObjectCollider>());
     IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenyEngine>());
-    IOCContainer::Instance().Register<ISpriteRenderer>(make_shared<SpriteSheetRenderer>(string("textures/atlas.txt")));
+    auto spriteSheetRenderer = make_shared<SpriteSheetRenderer>(string("textures/atlas.txt"));
+    IOCContainer::Instance().Register<ISpriteRenderer>(spriteSheetRenderer);
+    IOCContainer::Instance().Register<ILazyInitialized>(spriteSheetRenderer);
 
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<GameStateMachine>());

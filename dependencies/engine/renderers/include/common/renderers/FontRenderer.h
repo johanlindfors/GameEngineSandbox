@@ -2,15 +2,15 @@
 #include "ISpriteRenderer.h"
 #include <vector>
 #include <string>
-#include "resources/Shader.h"
-#include "utilities/ILazyInitialized.h"
 
 namespace Engine {
 
-	class SpriteSheetRenderer : public ISpriteRenderer, public ILazyInitialized {
+	class Shader;
+
+	class FontRenderer : public ISpriteRenderer {
 	public:
-		SpriteSheetRenderer(std::string filename);
-		~SpriteSheetRenderer();
+		FontRenderer(std::string textureFilename, std::string atlasFilename);
+		~FontRenderer();
 
 		// Engine::ISpriteRenderer
 		void Initialize() override;
@@ -19,19 +19,15 @@ namespace Engine {
 		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
 		void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
 		
-		// Utilities::ILazyInitialized
-		void LazyInitialize() override;
-
-		void LoadSpriteSheet(std::string fileName);
-
 	private:
 		void InitializeShaders();
 		void InitializeVertexBuffer();
 		void InitializeUVBuffer();
 		void AddUVs(int x1, int y1, int x2, int y2);
 
-		std::string mFilename;
-		std::shared_ptr<Shader> mShader;
+		std::string mTextureFilename;
+        std::string mAtlasFilename;
+		std::unique_ptr<Shader> mShader;
 		GLsizei mWindowWidth;
 		GLsizei mWindowHeight;
 

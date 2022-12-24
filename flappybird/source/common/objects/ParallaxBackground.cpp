@@ -21,9 +21,9 @@ ParallaxBackground::ParallaxBackground()
 
 ParallaxBackground::~ParallaxBackground() 
 {
-    mClouds.release();
-    mSkyline.release();
-    mTrees.release();
+    mClouds.reset();
+    mSkyline.reset();
+    mTrees.reset();
 }
 
 void ParallaxBackground::Update(shared_ptr<IStepTimer> timer)

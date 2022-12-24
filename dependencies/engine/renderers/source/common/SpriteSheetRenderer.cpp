@@ -6,7 +6,7 @@
 #include "filesystem/IFileSystem.h"
 #include "utilities/IOC.hpp"
 #include "File.h"
-#include "resources/Shader.h"
+#include "resources/IResourceManager.h"
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
@@ -27,16 +27,18 @@ using namespace Utilities;
 
 SpriteSheetRenderer::SpriteSheetRenderer(string filename)
 	: mFilename(filename)
-	, mShader(make_unique<Shader>())
 	, mInitialized(false)
-{ }
+{ 
+}
+
+void SpriteSheetRenderer::LazyInitialize() {
+	InitializeShaders();
+	InitializeVertexBuffer();
+	LoadSpriteSheet(mFilename);
+}
 
 void SpriteSheetRenderer::Initialize()
 {
-	InitializeShaders();
-	InitializeVertexBuffer();
-
-	LoadSpriteSheet(mFilename);
 }
 
 void SpriteSheetRenderer::LoadSpriteSheet(string fileName)
@@ -59,31 +61,29 @@ void SpriteSheetRenderer::LoadSpriteSheet(string fileName)
 
 SpriteSheetRenderer::~SpriteSheetRenderer()
 {
-	mShader.release();
-
 	if (mVertexPositionBuffer != 0)
 	{
-		glDeleteBuffers(1, &mVertexPositionBuffer);
+		GlDeleteBuffers(1, &mVertexPositionBuffer);
 		mVertexPositionBuffer = 0;
 	}
 
 	if (mVertexUVBuffer != 0)
 	{
-		glDeleteBuffers(1, &mVertexUVBuffer);
+		GlDeleteBuffers(1, &mVertexUVBuffer);
 		mVertexUVBuffer = 0;
 	}
 }
 
 void SpriteSheetRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
 {
-	glViewport(0, 0, width, height);
+	GlViewport(0, 0, width, height);
 	mWindowWidth = width;
 	mWindowHeight = height;
 }
 
 void SpriteSheetRenderer::Clear() {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	GlClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	GlClear(GL_COLOR_BUFFER_BIT);
 }
 
 void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite)
@@ -98,18 +98,18 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 	mShader->SetInteger("texture", 0);
 
 	if(!mInitialized) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));
+		GlActiveTexture(GL_TEXTURE0);
+		GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		GlEnable(GL_BLEND);
+		GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-		glEnableVertexAttribArray(mVertexAttribLocation);
-		glVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+		GlBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
+		GlEnableVertexAttribArray(mVertexAttribLocation);
+		GlVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 		mInitialized = true;
 	}
@@ -127,54 +127,23 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
     world = glm::scale(world, glm::vec3(sprite->Width, sprite->Height, 1.0f));
 	mShader->SetMatrix4("world", world);
 
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	glEnableVertexAttribArray(mUVAttribLocation);
-	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*sprite->Offset*8));
+	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
+	GlEnableVertexAttribArray(mUVAttribLocation);
+	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*sprite->Offset*8));
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
+	GlDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
 }
 
 void SpriteSheetRenderer::InitializeShaders() {
-	// Vertex Shader source
-	const std::string vs = STRING
-	(
-		attribute vec4 vertex; // <vec2 position, vec2 texCoords>
-		attribute vec2 a_uv;
-		
-		uniform mat4 world;
-		uniform mat4 projection;
-
-		varying vec2 TexCoords;
-
-		void main()
-		{
-			TexCoords = a_uv;
-			gl_Position = projection * world * vertex;
-		}
-	);
-
-	// Fragment Shader source
-	const std::string fs = STRING
-	(
-#ifndef __APPLE__
-		precision mediump float;
-#endif
-		varying vec2 TexCoords;
-
-		uniform sampler2D texture;
-		
-		void main()
-		{
-			gl_FragColor = texture2D(texture, TexCoords);
-		}
-	);
-
-	mShader->CreateShader("atlas", vs, fs);
+	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
+	mShader = resourceManager->GetShader("spritesheet");
+	auto id = mShader->ID;
 
 	// Vertex shader parameters
-	mVertexAttribLocation = glGetAttribLocation(mShader->ID, "vertex");
-	mUVAttribLocation = glGetAttribLocation(mShader->ID, "a_uv");
+	mVertexAttribLocation = GlGetAttribLocation(id, "vertex");
+	mUVAttribLocation = GlGetAttribLocation(id, "a_uv");
+	printf("Attributes are fetched as: %d and %d\n", mVertexAttribLocation, mUVAttribLocation);
 }
 
 void SpriteSheetRenderer::InitializeVertexBuffer()
@@ -187,9 +156,9 @@ void SpriteSheetRenderer::InitializeVertexBuffer()
 		 1.0f, 1.0f, 0.0f, 1.0f,
 	};
 
-	glGenBuffers(1, &mVertexPositionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
+	GlGenBuffers(1, &mVertexPositionBuffer);
+	GlBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
+	GlBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
 }
 
 void SpriteSheetRenderer::AddUVs(int x1, int y1, int x2, int y2)
@@ -214,7 +183,7 @@ void SpriteSheetRenderer::AddUVs(int x1, int y1, int x2, int y2)
 
 void SpriteSheetRenderer::InitializeUVBuffer() 
 {
-	glGenBuffers(1, &mVertexUVBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mUVVertices.size() * sizeof(GLfloat), &mUVVertices.front(), GL_STATIC_DRAW);
+	GlGenBuffers(1, &mVertexUVBuffer);
+	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
+	GlBufferData(GL_ARRAY_BUFFER, mUVVertices.size() * sizeof(GLfloat), &mUVVertices.front(), GL_STATIC_DRAW);
 }

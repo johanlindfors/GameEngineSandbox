@@ -15,10 +15,6 @@ using Utilities::IOCContainer;
 
 namespace Engine {
 	class ShaderLoaderImpl {
-	private:
-		static string LoadShaderAsString(const string& fileName) {
-			return "";
-		}
 
 	public:
 		ShaderLoaderImpl()
@@ -28,11 +24,17 @@ namespace Engine {
 
 		string LoadShader(const string& fileName)
 		{
-			// const auto file = mFileSystem->LoadFile(std::string(L"shaders/" + fileName));
-			// if(file){
-			
-			// }
-			return string();
+			const auto file = mFileSystem->LoadFile(std::string("shaders/" + fileName));
+			std::string shader;
+			if(file && file->IsOpen()){
+				auto fileHandle = file->Get();
+				char buffer[100];
+				while(!feof(fileHandle)) {
+					if(fgets(buffer, 100, fileHandle) != NULL)
+						shader += buffer;
+				}
+			}
+			return shader;
 		}
 	private:
 		std::shared_ptr<IFileSystem> mFileSystem;

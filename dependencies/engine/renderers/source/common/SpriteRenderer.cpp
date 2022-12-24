@@ -25,33 +25,33 @@ SpriteRenderer::~SpriteRenderer()
 {
 	if (mProgram != 0)
 	{
-		glDeleteProgram(mProgram);
+		GlDeleteProgram(mProgram);
 		mProgram = 0;
 	}
 
 	if (mVertexPositionBuffer != 0)
 	{
-		glDeleteBuffers(1, &mVertexPositionBuffer);
+		GlDeleteBuffers(1, &mVertexPositionBuffer);
 		mVertexPositionBuffer = 0;
 	}
 
 	if (mVertexUVBuffer != 0)
 	{
-		glDeleteBuffers(1, &mVertexUVBuffer);
+		GlDeleteBuffers(1, &mVertexUVBuffer);
 		mVertexUVBuffer = 0;
 	}
 }
 
 void SpriteRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
 {
-	glViewport(0, 0, width, height);
+	GlViewport(0, 0, width, height);
 	mWindowWidth = width;
 	mWindowHeight = height;
 }
 
 void SpriteRenderer::Clear() {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	GlClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	GlClear(GL_COLOR_BUFFER_BIT);
 }
 
 void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
@@ -63,40 +63,40 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position
 {
 	//printf("[SpriteRenderer::DrawSprite] Id: %d Program: %d\n", sprite->Texture.TextureIndex, mProgram);
 	CheckOpenGLError();
-	glUseProgram(mProgram);
+	GlUseProgram(mProgram);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	GlEnable(GL_BLEND);
+	GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-	glEnableVertexAttribArray(mVertexAttribLocation);
-	glVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	GlBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
+	GlEnableVertexAttribArray(mVertexAttribLocation);
+	GlVertexAttribPointer(mVertexAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	
 	//printf("[SpriteRenderer::DrawSprite] Width : %d\n", sprite->Width);
 	//printf("[SpriteRenderer::DrawSprite] Height: %d\n", sprite->Height);
 	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
-	glUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
+	GlUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
 	// CheckOpenGLError();
     auto vector = Vector2(position.X, position.Y);
-	glUniform2fv(mSpriteWorldUniformLocation, 1, &(vector.m[0]));
+	GlUniform2fv(mSpriteWorldUniformLocation, 1, &(vector.m[0]));
 
 	Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
-	glUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
+	GlUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
 
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	glEnableVertexAttribArray(mUVAttribLocation);
-	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
+	GlEnableVertexAttribArray(mUVAttribLocation);
+	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	Vector2 textureSize(static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height));
-	glUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
+	GlUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));
+	GlActiveTexture(GL_TEXTURE0);
+	GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));
 	// Set the sampler texture unit to 0
-	glUniform1i(mTextureUniformLocation, 0);
+	GlUniform1i(mTextureUniformLocation, 0);
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
+	GlDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
 	//printf("[SpriteRenderer::DrawSprite] End\n");
 }
 
@@ -178,12 +178,12 @@ void SpriteRenderer::InitializeShaders() {
 	CheckOpenGLError();
 
 	// // Vertex shader parameters
-	mVertexAttribLocation = glGetAttribLocation(mProgram, "a_position");
-	mUVAttribLocation = glGetAttribLocation(mProgram, "a_uv");
-	mScreenSizeUniformLocation = glGetUniformLocation(mProgram, "screenSize");
-	mSpriteRectUniformLocation = glGetUniformLocation(mProgram, "spriteRect");
-	mSpriteWorldUniformLocation = glGetUniformLocation(mProgram, "spriteWorld");
-	mTextureSizeUniformLocation = glGetUniformLocation(mProgram, "textureSize");
+	mVertexAttribLocation = GlGetAttribLocation(mProgram, "a_position");
+	mUVAttribLocation = GlGetAttribLocation(mProgram, "a_uv");
+	mScreenSizeUniformLocation = GlGetUniformLocation(mProgram, "screenSize");
+	mSpriteRectUniformLocation = GlGetUniformLocation(mProgram, "spriteRect");
+	mSpriteWorldUniformLocation = GlGetUniformLocation(mProgram, "spriteWorld");
+	mTextureSizeUniformLocation = GlGetUniformLocation(mProgram, "textureSize");
 
 	printf("[SpriteRenderer::InitializeShaders] mVertexAttribLocation: %d\n", mVertexAttribLocation);
 	printf("[SpriteRenderer::InitializeShaders] mUVAttribLocation: %d\n", mUVAttribLocation);
@@ -193,7 +193,7 @@ void SpriteRenderer::InitializeShaders() {
 	printf("[SpriteRenderer::InitializeShaders] mTextureSizeUniformLocation: %d\n", mTextureSizeUniformLocation);
 
 	// Fragment shader parameters
-	mTextureUniformLocation = glGetUniformLocation(mProgram, "texture");
+	mTextureUniformLocation = GlGetUniformLocation(mProgram, "texture");
 	printf("[SpriteRenderer::InitializeShaders] mTextureUniformLocation: %d\n", mTextureUniformLocation);
 }
 
@@ -206,9 +206,9 @@ void SpriteRenderer::InitializeBuffers() {
 		 1.0f, 1.0f, 0.0f,
 	};
 
-	glGenBuffers(1, &mVertexPositionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
+	GlGenBuffers(1, &mVertexPositionBuffer);
+	GlBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
+	GlBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
 
 	GLfloat vertexUVs[] =
 	{
@@ -218,7 +218,7 @@ void SpriteRenderer::InitializeBuffers() {
 		1.0f, 1.0f,
 	};
 
-	glGenBuffers(1, &mVertexUVBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexUVs), vertexUVs, GL_STATIC_DRAW);
+	GlGenBuffers(1, &mVertexUVBuffer);
+	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
+	GlBufferData(GL_ARRAY_BUFFER, sizeof(vertexUVs), vertexUVs, GL_STATIC_DRAW);
 }
