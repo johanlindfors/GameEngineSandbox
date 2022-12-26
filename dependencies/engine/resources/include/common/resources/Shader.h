@@ -1,5 +1,6 @@
 #pragma once
 #include "utilities/GLHelper.h"
+#include "glm/glm.hpp"
 
 namespace Engine {
     class Shader {

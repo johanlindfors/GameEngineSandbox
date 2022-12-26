@@ -1,7 +1,7 @@
 #include "resources/Shader.h"
 #include "utilities/GLHelper.h"
+#include "glm/gtc/type_ptr.hpp"
 
-using namespace glm;
 using namespace std;
 using namespace Engine;
 
@@ -43,5 +43,5 @@ void Shader::SetVector4f(const string& name, float x, float y, float z, float w)
 
 void Shader::SetMatrix4(const string& name, glm::mat4 &matrix)
 {
-    GlUniformMatrix4fv(GlGetUniformLocation(ID, name.c_str()), 1, false, value_ptr(matrix));
+    GlUniformMatrix4fv(GlGetUniformLocation(ID, name.c_str()), 1, false, glm::value_ptr(matrix));
 }

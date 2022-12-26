@@ -3,6 +3,7 @@ project(resources)
 set(DEPENDENCIES
     utilities
     filesystem
+    glm
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")
