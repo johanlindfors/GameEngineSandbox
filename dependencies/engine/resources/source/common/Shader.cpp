@@ -19,11 +19,6 @@ void Shader::CreateShader(const string& name, const string& vertexShader, const 
 {
     mName = name;
     ID = CompileProgram(vertexShader, fragmentShader);
-
-    auto mVertexAttribLocation = GlGetAttribLocation(ID, "vertex");
-	auto mUVAttribLocation = GlGetAttribLocation(ID, "a_uv");
-
-    CheckOpenGLError();
 }
 
 void Shader::SetInteger(const string& name, int value)

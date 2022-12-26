@@ -7,7 +7,7 @@
 
 namespace Engine {
 
-	class SpriteSheetRenderer : public ISpriteRenderer, public ILazyInitialized {
+	class SpriteSheetRenderer : public ISpriteRenderer, public Utilities::ILazyInitialized {
 	public:
 		SpriteSheetRenderer(std::string filename);
 		~SpriteSheetRenderer();

@@ -11,6 +11,7 @@ class TweenyEngine : public Utilities::ITweenEngine
         TweenyEngine() { }
         void Add(int original, std::function<void(int)> setter, int target, int durationInMilliseconds, bool bounce);
         void Update(std::shared_ptr<Utilities::IStepTimer> timer);
+        void Clear();
     private:
         std::vector<tweeny::tween<int>> mTweenies;
 };

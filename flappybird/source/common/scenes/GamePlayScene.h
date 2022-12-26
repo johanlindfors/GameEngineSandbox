@@ -18,6 +18,7 @@ namespace Engine
 	class IInputManager;
 	class IPhysicsEngine;
 	class Sprite;
+	class FontRenderer;
 }
 
 namespace Utilities
@@ -58,4 +59,6 @@ private:
 	IGameStateCallback* mGame;
 	bool mSpacePressedBefore;
 	Utilities::Timer mPipesGenerator;
+	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
+	int mScore;
 }; 

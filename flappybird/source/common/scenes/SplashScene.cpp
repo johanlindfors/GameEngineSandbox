@@ -55,8 +55,11 @@ void SplashScene::Load()
 	fileNames.emplace_back("atlas.png");
 	mResourceManager->LoadTextures(vector<string>(fileNames));
 	mResourceManager->LoadShader("spritesheet", "vertex.glsl", "fragment.glsl");
-	auto lazyInitializedSpriteSheetRenderer = IOCContainer::Instance().Resolve<ILazyInitialized>();
-	lazyInitializedSpriteSheetRenderer->LazyInitialize();
+	mResourceManager->LoadShader("fontsheet", "vertex.glsl", "fragment.glsl");
+	auto lazyInitializedTypes = IOCContainer::Instance().Resolve<LazyInitializedTypes>();
+	for (auto it = lazyInitializedTypes->begin(); it != lazyInitializedTypes->end(); ++it) {
+		it->get()->LazyInitialize();
+	}
 	
 	// Audio
 	// mResourcesToLoad.push(L"background.png");

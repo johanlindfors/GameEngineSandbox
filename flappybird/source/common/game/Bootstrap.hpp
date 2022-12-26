@@ -6,10 +6,12 @@
 #include "physics/PhysicsEngine.h"
 #include "physics/ObjectCollider.h"
 #include "renderers/SpriteSheetRenderer.h"
+#include "renderers/FontRenderer.h"
 
 #include "utilities/TweenEngine.h"
 #include "systems/TweenyEngine.h"
 #include <string>
+#include <vector>
 
 using namespace std;
 using namespace Engine;
@@ -25,9 +27,17 @@ void Bootstrap() {
     IOCContainer::Instance().Register<IPhysicsEngine>(make_shared<PhysicsEngine>());
     IOCContainer::Instance().Register<IObjectCollider>(make_shared<ObjectCollider>());
     IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenyEngine>());
-    auto spriteSheetRenderer = make_shared<SpriteSheetRenderer>(string("textures/atlas.txt"));
+    
+    auto spriteSheetRenderer = make_shared<SpriteSheetRenderer>(string("textures/atlas.txt"));    
     IOCContainer::Instance().Register<ISpriteRenderer>(spriteSheetRenderer);
-    IOCContainer::Instance().Register<ILazyInitialized>(spriteSheetRenderer);
+    
+    auto fontRenderer = make_shared<FontRenderer>(string("textures/numbers.fnt"));
+    IOCContainer::Instance().Register<FontRenderer>(fontRenderer);
+
+    auto lazyLoaded = make_shared<LazyInitializedTypes>();
+    lazyLoaded->emplace_back(spriteSheetRenderer);
+    lazyLoaded->emplace_back(fontRenderer);
+    IOCContainer::Instance().Register<LazyInitializedTypes>(lazyLoaded);
 
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<GameStateMachine>());

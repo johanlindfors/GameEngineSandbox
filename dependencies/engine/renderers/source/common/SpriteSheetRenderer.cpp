@@ -97,22 +97,18 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 
 	mShader->SetInteger("texture", 0);
 
-	if(!mInitialized) {
-		GlActiveTexture(GL_TEXTURE0);
-		GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));
+	GlActiveTexture(GL_TEXTURE0);
+	GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));
 
-		GlEnable(GL_BLEND);
-		GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	GlEnable(GL_BLEND);
+	GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		GlBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-		GlEnableVertexAttribArray(mVertexAttribLocation);
-		GlVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-		mInitialized = true;
-	}
+	GlBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
+	GlEnableVertexAttribArray(mVertexAttribLocation);
+	GlVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	glm::mat4 projection = glm::ortho(0.0f, (float)mWindowWidth, 0.0f, (float)mWindowHeight, -1.0f, 1.0f); 
 	mShader->SetMatrix4("projection", projection);
@@ -143,7 +139,7 @@ void SpriteSheetRenderer::InitializeShaders() {
 	// Vertex shader parameters
 	mVertexAttribLocation = GlGetAttribLocation(id, "vertex");
 	mUVAttribLocation = GlGetAttribLocation(id, "a_uv");
-	printf("Attributes are fetched as: %d and %d\n", mVertexAttribLocation, mUVAttribLocation);
+	printf("Program with ID: %d attributes are fetched as: %d and %d\n", id, mVertexAttribLocation, mUVAttribLocation);
 }
 
 void SpriteSheetRenderer::InitializeVertexBuffer()

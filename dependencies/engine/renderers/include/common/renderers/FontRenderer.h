@@ -1,7 +1,10 @@
 #pragma once
-#include "ISpriteRenderer.h"
 #include <vector>
+#include <map>
 #include <string>
+#include "glwrapper.h"
+#include "utilities/MathHelper.h"
+#include "utilities/ILazyInitialized.h"
 
 namespace Engine {
 
@@ -11,32 +14,37 @@ namespace Engine {
 		int XOffset;
 		int YOffset;
 		int XAdvance;
+		int Width;
+		int Height;
 	};
 
 	class Shader;
 
-	class FontRenderer : public ISpriteRenderer {
+	class FontRenderer : public Utilities::ILazyInitialized  {
 	public:
-		FontRenderer(std::string textureFilename, std::string atlasFilename);
+		FontRenderer(const std::string& atlasFilename);
 		~FontRenderer();
 
-		// Engine::ISpriteRenderer
-		void Initialize() override;
-		void UpdateWindowSize(GLsizei width, GLsizei height) override;
-		void Clear() override;
-		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
-		void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
-		
+		void Initialize();
+		void UpdateWindowSize(GLsizei width, GLsizei height);
+		void Clear();
+		void DrawString(const std::string& str, Utilities::Point<float> centerPosition);
+
+		// ILazyInitialized
+		void LazyInitialize() override;
+
 	private:
 		void InitializeShaders();
 		void InitializeVertexBuffer();
 		void InitializeUVBuffer();
 		void AddCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset);
 		void AddUVs(int x1, int y1, int x2, int y2);
+		void DrawCharacter(int offset, Utilities::Rectangle rectangle);
 
-		std::string mTextureFilename;
+		Utilities::Rectangle MeasureString(const std::string& str);
+
         std::string mAtlasFilename;
-		std::unique_ptr<Shader> mShader;
+		std::shared_ptr<Shader> mShader;
 		GLsizei mWindowWidth;
 		GLsizei mWindowHeight;
 

@@ -19,6 +19,7 @@ Pipes::Pipes(Point<float> position)
 	, BottomPipeDebugSprite(make_shared<Sprite>())
 #endif
 	, IsAlive(true)
+	, HasScored(false)
 {
 	Reset(position);
 
@@ -46,6 +47,7 @@ void Pipes::Reset(Point<float> position)
 	BottomPipeSprite->Position = Point<float>(BottomPipe->Position.X, BottomPipe->Position.Y - BottomPipeSprite->Height);
 
 	IsAlive = true;
+	HasScored = false;
 }
 
 void Pipes::Update(shared_ptr<IStepTimer> timer)

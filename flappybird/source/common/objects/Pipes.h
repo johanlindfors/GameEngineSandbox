@@ -52,6 +52,7 @@ public:
 	std::shared_ptr<Engine::Sprite> BottomPipeSprite;
 	bool TopSpriteCollided;
 	bool BottomSpriteCollided;
+	bool HasScored;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	std::shared_ptr<Engine::Sprite> TopPipeDebugSprite;
 	std::shared_ptr<Engine::Sprite> BottomPipeDebugSprite;	

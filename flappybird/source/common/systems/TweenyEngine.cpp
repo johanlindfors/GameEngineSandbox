@@ -48,3 +48,8 @@ void TweenyEngine::Update(std::shared_ptr<Utilities::IStepTimer> timer)
             IsTweenyCompleted),
         mTweenies.end());
 }
+
+void TweenyEngine::Clear() 
+{
+    mTweenies.clear();
+}

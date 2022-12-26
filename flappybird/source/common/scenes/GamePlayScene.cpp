@@ -14,8 +14,10 @@
 #include "utilities/IStepTimer.h"
 #include "objects/Pipes.h"
 #include "objects/Ground.h"
+#include "renderers/FontRenderer.h"
 #include <cstdlib> 
-#include <ctime> 
+#include <ctime>
+#include <string>
 
 using namespace std;
 using namespace Engine;
@@ -35,6 +37,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mScreenSizeY(0)
 	, mGame(gameCallback)
 	, mSpacePressedBefore(true)
+	, mFontRenderer(IOCContainer::Instance().Resolve<FontRenderer>())
 {
 	ID = typeid(GamePlayScene).name();
 	mPipesGenerator.SetInterval(1250);
@@ -67,6 +70,8 @@ void GamePlayScene::UpdateScreenSize(int width, int height)
 {
 	mScreenSizeX = width;
 	mScreenSizeY = height;
+
+	mFontRenderer->UpdateWindowSize(width, height);
 }
 
 void GamePlayScene::Reset()
@@ -81,6 +86,7 @@ void GamePlayScene::Reset()
 	mPipesGenerator.Reset();
 	mSkyline->Resume();
 	mGround->Resume();
+	mScore = 0;
 }
 
 void GamePlayScene::GeneratePipes()
@@ -121,6 +127,10 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 				mPipesGenerator.Pause();
 				mSkyline->Pause();
 				mGround->Pause();
+			}
+			if(!pipe->HasScored && pipe->BottomPipe->Position.X < mBird->Position.X) {
+				mScore++;
+				pipe->HasScored = true;
 			}
 		}
 		collision = mCollider->Intersects(mBird->Bounds, mGround->AABB);
@@ -167,4 +177,5 @@ void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 	for(auto pipe : mPipes)
 		pipe->Draw(renderer);
 	mGround->Draw(renderer);
+	mFontRenderer->DrawString(to_string(mScore), Point<float>(mScreenSizeX/2,mScreenSizeY/2+200));
 }

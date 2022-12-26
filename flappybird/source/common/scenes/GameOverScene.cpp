@@ -21,7 +21,9 @@ GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
 	ID = typeid(GameOverScene).name();
 }
 
-GameOverScene::~GameOverScene() { }
+GameOverScene::~GameOverScene() { 
+	mTweenEngine->Clear();
+}
 
 void GameOverScene::Load()
 {
