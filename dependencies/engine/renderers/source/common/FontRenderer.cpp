@@ -39,12 +39,13 @@ void FontRenderer::Initialize()
 	auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
 	auto file = filesystem->LoadFile(mAtlasFilename);
 	if(file->IsOpen()) {
-		int x1, y1, x2, y2;
+		int id, x, y, width, height, xoffset, yoffset, xadvance;
 		char buffer[100];
 		auto fileHandle = file->Get();
+		int offset = 0;
 		while(!feof(fileHandle)) {
-    	    fscanf(fileHandle, "%d,%d,%d,%d", &x1, &y1, &x2, &y2);
-			AddUVs(x1, y1, x2, y2);
+    	    fscanf(fileHandle, "%d:%d,%d,%d,%d,%d,%d,%d", &x, &y, &width, &height, &xoffset, &yoffset, &xadvance);
+			AddCharacter(id, x, y, width, height, xoffset, yoffset, xadvance, offset++);
 	        fgets(buffer, 100, fileHandle); // skip the rest of the line
 		}
     }
@@ -185,6 +186,19 @@ void FontRenderer::InitializeVertexBuffer()
 	glGenBuffers(1, &mVertexPositionBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
+}
+
+void FontRenderer::AddCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset)
+{	
+	auto character = Character();
+	character.CharacterCode = id;
+	character.UVOffset = offset;
+	character.XAdvance = xadvance;
+	character.XOffset = xoffset;
+	character.YOffset = yoffset;
+
+	AddUVs(x,y, x + width, y + height);
+	mCharacters[(char)id] = character; 
 }
 
 void FontRenderer::AddUVs(int x1, int y1, int x2, int y2)

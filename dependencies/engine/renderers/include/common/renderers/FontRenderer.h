@@ -5,6 +5,14 @@
 
 namespace Engine {
 
+	struct Character {
+		int CharacterCode;
+		int UVOffset;
+		int XOffset;
+		int YOffset;
+		int XAdvance;
+	};
+
 	class Shader;
 
 	class FontRenderer : public ISpriteRenderer {
@@ -23,6 +31,7 @@ namespace Engine {
 		void InitializeShaders();
 		void InitializeVertexBuffer();
 		void InitializeUVBuffer();
+		void AddCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset);
 		void AddUVs(int x1, int y1, int x2, int y2);
 
 		std::string mTextureFilename;
@@ -38,6 +47,7 @@ namespace Engine {
 		GLuint mVertexPositionBuffer;
 		GLuint mVertexUVBuffer;
 		std::vector<GLfloat> mUVVertices;
+		std::map<char, Character> mCharacters;
 		bool mInitialized;
 	};
 }
