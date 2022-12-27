@@ -4,6 +4,7 @@
 #include "scenes/GamePlayScene.h"
 #include "scenes/GameOverScene.h"
 #include "scenes/ISceneManager.h"
+#include "scenes/InstructionsScene.h"
 
 using namespace std;
 using namespace Utilities;
@@ -44,16 +45,32 @@ void GameStateMachine::HandleSplashState()
 	}
 }
 
-void GameStateMachine::HandleGamePlayState()
+void GameStateMachine::HandleInstructionsState()
 {
 	switch (mCurrentState)
 	{
 		case GameState::Splash:
 			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
+			mSceneManager->AddScene(make_shared<InstructionsScene>(this));
 			mSceneManager->RemoveScene(typeid(SplashScene));
 			break;
 		case GameState::GameOver:
+			mSceneManager->AddScene(make_shared<InstructionsScene>(this));
 			mSceneManager->RemoveScene(typeid(GameOverScene));
+			break;
+		default:
+			break;
+	}
+	mCurrentState = GameState::Instructions;
+	
+}
+
+void GameStateMachine::HandleGamePlayState()
+{
+	switch (mCurrentState)
+	{
+		case GameState::Instructions:
+			mSceneManager->RemoveScene(typeid(InstructionsScene));
 			break;
 		default:
 			break;
@@ -85,6 +102,10 @@ void GameStateMachine::Update(shared_ptr<IStepTimer> timer)
 		HandleSplashState();
 		break;
 
+	case GameState::Instructions:
+		HandleInstructionsState();
+		break;
+
 	case GameState::GamePlay:
 		HandleGamePlayState();
 		break;
@@ -93,7 +114,6 @@ void GameStateMachine::Update(shared_ptr<IStepTimer> timer)
 		HandleGameOverState();
 		break;
 
-	case GameState::Menu:
 	case GameState::Loading:
 	default:
 		break;

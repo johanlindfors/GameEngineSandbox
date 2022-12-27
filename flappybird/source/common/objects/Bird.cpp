@@ -30,12 +30,12 @@ Bird::Bird(Point<float> position)
 
 void Bird::Reset() {
 	Position = Point<float>(100.0f, 300.0f);
+	Velocity = Vector2(0.0f, 0.0f);
 	mSprite->Rotation = 0;
 	mAnimationCounter = 0;
 	IsKilled = false;
 	IsAlive = true;
-	AllowGravity = true;
-	Flap();
+	AllowGravity = false;
 }
 
 void Bird::Update(shared_ptr<IStepTimer> timer)
@@ -52,7 +52,7 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 			mAnimationCounter = 0;
 		}
 
-		if (mSprite->Rotation > -90 && IsAlive)
+		if (AllowGravity && mSprite->Rotation > -90 && IsAlive)
 		{
 			mSprite->Rotation -= (160.0f * timer->GetElapsedMilliSeconds() / 1000.0f);
 		}
@@ -76,6 +76,7 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 void Bird::Flap()
 {
 	if(IsAlive && !IsKilled) {
+		AllowGravity = true;
 		Velocity.m[1] = 400;
 
 		auto tweenEngine = IOCContainer::Instance().Resolve<ITweenEngine>();

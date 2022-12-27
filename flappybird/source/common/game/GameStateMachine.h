@@ -30,6 +30,7 @@ private:
     void HandleGamePlayState();
     void HandleGameOverState();
     void HandlePauseState();
+    void HandleInstructionsState();
 
 	std::shared_ptr<Engine::ISceneManager> mSceneManager;
 	GameState mCurrentState;

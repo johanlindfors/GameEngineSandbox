@@ -44,6 +44,7 @@ private:
 	void GeneratePipes();
 	void Reset();
 
+	std::shared_ptr<Engine::Sprite> mInstructions;
 	std::shared_ptr<Engine::Sprite> mBackground;
 	std::unique_ptr<ParallaxBackground> mSkyline;
 	std::shared_ptr<Ground> mGround;
@@ -58,6 +59,7 @@ private:
 	int mScreenSizeY;
 	IGameStateCallback* mGame;
 	bool mSpacePressedBefore;
+	bool mShowInstructions;
 	Utilities::Timer mPipesGenerator;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
 	int mScore;

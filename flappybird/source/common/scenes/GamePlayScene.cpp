@@ -38,11 +38,14 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mGame(gameCallback)
 	, mSpacePressedBefore(true)
 	, mFontRenderer(IOCContainer::Instance().Resolve<FontRenderer>())
+	, mShowInstructions(true)
+	, mScore(0)
 {
 	ID = typeid(GamePlayScene).name();
 	mPipesGenerator.SetInterval(1250);
 
 	srand((unsigned)time(0));
+	Reset();
 }
 
 GamePlayScene::~GamePlayScene()
@@ -84,6 +87,7 @@ void GamePlayScene::Reset()
 	mPipes.clear();
 	mBird->Reset();
 	mPipesGenerator.Reset();
+	mPipesGenerator.Pause();
 	mSkyline->Resume();
 	mGround->Resume();
 	mScore = 0;
@@ -110,7 +114,27 @@ void GamePlayScene::GeneratePipes()
 void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 {
 	auto const spacePressed = mInputManager->IsKeyDown(32);
-	if (mGame->GetCurrentState() == GameState::GamePlay) {
+	
+	switch(mGame->GetCurrentState()) {
+	case GameState::GameOver:
+		if (spacePressed && !mSpacePressedBefore)
+		{
+			Reset();
+			mGame->GoToState(GameState::Instructions);
+		}
+		break;
+	case GameState::Instructions:
+		mSkyline->Update(timer);
+		mGround->Update(timer);
+		if (spacePressed && !mSpacePressedBefore)
+		{
+			Reset();
+			mGame->GoToState(GameState::GamePlay);
+			mBird->Flap();
+			mPipesGenerator.Resume();
+		}
+		break;
+	default:
 		mSkyline->Update(timer);
 		mGround->Update(timer);
 
@@ -158,13 +182,8 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		{
 			mBird->Flap();
 		}
-	}
-	else {
-		if (spacePressed && !mSpacePressedBefore)
-		{
-			Reset();
-			mGame->GoToState(GameState::GamePlay);
-		}
+
+		break;
 	}
 	mSpacePressedBefore = spacePressed;
 }

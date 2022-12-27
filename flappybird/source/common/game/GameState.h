@@ -5,7 +5,7 @@ enum class GameState
     Unknown,
     Boot,
     Splash,
-    Menu,
+    Instructions,
     GamePlay,
     GameOver,
     Loading,
