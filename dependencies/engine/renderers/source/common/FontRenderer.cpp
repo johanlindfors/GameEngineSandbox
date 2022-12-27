@@ -76,15 +76,15 @@ void FontRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
 	mWindowHeight = height;
 }
 
-void FontRenderer::DrawString(const string& str, Utilities::Point<float> centerPosition)
+void FontRenderer::DrawString(const string& str, Utilities::Point<float> centerPosition, float scale)
 {
 	auto dimensions = MeasureString(str);
-	int x = centerPosition.X - dimensions.Width/2;
-	int y = centerPosition.Y - dimensions.Height/2;
+	int x = centerPosition.X - dimensions.Width/2 * scale;
+	int y = centerPosition.Y - dimensions.Height/2 * scale;
 	for(const auto& character : str) {
 		auto characterToDraw = mCharacters[character];
- 		DrawCharacter(characterToDraw.UVOffset, Rectangle(x, y, characterToDraw.Width, characterToDraw.Height));
-		x += characterToDraw.XAdvance;
+ 		DrawCharacter(characterToDraw.UVOffset, Rectangle(x, y, characterToDraw.Width * scale, characterToDraw.Height * scale));
+		x += characterToDraw.XAdvance * scale;
 	}
 }
 

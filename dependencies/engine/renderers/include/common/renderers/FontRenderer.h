@@ -28,7 +28,7 @@ namespace Engine {
 		void Initialize();
 		void UpdateWindowSize(GLsizei width, GLsizei height);
 		void Clear();
-		void DrawString(const std::string& str, Utilities::Point<float> centerPosition);
+		void DrawString(const std::string& str, Utilities::Point<float> centerPosition, float scale);
 
 		// ILazyInitialized
 		void LazyInitialize() override;

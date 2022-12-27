@@ -196,5 +196,5 @@ void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 	for(auto pipe : mPipes)
 		pipe->Draw(renderer);
 	mGround->Draw(renderer);
-	mFontRenderer->DrawString(to_string(mScore), Point<float>(mScreenSizeX/2,mScreenSizeY/2+200));
+	mFontRenderer->DrawString(to_string(mScore), Point<float>(mScreenSizeX/2,mScreenSizeY/2+200), 0.5f);
 }
