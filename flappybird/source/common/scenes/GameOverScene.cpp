@@ -6,17 +6,22 @@
 #include "utilities/IOC.hpp"
 #include "game/IGameStateCallback.h"
 #include "utilities/ITweenEngine.h"
+#include "renderers/FontRenderer.h"
+#include "systems/ScoreSystem.h"
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
 GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
-	: mBackground(make_shared<Sprite>())	
-	, mText(make_shared<Sprite>())
+	: mGameOverText(make_shared<Sprite>())	
+	, mScoreBoard(make_shared<Sprite>())
+	, mMedal(make_shared<Sprite>())
 	, mGame(gameCallback)
 	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
 	, mTweenEngine(IOCContainer::Instance().Resolve<ITweenEngine>())
+	, mFontRenderer(IOCContainer::Instance().Resolve<FontRenderer>())
+	, mScoreSystem(IOCContainer::Instance().Resolve<ScoreSystem>())
 {
 	ID = typeid(GameOverScene).name();
 }
@@ -27,43 +32,57 @@ GameOverScene::~GameOverScene() {
 
 void GameOverScene::Load()
 {
-	mBackground->Offset = 7;
-	mBackground->Width = 48;
-	mBackground->Height = 12;
-	
-	mTweenEngine->Add(mBackground->Width,[&](float value)
+	mGameOverText->Offset = 7;
+	mGameOverText->Width = 48;
+	mGameOverText->Height = 12;
+
+	mScoreBoard->Offset = 11;
+	mScoreBoard->Width = 225;
+	mScoreBoard->Height = 113;
+	mScoreBoard->Position = Point<float>(144.0f - mScoreBoard->Width/2, 150.0);
+
+	mMedal->Offset = 9; // Silver
+	mMedal->Width = 44;
+	mMedal->Height = 44;
+	mMedal->Position = mScoreBoard->Position + Point<float>(25.0, 25.0);
+
+	mTweenEngine->Add(mGameOverText->Width,[&](float value)
 	{ 
-		mBackground->Width = value; 
+		mGameOverText->Width = value; 
 	}, 192, 1000, true);
-	mTweenEngine->Add(mBackground->Height,[&](float value)
+	mTweenEngine->Add(mGameOverText->Height,[&](float value)
 	{ 
-		mBackground->Height = value;
+		mGameOverText->Height = value;
 	}, 48, 1000, true);
 }
 
 void GameOverScene::Unload() { }
 
-void GameOverScene::UpdateScreenSize(int width, int height) 
-{
+void GameOverScene::UpdateScreenSize(int width, int height) { }
 
-}
-
-void GameOverScene::HandleInput() 
-{
-
-}
+void GameOverScene::HandleInput() { }
 
 void GameOverScene::Update(shared_ptr<IStepTimer> timer)
 {
 	mTweenEngine->Update(timer);
-	mBackground->Position = { 288.0f / 2.0f - mBackground->Width / 2.0f, 505.0f / 2.0f - mBackground->Height / 2.0f + 100.0f };
+	mGameOverText->Position = { 288.0f / 2.0f - mGameOverText->Width / 2.0f, 
+								505.0f / 2.0f - mGameOverText->Height / 2.0f + 100.0f };
 	HandleInput();
 }
 
 void GameOverScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
+	auto score = mScoreSystem->GetLatestScore();
 	if (renderer) {
-		renderer->DrawSprite(mBackground);
-        //renderer->DrawSprite(mText);
+		renderer->DrawSprite(mGameOverText);
+		renderer->DrawSprite(mScoreBoard);
+		if(score >= 10) {
+			if(score >= 20) {
+				mMedal->Offset = 10;
+			}
+			renderer->DrawSprite(mMedal);
+		}
+        mFontRenderer->DrawString(to_string(score), Point<float>(mScoreBoard->Position.X + 200, mScoreBoard->Position.Y + 68), 0.3f);
+        mFontRenderer->DrawString(to_string(mScoreSystem->GetHighScore()), Point<float>(mScoreBoard->Position.X + 200, mScoreBoard->Position.Y + 18), 0.3f);
 	}
 }

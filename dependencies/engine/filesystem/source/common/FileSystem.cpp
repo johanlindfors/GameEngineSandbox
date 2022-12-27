@@ -60,10 +60,10 @@ string FileSystem::GetResourcesDirectory()
     return path;
 }
 
-std::shared_ptr<File> FileSystem::LoadFile(std::string filename)
+std::shared_ptr<File> FileSystem::LoadFile(std::string filename, bool writeable)
 {
 	const auto directory = GetResourcesDirectory();
 	auto file = std::make_shared<File>();
-	file->Open(directory + filename);
+	file->Open(directory + filename, writeable);
 	return file;
 }

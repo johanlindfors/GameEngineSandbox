@@ -15,6 +15,7 @@
 #include "objects/Pipes.h"
 #include "objects/Ground.h"
 #include "renderers/FontRenderer.h"
+#include "systems/ScoreSystem.h"
 #include <cstdlib> 
 #include <ctime>
 #include <string>
@@ -159,6 +160,8 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		}
 		collision = mCollider->Intersects(mBird->Bounds, mGround->AABB);
 		if(collision) {
+			auto scoreSystem= IOCContainer::Instance().Resolve<ScoreSystem>();
+			scoreSystem->SetLatestScore(mScore);
 			mPipesGenerator.Pause();
 			mSkyline->Pause();
 			mBird->AllowGravity = false;

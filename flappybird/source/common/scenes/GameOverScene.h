@@ -2,6 +2,7 @@
 #include "scenes/GameScene.h"
 
 class IGameStateCallback;
+class ScoreSystem;
 
 namespace Utilities
 {
@@ -15,6 +16,7 @@ namespace Engine
 	class ITextureManager;
 	class ISpriteRenderer;
 	class IInputManager;
+	class FontRenderer;
 }
 
 class GameOverScene : public Engine::GameScene 
@@ -33,9 +35,13 @@ public:
 private:
 	void HandleInput();
 
-	std::shared_ptr<Engine::Sprite> mBackground;
-    std::shared_ptr<Engine::Sprite> mText;
+	std::shared_ptr<Engine::Sprite> mGameOverText;
+    std::shared_ptr<Engine::Sprite> mScoreBoard;
+	std::shared_ptr<Engine::Sprite> mMedal;
+
+	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
 	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
   	std::shared_ptr<Engine::IInputManager> mInputManager;
 	IGameStateCallback* mGame;
+	std::shared_ptr<ScoreSystem> mScoreSystem;
 };

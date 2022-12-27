@@ -44,7 +44,7 @@ void SpriteSheetRenderer::Initialize()
 void SpriteSheetRenderer::LoadSpriteSheet(string fileName)
 {
 	auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
-	auto file = filesystem->LoadFile(fileName);
+	auto file = filesystem->LoadFile(fileName, false);
 	if(file->IsOpen()) {
 		int x1, y1, x2, y2;
 		char buffer[100];

@@ -9,6 +9,6 @@ namespace Engine {
     public:
 	    virtual ~IFileSystem() = default;
 	    virtual std::string GetResourcesDirectory() = 0;
-        virtual std::shared_ptr<File> LoadFile(std::string filename) = 0;
+        virtual std::shared_ptr<File> LoadFile(std::string filename, bool writeable) = 0;
     };
 }

@@ -146,7 +146,7 @@ namespace Engine {
 		void LoadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				const auto file = mFileSystem->LoadFile(std::string("textures/" + texture.Name));
+				const auto file = mFileSystem->LoadFile(std::string("textures/" + texture.Name), false);
 				if(file){
 					int width, height;
 					bool hasAlpha;

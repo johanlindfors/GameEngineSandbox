@@ -36,7 +36,7 @@ void FontRenderer::LazyInitialize() {
 	InitializeVertexBuffer();
 
 	auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
-	auto file = filesystem->LoadFile(mAtlasFilename);
+	auto file = filesystem->LoadFile(mAtlasFilename, false);
 	if(file->IsOpen()) {
 		int id, x, y, width, height, xoffset, yoffset, xadvance;
 		char buffer[100];
