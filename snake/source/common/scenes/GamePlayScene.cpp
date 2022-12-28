@@ -1,30 +1,29 @@
 #include "GamePlayScene.h"
-#include "textures/TextureManager.h"
-#include "IOC.hpp"
+#include "resources/IResourceManager.h"
+#include "utilities/IOC.hpp"
 #include "objects/Snake.h"
 #include "objects/Apple.h"
-#include "objects/VectorCollider.h"
-#include "textures/ITextureManager.h"
-#include "renderer/ISpriteRenderer.h"
+#include "objects/PointCollider.h"
+#include "renderers/ISpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "game/IGameStateCallback.h"
-#include "MathHelper.h"
+#include "utilities/MathHelper.h"
 #include "game/GameDefines.h"
-#include "renderer/Sprite.h"
+#include "renderers/Sprite.h"
 
 using std::make_shared;
 using std::shared_ptr;
 using Engine::IInputManager;
 using Engine::ISpriteRenderer;
-using Engine::ITextureManager;
+using Engine::IResourceManager;
 using Utilities::IStepTimer;
 using Utilities::IOCContainer;
-using Utilities::Vector2;
+using Utilities::Point;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mApple(make_shared<Apple>(Vector2(SCREEN_SIZE / 4.0f, SCREEN_SIZE / 4.0f)))
-	, mSnake(make_shared<Snake>(Vector2(SCREEN_SIZE / 2.0f, SCREEN_SIZE / 2.0f)))
-	, mCollider(make_shared<VectorCollider>())
+	: mApple(make_shared<Apple>(Point<int>(SCREEN_SIZE / 4, SCREEN_SIZE / 4)))
+	, mSnake(make_shared<Snake>(Point<int>(SCREEN_SIZE / 2, SCREEN_SIZE / 2)))
+	, mCollider(make_shared<PointCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mGame(gameCallback)
@@ -40,12 +39,11 @@ GamePlayScene::~GamePlayScene()
 
 void GamePlayScene::Load()
 {
-	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
-	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
+	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mApple->SetTexture(mTextureManager->GetTexture(L"apple.png"));
-	mSnake->SetTexture(mTextureManager->GetTexture(L"snake.png"));
+	mApple->SetTexture(resourceManager->GetTexture(L"apple.png"));
+	mSnake->SetTexture(resourceManager->GetTexture(L"snake.png"));
 }
 
 void GamePlayScene::Unload()
@@ -70,7 +68,13 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 		mApple->Update(mScreenSizeX, mScreenSizeY);
 		mSnake->Update(mScreenSizeX, mScreenSizeY, mGame);
 
-		if (mCollider->Collides(mSnake->GetSprite()->Position, mApple->GetSprite()->Position))
+		if (mCollider->Collides(
+			Point<int>(static_cast<int>(mSnake->GetSprite()->Position.X),
+					   static_cast<int>(mSnake->GetSprite()->Position.Y)), 
+			Point<int>(static_cast<int>(mApple->GetSprite()->Position.X),
+		    		   static_cast<int>(mApple->GetSprite()->Position.Y))
+
+		))
 		{
 			mApple->Reset(mSnake, mCollider);
 			mSnake->IncreaseLength();
@@ -90,8 +94,8 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 	mSpacePressedBefore = spacePressed;
 }
 
-void GamePlayScene::Draw(shared_ptr<IStepTimer> /*timer*/)
+void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
-	mApple->Draw(mSpriteRenderer);
-	mSnake->Draw(mSpriteRenderer);
+	mApple->Draw(renderer);
+	mSnake->Draw(renderer);
 }

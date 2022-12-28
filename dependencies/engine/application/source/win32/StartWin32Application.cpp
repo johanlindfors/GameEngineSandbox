@@ -3,8 +3,8 @@
 #include <memory>
 #include "glwrapper.h"
 #include "input/IInputManager.h"
-#include "application/Config.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
+#include "utilities/Config.h"
 
 using namespace Engine;
 using namespace Utilities;
@@ -32,7 +32,7 @@ void StartWin32Application() {
 		return;
 	}
 	const auto config = IOCContainer::Instance().Resolve<Config>();
-	g_gameLoop->Initialize(config->FPS);
+	g_gameLoop->Initialize(config);
 	int width, height;
 	g_gameLoop->GetDefaultSize(width, height);
 	g_gameLoop->UpdateWindowSize(width, height);

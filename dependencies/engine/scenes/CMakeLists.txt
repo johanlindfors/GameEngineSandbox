@@ -1,6 +1,7 @@
 project(scenes)
 
 set(DEPENDENCIES
+    renderers
     utilities
 )
 

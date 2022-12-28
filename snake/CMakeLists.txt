@@ -14,8 +14,8 @@ get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
 set(DEPENDENCIES 
     application
     game-loop
-    renderer
-    textures
+    renderers
+    resources
     input
     scenes
 )

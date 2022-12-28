@@ -2,16 +2,25 @@
   "configurations": [
     {
       "name": "x64-Debug",
-      "generator": "Ninja",
       "configurationType": "Debug",
-      "buildRoot": "${workspaceRoot}/build/${name}",
+      "buildRoot": "${workspaceRoot}/build/",
       "installRoot": "${env.USERPROFILE}/CMakeBuilds/${workspaceHash}/install/${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
       "cmakeToolchain": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
       "variables": []
-    }
+    },
+    {
+      "name": "arm64-Debug",
+      "configurationType": "Debug",
+      "buildRoot": "${workspaceRoot}/build/",
+      "installRoot": "${env.USERPROFILE}/CMakeBuilds/${workspaceHash}/install/${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": "",
+      "cmakeToolchain": "",
+      "variables": []
+    },
   ]
 }

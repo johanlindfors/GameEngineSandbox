@@ -4,3 +4,9 @@
 [submodule "dependencies/thirdparty/vcpkg"]
 	path = dependencies/thirdparty/vcpkg
 	url = https://github.com/Microsoft/vcpkg.git
+[submodule "dependencies/thirdparty/tweeny"]
+	path = dependencies/thirdparty/tweeny
+	url = https://github.com/mobius3/tweeny.git
+[submodule "dependencies/thirdparty/glm"]
+	path = dependencies/thirdparty/glm
+	url = https://github.com/g-truc/glm.git

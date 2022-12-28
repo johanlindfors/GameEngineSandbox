@@ -1,9 +1,9 @@
 #include "glwrapper.h"
 #include "game-loop/GameLoop.h"
-#include "application/Config.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
+#include "utilities/Config.h"
 #include "input/IInputManager.h"
-#include "GLHelper.h"
+#include "utilities/GLHelper.h"
 #include <memory>
 
 using namespace std;
@@ -22,7 +22,8 @@ void StartOsxApplication(int argc, char **argv) {
     printf("[StartOsxApplication] found config\n");
 
     int width, height;
-    game->GetDefaultSize(width, height);
+    width = config->Width;
+    height = config->Height;
     printf("[StartOsxApplication] GetDefaultSize returned\n");
     
     if(!glfwInit()) {
@@ -49,7 +50,7 @@ void StartOsxApplication(int argc, char **argv) {
 
     glfwGetError(NULL);
     printf("[StartOsxApplication] Initializing game\n");
-    game->Initialize(config->FPS);
+    game->Initialize(config);
     printf("[StartOsxApplication] initialized\n");
 
     game->UpdateWindowSize(width, height);

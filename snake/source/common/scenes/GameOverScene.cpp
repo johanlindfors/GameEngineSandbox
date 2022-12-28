@@ -1,10 +1,10 @@
 #include "GameOverScene.h"
-#include "textures/TextureManager.h"
+#include "resources/ResourceManager.h"
 #include "scenes/ISceneManager.h"
 #include "input/IInputManager.h"
-#include "renderer/SpriteRenderer.h"
-#include "renderer/Sprite.h"
-#include "IOC.hpp"
+#include "renderers/SpriteRenderer.h"
+#include "renderers/Sprite.h"
+#include "utilities/IOC.hpp"
 #include "game/IGameStateCallback.h"
 
 using namespace std;
@@ -23,12 +23,11 @@ GameOverScene::~GameOverScene() { }
 
 void GameOverScene::Load()
 {
-	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
-    mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
+	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mBackground->Texture = mTextureManager->GetTexture(L"gameover/background.png");
-    mText->Texture = mTextureManager->GetTexture(L"gameover/text.png");
+	mBackground->Texture = resourceManager->GetTexture(L"gameover/background.png");
+    mText->Texture = resourceManager->GetTexture(L"gameover/text.png");
 }
 
 void GameOverScene::Unload() { }
@@ -37,11 +36,11 @@ void GameOverScene::UpdateScreenSize(int width, int height)
 {
 	mBackground->Height = height;
 	mBackground->Width = width;
-	mBackground->Position = { 0.0f, 0.0f };
+	mBackground->Position = { 0, 0 };
 
-	mText->Height = static_cast<int>(height / 4.0f);
-	mText->Width = static_cast<int>(width / 4.0f);
-	mText->Position = { width / 2.0f - mText->Width / 2.0f, height / 2.0f - mText->Height / 2.0f };
+	mText->Height = height / 4;
+	mText->Width = width / 4;
+	mText->Position = { width / 2 - mText->Width / 2, height / 2 - mText->Height / 2 };
 }
 
 void GameOverScene::HandleInput() 
@@ -57,10 +56,10 @@ void GameOverScene::Update(shared_ptr<IStepTimer> timer)
 	HandleInput();
 }
 
-void GameOverScene::Draw(shared_ptr<IStepTimer> /*timer*/)
+void GameOverScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
-	if (mSpriteRenderer) {
-		mSpriteRenderer->DrawSprite(mBackground);
-        mSpriteRenderer->DrawSprite(mText);
+	if (renderer) {
+		renderer->DrawSprite(mBackground);
+        renderer->DrawSprite(mText);
 	}
 }

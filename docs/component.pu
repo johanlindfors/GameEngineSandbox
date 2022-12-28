@@ -1,0 +1,69 @@
+@startuml GameEngineSandbox
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(player, "Player")
+
+System_Boundary(game, "Flappy Bird") {
+    System(flappyBird, "flappyBird")
+}
+
+System_Boundary(engine, "Game Engine") {
+    System(application, "engine")
+    System(input, "input")
+    System(gameLoop, "game-loop")
+    System(filesystem, "filesystem")
+    System(physics, "physics")
+    System(renderer, "renderer")
+    System(scenes, "scenes")
+    System(shaders, "shaders")
+    System(textures, "textures")
+    System(utilities, "utilities")
+}
+
+System_Boundary(thirdparty, "Thirdparty") {
+    System(glm, "glm")
+    System(angle, "angle")
+    System(vcpkg, "vcpkg")
+    System(tweeny, "tweeny")
+}
+
+Rel(player, flappyBird, Plays)
+
+Rel(flappyBird, application, Uses)
+Rel(flappyBird, application, Uses)
+Rel(flappyBird, gameLoop, Uses)
+Rel(flappyBird, renderer, Uses)
+Rel(flappyBird, textures, Uses)
+Rel(flappyBird, input, Uses)
+Rel(flappyBird, scenes, Uses)
+Rel(flappyBird, physics, Uses)
+Rel(flappyBird, tweeny, Uses)
+
+Rel(application, gameLoop, Uses)
+Rel(application, utilities, Uses)
+
+Rel(filesystem, utilities, Uses)
+
+Rel(scenes, renderer, Uses)
+Rel(scenes, utilities, Uses)
+
+Rel(gameLoop, utilities, Uses)
+Rel(gameLoop, scenes, Uses)
+Rel(gameLoop, input, Uses)
+Rel(gameLoop, textures, Uses)
+Rel(gameLoop, renderer, Uses)
+
+Rel(physics, utilities, Uses)
+
+Rel(renderer, utilities, Uses)
+Rel(renderer, filesystem, Uses)
+Rel(renderer, textures, Uses)
+Rel(renderer, glm, Uses)
+
+Rel(shaders, utilities, Uses)
+Rel(shaders, filesystem, Uses)
+
+Rel(textures, utilities, Uses)
+Rel(textures, filesystem, Uses)
+
+@enduml

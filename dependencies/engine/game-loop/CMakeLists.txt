@@ -4,8 +4,8 @@ set(DEPENDENCIES
     utilities
     scenes
     input
-    textures
-    renderer
+    resources
+    renderers
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

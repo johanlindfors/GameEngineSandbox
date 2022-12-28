@@ -1,11 +1,11 @@
 #include "SplashScene.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.h"
 #include "game/IGameStateCallback.h"
-#include "textures/ITextureManager.h"
-#include "renderer/ISpriteRenderer.h"
-#include "renderer/Sprite.h"
-#include "IStepTimer.h"
+#include "resources/IResourceManager.h"
+#include "renderers/ISpriteRenderer.h"
+#include "renderers/Sprite.h"
+#include "utilities/IStepTimer.h"
 
 using namespace std;
 using namespace Engine;
@@ -25,12 +25,11 @@ SplashScene::~SplashScene() { }
 
 void SplashScene::Load()
 {
-	mTextureManager = IOCContainer::Instance().Resolve<ITextureManager>();
-    mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
+	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
     
-	vector<wstring> fileNames;
+	vector<string> fileNames;
 	fileNames.emplace_back(L"coderox.png");
-	mTextureManager->LoadTextures(vector<wstring>(fileNames));
+	mResourceManager->LoadTextures(vector<string>(fileNames));
 
 	mResourcesToLoad.push(L"apple.png");
 	mResourcesToLoad.push(L"snake.png");
@@ -40,7 +39,7 @@ void SplashScene::Load()
 	mResourcesToLoad.push(L"pause/text.png");
 
 
-	mSprite->Texture = mTextureManager->GetTexture(L"coderox.png");
+	mSprite->Texture = mResourceManager->GetTexture(L"coderox.png");
     printf("[SplashScene::Load] Loaded\n");
 }
 
@@ -67,10 +66,10 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	    printf("[SplashScene::Update] Loading resources\n");
 
 		isLoadingResources = true;
-		vector<wstring> fileNames;
+		vector<string> fileNames;
 		fileNames.emplace_back(mResourcesToLoad.front());
 		mResourcesToLoad.pop();
-		mTextureManager->LoadTextures(vector<wstring>(fileNames));
+		mResourceManager->LoadTextures(vector<string>(fileNames));
 		isLoadingResources = false;
 		printf("[SplashScene::Update] Resources loaded\n");
 	}
@@ -84,9 +83,9 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	}
 }
 
-void SplashScene::Draw(shared_ptr<IStepTimer> /*timer*/)
+void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
-	if (mSpriteRenderer && !isLoadingResources) {
-	    mSpriteRenderer->DrawSprite(mSprite);
+	if (renderer && !isLoadingResources) {
+	    renderer->DrawSprite(mSprite);
 	}
 }

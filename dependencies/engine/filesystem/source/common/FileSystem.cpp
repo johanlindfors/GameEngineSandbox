@@ -11,7 +11,7 @@ using namespace Windows::ApplicationModel;
 #include <Windows.h>
 #include <vector>
 #include <filesystem>
-namespace fs s= std::filesystem;
+namespace fs = std::filesystem;
 #elif __APPLE__
 #include <stdio.h>
 #include <unistd.h>
@@ -29,19 +29,19 @@ namespace fs = std::filesystem;
 using namespace std;
 using namespace Engine;
 
-wstring FileSystem::GetResourcesDirectory()
+string FileSystem::GetResourcesDirectory()
 {
-	wstring path;
+	string path;
 #ifdef UWP
 	const auto folder = Package::Current().InstalledLocation();
 	const auto folderPath = folder.Path();
-	path = std::wstring(folderPath + L"\\resources\\");    
+	path = std::string(folderPath + L"\\resources\\");    
 #elif WIN32
 	const unsigned int bufferSize = 512;
 	vector<char> buffer(bufferSize + 1);
 	::GetModuleFileName(nullptr, &buffer[0], bufferSize);
 	const string s = &buffer[0];
-	const fs::path p = s;
+	const fs::path p(s);
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_wstring();
 #elif __APPLE__
@@ -50,22 +50,20 @@ wstring FileSystem::GetResourcesDirectory()
 	std::string current_working_dir(buff);
 	const fs::path p = current_working_dir;
 	const auto executableDirectory = p.parent_path();
-	const auto folderPath = executableDirectory.generic_wstring();
-	path = wstring(folderPath + L"/resources/");
+	const auto folderPath = executableDirectory.generic_string();
+	path = string(folderPath + "/resources/");
 #elif __linux__
-	const auto currentPath = string(get_current_dir_name());
-	const fs::path p = currentPath;
-	const auto executableDirectory = p.parent_path();
-	const auto folderPath = executableDirectory.generic_wstring();
-	path = wstring(folderPath + L"/build/snake/resources/");
+	const fs::path currentPath = string(get_current_dir_name());
+	const auto folderPath = currentPath.generic_string();
+	path = string(folderPath + "/resources/");
 #endif
     return path;
 }
 
-std::shared_ptr<File> FileSystem::LoadFile(std::wstring filename)
+std::shared_ptr<File> FileSystem::LoadFile(std::string filename, bool writeable)
 {
 	const auto directory = GetResourcesDirectory();
 	auto file = std::make_shared<File>();
-	file->Open(directory + filename);
+	file->Open(directory + filename, writeable);
 	return file;
 }

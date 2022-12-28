@@ -1,11 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include <list>
-
-namespace Utilities
-{
-	struct Vector2;
-}
+#include "utilities/MathHelper.h"
 
 namespace Engine
 {
@@ -18,7 +14,7 @@ class Apple;
 
 class Snake : public Entity {
 public:
-	Snake(Utilities::Vector2 position);
+	Snake(Utilities::Point<int> position);
 	bool CheckCollision(int x, int y);
 	void Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback);
 	void HandleInput(std::shared_ptr<Engine::IInputManager> input);
@@ -27,7 +23,7 @@ public:
 
 private:
 	int mTail;
-	std::list<Utilities::Vector2> mTrail;
+	std::list<Utilities::Point<int>> mTrail;
 	void Reset();
 
 	friend class Apple;

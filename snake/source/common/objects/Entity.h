@@ -1,10 +1,6 @@
 #pragma once
 #include <memory>
-
-namespace Utilities
-{
-	struct Vector2;
-}
+#include "utilities/MathHelper.h"
 
 namespace Engine
 {
@@ -14,7 +10,7 @@ namespace Engine
 
 class Entity {
 public:
-	Entity(Utilities::Vector2 position);
+	Entity(Utilities::Point<int> position);
 	void SetTexture(Engine::Texture2D texture) ;
 	void Update(int screenWidth, int screenHeight);
 	std::shared_ptr<Engine::Sprite> GetSprite() const { return mSprite; }

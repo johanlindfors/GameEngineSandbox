@@ -9,40 +9,99 @@ using namespace std;
 using namespace Utilities;
 
 
-StepTimer::StepTimer() :
-	m_elapsedMilliseconds(0),
-	m_targetMilliseconds(1000 / 15),//CLOCKS_PER_SEC), //CLOCKS_PER_SEC / 60),
-	m_elapsedSeconds(0),
-	m_frameCount(0),
-	m_framesPerSecond(0),
-	m_framesThisSecond(0)
+Timer::Timer() 
+	: mIsEnabled(true)
+	, mElapsedMilliseconds(0)
+	, mLastFrameTime(std::chrono::system_clock::now())
+{ }
+
+void Timer::SetInterval(double milliseconds)
+{
+	mMillisecondsInterval = milliseconds;
+}
+
+void Timer::Update(std::function<void()> tick)
+{
+	auto currentTime =  std::chrono::system_clock::now();
+	
+	if(mIsEnabled) {
+		auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - mLastFrameTime).count();
+		if(delta < 0) delta = 0;
+		mElapsedMilliseconds += delta;
+		if(mElapsedMilliseconds >= mMillisecondsInterval) {
+ 			tick();
+
+			mElapsedMilliseconds -= mMillisecondsInterval;
+		}
+	}
+	mLastFrameTime = currentTime;
+}
+
+void Timer::Pause()
+{
+	mIsEnabled = false;
+}
+
+void Timer::Resume()
+{
+	mIsEnabled = true;
+}
+
+void Timer::Reset()
+{
+	mLastFrameTime = std::chrono::system_clock::now();
+	mElapsedMilliseconds = 0;
+	Resume();
+}
+
+StepTimer::StepTimer() 
+	: m_elapsedMilliseconds(0)
+	, m_targetMilliseconds(1000 / 15) //CLOCKS_PER_SEC), //CLOCKS_PER_SEC / 60),
+	, m_elapsedSeconds(0)
+	, m_frameCount(0)
+	, m_framesPerSecond(0)
+	, m_framesThisSecond(0)
+	, m_isFixedTimeStep(false)
+	
 {
 	// Initialisation
-	gettimeofday(&m_lastFrameTime, NULL);
+	m_lastFrameTime = std::chrono::system_clock::now();
 }
 
 // Update timer state, calling the specified Update function the appropriate number of times.
 void StepTimer::Tick(std::function<void()> update)
 {
-	timeval currentTime;
-	gettimeofday(&currentTime, NULL);
+	auto currentTime =  std::chrono::system_clock::now();
 	
-	unsigned int delta = (currentTime.tv_usec - m_lastFrameTime.tv_usec) / 1000;
+	auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - m_lastFrameTime).count();
 	if(delta < 0) delta = 0;
-	if(delta > 100) delta = 100;
-	m_elapsedMilliseconds += (int)delta;
-	m_elapsedSeconds += (int)delta;
-	if(m_elapsedMilliseconds >= m_targetMilliseconds) {
-		m_elapsedMilliseconds -= m_targetMilliseconds;
+	if(m_isFixedTimeStep) {
+		m_elapsedMilliseconds += delta;
+		m_elapsedSeconds += delta;
+		if(m_elapsedMilliseconds >= m_targetMilliseconds) {
+			m_frameCount++;
+			m_framesThisSecond++;
+			update();
+
+			if(m_elapsedSeconds >= 1000) {
+				m_elapsedSeconds -= 1000;
+				m_framesPerSecond = m_framesThisSecond;
+				m_framesThisSecond = 0;
+				printf("FPS %d\n", m_framesPerSecond);
+			}
+			m_elapsedMilliseconds = 0;//= m_targetMilliseconds;
+		}
+	} else {
+		m_elapsedMilliseconds = delta;
+		m_elapsedSeconds += delta;
+		update();
 		m_frameCount++;
 		m_framesThisSecond++;
-		update();
-
 		if(m_elapsedSeconds >= 1000) {
 			m_elapsedSeconds -= 1000;
 			m_framesPerSecond = m_framesThisSecond;
 			m_framesThisSecond = 0;
-			//printf("FPS: %i\n", m_framesPerSecond);
+			printf("FPS %d\n", m_framesPerSecond);
 		}
 	}
 

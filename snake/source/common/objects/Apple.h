@@ -1,25 +1,21 @@
 #pragma once
 #include "Entity.h"
+#include "utilities/MathHelper.h"
 
 namespace Engine 
 {
 	class ISpriteRenderer;
 }
 
-namespace Utilities 
-{
-	struct Vector2;
-}
-
 class Snake;
-class VectorCollider;
+class PointCollider;
 
 class Apple : public Entity {
 public:
-	Apple(Utilities::Vector2 position);
+	Apple(Utilities::Point<int> position);
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 	void Update(int screenWidth, int screenHeight);
-	void Reset(std::shared_ptr<Snake> snake, std::shared_ptr<VectorCollider> collider);
+	void Reset(std::shared_ptr<Snake> snake, std::shared_ptr<PointCollider> collider);
 
 private:
 	float mScreenPositionX;

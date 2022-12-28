@@ -1,20 +1,19 @@
 #include "Entity.h"
-#include "MathHelper.h"
-#include "textures/Texture2D.h"
-#include "renderer/Sprite.h"
+#include "utilities/MathHelper.h"
+#include "resources/Texture2D.h"
+#include "renderers/Sprite.h"
 #include "game/GameDefines.h"
 
-using std::make_shared;
-using Utilities::Vector2;
-using Engine::Texture2D;
-using Engine::Sprite;
+using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
-Entity::Entity(Vector2 position)
+Entity::Entity(Point<int> position)
     : mSprite(std::make_shared<Sprite>())
 	, mScreenWidth(0)
 	, mScreenHeight(0)
 {
-    mSprite->Position = position;
+    mSprite->Position = Point<float>(position.X, position.Y);
 }
 
 void Entity::SetTexture(Texture2D texture) 

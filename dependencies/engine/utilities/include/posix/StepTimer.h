@@ -4,12 +4,31 @@
 #include <exception>
 #include <stdint.h>
 #include <functional>
-#include "IStepTimer.h"
+#include "utilities/IStepTimer.h"
 #include <sys/time.h> 
-
+#include <chrono>
 
 namespace Utilities
 {
+	class Timer 
+	{
+	public:
+		Timer();
+
+		void SetInterval(double milliseconds);
+		void Update(std::function<void()> tick);
+
+		void Pause();
+		void Resume();
+		void Reset();
+
+	private:
+		std::chrono::time_point<std::chrono::system_clock> mLastFrameTime;
+		double mMillisecondsInterval;
+		double mElapsedMilliseconds;
+		bool mIsEnabled;
+	};
+
 	// Helper class for animation and simulation timing.
 	class StepTimer : public IStepTimer
 	{
@@ -18,6 +37,7 @@ namespace Utilities
 
 		// Get elapsed time since the previous Update call.
 		double GetElapsedSeconds() const { return m_elapsedSeconds; }
+		unsigned int GetElapsedMilliSeconds() const { return m_elapsedMilliseconds; }
 
 		// Get total number of updates since start of the program.
 		uint32_t GetFrameCount() const { return m_frameCount; }
@@ -26,7 +46,7 @@ namespace Utilities
 		uint32_t GetFramesPerSecond() const { return m_framesPerSecond; }
 
 		// Set whether to use fixed or variable timestep mode.
-		// void SetFixedTimeStep(bool isFixedTimestep) { m_isFixedTimeStep = isFixedTimestep; }
+		void SetFixedTimeStep(bool isFixedTimestep) { m_isFixedTimeStep = isFixedTimestep; }
 
 		// Set how often to call Update when in fixed timestep mode.
 		// void SetTargetElapsedTicks(uint64_t targetElapsed) { m_targetElapsedTicks = targetElapsed; }
@@ -43,12 +63,13 @@ namespace Utilities
 
 	private:
 		//clock_t m_lastFrameTime;
-		timeval m_lastFrameTime;
+		 std::chrono::time_point<std::chrono::system_clock> m_lastFrameTime;
 		
 		// Derived timing data uses a canonical tick format.
 		unsigned int m_elapsedMilliseconds;
 		unsigned int m_targetMilliseconds;
 		unsigned int m_elapsedSeconds;
+		bool m_isFixedTimeStep;
 
 		// Members for tracking the framerate.
 		uint32_t m_frameCount;

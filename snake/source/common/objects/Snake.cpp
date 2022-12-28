@@ -1,17 +1,16 @@
 #include "Snake.h"
 #include "game/GameDefines.h"
-#include "renderer/ISpriteRenderer.h"
+#include "renderers/ISpriteRenderer.h"
 #include "input/IInputManager.h"
-#include "MathHelper.h"
-#include "renderer/Sprite.h"
+#include "utilities/MathHelper.h"
+#include "renderers/Sprite.h"
 #include "game/IGameStateCallback.h"
 
-using std::shared_ptr;
-using Utilities::Vector2;
-using Engine::ISpriteRenderer;
-using Engine::IInputManager;
+using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
-Snake::Snake(Vector2 position)
+Snake::Snake(Point<int> position)
     : Entity(position)
 {
     mTail = INITIAL_TAIL;	
@@ -20,7 +19,7 @@ Snake::Snake(Vector2 position)
 
 bool Snake::CheckCollision(int x, int y) {
     for (auto const& body : mTrail) {
-        if (body.m[0] == x && body.m[1] == y) {
+        if (body.X == x && body.Y == y) {
             return true;
         }
     }
@@ -33,24 +32,28 @@ void Snake::IncreaseLength() {
 
 void Snake::Reset() {
 	mTail = INITIAL_TAIL;
-	mSprite->Position = Vector2(10, 10);
+	mSprite->Position = Point<float>(10, 10);
 }
 
 void Snake::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback)
 {
     Entity::Update(screenWidth, screenHeight);
 
-	auto const newX = static_cast<int>(mSprite->Position.m[0] + mSprite->Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
-	auto const newY = static_cast<int>(mSprite->Position.m[1] + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
+	auto const newX = static_cast<int>(mSprite->Position.X + mSprite->Velocity.m[0] + SCREEN_SIZE) % SCREEN_SIZE;
+	auto const newY = static_cast<int>(mSprite->Position.Y + mSprite->Velocity.m[1] + SCREEN_SIZE) % SCREEN_SIZE;
 
 	if (CheckCollision(newX, newY)) {
 		gameCallback->GoToState(GameState::GameOver);
 	}
 	else {
-		mSprite->Position.m[0] = static_cast<float>(newX);
-		mSprite->Position.m[1] = static_cast<float>(newY);
+		mSprite->Position.X = newX;
+		mSprite->Position.Y = newY;
 
-		mTrail.push_back({ mSprite->Position });
+		mTrail.push_back({ 
+			Point<int>(
+				static_cast<int>(mSprite->Position.X), 
+				static_cast<int>(mSprite->Position.Y))
+		});
 		while (mTrail.size() > mTail) {
 			mTrail.pop_front();
 		}
@@ -80,8 +83,6 @@ void Snake::HandleInput(shared_ptr<IInputManager> input)
 void Snake::Draw(shared_ptr<ISpriteRenderer> renderer) {
 	for (auto const& body : mTrail)
 	{
-		auto sprite = std::make_shared<Engine::Sprite>(*mSprite);
-		sprite->Position = Vector2(body.m[0] * mScreenWidth / SCREEN_SIZE, body.m[1] * mScreenHeight / SCREEN_SIZE);
-        renderer->DrawSprite(sprite);
+        renderer->DrawSprite(mSprite, Point<float>(body.X * mScreenWidth / SCREEN_SIZE, body.Y * mScreenHeight / SCREEN_SIZE));
     }
 }

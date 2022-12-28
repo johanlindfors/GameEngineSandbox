@@ -1,7 +1,7 @@
 #include "glwrapper.h"
 #include "game-loop/GameLoop.h"
-#include "application/Config.h"
-#include "IOC.hpp"
+#include "utilities/Config.h"
+#include "utilities/IOC.hpp"
 #include "input/IInputManager.h"
 #include <memory>
 
@@ -21,17 +21,19 @@ void StartLinuxApplication(int argc, char **argv) {
     printf("[StartLinuxApplication] found config\n");
 
     int width, height;
-    game->GetDefaultSize(width, height);
+    width = config->Width;
+    height = config->Height;
     printf("[StartLinuxApplication] get default size returned\n");
     
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    window = glfwCreateWindow(width, height, __FILE__, NULL, NULL);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    window = glfwCreateWindow(width, height, config->Title.c_str(), NULL, NULL);
     glfwMakeContextCurrent(window);
 
-    game->Initialize(config->FPS);
+    game->Initialize(config);
     printf("[StartLinuxApplication] initialized\n");
 
     game->UpdateWindowSize(width, height);
@@ -80,4 +82,7 @@ void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input)
         pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
         input->AddKeyboardEvent(32, pressed);
 
+        // Escape
+        pressed = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+        input->AddKeyboardEvent(256, pressed);
 }

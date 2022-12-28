@@ -1,9 +1,10 @@
 #include "game-loop/GameLoop.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
+#include "utilities/Config.h"
 #include "scenes/SceneManager.h"
 #include "input/InputManager.h"
-#include "textures/TextureManager.h"
-#include "renderer/SpriteRenderer.h"
+#include "resources/ResourceManager.h"
+#include "renderers/ISpriteRenderer.h"
 #include "StepTimer.h"
 #include "game-loop/IGameLoopCallback.h"
 #include "filesystem/FileSystem.h"
@@ -15,10 +16,10 @@ using namespace Utilities;
 GameLoop::GameLoop() 
 	: mIsInitialized(false) { }
 
-void GameLoop::Initialize(int fps) {
+void GameLoop::Initialize(shared_ptr<Config> config) {
 	mTimer = make_shared<StepTimer>();
-	//mTimer->SetFixedTimeStep(true);
-	mTimer->SetTargetElapsedSeconds(1.0f/fps);
+	mTimer->SetFixedTimeStep(config->UseFixedTimeStamp);
+	mTimer->SetTargetElapsedSeconds(1.0f/config->FPS);
 
     printf("[GameLoop::Initialize] Timer initialized\n");
 
@@ -27,13 +28,13 @@ void GameLoop::Initialize(int fps) {
 	IOCContainer::Instance().Register<IFileSystem>(fileSystem);
 	printf("[GameLoop::Initialize] FileSystem registered\n");
 
-	const auto textureManager = make_shared<TextureManager>();
-	IOCContainer::Instance().Register<ITextureManager>(textureManager);
-    printf("[GameLoop::Initialize] TextureManager registered\n");
+	const auto resourceManager = make_shared<ResourceManager>();
+	IOCContainer::Instance().Register<IResourceManager>(resourceManager);
+    printf("[GameLoop::Initialize] ResourceeManager registered\n");
 
-	mSpriteRenderer = make_shared<SpriteRenderer>();
-	IOCContainer::Instance().Register<ISpriteRenderer>(mSpriteRenderer);
-	printf("[GameLoop::Initialize] SpriteRenderer registered\n");
+	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
+	mSpriteRenderer->Initialize();
+	printf("[GameLoop::Initialize] SpriteRenderer initalized\n");
 
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);
@@ -100,7 +101,7 @@ void GameLoop::Render() {
 
 	Clear();
 
-	mSceneManager->Draw(mTimer);
+	mSceneManager->Draw(mSpriteRenderer);
 }
 
 void GameLoop::Clear() const

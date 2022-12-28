@@ -7,8 +7,8 @@ class IGameStateCallback;
 
 namespace Engine
 {
-	class ITextureManager;
 	class ISpriteRenderer;
+	class IResourceManager;
 	struct Sprite;
 }
 
@@ -28,16 +28,15 @@ public:
 	void Unload() override;
 	void UpdateScreenSize(int width, int height) override;
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
-	void Draw(std::shared_ptr<Utilities::IStepTimer> timer) override;
+	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer) override;
 
 private:
 	std::shared_ptr<Engine::Sprite> mSprite;
 	float mMillisecondsToLoad;
 	bool hasLoadedGamePlay;
 	bool isLoadingResources;
-	std::queue<std::wstring> mResourcesToLoad;
+	std::queue<std::string> mResourcesToLoad;
+	std::shared_ptr<Engine::IResourceManager> mResourceManager;
 
-	std::shared_ptr<Engine::ITextureManager> mTextureManager;
-    std::shared_ptr<Engine::ISpriteRenderer> mSpriteRenderer;
 	IGameStateCallback* mGame;
 };

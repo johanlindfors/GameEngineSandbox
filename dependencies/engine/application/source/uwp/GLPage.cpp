@@ -1,10 +1,10 @@
 #include "GLPage.h"
-#include "IOC.hpp"
+#include "utilities/IOC.hpp"
 #include "IDispatcherWrapper.h"
 #include "SetThreadName.h"
 #include "game-loop/GameLoop.h"
 #include <winrt/Windows.System.Threading.h>
-#include "application/Config.h"
+#include "utilities/Config.h"
 
 using std::shared_ptr;
 using namespace Engine;
@@ -94,7 +94,7 @@ void GLPage::RecreateRenderer()
 	{
 		mGameLoop.reset(new GameLoop());
 		const auto config = IOCContainer::Instance().Resolve<Config>();
-        mGameLoop->Initialize(config->FPS);
+        mGameLoop->Initialize(config);
 
 		if (mInputManager == nullptr) {
 			mInputManager = IOCContainer::Instance().Resolve<IInputManager>();

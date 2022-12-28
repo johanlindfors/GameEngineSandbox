@@ -4,7 +4,54 @@
 #include <stdint.h>
 #include <Windows.h>
 
+using namespace std;
 using namespace Utilities;
+
+
+Timer::Timer() 
+	: mIsEnabled(true)
+	, mElapsedMilliseconds(0)
+	, mLastFrameTime(std::chrono::system_clock::now())
+{ }
+
+void Timer::SetInterval(double milliseconds)
+{
+	mMillisecondsInterval = milliseconds;
+}
+
+void Timer::Update(std::function<void()> tick)
+{
+	auto currentTime =  std::chrono::system_clock::now();
+	
+	if(mIsEnabled) {
+		auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - mLastFrameTime).count();
+		if(delta < 0) delta = 0;
+		mElapsedMilliseconds += delta;
+		if(mElapsedMilliseconds >= mMillisecondsInterval) {
+ 			tick();
+
+			mElapsedMilliseconds -= mMillisecondsInterval;
+		}
+	}
+	mLastFrameTime = currentTime;
+}
+
+void Timer::Pause()
+{
+	mIsEnabled = false;
+}
+
+void Timer::Resume()
+{
+	mIsEnabled = true;
+}
+
+void Timer::Reset()
+{
+	mLastFrameTime = std::chrono::system_clock::now();
+	mElapsedMilliseconds = 0;
+	Resume();
+}
 
 StepTimer::StepTimer() noexcept(false) :
 	m_elapsedTicks(0),
