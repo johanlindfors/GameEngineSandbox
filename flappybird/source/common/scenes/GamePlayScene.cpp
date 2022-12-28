@@ -139,38 +139,12 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		}
 		break;
 	default:
+		// do updates
 		mSkyline->Update(timer);
 		mGround->Update(timer);
-
-		// do updates
 		mBird->Update(timer);
 		mPhysicsEngine->Update(timer);
 		
-		bool collision = false;
-		for(auto pipe : mPipes) {
-			collision = mCollider->Intersects(mBird->Bounds, pipe->TopPipe->AABB) || 
-						mCollider->Intersects(mBird->Bounds, pipe->BottomPipe->AABB);
-			if(collision && mBird->IsAlive) { // Collided with a pipe
-				mBird->CollideWithPipe();
-				mPipesGenerator.Pause();
-				mSkyline->Pause();
-				mGround->Pause();
-			}
-			if(!pipe->HasScored && pipe->BottomPipe->Position.X < mBird->Position.X) {
-				mScore++;
-				pipe->HasScored = true;
-			}
-		}
-		collision = mCollider->Intersects(mBird->Bounds, mGround->AABB);
-		if(collision) {
-			auto scoreSystem= IOCContainer::Instance().Resolve<ScoreSystem>();
-			scoreSystem->SetLatestScore(mScore);
-			mPipesGenerator.Pause();
-			mSkyline->Pause();
-			mBird->AllowGravity = false;
-			mGame->GoToState(GameState::GameOver);
-		}
-
 		if(!mBird->IsKilled) {
 			for(auto pipe : mPipes) {
 				pipe->Update(timer);
@@ -184,6 +158,8 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 
 		mTweenEngine->Update(timer);
 
+		CheckCollisions();
+
 		if (spacePressed && !mSpacePressedBefore)
 		{
 			mBird->Flap();
@@ -192,6 +168,33 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		break;
 	}
 	mSpacePressedBefore = spacePressed;
+}
+
+void GamePlayScene::CheckCollisions()
+{
+	for(auto pipe : mPipes) {
+		bool collision = mCollider->Intersects(mBird->Bounds, pipe->TopPipe->AABB) || 
+					mCollider->Intersects(mBird->Bounds, pipe->BottomPipe->AABB);
+		if(collision && mBird->IsAlive) { // Collided with a pipe
+			mBird->CollideWithPipe();
+			mPipesGenerator.Pause();
+			mSkyline->Pause();
+			mGround->Pause();
+		}
+		if(!pipe->HasScored && pipe->BottomPipe->Position.X < mBird->Position.X) {
+			mScore++;
+			pipe->HasScored = true;
+		}
+	}
+
+	if(mCollider->Intersects(mBird->Bounds, mGround->AABB)) {
+		auto scoreSystem= IOCContainer::Instance().Resolve<ScoreSystem>();
+		scoreSystem->SetLatestScore(mScore);
+		mPipesGenerator.Pause();
+		mSkyline->Pause();
+		mBird->AllowGravity = false;
+		mGame->GoToState(GameState::GameOver);
+	}	
 }
 
 void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)

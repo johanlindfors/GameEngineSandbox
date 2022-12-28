@@ -41,6 +41,7 @@ public:
 	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer) override;
 
 private:
+	void CheckCollisions();
 	void GeneratePipes();
 	void Reset();
 
