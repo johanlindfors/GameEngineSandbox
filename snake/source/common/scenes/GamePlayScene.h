@@ -16,7 +16,7 @@ class GamePlayScene : public Engine::GameScene
 {
 public:
     GamePlayScene(IGameStateCallback* gameCallback);
-    ~GamePlayScene();
+    ~GamePlayScene() = default;
 
 	// Engine::GameScene
     void Load() override;

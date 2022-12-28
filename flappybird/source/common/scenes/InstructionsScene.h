@@ -21,7 +21,7 @@ class InstructionsScene : public Engine::GameScene
 {
 public:
 	InstructionsScene(IGameStateCallback* gameCallback);
-    ~InstructionsScene();
+    ~InstructionsScene() = default;
 
 	// Engine::GameScene
     void Load() override;

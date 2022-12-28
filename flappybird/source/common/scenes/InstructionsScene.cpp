@@ -27,11 +27,6 @@ InstructionsScene::InstructionsScene(IGameStateCallback* gameCallback)
 	mInstructions->Position = Point<float>(92,176);
 }
 
-InstructionsScene::~InstructionsScene()
-{
-
-}
-
 void InstructionsScene::Load()
 {
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();

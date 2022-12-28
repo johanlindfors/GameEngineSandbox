@@ -180,10 +180,7 @@ namespace Engine {
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(make_unique<TextureLoaderImpl>())
-{
-
-}
+	: mImpl(make_unique<TextureLoaderImpl>()) { }
 
 TextureLoader::~TextureLoader()
 {

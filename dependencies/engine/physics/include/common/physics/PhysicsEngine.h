@@ -9,12 +9,9 @@ namespace Engine {
 	public:
 		PhysicsEngine() 
 			: mBodies(std::vector<std::shared_ptr<IPhysicsBody>>())
-			, mIsActive(true)
-		{
+			, mIsActive(true) { }
 
-		}
-
-		~PhysicsEngine() {}
+		~PhysicsEngine() = default;
 
 		// Engine::IPhysicsEngine 
 		void AddBody(std::shared_ptr<IPhysicsBody> body) override;

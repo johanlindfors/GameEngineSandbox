@@ -14,8 +14,8 @@ using namespace Engine;
 using Utilities::IOCContainer;
 
 namespace Engine {
-	class ShaderLoaderImpl {
-
+	class ShaderLoaderImpl 
+	{
 	public:
 		ShaderLoaderImpl()
 		{
@@ -42,10 +42,7 @@ namespace Engine {
 }
 
 ShaderLoader::ShaderLoader()
-	: mImpl(std::make_unique<ShaderLoaderImpl>())
-{
-
-}
+	: mImpl(std::make_unique<ShaderLoaderImpl>()) { }
 
 ShaderLoader::~ShaderLoader()
 {

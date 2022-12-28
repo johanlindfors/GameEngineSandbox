@@ -51,7 +51,10 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 
 GamePlayScene::~GamePlayScene()
 {
-
+	mBackground.reset();
+	mSkyline.reset();
+	mBird.reset();
+	mGround.reset();
 }
 
 void GamePlayScene::Load()

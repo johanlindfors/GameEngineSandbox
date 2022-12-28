@@ -4,7 +4,7 @@
 namespace Engine {
 	class SpriteRenderer : public ISpriteRenderer {
 	public:
-		SpriteRenderer();
+		SpriteRenderer() = default;
 		~SpriteRenderer();
 
 		// Engine::ISpriteRenderer

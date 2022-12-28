@@ -10,11 +10,6 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-SpriteRenderer::SpriteRenderer()
-{
-
-}
-
 void SpriteRenderer::Initialize()
 {
 	InitializeShaders();

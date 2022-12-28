@@ -32,11 +32,6 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	ID = typeid(GamePlayScene).name();
 }
 
-GamePlayScene::~GamePlayScene()
-{
-
-}
-
 void GamePlayScene::Load()
 {
 	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();

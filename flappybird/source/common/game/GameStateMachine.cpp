@@ -62,7 +62,6 @@ void GameStateMachine::HandleInstructionsState()
 			break;
 	}
 	mCurrentState = GameState::Instructions;
-	
 }
 
 void GameStateMachine::HandleGamePlayState()

@@ -9,10 +9,7 @@ using namespace Engine;
 SceneManager::SceneManager()
 	: mInitialized(false)
 	, mScreenWidth(0)
-	, mScreenHeight(0)
-{
-
-}
+	, mScreenHeight(0) { }
 
 void SceneManager::Initialize() 
 {
