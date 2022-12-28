@@ -93,19 +93,9 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	mGround->Update(timer);
 	
 	auto const spacePressed = mInputManager->IsKeyDown(32);
-	// if (mGame->GetCurrentState() == GameState::GameOver) {
-	// 	if (spacePressed && !mSpacePressedBefore) {
-	// 		if (!mHasLoadedGamePlay) {
-	// 			mGame->GoToState(GameState::GamePlay);
-	// 			mHasLoadedGamePlay = true;
-	// 		}
-	// 	}
-	// }
-	// else {
-		if (spacePressed && !mSpacePressedBefore) {
-			mGame->GoToState(GameState::Instructions);
-		}
-	// }
+	if (spacePressed && !mSpacePressedBefore) {
+		mGame->GoToState(GameState::Instructions);
+	}
 	mSpacePressedBefore = spacePressed;
 }
 

@@ -38,6 +38,7 @@ private:
 	std::shared_ptr<Engine::Sprite> mGameOverText;
     std::shared_ptr<Engine::Sprite> mScoreBoard;
 	std::shared_ptr<Engine::Sprite> mMedal;
+	std::shared_ptr<Engine::Sprite> mButton;
 
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
 	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;

@@ -27,8 +27,8 @@ using namespace Utilities;
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_unique<ParallaxBackground>())
-	, mBird(make_shared<Bird>(Point<float>(100,240)))
-	, mGround(make_shared<Ground>(Point<float>(0,70), Vector2(SCROLL_SPEED,0)))
+	, mBird(make_shared<Bird>(Point<float>(80,SCREEN_HEIGHT/2.0f)))
+	, mGround(make_shared<Ground>(Point<float>(0,79), Vector2(SCROLL_SPEED,0)))
 	, mPipes(vector<shared_ptr<Pipes>>())
 	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
 	, mPhysicsEngine(IOCContainer::Instance().Resolve<IPhysicsEngine>())
@@ -132,6 +132,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 	case GameState::Instructions:
 		mSkyline->Update(timer);
 		mGround->Update(timer);
+		mBird->Update(timer);
 		if (spacePressed && !mSpacePressedBefore)
 		{
 			Reset();
@@ -203,9 +204,11 @@ void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
 	renderer->DrawSprite(mBackground);
 	mSkyline->Draw(renderer);
-	mBird->Draw(renderer);
+	mBird->Draw(renderer); 
 	for(auto pipe : mPipes)
 		pipe->Draw(renderer);
 	mGround->Draw(renderer);
-	mFontRenderer->DrawString(to_string(mScore), Point<float>(mScreenSizeX/2,mScreenSizeY/2+200), 0.5f);
+	if(mGame->GetCurrentState() == GameState::GamePlay) {
+		mFontRenderer->DrawString(to_string(mScore), Point<float>(mScreenSizeX/2,mScreenSizeY/2+220), 0.4f);
+	}
 }

@@ -14,6 +14,7 @@ using namespace Utilities;
 
 InstructionsScene::InstructionsScene(IGameStateCallback* gameCallback)
 	: mInstructions(make_shared<Sprite>())
+	, mGetReady(make_shared<Sprite>())
 	, mWindowWidth(0)
 	, mWindowHeight(0)
 	, mGame(gameCallback)
@@ -24,7 +25,12 @@ InstructionsScene::InstructionsScene(IGameStateCallback* gameCallback)
 	mInstructions->Offset = 6;
 	mInstructions->Width = 113;
 	mInstructions->Height = 102;
-	mInstructions->Position = Point<float>(92,176);
+	mInstructions->Position = Point<float>(92,136);
+
+	mGetReady->Offset = 8;
+	mGetReady->Width = 184;
+	mGetReady->Height = 52;
+	mGetReady->Position = Point<float>(52,380);
 }
 
 void InstructionsScene::Load()
@@ -56,5 +62,6 @@ void InstructionsScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
 	if (renderer) {
 		renderer->DrawSprite(mInstructions);
+		renderer->DrawSprite(mGetReady);
 	}
 }

@@ -29,7 +29,7 @@ Bird::Bird(Point<float> position)
 }
 
 void Bird::Reset() {
-	Position = Point<float>(100.0f, 300.0f);
+	Position = Point<float>(85.0f, SCREEN_HEIGHT/2.0f-12);
 	Velocity = Vector2(0.0f, 0.0f);
 	mSprite->Rotation = 0;
 	mAnimationCounter = 0;

@@ -37,6 +37,7 @@ private:
 	int mWindowHeight;
 	bool mSpacePressedBefore;
 	std::shared_ptr<Engine::Sprite> mInstructions;
+	std::shared_ptr<Engine::Sprite> mGetReady;
 	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
 	IGameStateCallback* mGame;

@@ -17,6 +17,7 @@ GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
 	: mGameOverText(make_shared<Sprite>())	
 	, mScoreBoard(make_shared<Sprite>())
 	, mMedal(make_shared<Sprite>())
+	, mButton(make_shared<Sprite>())
 	, mGame(gameCallback)
 	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
 	, mTweenEngine(IOCContainer::Instance().Resolve<ITweenEngine>())
@@ -36,10 +37,15 @@ void GameOverScene::Load()
 	mGameOverText->Width = 48;
 	mGameOverText->Height = 12;
 
+	mButton->Offset = 12;
+	mButton->Width = 104;
+	mButton->Height = 58;
+	mButton->Position = Point<float>(92,176);
+
 	mScoreBoard->Offset = 11;
 	mScoreBoard->Width = 225;
 	mScoreBoard->Height = 113;
-	mScoreBoard->Position = Point<float>(144.0f - mScoreBoard->Width/2, 150.0);
+	mScoreBoard->Position = Point<float>(144.0f - mScoreBoard->Width/2, 250.0);
 
 	mMedal->Offset = 9; // Silver
 	mMedal->Width = 44;
@@ -66,7 +72,7 @@ void GameOverScene::Update(shared_ptr<IStepTimer> timer)
 {
 	mTweenEngine->Update(timer);
 	mGameOverText->Position = { 288.0f / 2.0f - mGameOverText->Width / 2.0f, 
-								505.0f / 2.0f - mGameOverText->Height / 2.0f + 100.0f };
+								505.0f / 2.0f - mGameOverText->Height / 2.0f + 150.0f };
 	HandleInput();
 }
 
@@ -75,6 +81,7 @@ void GameOverScene::Draw(shared_ptr<ISpriteRenderer> renderer)
 	auto score = mScoreSystem->GetLatestScore();
 	if (renderer) {
 		renderer->DrawSprite(mGameOverText);
+		renderer->DrawSprite(mButton);
 		renderer->DrawSprite(mScoreBoard);
 		if(score >= 10) {
 			if(score >= 20) {
