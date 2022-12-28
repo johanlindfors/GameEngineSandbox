@@ -50,8 +50,8 @@ string FileSystem::GetResourcesDirectory()
 	std::string current_working_dir(buff);
 	const fs::path p = current_working_dir;
 	const auto executableDirectory = p.parent_path();
-	const auto folderPath = executableDirectory.generic_wstring();
-	path = string(folderPath + L"/resources/");
+	const auto folderPath = executableDirectory.generic_string();
+	path = string(folderPath + "/resources/");
 #elif __linux__
 	const fs::path currentPath = string(get_current_dir_name());
 	const auto folderPath = currentPath.generic_string();

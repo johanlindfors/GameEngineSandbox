@@ -10,6 +10,17 @@
       "ctestCommandArgs": "",
       "cmakeToolchain": "",
       "variables": []
-    }
+    },
+    {
+      "name": "arm64-Debug",
+      "configurationType": "Debug",
+      "buildRoot": "${workspaceRoot}/build/",
+      "installRoot": "${env.USERPROFILE}/CMakeBuilds/${workspaceHash}/install/${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": "",
+      "cmakeToolchain": "",
+      "variables": []
+    },
   ]
 }

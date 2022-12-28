@@ -19,15 +19,15 @@ namespace Engine {
 		Texture2D GetTexture(std::string fileName) const override;
 		bool IsLoaded() const override { return mInitialized; }
 
-		void LoadShader(const std::string& name, const std::string& vsFileName, const std::string& fsFileName);
-		std::shared_ptr<Shader> GetShader(const std::string& name) const;
+		void LoadShader(const std::string& name, const std::string& vsFileName, const std::string& fsFileName) override;
+		std::shared_ptr<Shader> GetShader(const std::string& name) const override;
 
 	private:
 		static Engine::Texture2D CreateEmptyTexture();
 
 		bool mInitialized;
 		std::map<std::string, Texture2D> mTextures;
-		std::map<std::string, std::shared_ptr<Shader>> mShaders;
+		std::map<std::string, std::shared_ptr<Shader> > mShaders;
 		std::unique_ptr<Engine::TextureLoader> mTextureLoader;
 		std::unique_ptr<Engine::ShaderLoader> mShaderLoader;
 	};
