@@ -22,7 +22,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-void StartWin32Appli	cation() {
+void StartWin32Application() {
 	const HINSTANCE hInstance = GetModuleHandle(nullptr);
 	MyRegisterClass(hInstance);
 

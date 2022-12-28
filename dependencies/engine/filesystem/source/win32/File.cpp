@@ -1,13 +1,29 @@
 #include "File.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "utilities/StringHelpers.h"
 
 using namespace std;
 using namespace Engine;
+using namespace Utilities;
 
-void File::Open(string filename)
+void File::Open(string filename, bool writeable)
 {
-	const auto err = _wfopen_s(&mFileHandle, filename.c_str(), L"rb");
+    auto wFilename = s2ws(filename);
+	const auto err = _wfopen_s(&mFileHandle, wFilename.c_str(), writeable ? L"wb" : L"rb");
     if ( err != 0) {
         mFileHandle = nullptr;
+    }
+}
+
+void File::Create(string filename) 
+{
+    auto wFilename = s2ws(filename);
+    std::cout << "[File::Create] Creating file '" << filename << "'!" << endl;
+    _wfopen_s(&mFileHandle, wFilename.c_str(), L"wb");
+    if(!mFileHandle) {
+        std::cout << "Failed to create file!" << endl;
     }
 }
 
@@ -18,4 +34,12 @@ void File::Close() {
             mFileHandle = nullptr;
         }
     }
+}
+
+string File::ReadAllText() {
+    ifstream fileStream;
+    fileStream.open(mFilename);
+    stringstream buffer;
+    buffer << fileStream.rdbuf();
+    return buffer.str();
 }

@@ -15,7 +15,7 @@ using namespace Utilities;
 Bird::Bird(Point<float> position)
     : IPhysicsBody(position)
 	, Bounds(Circle(position.X+16, position.X+12, 12))
-	, AABB(Rectangle(0, 0, 0, 0))
+	, AABB(Utilities::Rectangle(0, 0, 0, 0))
 	, IsKilled(false)
 	, mAnimationCounter(0)
 	, mFramesPerAnimation(4)
@@ -57,7 +57,7 @@ void Bird::Update(shared_ptr<IStepTimer> timer)
 			mSprite->Rotation -= (160.0f * timer->GetElapsedMilliSeconds() / 1000.0f);
 		}
 
-		AABB = Rectangle(Position.X,
+		AABB = Utilities::Rectangle(Position.X,
 						Position.Y,
 						mSprite->Width,
 						mSprite->Height);

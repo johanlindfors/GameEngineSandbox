@@ -83,21 +83,21 @@ void FontRenderer::DrawString(const string& str, Utilities::Point<float> centerP
 	int y = centerPosition.Y - dimensions.Height/2 * scale;
 	for(const auto& character : str) {
 		auto characterToDraw = mCharacters[character];
- 		DrawCharacter(characterToDraw.UVOffset, Rectangle(x, y, characterToDraw.Width * scale, characterToDraw.Height * scale));
+ 		DrawCharacter(characterToDraw.UVOffset, Utilities::Rectangle(x, y, characterToDraw.Width * scale, characterToDraw.Height * scale));
 		x += characterToDraw.XAdvance * scale;
 	}
 }
 
-Rectangle FontRenderer::MeasureString(const string& str) 
+Utilities::Rectangle FontRenderer::MeasureString(const string& str) 
 {
-	auto dimensions = Rectangle(0,0,0,63);
+	auto dimensions = Utilities::Rectangle(0,0,0,63);
 	for(const auto& character : str) {
 		dimensions.Width += mCharacters[character].XAdvance;
 	}
 	return dimensions;
 }
 
-void FontRenderer::DrawCharacter(int offset, Rectangle rectangle)
+void FontRenderer::DrawCharacter(int offset, Utilities::Rectangle rectangle)
 {
 	mShader->Use();
 

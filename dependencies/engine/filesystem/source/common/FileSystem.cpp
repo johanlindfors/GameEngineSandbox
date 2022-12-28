@@ -11,7 +11,7 @@ using namespace Windows::ApplicationModel;
 #include <Windows.h>
 #include <vector>
 #include <filesystem>
-namespace fs s= std::filesystem;
+namespace fs = std::filesystem;
 #elif __APPLE__
 #include <stdio.h>
 #include <unistd.h>
@@ -41,7 +41,7 @@ string FileSystem::GetResourcesDirectory()
 	vector<char> buffer(bufferSize + 1);
 	::GetModuleFileName(nullptr, &buffer[0], bufferSize);
 	const string s = &buffer[0];
-	const fs::path p = s;
+	const fs::path p(s);
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_wstring();
 #elif __APPLE__

@@ -14,7 +14,7 @@ else ()
     message(STATUS "  Diag: Build type specified as '${CMAKE_BUILD_TYPE}'")
 endif ()
 
-if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "_DEBUG")
 else ()
     set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "NDEBUG")

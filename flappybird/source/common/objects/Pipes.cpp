@@ -61,14 +61,14 @@ void Pipes::Update(shared_ptr<IStepTimer> timer)
 		if(TopPipe->Position.X <= -54) {
 			IsAlive = false;
 		}
-		Rectangle topAABB(
+		Utilities::Rectangle topAABB(
 			TopPipe->Position.X,
 			TopPipe->Position.Y,
 			TopPipe->Width,
 			TopPipe->Height + TopPipeSprite->Height
 		);
 	
-		Rectangle bottomAABB(
+		Utilities::Rectangle bottomAABB(
 			BottomPipe->Position.X,
 			BottomPipe->Position.Y - BottomPipeSprite->Height,
 			BottomPipe->Width,

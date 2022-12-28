@@ -4,7 +4,7 @@
 using namespace Utilities;
 
 // Reference: https://www.jeffreythompson.org/collision-detection/circle-rect.php
-bool ObjectCollider::Intersects(Circle circle, Rectangle rect)
+bool ObjectCollider::Intersects(Circle circle, Utilities::Rectangle rect)
 {
 	float testX = circle.Position.X;
 	float testY = circle.Position.Y;
@@ -31,7 +31,7 @@ bool ObjectCollider::Intersects(Circle circle, Rectangle rect)
 	return false;
 }
 
-bool ObjectCollider::Intersects(Rectangle r1, Rectangle r2)
+bool ObjectCollider::Intersects(Utilities::Rectangle r1, Utilities::Rectangle r2)
 {
 	return r1.Position.X <= (r2.Position.X + r2.Width) && (r1.Position.X + r1.Width) >= r2.Position.X &&
 		   r1.Position.Y <= (r2.Position.Y + r2.Height) && (r1.Position.Y + r1.Height) >= r2.Position.Y;

@@ -3,7 +3,7 @@
 #include <Windows.h>
 
 namespace Utilities {
-    std::string s2ws(const std::string& str)
+    std::wstring s2ws(const std::string& str)
     {
         if (str.empty())
         {
@@ -16,12 +16,12 @@ namespace Utilities {
             throw std::runtime_error("MultiByteToWideChar() failed: " + std::to_string(size_needed));
         }
 
-        std::string result(size_needed, 0);
+        std::wstring result(size_needed, 0);
         MultiByteToWideChar(CP_UTF8, 0, &str.at(0), (int)str.size(), &result.at(0), size_needed);
         return result;
     }
 
-    std::string ws2s(const std::string& wstr)
+    std::string ws2s(const std::wstring& wstr)
     {
         if (wstr.empty())
         {

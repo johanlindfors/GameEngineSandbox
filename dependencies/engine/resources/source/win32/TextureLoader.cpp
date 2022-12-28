@@ -8,10 +8,11 @@
 #include "utilities/IOC.hpp"
 #include "File.h"
 #include "resources/Texture2D.h"
+#include "utilities/StringHelpers.h"
 
 using namespace std;
 using namespace Engine;
-using Utilities::IOCContainer;
+using namespace Utilities;
 
 namespace Engine {
 	class TextureLoaderImpl {
@@ -144,14 +145,15 @@ namespace Engine {
 		void LoadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				const auto file = mFileSystem->LoadFile(std::string(L"textures\\" + texture.Name));
+				//auto wFilename = s2ws(texture.Name);
+				const auto file = mFileSystem->LoadFile(std::string("textures\\" + texture.Name), false);
 				if(file){
 					int width, height;
 					auto hasAlpha = false;
 					GLubyte *textureImage;
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
-						texture.Name = L"";
+						texture.Name = "";
 						std::cout << "Unable to load png file" << std::endl;
 						return;
 					}
@@ -168,7 +170,7 @@ namespace Engine {
 					texture.TextureIndex = 0;
 					texture.Width = 0;
 					texture.Height = 0;
-					texture.Name = L"";
+					texture.Name = "";
 				}
 			}
 		}
