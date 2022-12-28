@@ -18,7 +18,7 @@ GameLoop::GameLoop()
 
 void GameLoop::Initialize(shared_ptr<Config> config) {
 	mTimer = make_shared<StepTimer>();
-	mTimer->SetFixedTimeStep(config->UseFixedTimeStamp);
+	mTimer->SetFixedTimeStep(config->UseFixedTimeStep);
 	mTimer->SetTargetElapsedSeconds(1.0f/config->FPS);
 
     printf("[GameLoop::Initialize] Timer initialized\n");
