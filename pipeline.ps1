@@ -28,7 +28,7 @@ Param(
 $Cmake = "cmake.exe"
 $BuildDirectory = ""
 $PlatformParameters = ""
-$Generator = "Visual Studio 17 2022"
+$Generator = "Visual Studio 16 2019"
 $BuildType = ""
 $BuildConfiguration = "Debug"
 

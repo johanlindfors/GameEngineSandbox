@@ -16,7 +16,7 @@
 #include "objects/Ground.h"
 #include "renderers/FontRenderer.h"
 #include "systems/ScoreSystem.h"
-#include <cstdlib> 
+#include <cstdlib>
 #include <ctime>
 #include <string>
 
@@ -45,7 +45,9 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	ID = typeid(GamePlayScene).name();
 	mPipesGenerator.SetInterval(1250);
 
-	srand((unsigned)time(0));
+	std::random_device rd;
+    mGen = std::mt19937(rd());
+	mDistrib = std::uniform_int_distribution<>(0, 200);
 	Reset();
 }
 
@@ -87,7 +89,7 @@ void GamePlayScene::Reset()
 	{
 		pipe.reset();
 	}
-	
+
 	mPipes.clear();
 	mBird->Reset();
 	mPipesGenerator.Reset();
@@ -111,14 +113,14 @@ void GamePlayScene::GeneratePipes()
 		newPipes = make_shared<Pipes>(Point<float>(288 + 45, 0));
 		mPipes.push_back(newPipes);
 	}
-	auto y = random()%200 - 100;
+	auto y = mDistrib(mGen) - 100;
 	newPipes->Reset(Point<float>(288 + 45, y));
 }
 
 void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 {
 	auto const spacePressed = mInputManager->IsKeyDown(32);
-	
+
 	switch(mGame->GetCurrentState()) {
 	case GameState::GameOver:
 		if (spacePressed && !mSpacePressedBefore)
@@ -144,7 +146,7 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 		mGround->Update(timer);
 		mBird->Update(timer);
 		mPhysicsEngine->Update(timer);
-		
+
 		if(!mBird->IsKilled) {
 			for(auto pipe : mPipes) {
 				pipe->Update(timer);
@@ -194,7 +196,7 @@ void GamePlayScene::CheckCollisions()
 		mSkyline->Pause();
 		mBird->AllowGravity = false;
 		mGame->GoToState(GameState::GameOver);
-	}	
+	}
 }
 
 void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)

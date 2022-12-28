@@ -2,6 +2,7 @@
 #include "scenes/GameScene.h"
 #include <memory>
 #include <vector>
+#include <random>
 #include "StepTimer.h"
 
 class IGameStateCallback;
@@ -27,7 +28,7 @@ namespace Utilities
 	class ITweenEngine;
 }
 
-class GamePlayScene : public Engine::GameScene 
+class GamePlayScene : public Engine::GameScene
 {
 public:
     GamePlayScene(IGameStateCallback* gameCallback);
@@ -64,4 +65,7 @@ private:
 	Utilities::Timer mPipesGenerator;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
 	int mScore;
-}; 
+
+	std::mt19937 mGen; //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> mDistrib;
+};
