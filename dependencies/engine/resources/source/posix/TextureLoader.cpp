@@ -17,7 +17,7 @@ using Utilities::IOCContainer;
 namespace Engine {
 	class TextureLoaderImpl {
 	private:
-		static bool loadPngImage(std::shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
+		static bool loadPngImage(shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
 			png_structp png_ptr;
 			png_infop info_ptr;
 			const unsigned int sig_read = 0;
@@ -115,7 +115,7 @@ namespace Engine {
 
 			outHasAlpha = color_type & PNG_COLOR_MASK_ALPHA;
 			const auto row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
-			*outData = static_cast<unsigned char*>(malloc(row_bytes * outHeight));
+			*outData = static_cast<unsigned char*>(malloc(static_cast<size_t>(row_bytes) * static_cast<size_t>(outHeight)));
 
 			const auto row_pointers = png_get_rows(png_ptr, info_ptr);
 
@@ -141,7 +141,7 @@ namespace Engine {
 		TextureLoaderImpl()
 		{
 			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-		}
+		}	
 
 		void LoadTexture(Texture2D& texture)
 		{
@@ -174,14 +174,16 @@ namespace Engine {
 				}
 			}
 		}
-
 	private:
-		std::shared_ptr<IFileSystem> mFileSystem;
+		shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(std::make_unique<TextureLoaderImpl>()) { }
+	: mImpl(make_unique<TextureLoaderImpl>())
+{
+
+}
 
 TextureLoader::~TextureLoader()
 {
@@ -189,6 +191,6 @@ TextureLoader::~TextureLoader()
 }
 
 void TextureLoader::LoadTexture(Texture2D& texture)
-{
+{		
 	mImpl->LoadTexture(texture);
 }
