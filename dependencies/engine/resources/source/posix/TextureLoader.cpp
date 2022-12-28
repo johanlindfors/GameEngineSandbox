@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include <cstring>
 #include "utilities/IOC.hpp"
 #include "File.h"
 #include "resources/Texture2D.h"
