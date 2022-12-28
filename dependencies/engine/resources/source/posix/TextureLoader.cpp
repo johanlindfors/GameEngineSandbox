@@ -174,6 +174,7 @@ namespace Engine {
 				}
 			}
 		}
+
 	private:
 		shared_ptr<IFileSystem> mFileSystem;
 	};

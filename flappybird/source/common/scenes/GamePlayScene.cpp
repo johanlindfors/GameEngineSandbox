@@ -111,7 +111,7 @@ void GamePlayScene::GeneratePipes()
 		newPipes = make_shared<Pipes>(Point<float>(288 + 45, 0));
 		mPipes.push_back(newPipes);
 	}
-	auto y = rand()%200 - 100;
+	auto y = random()%200 - 100;
 	newPipes->Reset(Point<float>(288 + 45, y));
 }
 
