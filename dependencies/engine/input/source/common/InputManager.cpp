@@ -1,5 +1,5 @@
 #include "input/InputManager.h"
-
+#include <cstdio>
 using namespace Engine;
 
 void InputManager::AddKeyboardEvent(int keyCode, bool isPressed) 
@@ -10,6 +10,15 @@ void InputManager::AddKeyboardEvent(int keyCode, bool isPressed)
         }
     }
 }
+
+void InputManager::AddMouseEvent(MouseButton button, MouseButtonState state, int x, int y) 
+{
+    MouseState newState;
+    newState.Button = button;
+    newState.State = state;
+    newState.Position = Utilities::Point<int>(x, y);
+    mMouseStates.push(newState);
+}
     
 bool InputManager::IsKeyDown(int keyCode)
 {
@@ -17,4 +26,22 @@ bool InputManager::IsKeyDown(int keyCode)
         return mKeyboard[keyCode];
     }
     return false;
+}
+
+MouseState InputManager::GetMouseState() 
+{
+    MouseState result;
+    if(mMouseStates.empty()) {
+        result.State = MouseButtonState::None;
+    } else {
+        result = mMouseStates.front();        
+    }
+    return result;
+}
+
+void InputManager::Update() 
+{
+    if(!mMouseStates.empty()) {
+        mMouseStates.pop();
+    }
 }

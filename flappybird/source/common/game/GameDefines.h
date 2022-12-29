@@ -5,4 +5,4 @@
 #define FRAMES_PER_SECOND 60
 #define SCROLL_SPEED -150.0f
 #define GRAVITY 9.1f
-#define DEBUG_TEXTURES_ENABLED false
+#define DEBUG_TEXTURES_ENABLED true

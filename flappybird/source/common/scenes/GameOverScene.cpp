@@ -66,7 +66,19 @@ void GameOverScene::Unload() { }
 
 void GameOverScene::UpdateScreenSize(int width, int height) { }
 
-void GameOverScene::HandleInput() { }
+void GameOverScene::HandleInput() {
+	auto const mouseState = mInputManager->GetMouseState();
+	if(mouseState.State == MouseButtonState::Pressed) {
+		auto position = mouseState.Position;
+		if(position.X > 92 && 
+		   position.X < 92 + 104 &&
+		   position.Y > 176 &&
+		   position.Y < 176 + 58)
+		{
+			mGame->GoToState(GameState::Instructions);
+	    }
+	}
+}
 
 void GameOverScene::Update(shared_ptr<IStepTimer> timer)
 {

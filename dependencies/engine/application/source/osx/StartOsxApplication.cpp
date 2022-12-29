@@ -11,6 +11,7 @@ using namespace Engine;
 using namespace Utilities;
 
 void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 void StartOsxApplication(int argc, char **argv) {
     GLFWwindow* window;
@@ -45,6 +46,8 @@ void StartOsxApplication(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+
     printf("[StartOsxApplication] Creating Context\n");
     glfwMakeContextCurrent(window);
 
@@ -98,4 +101,14 @@ void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input)
     // Space
     pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
     input->AddKeyboardEvent(32, pressed);
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        auto input = IOCContainer::Instance().Resolve<IInputManager>();
+        input->AddMouseEvent(MouseButton::Left, MouseButtonState::Pressed, xpos, 505 - ypos);
+        printf("Mouse down: %lf, %lf", xpos, ypos);
+    }
 }

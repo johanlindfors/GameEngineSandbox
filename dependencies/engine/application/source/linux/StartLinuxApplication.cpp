@@ -10,6 +10,7 @@ using namespace Engine;
 using namespace Utilities;
 
 void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 void StartLinuxApplication(int argc, char **argv) {
     GLFWwindow* window;
@@ -32,6 +33,8 @@ void StartLinuxApplication(int argc, char **argv) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     window = glfwCreateWindow(width, height, config->Title.c_str(), NULL, NULL);
     glfwMakeContextCurrent(window);
+
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     game->Initialize(config);
     printf("[StartLinuxApplication] initialized\n");
@@ -85,4 +88,14 @@ void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input)
         // Escape
         pressed = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
         input->AddKeyboardEvent(256, pressed);
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        auto input = IOCContainer::Instance().Resolve<IInputManager>();
+        input->AddMouseEvent(MouseButton::Left, MouseButtonState::Pressed, xpos, 505 - ypos);
+        printf("Mouse down: %lf, %lf", xpos, ypos);
+    }
 }

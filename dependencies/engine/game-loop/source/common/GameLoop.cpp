@@ -89,6 +89,7 @@ void GameLoop::Update() const
 	// TODO: Add your game logic here.
 	mGameLoopCallback->Update(mTimer);	
 	mSceneManager->Update(mTimer);
+	mInputManager->Update();
 }
 
 void GameLoop::Render() {

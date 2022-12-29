@@ -92,11 +92,23 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	mSkyline->Update(timer);
 	mGround->Update(timer);
 	
-	auto const spacePressed = mInputManager->IsKeyDown(32);
-	if (spacePressed && !mSpacePressedBefore) {
-		mGame->GoToState(GameState::Instructions);
+	// auto const spacePressed = mInputManager->IsKeyDown(32);
+	// if (spacePressed && !mSpacePressedBefore) {
+	// 	mGame->GoToState(GameState::Instructions);
+	// }
+	// mSpacePressedBefore = spacePressed;
+
+	auto const mouseState = mInputManager->GetMouseState();
+	if(mouseState.State == MouseButtonState::Pressed) {
+		auto position = mouseState.Position;
+		if(position.X > 92 && 
+		   position.X < 92 + 104 &&
+		   position.Y > 176 &&
+		   position.Y < 176 + 58)
+		{
+			mGame->GoToState(GameState::Instructions);
+	    }
 	}
-	mSpacePressedBefore = spacePressed;
 }
 
 void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)

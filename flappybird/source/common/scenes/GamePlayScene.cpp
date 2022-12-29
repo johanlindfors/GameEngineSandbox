@@ -119,21 +119,21 @@ void GamePlayScene::GeneratePipes()
 
 void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 {
-	auto const spacePressed = mInputManager->IsKeyDown(32);
+	auto const mousePressed = mInputManager->GetMouseState().State == MouseButtonState::Pressed;
 
 	switch(mGame->GetCurrentState()) {
-	case GameState::GameOver:
-		if (spacePressed && !mSpacePressedBefore)
-		{
-			Reset();
-			mGame->GoToState(GameState::Instructions);
-		}
-		break;
+	// case GameState::GameOver:
+	// 	if (spacePressed && !mSpacePressedBefore)
+	// 	{
+	// 		Reset();
+	// 		mGame->GoToState(GameState::Instructions);
+	// 	}
+	// 	break;
 	case GameState::Instructions:
 		mSkyline->Update(timer);
 		mGround->Update(timer);
 		mBird->Update(timer);
-		if (spacePressed && !mSpacePressedBefore)
+		if (mousePressed)
 		{
 			Reset();
 			mGame->GoToState(GameState::GamePlay);
@@ -163,14 +163,13 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
 
 		CheckCollisions();
 
-		if (spacePressed && !mSpacePressedBefore)
+		if (mousePressed)
 		{
 			mBird->Flap();
 		}
 
 		break;
 	}
-	mSpacePressedBefore = spacePressed;
 }
 
 void GamePlayScene::CheckCollisions()
