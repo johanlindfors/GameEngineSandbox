@@ -343,4 +343,19 @@ namespace Engine {
 		TRACE("[GLHelper::GlUniform2fv]\n");
 		glUniform2fv(location, count, value);
 	}
+
+	void GlGenVertexArrays(GLsizei n, GLuint *arrays) {
+		TRACE("[GLHelper::GlGenVertexArrays]\n");
+		glGenVertexArrays(n, arrays);
+	}
+
+	void GlBindVertexArray(GLuint array) {
+		TRACE("[GLHelper::GlBindVertexArray]\n");
+		glBindVertexArray(array);
+	}
+
+	void GlDrawArrays(GLenum mode, GLint first, GLsizei count) {
+		TRACE("[GLHelper::GlDrawArrays]\n");
+		glDrawArrays(mode, first, count);
+	}
 }
