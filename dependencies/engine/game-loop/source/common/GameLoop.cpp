@@ -24,14 +24,18 @@ void GameLoop::Initialize(shared_ptr<Config> config) {
     printf("[GameLoop::Initialize] Timer initialized\n");
 
 	// Ordering is important
-	const auto fileSystem = make_shared<FileSystem>();
-	IOCContainer::Instance().Register<IFileSystem>(fileSystem);
-	printf("[GameLoop::Initialize] FileSystem registered\n");
-
-	const auto resourceManager = make_shared<ResourceManager>();
-	IOCContainer::Instance().Register<IResourceManager>(resourceManager);
-    printf("[GameLoop::Initialize] ResourceeManager registered\n");
-
+	if(IOCContainer::Instance().Contains<FileSystem>()){
+		const auto fileSystem = make_shared<FileSystem>();
+		IOCContainer::Instance().Register<IFileSystem>(fileSystem);
+		printf("[GameLoop::Initialize] FileSystem registered\n");
+	}
+	
+	if(IOCContainer::Instance().Contains<IResourceManager>()){
+		const auto resourceManager = make_shared<ResourceManager>();
+		IOCContainer::Instance().Register<IResourceManager>(resourceManager);
+		printf("[GameLoop::Initialize] ResourceeManager registered\n");
+	}
+	
 	mRenderer = IOCContainer::Instance().Resolve<IRenderer>();
 	mRenderer->Initialize();
 	printf("[GameLoop::Initialize] Renderer initalized\n");
