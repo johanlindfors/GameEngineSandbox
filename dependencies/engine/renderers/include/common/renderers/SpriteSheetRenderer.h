@@ -14,7 +14,7 @@ namespace Engine {
 
 		// Engine::ISpriteRenderer
 		void Initialize() override;
-		void UpdateWindowSize(GLsizei width, GLsizei height) override;
+		void UpdateWindowSize(int width, int height) override;
 		void Clear() override;
 		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
 		void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;

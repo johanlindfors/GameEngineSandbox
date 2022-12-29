@@ -10,7 +10,7 @@ namespace Utilities
 namespace Engine 
 {
 
-	class ISpriteRenderer;
+	class IRenderer;
 	class IInputManager;
 	class ISceneManager;
 	class IGameLoopCallback;
@@ -32,7 +32,7 @@ namespace Engine
 		void Clear() const;
 
 		std::shared_ptr<Utilities::IStepTimer> mTimer;
-		std::shared_ptr<ISpriteRenderer> mSpriteRenderer;
+		std::shared_ptr<IRenderer> mRenderer;
 		std::shared_ptr<IInputManager> mInputManager;
 		std::shared_ptr<IGameLoopCallback> mGameLoopCallback;
 		std::shared_ptr<ISceneManager> mSceneManager;

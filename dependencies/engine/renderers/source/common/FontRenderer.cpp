@@ -69,7 +69,7 @@ FontRenderer::~FontRenderer()
 	}
 }
 
-void FontRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
+void FontRenderer::UpdateWindowSize(int width, int height)
 {
 	glViewport(0, 0, width, height);
 	mWindowWidth = width;

@@ -30,7 +30,9 @@ namespace Utilities {
                 {
                     return std::static_pointer_cast<T>(iter->second);
                 }
-                throw std::runtime_error("Could not locate type in IOC");
+                char message[255];
+                sprintf(message, "Could not locate type in IOC: %s", id);
+                throw std::runtime_error(message);
             }
 
             template<class T>

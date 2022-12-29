@@ -74,7 +74,7 @@ SpriteSheetRenderer::~SpriteSheetRenderer()
 	}
 }
 
-void SpriteSheetRenderer::UpdateWindowSize(GLsizei width, GLsizei height)
+void SpriteSheetRenderer::UpdateWindowSize(int width, int height)
 {
 	GlViewport(0, 0, width, height);
 	mWindowWidth = width;
