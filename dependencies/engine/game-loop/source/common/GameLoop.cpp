@@ -32,9 +32,9 @@ void GameLoop::Initialize(shared_ptr<Config> config) {
 	IOCContainer::Instance().Register<IResourceManager>(resourceManager);
     printf("[GameLoop::Initialize] ResourceeManager registered\n");
 
-	mSpriteRenderer = IOCContainer::Instance().Resolve<ISpriteRenderer>();
-	mSpriteRenderer->Initialize();
-	printf("[GameLoop::Initialize] SpriteRenderer initalized\n");
+	mRenderer = IOCContainer::Instance().Resolve<IRenderer>();
+	mRenderer->Initialize();
+	printf("[GameLoop::Initialize] Renderer initalized\n");
 
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);
@@ -70,7 +70,7 @@ void GameLoop::UpdateWindowSize(int width, int height)
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
-	mSpriteRenderer->UpdateWindowSize(width, height);
+	mRenderer->UpdateWindowSize(width, height);
 	mSceneManager->UpdateScreenSize(width, height);
 }
 
@@ -102,11 +102,10 @@ void GameLoop::Render() {
 
 	Clear();
 
-	mSceneManager->Draw(mSpriteRenderer);
+	mSceneManager->Draw(mRenderer);
 }
 
 void GameLoop::Clear() const
 {
-	// TODO: Add your clearing code here
-	mSpriteRenderer->Clear();
+	mRenderer->Clear();
 }

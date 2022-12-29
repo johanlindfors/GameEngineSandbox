@@ -3,7 +3,6 @@
 #include <vector>
 
 namespace Engine {
-    class ISpriteRenderer;
 
     class SceneManager : public ISceneManager {
     public:
@@ -13,7 +12,7 @@ namespace Engine {
         void Initialize() override;
         void UpdateScreenSize(int width, int height) override;
         void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
-        void Draw(std::shared_ptr<ISpriteRenderer> renderer) override;
+        void Draw(std::shared_ptr<IRenderer> renderer) override;
         void AddScene(std::shared_ptr<GameScene> scene) override;
         void RemoveScene(const std::type_info& sceneType) override;
 

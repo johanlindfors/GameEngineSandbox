@@ -1,0 +1,8 @@
+<toast>
+    <visual version="2">
+        <binding template="ToastText02">
+            <text id="1">A snake</text>
+            <text id="2">Wanna play a game?</text>
+        </binding>
+    </visual>
+</toast>

@@ -57,7 +57,7 @@ void SceneManager::Update(std::shared_ptr<Utilities::IStepTimer> timer)
 	// printf("[SceneManager::Update] Scenes updated\n");
 }
 
-void SceneManager::Draw(shared_ptr<ISpriteRenderer> renderer)
+void SceneManager::Draw(shared_ptr<IRenderer> renderer)
 {
 	// printf("[SceneManager::Draw] \n");
 	if (!mInitialized || mScenes.size() == 0) {
