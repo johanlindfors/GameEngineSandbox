@@ -91,6 +91,7 @@ void SimpleRenderer::Initialize()
     GlVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     GlEnableVertexAttribArray(0);
 
+    GlEnable(GL_DEPTH_TEST);
     // glEnable(GL_CULL_FACE);
     // glCullFace(GL_BACK);
     // glFrontFace(GL_CW); 
