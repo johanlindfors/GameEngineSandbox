@@ -7,6 +7,7 @@ class IGameStateCallback;
 namespace Engine
 {
     class ISpriteRenderer;
+    class SimpleRenderer;
 }
 
 namespace Utilities
@@ -31,5 +32,6 @@ namespace Sample
             void Draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
         private:
+            std::shared_ptr<Engine::SimpleRenderer> mRenderer;
             IGameStateCallback* mGameCallback;
     };}

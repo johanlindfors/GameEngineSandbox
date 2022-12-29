@@ -31,6 +31,11 @@ void Shader::SetVector2f(const string& name, float x, float y)
     GlUniform2f(GlGetUniformLocation(ID, name.c_str()), x, y);
 }
 
+void Shader::SetVector3f(const string& name, float x, float y, float z)
+{
+    glUniform3f(GlGetUniformLocation(ID, name.c_str()), x, y, z);
+}
+
 void Shader::SetVector4f(const string& name, float x, float y, float z, float w)
 {
     GlUniform4f(GlGetUniformLocation(ID, name.c_str()), x, y, z, w);

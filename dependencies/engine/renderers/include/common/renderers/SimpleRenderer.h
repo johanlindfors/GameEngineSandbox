@@ -1,39 +1,33 @@
 #pragma once
+#include <memory>
 #include "IRenderer.h"
+#include "Camera.hpp"
 
 namespace Engine {
+	class Shader;
+
 	class SimpleRenderer : public IRenderer {
 	public:
-		SimpleRenderer() = default;
+		SimpleRenderer() 
+			: camera(glm::vec3(0.0f, 0.0f, 5.0f))
+			, angle(0.0f)
+			{ }
 		~SimpleRenderer() = default;
 
 		// Engine::IRenderer
         void Initialize() override;
 		void UpdateWindowSize(int width, int height) override;
 		void Clear() override;
-		// void Draw(std::shared_ptr<Sprite> sprite) override;
-        // void Draw(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
+		
+		void Draw();
+		// void Draw(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
 
 	private:
-		// void InitializeShaders();
-		// void InitializeBuffers();
-
-		// GLuint mProgram;
-		// GLsizei mWindowWidth;
-		// GLsizei mWindowHeight;
-
-		// // Vertex shader parameters
-		// GLint mVertexAttribLocation;
-		// GLint mUVAttribLocation;
-		// GLint mSpriteRectUniformLocation;
-		// GLint mSpriteWorldUniformLocation;
-		// GLint mTextureSizeUniformLocation;
-		// GLint mScreenSizeUniformLocation;
-
-		// // Fragment shader parameters
-		// GLint mTextureUniformLocation;
-
-		// GLuint mVertexPositionBuffer;
-		// GLuint mVertexUVBuffer;
+		unsigned int VBO, cubeVAO;
+		unsigned int lightCubeVAO;
+		std::shared_ptr<Shader> lightingShader;
+		std::shared_ptr<Shader> lightCubeShader;
+		Camera camera;
+		float angle;
 	};
 }

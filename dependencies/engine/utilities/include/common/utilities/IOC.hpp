@@ -36,6 +36,14 @@ namespace Utilities {
             }
 
             template<class T>
+            bool Contains()
+            {
+	            const auto id = typeid(T).name();
+	            const std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
+                return iter != _map.end();
+            }
+
+            template<class T>
             void Remove() {
 	            const auto id = typeid(T).name();
 
