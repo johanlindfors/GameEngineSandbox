@@ -24,6 +24,11 @@ namespace Engine {
     void GlGetProgramiv(GLuint program, GLenum pname, GLint *params);
     void GlGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 
+    void GlGenVertexArrays(GLsizei n, GLuint *arrays);
+    void GlBindVertexArray(GLuint array);
+    void GlEnableVertexAttribArray(GLuint index);
+    void GlDrawArrays(GLenum mode, GLint first, GLsizei count);
+
     void GlDeleteBuffers(GLsizei n, const GLuint *buffers);
     void GlBindBuffer(GLenum target, GLuint buffer);
     void GlGenBuffers(GLsizei n, GLuint *buffers);
@@ -42,7 +47,6 @@ namespace Engine {
     void GlClear(GLbitfield mask);
     void GlEnable(GLenum cap);
     void GlBlendFunc(GLenum sfactor, GLenum dfactor);
-    void GlEnableVertexAttribArray(GLuint index);
     void GlVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer);
     void GlDrawElements(GLenum mode, GLsizei count, GLenum type, const void *indices);
     GLint GlGetAttribLocation(GLuint program, const GLchar *name);
