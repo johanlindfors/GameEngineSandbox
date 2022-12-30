@@ -30,14 +30,15 @@ void StartOsxApplication(int argc, char **argv) {
         printf("Initialization of GLFW failed!");
         exit(EXIT_FAILURE);
     }
-    
-    printf("[StartOsxApplication] GLFW Initialized\n");
-    glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+  
     printf("[StartOsxApplication] GLFW Window Hint\n");
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     printf("[StartOsxApplication] GLFW Version 2\n");
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     printf("[StartOsxApplication] Creating Window\n");
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
     window = glfwCreateWindow(width, height, __FILE__, NULL, NULL);
     if (!window)
     {

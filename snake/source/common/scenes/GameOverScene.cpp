@@ -26,8 +26,8 @@ void GameOverScene::Load()
 	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mBackground->Texture = resourceManager->GetTexture(L"gameover/background.png");
-    mText->Texture = resourceManager->GetTexture(L"gameover/text.png");
+	mBackground->Texture = resourceManager->GetTexture("gameover/background.png");
+    mText->Texture = resourceManager->GetTexture("gameover/text.png");
 }
 
 void GameOverScene::Unload() { }
@@ -40,7 +40,8 @@ void GameOverScene::UpdateScreenSize(int width, int height)
 
 	mText->Height = height / 4;
 	mText->Width = width / 4;
-	mText->Position = { width / 2 - mText->Width / 2, height / 2 - mText->Height / 2 };
+	mText->Position = { static_cast<float>(width / 2 - mText->Width / 2), 
+						static_cast<float>(height / 2 - mText->Height / 2) };
 }
 
 void GameOverScene::HandleInput() 
@@ -56,10 +57,11 @@ void GameOverScene::Update(shared_ptr<IStepTimer> timer)
 	HandleInput();
 }
 
-void GameOverScene::Draw(shared_ptr<ISpriteRenderer> renderer)
+void GameOverScene::Draw(shared_ptr<IRenderer> renderer)
 {
-	if (renderer) {
-		renderer->DrawSprite(mBackground);
-        renderer->DrawSprite(mText);
+	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	if (spriteRenderer) {
+		spriteRenderer->DrawSprite(mBackground);
+        spriteRenderer->DrawSprite(mText);
 	}
 }

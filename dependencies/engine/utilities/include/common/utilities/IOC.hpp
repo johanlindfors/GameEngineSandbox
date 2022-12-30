@@ -1,5 +1,5 @@
 #pragma once
-#include "utilities/Singleton.h"
+#include "Singleton.h"
 #include <map>
 #include <string>
 #include <stdexcept>
@@ -13,7 +13,7 @@ namespace Utilities {
             {
 	            const auto id = typeid(T).name();
 
-	            const std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
+	            const std::map<std::string, std::shared_ptr<void> >::iterator iter = _map.find(id);
                 if (iter == _map.end())
                 {
                     _map[id] = t;
@@ -25,13 +25,13 @@ namespace Utilities {
             {
 	            const auto id = typeid(T).name();
 
-	            const std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
+	            const std::map<std::string, std::shared_ptr<void> >::iterator iter = _map.find(id);
                 if (iter != _map.end())
                 {
                     return std::static_pointer_cast<T>(iter->second);
                 }
                 char message[255];
-                sprintf(message, "Could not locate type in IOC: %s", id);
+                snprintf(message, sizeof(message), "Could not locate type in IOC: %s", id);
                 throw std::runtime_error(message);
             }
 
@@ -39,7 +39,7 @@ namespace Utilities {
             bool Contains()
             {
 	            const auto id = typeid(T).name();
-	            const std::map<std::string, std::shared_ptr<void>>::iterator iter = _map.find(id);
+	            const std::map<std::string, std::shared_ptr<void> >::iterator iter = _map.find(id);
                 return iter != _map.end();
             }
 
@@ -52,6 +52,6 @@ namespace Utilities {
 
 
         private:
-            std::map<std::string, std::shared_ptr<void>> _map;
+            std::map<std::string, std::shared_ptr<void> > _map;
     };
 }
