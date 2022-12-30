@@ -99,14 +99,15 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	mSpacePressedBefore = spacePressed;
 }
 
-void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)
+void SplashScene::Draw(shared_ptr<IRenderer> renderer)
 {
-	if (renderer) {
-		renderer->DrawSprite(mBackground);
-		mSkyline->Draw(renderer);
-		renderer->DrawSprite(mTitle);
-		renderer->DrawSprite(mButton);
-		mGround->Draw(renderer);
-		mBird->Draw(renderer);
+	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	if (spriteRenderer) {
+		spriteRenderer->DrawSprite(mBackground);
+		mSkyline->Draw(spriteRenderer);
+		spriteRenderer->DrawSprite(mTitle);
+		spriteRenderer->DrawSprite(mButton);
+		mGround->Draw(spriteRenderer);
+		mBird->Draw(spriteRenderer);
 	}
 }

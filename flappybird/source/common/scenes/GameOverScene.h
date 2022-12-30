@@ -14,7 +14,7 @@ namespace Engine
 {
 	struct Sprite;
 	class ITextureManager;
-	class ISpriteRenderer;
+	class IRenderer;
 	class IInputManager;
 	class FontRenderer;
 }
@@ -30,7 +30,7 @@ public:
 	void Unload() override;
 	void UpdateScreenSize(int width, int height) override;
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
-	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer) override;
+	void Draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
 private:
 	void HandleInput();

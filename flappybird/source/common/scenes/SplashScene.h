@@ -12,7 +12,7 @@ namespace Engine
 {
 	class IResourceManager;
 	class IInputManager;
-	class ISpriteRenderer;
+	class IRenderer;
 	struct Sprite;
 }
 
@@ -32,7 +32,7 @@ public:
 	void Unload() override;
 	void UpdateScreenSize(int width, int height) override;
 	void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
-	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer) override;
+	void Draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
 private:
 	std::shared_ptr<Engine::Sprite> mBackground;

@@ -58,10 +58,11 @@ void InstructionsScene::Update(shared_ptr<IStepTimer> timer)
 	mSpacePressedBefore = spacePressed;
 }
 
-void InstructionsScene::Draw(shared_ptr<ISpriteRenderer> renderer)
+void InstructionsScene::Draw(shared_ptr<IRenderer> renderer)
 {
-	if (renderer) {
-		renderer->DrawSprite(mInstructions);
-		renderer->DrawSprite(mGetReady);
+	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	if (spriteRenderer) {
+		spriteRenderer->DrawSprite(mInstructions);
+		spriteRenderer->DrawSprite(mGetReady);
 	}
 }

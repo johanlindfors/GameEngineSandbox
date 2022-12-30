@@ -30,7 +30,7 @@ void Bootstrap() {
     IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenyEngine>());
     
     auto spriteSheetRenderer = make_shared<SpriteSheetRenderer>(string("textures/atlas.txt"));    
-    IOCContainer::Instance().Register<ISpriteRenderer>(spriteSheetRenderer);
+    IOCContainer::Instance().Register<IRenderer>(spriteSheetRenderer);
     
     auto fontRenderer = make_shared<FontRenderer>(string("textures/numbers.fnt"));
     IOCContainer::Instance().Register<FontRenderer>(fontRenderer);

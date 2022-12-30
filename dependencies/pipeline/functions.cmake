@@ -23,6 +23,7 @@ macro(initialize_pipeline)
             set(PLATFORM osx)
             set(OSX 1)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOSX")
+            set(CMAKE_APPLE_SILICON_PROCESSOR arm64)
         endif()
     endif()
 
