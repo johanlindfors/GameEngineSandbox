@@ -95,7 +95,7 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 {
 	mShader->Use();
 
-	mShader->SetInteger("texture", 0);
+	mShader->SetInteger("texture1", 0);
 
 	GlActiveTexture(GL_TEXTURE0);
 	GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));

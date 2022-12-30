@@ -88,18 +88,19 @@ void GameOverScene::Update(shared_ptr<IStepTimer> timer)
 	HandleInput();
 }
 
-void GameOverScene::Draw(shared_ptr<ISpriteRenderer> renderer)
+void GameOverScene::Draw(shared_ptr<IRenderer> renderer)
 {
+	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
 	auto score = mScoreSystem->GetLatestScore();
-	if (renderer) {
-		renderer->DrawSprite(mGameOverText);
-		renderer->DrawSprite(mButton);
-		renderer->DrawSprite(mScoreBoard);
+	if (spriteRenderer) {
+		spriteRenderer->DrawSprite(mGameOverText);
+		spriteRenderer->DrawSprite(mButton);
+		spriteRenderer->DrawSprite(mScoreBoard);
 		if(score >= 10) {
 			if(score >= 20) {
 				mMedal->Offset = 10;
 			}
-			renderer->DrawSprite(mMedal);
+			spriteRenderer->DrawSprite(mMedal);
 		}
         mFontRenderer->DrawString(to_string(score), Point<float>(mScoreBoard->Position.X + 200, mScoreBoard->Position.Y + 68), 0.3f);
         mFontRenderer->DrawString(to_string(mScoreSystem->GetHighScore()), Point<float>(mScoreBoard->Position.X + 200, mScoreBoard->Position.Y + 18), 0.3f);

@@ -199,14 +199,15 @@ void GamePlayScene::CheckCollisions()
 	}
 }
 
-void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
+void GamePlayScene::Draw(shared_ptr<IRenderer> renderer)
 {
-	renderer->DrawSprite(mBackground);
-	mSkyline->Draw(renderer);
-	mBird->Draw(renderer); 
+	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	spriteRenderer->DrawSprite(mBackground);
+	mSkyline->Draw(spriteRenderer);
+	mBird->Draw(spriteRenderer); 
 	for(auto pipe : mPipes)
-		pipe->Draw(renderer);
-	mGround->Draw(renderer);
+		pipe->Draw(spriteRenderer);
+	mGround->Draw(spriteRenderer);
 	if(mGame->GetCurrentState() == GameState::GamePlay) {
 		mFontRenderer->DrawString(to_string(mScore), Point<float>(mScreenSizeX/2,mScreenSizeY/2+220), 0.4f);
 	}

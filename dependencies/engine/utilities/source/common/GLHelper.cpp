@@ -1,6 +1,6 @@
 #include "utilities/GLHelper.h"
 #include <vector>
-
+#define DEBUG 1
 #ifdef DEBUG
 #define TRACE(x)    printf(x)
 #else
