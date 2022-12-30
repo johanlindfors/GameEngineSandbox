@@ -11,14 +11,9 @@
 #include "game/GameDefines.h"
 #include "renderers/Sprite.h"
 
-using std::make_shared;
-using std::shared_ptr;
-using Engine::IInputManager;
-using Engine::ISpriteRenderer;
-using Engine::IResourceManager;
-using Utilities::IStepTimer;
-using Utilities::IOCContainer;
-using Utilities::Point;
+using namespace std;
+using namespace Engine;
+using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mApple(make_shared<Apple>(Point<int>(SCREEN_SIZE / 4, SCREEN_SIZE / 4)))
@@ -37,8 +32,8 @@ void GamePlayScene::Load()
 	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
 
-	mApple->SetTexture(resourceManager->GetTexture(L"apple.png"));
-	mSnake->SetTexture(resourceManager->GetTexture(L"snake.png"));
+	mApple->SetTexture(resourceManager->GetTexture("apple.png"));
+	mSnake->SetTexture(resourceManager->GetTexture("snake.png"));
 }
 
 void GamePlayScene::Unload()
@@ -89,8 +84,11 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 	mSpacePressedBefore = spacePressed;
 }
 
-void GamePlayScene::Draw(shared_ptr<ISpriteRenderer> renderer)
+void GamePlayScene::Draw(shared_ptr<IRenderer> renderer)
 {
-	mApple->Draw(renderer);
-	mSnake->Draw(renderer);
+	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	if(spriteRenderer) {
+		mApple->Draw(spriteRenderer);
+		mSnake->Draw(spriteRenderer);
+	}
 }

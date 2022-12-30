@@ -48,10 +48,8 @@ string FileSystem::GetResourcesDirectory()
 	char buff[FILENAME_MAX];
 	getcwd( buff, FILENAME_MAX );
 	std::string current_working_dir(buff);
-	const fs::path p = current_working_dir;
-	const auto executableDirectory = p.parent_path();
-	const auto folderPath = executableDirectory.generic_string();
-	path = string(folderPath + "/resources/");
+	printf("=== %s", current_working_dir.c_str());
+	path = string(current_working_dir + "/");// + "/resources/");
 #elif __linux__
 	const fs::path currentPath = string(get_current_dir_name());
 	const auto folderPath = currentPath.generic_string();

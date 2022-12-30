@@ -25,12 +25,5 @@ void Bootstrap() {
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IRenderer>(make_shared<SimpleRenderer>());
 
-    const auto fileSystem = make_shared<FileSystem>();
-	IOCContainer::Instance().Register<IFileSystem>(fileSystem);
-
-    const auto  resourceManager = make_shared<ResourceManager>();
-    resourceManager->LoadShader("basic_lighting", "basic_lighting.vs", "basic_lighting.fs");
-	resourceManager->LoadShader("light_cube", "light_cube.vs", "light_cube.fs");
-    IOCContainer::Instance().Register<IResourceManager>(resourceManager);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<GameStateMachine>());
 }

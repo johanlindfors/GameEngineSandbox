@@ -13,8 +13,8 @@ void Bootstrap() {
     config->Width = 500;
     config->Height = 500;
     config->FPS = 15;
-    config->UseFixedTimeStamp = true;
+    config->UseFixedTimeStep = true;
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<Game>());
-    IOCContainer::Instance().Register<ISpriteRenderer>(make_shared<SpriteRenderer>());
+    IOCContainer::Instance().Register<IRenderer>(make_shared<SpriteRenderer>());
 }

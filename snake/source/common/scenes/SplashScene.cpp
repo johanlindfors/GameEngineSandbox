@@ -28,18 +28,18 @@ void SplashScene::Load()
 	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
     
 	vector<string> fileNames;
-	fileNames.emplace_back(L"coderox.png");
+	fileNames.emplace_back("coderox.png");
 	mResourceManager->LoadTextures(vector<string>(fileNames));
 
-	mResourcesToLoad.push(L"apple.png");
-	mResourcesToLoad.push(L"snake.png");
-	mResourcesToLoad.push(L"gameover/background.png");
-	mResourcesToLoad.push(L"gameover/text.png");
-	mResourcesToLoad.push(L"pause/background.png");
-	mResourcesToLoad.push(L"pause/text.png");
+	mResourcesToLoad.push("apple.png");
+	mResourcesToLoad.push("snake.png");
+	mResourcesToLoad.push("gameover/background.png");
+	mResourcesToLoad.push("gameover/text.png");
+	mResourcesToLoad.push("pause/background.png");
+	mResourcesToLoad.push("pause/text.png");
 
 
-	mSprite->Texture = mResourceManager->GetTexture(L"coderox.png");
+	mSprite->Texture = mResourceManager->GetTexture("coderox.png");
     printf("[SplashScene::Load] Loaded\n");
 }
 
@@ -57,7 +57,8 @@ void SplashScene::UpdateScreenSize(int width, int height)
 		mSprite->Height = height;
 		mSprite->Width = static_cast<int>(height / spriteAspectRatio);
 	}
-	mSprite->Position = { width / 2.0f - mSprite->Width / 2.0f, height / 2.0f - mSprite->Height / 2.0f };
+	mSprite->Position = { static_cast<float>(width / 2.0f - mSprite->Width / 2.0f), 
+						  static_cast<float>(height / 2.0f - mSprite->Height / 2.0f) };
 }
 
 void SplashScene::Update(shared_ptr<IStepTimer> timer)
@@ -83,9 +84,10 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 	}
 }
 
-void SplashScene::Draw(shared_ptr<ISpriteRenderer> renderer)
+void SplashScene::Draw(shared_ptr<IRenderer> renderer)
 {
-	if (renderer && !isLoadingResources) {
-	    renderer->DrawSprite(mSprite);
+	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	if (spriteRenderer && !isLoadingResources) {
+	    spriteRenderer->DrawSprite(mSprite);
 	}
 }

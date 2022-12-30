@@ -20,8 +20,8 @@ void PauseScene::Load()
 {
 	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 
-	mBackground->Texture = resourceManager->GetTexture(L"pause/background.png");
-    mText->Texture = resourceManager->GetTexture(L"pause/text.png");
+	mBackground->Texture = resourceManager->GetTexture("pause/background.png");
+    mText->Texture = resourceManager->GetTexture("pause/text.png");
 }
 
 void PauseScene::UpdateScreenSize(int width, int height) 
@@ -32,13 +32,15 @@ void PauseScene::UpdateScreenSize(int width, int height)
 
 	mText->Height = height / 4;
 	mText->Width = width / 4;
-	mText->Position = { width / 2 - mText->Width / 2, height / 2 - mText->Height / 2 };
+	mText->Position = { static_cast<float>(width / 2 - mText->Width / 2), 
+						static_cast<float>(height / 2 - mText->Height / 2) };
 }
 
-void PauseScene::Draw(shared_ptr<ISpriteRenderer> renderer)
+void PauseScene::Draw(shared_ptr<IRenderer> renderer)
 {
-	if (renderer) {
-		renderer->DrawSprite(mBackground);
-        renderer->DrawSprite(mText);
+	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	if (spriteRenderer) {
+		spriteRenderer->DrawSprite(mBackground);
+        spriteRenderer->DrawSprite(mText);
 	}
 }
