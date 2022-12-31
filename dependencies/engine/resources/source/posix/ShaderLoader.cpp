@@ -25,6 +25,7 @@ namespace Engine {
 		string LoadShader(const string& fileName)
 		{
 			const auto file = mFileSystem->LoadFile(std::string("shaders/" + fileName), false);
+		    printf("[ShaderLoaderImpl::LoadShader] Loading shader\n");
 			std::string shader;
 			if(file && file->IsOpen()){
 				auto fileHandle = file->Get();

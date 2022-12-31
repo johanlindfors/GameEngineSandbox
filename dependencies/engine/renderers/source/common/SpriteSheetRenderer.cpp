@@ -95,7 +95,7 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 {
 	mShader->Use();
 
-	mShader->SetInteger("texture1", 0);
+	mShader->SetInteger("tex", 0);
 
 	GlActiveTexture(GL_TEXTURE0);
 	GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));
@@ -107,8 +107,8 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 	GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	GlBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-	GlEnableVertexAttribArray(mVertexAttribLocation);
 	GlVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+	GlEnableVertexAttribArray(mVertexAttribLocation);
 
 	glm::mat4 projection = glm::ortho(0.0f, (float)mWindowWidth, 0.0f, (float)mWindowHeight, -1.0f, 1.0f); 
 	mShader->SetMatrix4("projection", projection);
@@ -124,8 +124,8 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 	mShader->SetMatrix4("world", world);
 
 	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	GlEnableVertexAttribArray(mUVAttribLocation);
 	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*sprite->Offset*8));
+	GlEnableVertexAttribArray(mUVAttribLocation);
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
 	GlDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
@@ -137,8 +137,8 @@ void SpriteSheetRenderer::InitializeShaders() {
 	auto id = mShader->ID;
 
 	// Vertex shader parameters
-	mVertexAttribLocation = GlGetAttribLocation(id, "vertex");
-	mUVAttribLocation = GlGetAttribLocation(id, "a_uv");
+	mVertexAttribLocation = 0; // Hardcoded in shader
+	mUVAttribLocation = 1; // Hardcoded in shader
 	printf("Program with ID: %d attributes are fetched as: %d and %d\n", id, mVertexAttribLocation, mUVAttribLocation);
 }
 

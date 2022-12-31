@@ -33,9 +33,9 @@ void GameLoop::Initialize(shared_ptr<Config> config) {
 	if(!IOCContainer::Instance().Contains<IResourceManager>()){
 		const auto resourceManager = make_shared<ResourceManager>();
 		IOCContainer::Instance().Register<IResourceManager>(resourceManager);
-		printf("[GameLoop::Initialize] ResourceeManager registered\n");
+		printf("[GameLoop::Initialize] ResourceManager registered\n");
 	}
-	
+
 	mRenderer = IOCContainer::Instance().Resolve<IRenderer>();
 	mRenderer->Initialize();
 	printf("[GameLoop::Initialize] Renderer initalized\n");

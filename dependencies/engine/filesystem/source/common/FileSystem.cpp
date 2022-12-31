@@ -45,16 +45,17 @@ string FileSystem::GetResourcesDirectory()
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_wstring();
 #elif __APPLE__
-	char buff[FILENAME_MAX];
-	getcwd( buff, FILENAME_MAX );
-	std::string current_working_dir(buff);
-	printf("=== %s", current_working_dir.c_str());
-	path = string(current_working_dir + "/");// + "/resources/");
+	char buffer[FILENAME_MAX];
+	getcwd( buffer, FILENAME_MAX );
+	std::string current_working_dir(buffer);
+	path = string(current_working_dir + "/resources/");
 #elif __linux__
-	const fs::path currentPath = string(get_current_dir_name());
-	const auto folderPath = currentPath.generic_string();
-	path = string(folderPath + "/resources/");
+	char buffer[FILENAME_MAX];
+	getcwd((char*)&buffer, FILENAME_MAX);
+	std::string current_working_dir(buffer);
+	path = string(current_working_dir + "/resources/");
 #endif
+	printf("=== %s\n", path.c_str());
     return path;
 }
 
