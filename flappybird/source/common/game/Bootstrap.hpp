@@ -25,6 +25,8 @@ void Bootstrap() {
     config->Width = SCREEN_WIDTH;
     config->Height = SCREEN_HEIGHT;
     config->Title = "Flappy Bird";
+    config->GLMajorVersion = 3;
+    config->GLMinorVersion = 2;
     IOCContainer::Instance().Register<IPhysicsEngine>(make_shared<PhysicsEngine>());
     IOCContainer::Instance().Register<IObjectCollider>(make_shared<ObjectCollider>());
     IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenyEngine>());
