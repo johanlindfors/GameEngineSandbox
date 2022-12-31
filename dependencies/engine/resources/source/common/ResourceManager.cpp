@@ -74,6 +74,7 @@ Texture2D ResourceManager::GetTexture(string fileName) const
 
 void ResourceManager::LoadShader(const string& name, const string& vsFileName, const string& fsFileName)
 {
+    printf("[ResourceManager::LoadShader] Loading shader\n");
 	const auto vs = mShaderLoader->LoadShader(vsFileName);
 	const auto fs = mShaderLoader->LoadShader(fsFileName);
 	auto shader = make_shared<Shader>();

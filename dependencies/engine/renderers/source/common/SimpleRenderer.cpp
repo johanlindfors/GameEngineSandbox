@@ -13,6 +13,7 @@ using namespace Utilities;
 
 void SimpleRenderer::Initialize() 
 {
+    printf("[SimpleRenderer::Initialize] In initialize\n");
     auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
     resourceManager->LoadShader("basic_lighting", "basic_lighting.vs", "basic_lighting.fs");
 	resourceManager->LoadShader("light_cube", "light_cube.vs", "light_cube.fs");

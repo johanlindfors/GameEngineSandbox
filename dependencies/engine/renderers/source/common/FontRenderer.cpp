@@ -138,8 +138,8 @@ void FontRenderer::InitializeShaders() {
 	auto id = mShader->ID;
 
 	// Vertex shader parameters
-	mVertexAttribLocation = GlGetAttribLocation(id, "vertex");
-	mUVAttribLocation = GlGetAttribLocation(id, "a_uv");
+	mVertexAttribLocation = 0;// GlGetAttribLocation(id, "vertex");
+	mUVAttribLocation = 1;// GlGetAttribLocation(id, "a_uv");
 	printf("Program with ID: %d attributes are fetched as: %d and %d\n", id, mVertexAttribLocation, mUVAttribLocation);
 }
 

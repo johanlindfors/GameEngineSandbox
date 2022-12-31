@@ -14,6 +14,8 @@ void Bootstrap() {
     config->Height = 500;
     config->FPS = 15;
     config->UseFixedTimeStep = true;
+    config->GLMajorVersion = 2;
+    config->GLMinorVersion = 0;
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<Game>());
     IOCContainer::Instance().Register<IRenderer>(make_shared<SpriteRenderer>());

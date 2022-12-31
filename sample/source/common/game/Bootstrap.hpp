@@ -21,6 +21,8 @@ void Bootstrap() {
     config->Width = SCREEN_WIDTH;
     config->Height = SCREEN_HEIGHT;
     config->Title = "Sample 3d Scene";
+    config->GLMajorVersion = 3;
+    config->GLMinorVersion = 2;
     
     IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IRenderer>(make_shared<SimpleRenderer>());
