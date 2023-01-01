@@ -3,7 +3,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(GAME_TO_BUILD flappybird)
+SET(GAME_TO_BUILD "flappybird" CACHE STRING "Provide game to build")
+
 project(${GAME_TO_BUILD})
 
 if (CMAKE_BUILD_TYPE STREQUAL "")
