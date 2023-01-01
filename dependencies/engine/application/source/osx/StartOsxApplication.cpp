@@ -31,17 +31,19 @@ void StartOsxApplication(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
   
-    printf("[StartOsxApplication] GLFW Window Hint\n");
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    printf("[StartOsxApplication] GLFW Version 2\n");
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    printf("[StartOsxApplication] Creating Window\n");
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-    window = glfwCreateWindow(width, height, __FILE__, NULL, NULL);
+    glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+    //glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->GLMajorVersion);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->GLMinorVersion);
+    if(config->GLMajorVersion > 2) {
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    }
+    printf("Creating window!\n");
+    window = glfwCreateWindow(width, height, config->Title.c_str(), NULL, NULL);
     if (!window)
     {
+        printf("Creation of window failed!\n");
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
@@ -59,6 +61,7 @@ void StartOsxApplication(int argc, char **argv) {
 
     printf("GL_VERSION  : %s\n", glGetString(GL_VERSION) );
     printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER) );
+    printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();

@@ -26,7 +26,9 @@ void Bootstrap() {
     config->Height = SCREEN_HEIGHT;
     config->Title = "Flappy Bird";
     config->GLMajorVersion = 3;
-    config->GLMinorVersion = 2;
+    config->GLMinorVersion = 3;
+    IOCContainer::Instance().Register<Config>(config);
+
     IOCContainer::Instance().Register<IPhysicsEngine>(make_shared<PhysicsEngine>());
     IOCContainer::Instance().Register<IObjectCollider>(make_shared<ObjectCollider>());
     IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenyEngine>());
@@ -45,7 +47,5 @@ void Bootstrap() {
     lazyLoaded->emplace_back(fontRenderer);
     lazyLoaded->emplace_back(scoreSystem);
     IOCContainer::Instance().Register<LazyInitializedTypes>(lazyLoaded);
-
-    IOCContainer::Instance().Register<Config>(config);
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<GameStateMachine>());
 }

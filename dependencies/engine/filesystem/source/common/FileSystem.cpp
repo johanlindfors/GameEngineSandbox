@@ -48,14 +48,14 @@ string FileSystem::GetResourcesDirectory()
 	char buffer[FILENAME_MAX];
 	getcwd( buffer, FILENAME_MAX );
 	std::string current_working_dir(buffer);
-	path = string(current_working_dir + "/resources/");
+	path = string(current_working_dir + "/");//resources/");
 #elif __linux__
 	char buffer[FILENAME_MAX];
 	getcwd((char*)&buffer, FILENAME_MAX);
 	std::string current_working_dir(buffer);
 	path = string(current_working_dir + "/resources/");
 #endif
-	printf("=== %s\n", path.c_str());
+	//printf("=== %s\n", path.c_str());
     return path;
 }
 
