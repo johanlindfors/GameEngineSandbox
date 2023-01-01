@@ -51,7 +51,7 @@ string FileSystem::GetResourcesDirectory()
 	path = string(current_working_dir + "/");//resources/");
 #elif __linux__
 	char buffer[FILENAME_MAX];
-	getcwd((char*)&buffer, FILENAME_MAX);
+	getcwd(buffer, FILENAME_MAX);
 	std::string current_working_dir(buffer);
 	path = string(current_working_dir + "/resources/");
 #endif
