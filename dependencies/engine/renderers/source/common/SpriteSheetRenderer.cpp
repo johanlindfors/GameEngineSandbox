@@ -137,8 +137,8 @@ void SpriteSheetRenderer::InitializeShaders() {
 	auto id = mShader->ID;
 
 	// Vertex shader parameters
-	mVertexAttribLocation = 0; // Hardcoded in shader
-	mUVAttribLocation = 1; // Hardcoded in shader
+	mVertexAttribLocation = GlGetAttribLocation(id, "vertex");
+	mUVAttribLocation = GlGetAttribLocation(id, "a_uv");
 	printf("Program with ID: %d attributes are fetched as: %d and %d\n", id, mVertexAttribLocation, mUVAttribLocation);
 }
 
