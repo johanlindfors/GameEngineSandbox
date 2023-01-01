@@ -77,10 +77,11 @@ if(WINDOWS_STORE)
     set_property(SOURCE ${RESOURCES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 else()
 
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                       COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${COMMON_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
-    
+    if(EXISTS "${COMMON_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${COMMON_RESOURCES_DIRECTORY}")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                           COMMAND ${CMAKE_COMMAND} -E copy_directory
+                           ${COMMON_RESOURCES_DIRECTORY} $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
+    endif()
     set(PLATFORM_RESOURCES)
     if(EXISTS "${PLATFORM_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${PLATFORM_RESOURCES_DIRECTORY}")
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
