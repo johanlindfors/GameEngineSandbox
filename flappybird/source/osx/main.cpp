@@ -9,6 +9,9 @@ int main(int argc, char **argv)
 
     Bootstrap();
 
+    auto config = IOCContainer::Instance().Resolve<Config>();
+    config->GLMajorVersion = 2;
+    config->GLMinorVersion = 1;
     StartOsxApplication(argc, argv);
   
     return 0;
