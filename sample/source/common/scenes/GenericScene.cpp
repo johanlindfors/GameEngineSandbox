@@ -95,8 +95,6 @@ void GenericScene::UpdateScreenSize(int width, int height)
     mHeight = height;
 }
 
-void GenericScene::Update(std::shared_ptr<Utilities::IStepTimer> timer) { }
-
 void GenericScene::Draw(std::shared_ptr<Engine::IRenderer> renderer)
 { 
     float mvpMatrix[16] = {0};
