@@ -9,8 +9,8 @@ namespace Engine
 			IPhysicsBody(Utilities::Point<float> position) 
 				: IsAlive(true)
 				, AllowGravity(true)
-				, Position(Utilities::Point<float>(position.X, position.Y))
-				, Velocity(Utilities::Vector2(0.0f,0.0f))
+				, Position(Utilities::Point<float>{position.X, position.Y})
+				, Velocity(Utilities::Vector2{0.0f, 0.0f})
 			{}
 
 			virtual ~IPhysicsBody() = default;

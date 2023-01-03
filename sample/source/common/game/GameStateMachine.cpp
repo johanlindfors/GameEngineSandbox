@@ -2,6 +2,7 @@
 #include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.h"
 #include "scenes/RenderingScene.h"
+#include "scenes/GenericScene.h"
 
 using namespace std;
 using namespace Utilities;
@@ -29,7 +30,7 @@ void GameStateMachine::HandleRenderingState()
 	switch (mCurrentState)
 	{
 		case GameState::Unknown:
-			mSceneManager->AddScene(make_shared<Sample::RenderingScene>(this));
+			mSceneManager->AddScene(make_shared<Sample::GenericScene>(this));
 			break;
 		default:
 			break;

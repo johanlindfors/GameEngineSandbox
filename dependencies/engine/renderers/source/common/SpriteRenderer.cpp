@@ -69,21 +69,21 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position
 	
 	//printf("[SpriteRenderer::DrawSprite] Width : %d\n", sprite->Width);
 	//printf("[SpriteRenderer::DrawSprite] Height: %d\n", sprite->Height);
-	Vector4 spriteRect(0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height));
-	GlUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.m[0]));
+	Vector4 spriteRect{0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height)};
+	GlUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.idx[0]));
 	// CheckOpenGLError();
-    auto vector = Vector2(position.X, position.Y);
-	GlUniform2fv(mSpriteWorldUniformLocation, 1, &(vector.m[0]));
+    auto vector = Vector2{position.X, position.Y};
+	GlUniform2fv(mSpriteWorldUniformLocation, 1, &(vector.idx[0]));
 
-	Vector2 screenSize(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight));
-	GlUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.m[0]));
+	Vector2 screenSize{static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight)};
+	GlUniform2fv(mScreenSizeUniformLocation, 1, &(screenSize.idx[0]));
 
 	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
 	GlEnableVertexAttribArray(mUVAttribLocation);
 	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-	Vector2 textureSize(static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height));
-	GlUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.m[0]));
+	Vector2 textureSize{static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height)};
+	GlUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.idx[0]));
 
 	GlActiveTexture(GL_TEXTURE0);
 	GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));

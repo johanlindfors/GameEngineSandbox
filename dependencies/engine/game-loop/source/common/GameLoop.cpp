@@ -36,8 +36,8 @@ void GameLoop::Initialize(shared_ptr<Config> config) {
 		printf("[GameLoop::Initialize] ResourceManager registered\n");
 	}
 
-	mRenderer = IOCContainer::Instance().Resolve<IRenderer>();
-	mRenderer->Initialize();
+	// mRenderer = IOCContainer::Instance().Resolve<IRenderer>();
+	// mRenderer->Initialize();
 	printf("[GameLoop::Initialize] Renderer initalized\n");
 
 	mInputManager = make_shared<InputManager>();
@@ -74,7 +74,8 @@ void GameLoop::UpdateWindowSize(int width, int height)
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
-	mRenderer->UpdateWindowSize(width, height);
+	if(mRenderer)
+		mRenderer->UpdateWindowSize(width, height);
 	mSceneManager->UpdateScreenSize(width, height);
 }
 
@@ -111,5 +112,6 @@ void GameLoop::Render() {
 
 void GameLoop::Clear() const
 {
-	mRenderer->Clear();
+	if(mRenderer)
+		mRenderer->Clear();
 }

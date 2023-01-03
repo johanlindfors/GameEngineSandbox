@@ -20,50 +20,49 @@ namespace Utilities
         float m[4][4];
     };
 
-    struct Vector4
-    {
-        Vector4(float m0, float m1, float m2, float m3)
-        {
-            m[0] = m0;
-            m[1] = m1;
-            m[2] = m2;
-            m[3] = m3;
-        }
-
-        float m[4];
+    union Vector2 {
+        struct {
+            float x, y;
+        };
+        struct {
+            float u, v;
+        };
+        float idx[2];
     };
 
-    struct Vector2
+    union Vector3 
     {
-        Vector2(float x, float y)
-        {
-            m[0] = x;
-            m[1] = y;
-        }
-
-        float m[2];
-
-        // Overloading "+" operator
-        Vector2 operator+ (Vector2 const& vec)
-        {
-            return Vector2(m[0] + vec.m[0], m[1] + vec.m[1]);
-        }
-
-        Vector2 operator* (float value)
-        {
-            return Vector2(m[0] * value, m[1] * value);
-        }
+        struct {
+            float x, y, z;
+        };
+        float idx[3];
     };
+
+    union Vector4
+    {
+        struct {
+            float x, y, z, w;
+        };
+        float idx[4];
+    };
+
+    struct Vertex {
+        constexpr Vertex(const Vector3 &inPosition, const Vector2 &inUV) 
+            : position(inPosition)
+            , uv(inUV) {}
+
+        Vector3 position;
+        Vector2 uv;
+    };
+
+    typedef uint16_t Index;
 
     template <typename T>
-	struct Point {
-		Point(T x, T y)
-            : X(x)
-            , Y(y) 
-		{ }
-
-		T X;
-		T Y;
+	union Point {
+        struct {
+		    T X;
+		    T Y;
+        };
 
         // Overloading "+" operator
         Point<T> operator+ (Point<T> const& point)
@@ -74,14 +73,14 @@ namespace Utilities
         // Overloading "+" operator
         Point<T> operator+ (Vector2 const& vec)
         {
-            return Point<T>(X + vec.m[0], Y + vec.m[1]);
+            return Point<T>(X + vec.idx[0], Y + vec.idx[1]);
         }
 	};
 
     struct Rectangle
     {
         Rectangle(int x, int y, int width, int height)
-            : Position(Point<float>(x,y))
+            : Position(Point<float>{static_cast<float>(x), static_cast<float>(y)})
             , Width(width)
             , Height(height)
         { }
@@ -94,7 +93,7 @@ namespace Utilities
     struct Circle 
     {
         Circle(float x, float y, float radius)
-            : Position(Point<float>(x, y))
+            : Position(Point<float>{x, y})
             , Radius(radius)
         { }
 
@@ -142,5 +141,40 @@ namespace Utilities
     inline static float Lerp(float a, float b, float t) 
     {
         return a + t * (b - a);
+    }
+
+    static float *
+    buildOrthographicMatrix(float *outMatrix, 
+                            float halfHeight,
+                            float aspect,
+                            float near,
+                            float far) {
+        float halfWidth = halfHeight * aspect;
+
+        // column 1
+        outMatrix[0] = 1.f / halfWidth;
+        outMatrix[1] = 0.f;
+        outMatrix[2] = 0.f;
+        outMatrix[3] = 0.f;
+
+        // column 2
+        outMatrix[4] = 0.f;
+        outMatrix[5] = 1.f / halfHeight;
+        outMatrix[6] = 0.f;
+        outMatrix[7] = 0.f;
+
+        // column 3
+        outMatrix[8] = 0.f;
+        outMatrix[9] = 0.f;
+        outMatrix[10] = -2.f / (far - near);
+        outMatrix[11] = -(far + near) / (far - near);
+
+        // column 4
+        outMatrix[12] = 0.f;
+        outMatrix[13] = 0.f;
+        outMatrix[14] = 0.f;
+        outMatrix[15] = 1.f;
+
+        return outMatrix;
     }
 }

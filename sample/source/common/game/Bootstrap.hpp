@@ -25,7 +25,7 @@ void Bootstrap() {
     config->GLMinorVersion = 2;
     
     IOCContainer::Instance().Register<Config>(config);
-    IOCContainer::Instance().Register<IRenderer>(make_shared<SimpleRenderer>());
+    //IOCContainer::Instance().Register<IRenderer>(make_shared<SimpleRenderer>());
 
     IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<GameStateMachine>());
 }
