@@ -35,25 +35,25 @@ endmacro()
 macro(update_sources)
     file(GLOB_RECURSE COMMON_SOURCES
         source/common/*.cpp
-        source/common/*.h*
+        # source/common/*.h*
     )
     source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${COMMON_SOURCES})
     
     file(GLOB PLATFORM_SOURCES
         source/${PLATFORM}/*.cpp
-        source/${PLATFORM}/*.h*
+        # source/${PLATFORM}/*.h*
     )
     source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${PLATFORM_SOURCES})
 
     if(UWP OR WIN32)
         file(GLOB PLATFORM_COMMON_SOURCES
             source/msft/*.cpp
-            source/msft/*.h*
+            # source/msft/*.h*
         )
     else()
         file(GLOB PLATFORM_COMMON_SOURCES
             source/posix/*.cpp
-            source/posix/*.h*
+            # source/posix/*.h*
         )
     endif()
     source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${PLATFORM_COMMON_SOURCES})

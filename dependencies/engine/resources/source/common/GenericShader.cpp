@@ -26,7 +26,9 @@ GenericShader *GenericShader::loadShader(
                 projectionMatrixUniformName.c_str());
 
         // Only create a new shader if all the attributes are found.
-        if (projectionMatrixUniform != -1) {
+        if (projectionMatrixUniform != -1 &&
+            positionAttribute != -1 &&
+            uvAttribute != -1) {
 
             shader = new GenericShader(
                     program,
