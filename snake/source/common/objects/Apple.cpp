@@ -18,19 +18,19 @@ Apple::Apple(Point<int> position)
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
-void Apple::Draw(std::shared_ptr<ISpriteRenderer> renderer) {
-    renderer->DrawSprite(mSprite, Point<float>{mScreenPositionX, mScreenPositionY});
+void Apple::draw(std::shared_ptr<ISpriteRenderer> renderer) {
+    renderer->drawSprite(mSprite, Point<float>{mScreenPositionX, mScreenPositionY});
 }
 
-void Apple::Update(int screenWidth, int screenHeight)
+void Apple::update(int screenWidth, int screenHeight)
 {
-    Entity::Update(screenWidth, screenHeight);
+    Entity::update(screenWidth, screenHeight);
 
-    mScreenPositionX = mSprite->Position.X * screenWidth / SCREEN_SIZE;
-    mScreenPositionY = mSprite->Position.Y * screenHeight / SCREEN_SIZE;
+    mScreenPositionX = mSprite->position.x * screenWidth / SCREEN_SIZE;
+    mScreenPositionY = mSprite->position.y * screenHeight / SCREEN_SIZE;
 }
 
-void Apple::Reset(std::shared_ptr<Snake> snake, std::shared_ptr<PointCollider> collider) {
+void Apple::reset(std::shared_ptr<Snake> snake, std::shared_ptr<PointCollider> collider) {
     Point<int> newPosition{0, 0};
     bool collide;
     do {
@@ -39,10 +39,13 @@ void Apple::Reset(std::shared_ptr<Snake> snake, std::shared_ptr<PointCollider> c
         auto const y = std::rand() % SCREEN_SIZE;
         newPosition = Point<int>{x, y};
         for(auto const& snakeBody: snake->mTrail) {
-            if(collider->Collides(newPosition, snakeBody)) {
+            if(collider->collides(newPosition, snakeBody)) {
                 collide = true;
             }
         }
     } while(collide);
-	mSprite->Position = Point<float>{newPosition.X, newPosition.Y};
+	mSprite->position = Point<float>{
+        static_cast<float>(newPosition.x), 
+        static_cast<float>(newPosition.y)
+    };
 }

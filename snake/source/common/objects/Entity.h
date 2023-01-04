@@ -11,9 +11,9 @@ namespace Engine
 class Entity {
 public:
 	Entity(Utilities::Point<int> position);
-	void SetTexture(Engine::Texture2D texture) ;
-	void Update(int screenWidth, int screenHeight);
-	std::shared_ptr<Engine::Sprite> GetSprite() const { return mSprite; }
+	void setTexture(Engine::Texture2D texture) ;
+	void update(int screenWidth, int screenHeight);
+	std::shared_ptr<Engine::Sprite> getSprite() const { return mSprite; }
 
 protected:
 	std::shared_ptr<Engine::Sprite> mSprite;

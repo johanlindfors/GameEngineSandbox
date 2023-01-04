@@ -16,52 +16,52 @@ GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
 	, mText(make_shared<Sprite>())
 	, mGame(gameCallback)	
 {
-	ID = typeid(GameOverScene).name();
+	id = typeid(GameOverScene).name();
 }
 
 GameOverScene::~GameOverScene() { }
 
-void GameOverScene::Load()
+void GameOverScene::load()
 {
-	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
-	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
-	mBackground->Texture = resourceManager->GetTexture("gameover/background.png");
-    mText->Texture = resourceManager->GetTexture("gameover/text.png");
+	mBackground->texture = resourceManager->getTexture("gameover/background.png");
+    mText->texture = resourceManager->getTexture("gameover/text.png");
 }
 
-void GameOverScene::Unload() { }
+void GameOverScene::unload() { }
 
-void GameOverScene::UpdateScreenSize(int width, int height) 
+void GameOverScene::updateScreenSize(int width, int height) 
 {
-	mBackground->Height = height;
-	mBackground->Width = width;
-	mBackground->Position = { 0, 0 };
+	mBackground->height = height;
+	mBackground->width = width;
+	mBackground->position = { 0, 0 };
 
-	mText->Height = height / 4;
-	mText->Width = width / 4;
-	mText->Position = { static_cast<float>(width / 2 - mText->Width / 2), 
-						static_cast<float>(height / 2 - mText->Height / 2) };
+	mText->height = height / 4;
+	mText->width = width / 4;
+	mText->position = { static_cast<float>(width / 2 - mText->width / 2), 
+						static_cast<float>(height / 2 - mText->height / 2) };
 }
 
-void GameOverScene::HandleInput() 
+void GameOverScene::handleInput() 
 {
-	if (mInputManager->IsKeyDown(32)) // SpaceBar
+	if (mInputManager->isKeyDown(32)) // SpaceBar
 	{
-		mGame->GoToState(GameState::GamePlay);
+		mGame->goToState(GameState::GamePlay);
 	}
 }
 
-void GameOverScene::Update(shared_ptr<IStepTimer> timer)
+void GameOverScene::update(shared_ptr<IStepTimer> timer)
 {
-	HandleInput();
+	handleInput();
 }
 
-void GameOverScene::Draw(shared_ptr<IRenderer> renderer)
+void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
 	if (spriteRenderer) {
-		spriteRenderer->DrawSprite(mBackground);
-        spriteRenderer->DrawSprite(mText);
+		spriteRenderer->drawSprite(mBackground);
+        spriteRenderer->drawSprite(mText);
 	}
 }

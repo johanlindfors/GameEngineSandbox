@@ -14,12 +14,12 @@ Game::Game()
 	: mCurrentState(GameState::Unknown)
 	, mNextState(GameState::Unknown) { }
 
-void Game::Initialize()
+void Game::initialize()
 {
-	mSceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
+	mSceneManager = IOCContainer::instance().resolve<ISceneManager>();
 }
 
-void Game::HandleUnknownState()
+void Game::handleUnknownState()
 {
 	if(mCurrentState == GameState::Unknown)
 	{
@@ -27,7 +27,7 @@ void Game::HandleUnknownState()
 	}
 }
 
-void Game::HandleBootState()
+void Game::handleBootState()
 {
 	if(mCurrentState == GameState::Unknown)
 	{
@@ -36,29 +36,29 @@ void Game::HandleBootState()
 	}
 }
 
-void Game::HandleSplashState()
+void Game::handleSplashState()
 {
 	if(mCurrentState == GameState::Boot)
 	{
 		mCurrentState = GameState::Splash;
-		mSceneManager->AddScene(make_shared<SplashScene>(this));
+		mSceneManager->addScene(make_shared<SplashScene>(this));
 	}
 }
 
-void Game::HandleGamePlayState()
+void Game::handleGamePlayState()
 {
 	switch (mCurrentState)
 	{
 		case GameState::Splash:
-			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
-			mSceneManager->RemoveScene(typeid(SplashScene));
+			mSceneManager->addScene(make_shared<GamePlayScene>(this));
+			mSceneManager->removeScene(typeid(SplashScene));
 			break;
 		case GameState::GameOver:
-			mSceneManager->AddScene(make_shared<GamePlayScene>(this));
-			mSceneManager->RemoveScene(typeid(GameOverScene));
+			mSceneManager->addScene(make_shared<GamePlayScene>(this));
+			mSceneManager->removeScene(typeid(GameOverScene));
 			break;
 		case GameState::Pause:
-			mSceneManager->RemoveScene(typeid(PauseScene));
+			mSceneManager->removeScene(typeid(PauseScene));
 			break;
 		default:
 			break;
@@ -66,49 +66,49 @@ void Game::HandleGamePlayState()
 	mCurrentState = GameState::GamePlay;
 }
 
-void Game::HandleGameOverState()
+void Game::handleGameOverState()
 {
 	if (mCurrentState == GameState::GamePlay) {
 		mCurrentState = GameState::GameOver;
-		mSceneManager->AddScene(make_shared<GameOverScene>(this));
-		mSceneManager->RemoveScene(typeid(GamePlayScene));
+		mSceneManager->addScene(make_shared<GameOverScene>(this));
+		mSceneManager->removeScene(typeid(GamePlayScene));
 	}
 }
 
-void Game::HandlePauseState()
+void Game::handlePauseState()
 {
 	if (mCurrentState == GameState::GamePlay) {
 		mCurrentState = GameState::Pause;
-		mSceneManager->AddScene(make_shared<PauseScene>());
+		mSceneManager->addScene(make_shared<PauseScene>());
 	}
 }
 
-void Game::Update(shared_ptr<IStepTimer> timer)
+void Game::update(shared_ptr<IStepTimer> timer)
 {
 	switch (mNextState)
 	{
 	case GameState::Unknown:
-		HandleUnknownState();
+		handleUnknownState();
 		break;
 
 	case GameState::Boot:
-		HandleBootState();
+		handleBootState();
 		break;
 
 	case GameState::Splash:
-		HandleSplashState();
+		handleSplashState();
 		break;
 
 	case GameState::GamePlay:
-		HandleGamePlayState();
+		handleGamePlayState();
 		break;
 
 	case GameState::GameOver:
-		HandleGameOverState();
+		handleGameOverState();
 		break;
 
 	case GameState::Pause:
-		HandlePauseState();
+		handlePauseState();
 		break;
 
 	case GameState::Menu:
@@ -118,7 +118,7 @@ void Game::Update(shared_ptr<IStepTimer> timer)
 	}
 }
 
-void Game::GoToState(GameState gameState)
+void Game::goToState(GameState gameState)
 {
 	mNextState = gameState;
 }

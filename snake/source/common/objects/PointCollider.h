@@ -3,5 +3,5 @@
 
 class PointCollider {
 public:
-	static bool Collides(Utilities::Point<int> point1, Utilities::Point<int> point2);
+	static bool collides(Utilities::Point<int> point1, Utilities::Point<int> point2);
 };

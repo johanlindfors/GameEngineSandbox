@@ -24,71 +24,71 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mGame(gameCallback)
 	, mSpacePressedBefore(false)
 {
-	ID = typeid(GamePlayScene).name();
+	id = typeid(GamePlayScene).name();
 }
 
-void GamePlayScene::Load()
+void GamePlayScene::load()
 {
-	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
-	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
-	mApple->SetTexture(resourceManager->GetTexture("apple.png"));
-	mSnake->SetTexture(resourceManager->GetTexture("snake.png"));
+	mApple->setTexture(resourceManager->getTexture("apple.png"));
+	mSnake->setTexture(resourceManager->getTexture("snake.png"));
 }
 
-void GamePlayScene::Unload()
+void GamePlayScene::unload()
 {
 	mApple.reset();
 	mSnake.reset();
 }
 
-void GamePlayScene::UpdateScreenSize(int width, int height)
+void GamePlayScene::updateScreenSize(int width, int height)
 {
 	mScreenSizeX = width;
 	mScreenSizeY = height;
 }
 
-void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
+void GamePlayScene::update(shared_ptr<IStepTimer> /*timer*/)
 {
-	auto const spacePressed = mInputManager->IsKeyDown(32);
-	if (mGame->GetCurrentState() == GameState::GamePlay) {
-		mSnake->HandleInput(mInputManager);
+	auto const spacePressed = mInputManager->isKeyDown(32);
+	if (mGame->getCurrentState() == GameState::GamePlay) {
+		mSnake->handleInput(mInputManager);
 
 		// do updates
-		mApple->Update(mScreenSizeX, mScreenSizeY);
-		mSnake->Update(mScreenSizeX, mScreenSizeY, mGame);
+		mApple->update(mScreenSizeX, mScreenSizeY);
+		mSnake->update(mScreenSizeX, mScreenSizeY, mGame);
 
-		if (mCollider->Collides(
-			Point<int>{static_cast<int>(mSnake->GetSprite()->Position.X),
-					   static_cast<int>(mSnake->GetSprite()->Position.Y)}, 
-			Point<int>{static_cast<int>(mApple->GetSprite()->Position.X),
-		    		   static_cast<int>(mApple->GetSprite()->Position.Y)}
+		if (mCollider->collides(
+			Point<int>{static_cast<int>(mSnake->getSprite()->position.x),
+					   static_cast<int>(mSnake->getSprite()->position.y)}, 
+			Point<int>{static_cast<int>(mApple->getSprite()->position.x),
+		    		   static_cast<int>(mApple->getSprite()->position.y)}
 
 		))
 		{
-			mApple->Reset(mSnake, mCollider);
-			mSnake->IncreaseLength();
+			mApple->reset(mSnake, mCollider);
+			mSnake->increaseLength();
 		}
 
 		if (spacePressed && !mSpacePressedBefore)
 		{
-			mGame->GoToState(GameState::Pause);
+			mGame->goToState(GameState::Pause);
 		}
 	}
 	else {
 		if (spacePressed && !mSpacePressedBefore)
 		{
-			mGame->GoToState(GameState::GamePlay);
+			mGame->goToState(GameState::GamePlay);
 		}
 	}
 	mSpacePressedBefore = spacePressed;
 }
 
-void GamePlayScene::Draw(shared_ptr<IRenderer> renderer)
+void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
 	if(spriteRenderer) {
-		mApple->Draw(spriteRenderer);
-		mSnake->Draw(spriteRenderer);
+		mApple->draw(spriteRenderer);
+		mSnake->draw(spriteRenderer);
 	}
 }
