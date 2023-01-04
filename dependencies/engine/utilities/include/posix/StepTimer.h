@@ -59,7 +59,7 @@ namespace Utilities
 		// static uint64_t SecondsToMilliseconds(double seconds) { return 0; }//return static_cast<uint64_t>(seconds * CLOCKS_PER_SEC); }
 	
 		// Update timer state, calling the specified Update function the appropriate number of times.
-		void Tick(std::function<void()> update);
+		void Tick(std::function<void()> update,std::function<void()>,std::function<void()>);
 
 	private:
 		//clock_t m_lastFrameTime;

@@ -73,10 +73,11 @@ GameLoop::~GameLoop() {
 void GameLoop::Tick() {
 	if (!mIsInitialized)
 		return;
-	mTimer->Tick([&]() { 
-		Update(); 
-	});
-	Render();
+	mTimer->Tick(
+		[&]() { /* process input*/ },
+		[&]() { Update(); },
+		[&]() { Render(); }
+	);
 }
 
 void GameLoop::UpdateWindowSize(int width, int height)
