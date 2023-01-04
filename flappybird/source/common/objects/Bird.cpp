@@ -29,8 +29,8 @@ Bird::Bird(Point<float> position)
 }
 
 void Bird::Reset() {
-	Position = Point<float>(85.0f, SCREEN_HEIGHT/2.0f-12);
-	Velocity = Vector2(0.0f, 0.0f);
+	Position = Point<float>{85.0f, SCREEN_HEIGHT/2.0f-12};
+	Velocity = Vector2{0.0f, 0.0f};
 	mSprite->Rotation = 0;
 	mAnimationCounter = 0;
 	IsKilled = false;
@@ -77,7 +77,7 @@ void Bird::Flap()
 {
 	if(IsAlive && !IsKilled) {
 		AllowGravity = true;
-		Velocity.m[1] = 400;
+		Velocity.idx[1] = 400;
 
 		auto tweenEngine = IOCContainer::Instance().Resolve<ITweenEngine>();
 		tweenEngine->Add(mSprite->Rotation, [&](int value)
@@ -96,5 +96,5 @@ void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	renderer->DrawSprite(mDebugSprite, Position);
 #endif
-	renderer->DrawSprite(mSprite, Point<float>(Position.X, Position.Y));
+	renderer->DrawSprite(mSprite, Position);
 }

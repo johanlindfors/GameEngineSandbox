@@ -20,10 +20,10 @@ using namespace Utilities;
 SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	: mBackground(make_shared<Sprite>())
 	, mSkyline(make_shared<ParallaxBackground>())
-	, mGround(make_shared<Ground>(Point<float>(0,79), Vector2(SCROLL_SPEED,0)))
+	, mGround(make_shared<Ground>(Point<float>{0,79}, Vector2{SCROLL_SPEED,0}))
 	, mTitle(make_shared<Sprite>())
 	, mButton(make_shared<Sprite>())
-	, mBird(make_shared<Bird>(Point<float>(0,0)))
+	, mBird(make_shared<Bird>(Point<float>{0,0}))
 	, mMillisecondsToLoad(2000.0f)
 	, mHasLoadedGamePlay(false)
 	, mIsLoadingResources(true)
@@ -39,7 +39,7 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	mButton->Offset = 12;
 	mButton->Width = 104;
 	mButton->Height = 58;
-	mButton->Position = Point<float>(92,176);
+	mButton->Position = Point<float>{92,176};
 }
 
 SplashScene::~SplashScene() {
@@ -78,8 +78,8 @@ void SplashScene::UpdateScreenSize(int width, int height)
 	if(mWindowWidth == width && mWindowHeight == height)
 		return;
 
-	mTitle->Position = Point<float>(30.0f, height - 100.0f - mTitle->Height);
-	mBird->Position = Point<float>(230.0f, height - 129.0f);
+	mTitle->Position = Point<float>{30.0f, height - 100.0f - mTitle->Height};
+	mBird->Position = Point<float>{230.0f, height - 129.0f};
 
 	mWindowWidth = width;
 	mWindowHeight = height;
