@@ -21,7 +21,7 @@ using namespace Utilities;
 void Bootstrap() {
     auto config = make_shared<Config>();
     config->FPS = 60;
-    config->UseFixedTimeStep = false;
+    config->UseFixedTimeStep = true;
     config->Width = SCREEN_WIDTH;
     config->Height = SCREEN_HEIGHT;
     config->Title = "Flappy Bird";
