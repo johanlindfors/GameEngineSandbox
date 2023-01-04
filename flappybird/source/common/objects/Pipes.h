@@ -31,7 +31,7 @@ public:
 	{
 		Width = 52,
 		Height = 25;
-		Position = Utilities::Point<float>(position.X, position.Y);
+		Position = Utilities::Point<float>{position.X, position.Y};
 	}
 };
 

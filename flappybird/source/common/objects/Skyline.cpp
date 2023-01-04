@@ -18,7 +18,7 @@ Skyline::Skyline(Point<float> position, Vector2 velocity)
 
     for (size_t i = 0; i < 6; i++)
     {
-        auto point = Point<float>(position.X + i * 86, position.Y);
+        auto point = Point<float>{position.X + i * 86, position.Y};
         mSkyline.push_back(point);
     }
 }
@@ -26,7 +26,7 @@ Skyline::Skyline(Point<float> position, Vector2 velocity)
 void Skyline::Update(shared_ptr<IStepTimer> timer)
 {
     for(auto & position: mSkyline) {
-        position.X += (mVelocity.m[0] * timer->GetElapsedMilliSeconds() / 1000.0f);
+        position.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds() / 1000.0f);
         if(position.X < -100.0) {
             position.X += 6 * 86;
         } 
@@ -36,6 +36,6 @@ void Skyline::Update(shared_ptr<IStepTimer> timer)
 void Skyline::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
     for(auto const& position: mSkyline) {
-        renderer->DrawSprite(mSprite, Point<float>(position.X, position.Y));
+        renderer->DrawSprite(mSprite, Point<float>{position.X, position.Y});
     }
 }

@@ -67,13 +67,13 @@ namespace Utilities
         // Overloading "+" operator
         Point<T> operator+ (Point<T> const& point)
         {
-            return Point<T>(X + point.X, Y + point.Y);
+            return Point<T>{X + point.X, Y + point.Y};
         }
         
         // Overloading "+" operator
         Point<T> operator+ (Vector2 const& vec)
         {
-            return Point<T>(X + vec.idx[0], Y + vec.idx[1]);
+            return Point<T>{X + vec.idx[0], Y + vec.idx[1]};
         }
 	};
 

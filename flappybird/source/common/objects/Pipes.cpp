@@ -34,17 +34,17 @@ Pipes::Pipes(Point<float> position)
 
 void Pipes::Reset(Point<float> position)
 {
-	TopPipe->Position = Point<float>(position.X, position.Y);
-	BottomPipe->Position = Point<float>(position.X, position.Y);
+	TopPipe->Position = Point<float>{position.X, position.Y};
+	BottomPipe->Position = Point<float>{position.X, position.Y};
 
 	TopPipe->Position.Y += 400;
 	BottomPipe->Position.Y += 250;
 
 	TopPipeSprite->Height = 505 - TopPipe->Position.Y - TopPipe->Height;
-	TopPipeSprite->Position = Point<float>(TopPipe->Position.X, TopPipe->Position.Y + 25);
+	TopPipeSprite->Position = Point<float>{TopPipe->Position.X, TopPipe->Position.Y + 25};
 
 	BottomPipeSprite->Height = BottomPipe->Position.Y - 95;
-	BottomPipeSprite->Position = Point<float>(BottomPipe->Position.X, BottomPipe->Position.Y - BottomPipeSprite->Height);
+	BottomPipeSprite->Position = Point<float>{BottomPipe->Position.X, BottomPipe->Position.Y - BottomPipeSprite->Height};
 
 	IsAlive = true;
 	HasScored = false;
@@ -53,7 +53,7 @@ void Pipes::Reset(Point<float> position)
 void Pipes::Update(shared_ptr<IStepTimer> timer)
 {
 	if(IsAlive) {
-		Vector2 delta = Vector2((SCROLL_SPEED * timer->GetElapsedMilliSeconds() / 1000.0f), 0);
+		Vector2 delta = Vector2{(SCROLL_SPEED * timer->GetElapsedMilliSeconds() / 1000.0f), 0};
 		TopPipe->Position = TopPipe->Position + delta;
 		TopPipeSprite->Position = TopPipeSprite->Position + delta;
 		BottomPipe->Position = BottomPipe->Position + delta;
@@ -94,10 +94,10 @@ void Pipes::Update(shared_ptr<IStepTimer> timer)
 void Pipes::Draw(shared_ptr<ISpriteRenderer> renderer)
 {
 	if(IsAlive) {
-		renderer->DrawSprite(TopPipe, Point<float>(TopPipe->Position.X, TopPipe->Position.Y));
+		renderer->DrawSprite(TopPipe, Point<float>{TopPipe->Position.X, TopPipe->Position.Y});
 		renderer->DrawSprite(TopPipeSprite, TopPipeSprite->Position);
 		
-		renderer->DrawSprite(BottomPipe, Point<float>(BottomPipe->Position.X, BottomPipe->Position.Y));
+		renderer->DrawSprite(BottomPipe, Point<float>{BottomPipe->Position.X, BottomPipe->Position.Y});
 		renderer->DrawSprite(BottomPipeSprite, BottomPipeSprite->Position);
 
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)

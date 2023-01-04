@@ -25,12 +25,12 @@ InstructionsScene::InstructionsScene(IGameStateCallback* gameCallback)
 	mInstructions->Offset = 6;
 	mInstructions->Width = 113;
 	mInstructions->Height = 102;
-	mInstructions->Position = Point<float>(92,136);
+	mInstructions->Position = Point<float>{92,136};
 
 	mGetReady->Offset = 8;
 	mGetReady->Width = 184;
 	mGetReady->Height = 52;
-	mGetReady->Position = Point<float>(52,380);
+	mGetReady->Position = Point<float>{52,380};
 }
 
 void InstructionsScene::Load()

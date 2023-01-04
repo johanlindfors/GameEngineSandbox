@@ -36,9 +36,11 @@ void GameLoop::Initialize(shared_ptr<Config> config) {
 		printf("[GameLoop::Initialize] ResourceManager registered\n");
 	}
 
-	// mRenderer = IOCContainer::Instance().Resolve<IRenderer>();
-	// mRenderer->Initialize();
-	printf("[GameLoop::Initialize] Renderer initalized\n");
+	if(IOCContainer::Instance().Contains<IRenderer>()){
+		mRenderer = IOCContainer::Instance().Resolve<IRenderer>();
+		mRenderer->Initialize();
+		printf("[GameLoop::Initialize] Renderer initalized\n");
+	}
 
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::Instance().Register<IInputManager>(mInputManager);
