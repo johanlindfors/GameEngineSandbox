@@ -31,9 +31,11 @@ class Application
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->GLMajorVersion);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->GLMinorVersion);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
             window = glfwCreateWindow(width, height, config->Title.c_str(), NULL, NULL);
             glfwMakeContextCurrent(window);
-
+            glfwSwapInterval(0);
+            
             game->Initialize(config);
             printf("[StartLinuxApplication] initialized\n");
 

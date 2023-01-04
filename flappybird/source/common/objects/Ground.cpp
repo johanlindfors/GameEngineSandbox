@@ -51,7 +51,7 @@ void Ground::Update(shared_ptr<IStepTimer> timer)
     if(!mIsRunning)
         return;
     for(auto &ground: mGround) {
-        ground.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds() / 1000.0);
+        ground.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds());// / 1000.0);
         if(ground.X <= -30) {
             ground.X += 14 * 23;
         } 

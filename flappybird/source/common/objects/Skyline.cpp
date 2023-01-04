@@ -26,7 +26,7 @@ Skyline::Skyline(Point<float> position, Vector2 velocity)
 void Skyline::Update(shared_ptr<IStepTimer> timer)
 {
     for(auto & position: mSkyline) {
-        position.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds() / 1000.0f);
+        position.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds());
         if(position.X < -100.0) {
             position.X += 6 * 86;
         } 
