@@ -24,8 +24,8 @@ namespace Engine {
 			int color_type, interlace_type;
 			FILE *fp;
 
-			if(file->IsOpen()) {
-				fp = file->Get();
+			if(file->isOpen()) {
+				fp = file->get();
 			} else {
 				return false;
 			}
@@ -139,14 +139,14 @@ namespace Engine {
 	public:
 		TextureLoaderImpl()
 		{
-			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
+			mFileSystem = IOCContainer::instance().resolve<IFileSystem>();
 		}
 
-		void LoadTexture(Texture2D& texture)
+		void loadTexture(Texture2D& texture)
 		{
 			if (texture.Name != EMPTY_TEXTURE_NAME) {
 				//auto wFilename = s2ws(texture.Name);
-				const auto file = mFileSystem->LoadFile(std::string("textures\\" + texture.Name), false);
+				const auto file = mFileSystem->loadFile(std::string("textures\\" + texture.Name), false);
 				if(file){
 					int width, height;
 					auto hasAlpha = false;
@@ -160,13 +160,13 @@ namespace Engine {
 					texture.Width = width;
 					texture.Height = height;
 					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
-					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, hasAlpha, textureImage);
+					setTexturePixels(texture.TextureIndex, texture.Width, texture.Height, hasAlpha, textureImage);
 					if (textureImage) {
 						delete textureImage;
 					}
 				}
 				else {
-					DeleteTexture(texture.TextureIndex);
+					deleteTexture(texture.TextureIndex);
 					texture.TextureIndex = 0;
 					texture.Width = 0;
 					texture.Height = 0;
@@ -188,7 +188,7 @@ TextureLoader::~TextureLoader()
 	mImpl.reset(nullptr);
 }
 
-void TextureLoader::LoadTexture(Texture2D& texture)
+void TextureLoader::loadTexture(Texture2D& texture)
 {
-	mImpl->LoadTexture(texture);
+	mImpl->loadTexture(texture);
 }

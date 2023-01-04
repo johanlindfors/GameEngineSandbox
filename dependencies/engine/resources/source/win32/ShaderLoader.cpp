@@ -19,15 +19,15 @@ namespace Engine {
 	public:
 		ShaderLoaderImpl()
 		{
-			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
+			mFileSystem = IOCContainer::instance().resolve<IFileSystem>();
 		}	
 
 		string LoadShader(const string& fileName)
 		{
-			const auto file = mFileSystem->LoadFile(std::string("shaders/" + fileName), false);
+			const auto file = mFileSystem->loadFile(std::string("shaders/" + fileName), false);
 			std::string shader;
-			if(file && file->IsOpen()){
-				auto fileHandle = file->Get();
+			if(file && file->isOpen()){
+				auto fileHandle = file->get();
 				char buffer[100];
 				while(!feof(fileHandle)) {
 					if(fgets(buffer, 100, fileHandle) != NULL)
@@ -49,7 +49,7 @@ ShaderLoader::~ShaderLoader()
 	mImpl.reset(nullptr);
 }
 
-string ShaderLoader::LoadShader(const string& fileName)
+string ShaderLoader::loadShader(const string& fileName)
 {		
-	return mImpl->LoadShader(fileName);
+	return mImpl->loadShader(fileName);
 }

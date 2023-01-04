@@ -10,20 +10,20 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input);
+void inputHandler(GLFWwindow* window, shared_ptr<IInputManager> input);
 
-void StartOsxApplication(int argc, char **argv) {
+void startOsxApplication(int argc, char **argv) {
     GLFWwindow* window;
     shared_ptr<IInputManager> input;
 
     auto game = std::make_unique<GameLoop>();
     printf("[StartOsxApplication] game created\n");
-    auto config = IOCContainer::Instance().Resolve<Config>();
+    auto config = IOCContainer::instance().resolve<Config>();
     printf("[StartOsxApplication] found config\n");
 
     int width, height;
-    width = config->Width;
-    height = config->Height;
+    width = config->width;
+    height = config->height;
     printf("[StartOsxApplication] GetDefaultSize returned\n");
     
     if(!glfwInit()) {
@@ -33,14 +33,14 @@ void StartOsxApplication(int argc, char **argv) {
   
     glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
     //glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->GLMajorVersion);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->GLMinorVersion);
-    if(config->GLMajorVersion > 2) {
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->glMinorVersion);
+    if(config->glMajorVersion > 2) {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     }
     printf("Creating window!\n");
-    window = glfwCreateWindow(width, height, config->Title.c_str(), NULL, NULL);
+    window = glfwCreateWindow(width, height, config->title.c_str(), NULL, NULL);
     if (!window)
     {
         printf("Creation of window failed!\n");
@@ -53,10 +53,10 @@ void StartOsxApplication(int argc, char **argv) {
 
     glfwGetError(NULL);
     printf("[StartOsxApplication] Initializing game\n");
-    game->Initialize(config);
+    game->initialize(config);
     printf("[StartOsxApplication] initialized\n");
 
-    game->UpdateWindowSize(width, height);
+    game->updateWindowSize(width, height);
     printf("[StartOsxApplication] Windows size updated\n");
 
     printf("GL_VERSION  : %s\n", glGetString(GL_VERSION) );
@@ -69,37 +69,37 @@ void StartOsxApplication(int argc, char **argv) {
 
   	    if(game) {
             if(!input) {
-		        input = game->GetInput();
+		        input = game->getInput();
             }
-            InputHandler(window, input);
+            inputHandler(window, input);
 	    }
 
-        game->Tick();
+        game->tick();
         glfwSwapBuffers(window);
     }
     
     glfwTerminate();
 }
 
-void InputHandler(GLFWwindow* window, shared_ptr<IInputManager> input) 
+void inputHandler(GLFWwindow* window, shared_ptr<IInputManager> input) 
 {
     // Check left
     bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
-    input->AddKeyboardEvent(0x25, pressed);
+    input->addKeyboardEvent(0x25, pressed);
 
     // Check right
     pressed = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
-    input->AddKeyboardEvent(0x27, pressed);
+    input->addKeyboardEvent(0x27, pressed);
     
     // Check up
     pressed = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
-    input->AddKeyboardEvent(0x26, pressed);
+    input->addKeyboardEvent(0x26, pressed);
 
     // Check down
     pressed = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
-    input->AddKeyboardEvent(0x28, pressed);
+    input->addKeyboardEvent(0x28, pressed);
 
     // Space
     pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
-    input->AddKeyboardEvent(32, pressed);
+    input->addKeyboardEvent(32, pressed);
 }
