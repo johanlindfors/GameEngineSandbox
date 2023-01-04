@@ -77,7 +77,7 @@ class Application
                 game->Tick();
                 glfwSwapBuffers(window);
             }
-            
+            game.reset();
             glfwTerminate();
         }
 

@@ -9,11 +9,12 @@ namespace Utilities
 
 namespace Engine 
 {
-
 	class IRenderer;
 	class IInputManager;
 	class ISceneManager;
 	class IGameLoopCallback;
+	class IResourceManager;
+	class IFileSystem;
 
 	class GameLoop {
 	public:
@@ -36,6 +37,8 @@ namespace Engine
 		std::shared_ptr<IInputManager> mInputManager;
 		std::shared_ptr<IGameLoopCallback> mGameLoopCallback;
 		std::shared_ptr<ISceneManager> mSceneManager;
+		std::shared_ptr<IResourceManager> mResourceManager;
+		std::shared_ptr<IFileSystem> mFileSystem;
 		bool mIsInitialized;
 	};
 } // namespace Engine
