@@ -8,7 +8,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void File::Open(string filename, bool writeable)
+void File::open(string filename, bool writeable)
 {
     auto wFilename = s2ws(filename);
 	const auto err = _wfopen_s(&mFileHandle, wFilename.c_str(), writeable ? L"wb" : L"rb");
@@ -17,7 +17,7 @@ void File::Open(string filename, bool writeable)
     }
 }
 
-void File::Create(string filename) 
+void File::create(string filename) 
 {
     auto wFilename = s2ws(filename);
     std::cout << "[File::Create] Creating file '" << filename << "'!" << endl;
@@ -27,7 +27,7 @@ void File::Create(string filename)
     }
 }
 
-void File::Close() {
+void File::close() {
     if(mFileHandle)  {
 	    const auto err = fclose(mFileHandle);
         if(err != 0) {
@@ -36,7 +36,7 @@ void File::Close() {
     }
 }
 
-string File::ReadAllText() {
+string File::readAllText() {
     ifstream fileStream;
     fileStream.open(mFilename);
     stringstream buffer;

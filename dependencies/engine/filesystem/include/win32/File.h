@@ -8,12 +8,12 @@ namespace Engine
     {
         public:
     	// Engine::IFile
-            void Open(std::string filename, bool writeable) override;
-            void Create(std::string filename) override;
-            void Close() override;
-            bool IsOpen() override { return mFileHandle != nullptr; }
-            FILE * Get() const { return mFileHandle; }
-            std::string ReadAllText();
+            void open(std::string filename, bool writeable) override;
+            void create(std::string filename) override;
+            void close() override;
+            bool isOpen() override { return mFileHandle != nullptr; }
+            FILE * get() const { return mFileHandle; }
+            std::string readAllText();
             
         private:
             FILE * mFileHandle = nullptr;

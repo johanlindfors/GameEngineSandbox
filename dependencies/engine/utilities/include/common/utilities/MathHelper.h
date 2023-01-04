@@ -60,48 +60,48 @@ namespace Utilities
     template <typename T>
 	union Point {
         struct {
-		    T X;
-		    T Y;
+		    T x;
+		    T y;
         };
 
         // Overloading "+" operator
         Point<T> operator+ (Point<T> const& point)
         {
-            return Point<T>{X + point.X, Y + point.Y};
+            return Point<T>{x + point.x, y + point.y};
         }
         
         // Overloading "+" operator
         Point<T> operator+ (Vector2 const& vec)
         {
-            return Point<T>{X + vec.idx[0], Y + vec.idx[1]};
+            return Point<T>{x + vec.x, y + vec.y};
         }
 	};
 
     struct Rectangle
     {
-        Rectangle(int x, int y, int width, int height)
-            : Position(Point<float>{static_cast<float>(x), static_cast<float>(y)})
-            , Width(width)
-            , Height(height)
+        Rectangle(int x, int y, int w, int h)
+            : position(Point<float>{static_cast<float>(x), static_cast<float>(y)})
+            , width(w)
+            , height(h)
         { }
 
-        Point<float> Position;
-        int Width;
-        int Height;
+        Point<float> position;
+        int width;
+        int height;
     };
 
     struct Circle 
     {
         Circle(float x, float y, float radius)
-            : Position(Point<float>{x, y})
-            , Radius(radius)
+            : position(Point<float>{x, y})
+            , radius(radius)
         { }
 
-        Point<float> Position;
-        float Radius;
+        Point<float> position;
+        float radius;
     };
 
-    inline static Matrix4 SimpleModelMatrix(float radians)
+    inline static Matrix4 simpleModelMatrix(float radians)
     {
 	    const auto cosine = cosf(radians);
 	    const auto sine = sinf(radians);
@@ -112,7 +112,7 @@ namespace Utilities
                         0.0f, 0.0f,   0.0f, 1.0f);
     }
 
-    inline static Matrix4 SimpleViewMatrix()
+    inline static Matrix4 simpleViewMatrix()
     {
         // Camera is at 60 degrees to the ground, in the YZ plane.
         // Camera Look-At is hardcoded to (0, 0, 0).
@@ -126,7 +126,7 @@ namespace Utilities
                     0.0f,       0.0f, -cameraDistance, 1.0f);
     }
 
-    inline static Matrix4 SimpleProjectionMatrix(float aspectRatio)
+    inline static Matrix4 simpleProjectionMatrix(float aspectRatio)
     {
         // Far plane is at 50.0f, near plane is at 1.0f.
         // FoV is hardcoded to pi/3.
@@ -138,7 +138,7 @@ namespace Utilities
                                         0.0f,      0.0f,                   -1.0f,                             0.0f);
     }
 
-    inline static float Lerp(float a, float b, float t) 
+    inline static float lerp(float a, float b, float t) 
     {
         return a + t * (b - a);
     }

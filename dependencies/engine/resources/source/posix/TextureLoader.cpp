@@ -24,8 +24,8 @@ namespace Engine {
 			int color_type, interlace_type;
 			FILE *fp;
 
-			if(file->IsOpen()) {
-				fp = file->Get();
+			if(file->isOpen()) {
+				fp = file->get();
 			} else {
 				return false;
 			}
@@ -140,13 +140,13 @@ namespace Engine {
 	public:
 		TextureLoaderImpl()
 		{
-			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
+			mFileSystem = IOCContainer::instance().resolve<IFileSystem>();
 		}	
 
-		void LoadTexture(Texture2D& texture)
+		void loadTexture(Texture2D& texture)
 		{
-			if (texture.Name != EMPTY_TEXTURE_NAME) {
-				const auto file = mFileSystem->LoadFile(std::string("textures/" + texture.Name), false);
+			if (texture.name != EMPTY_TEXTURE_NAME) {
+				const auto file = mFileSystem->loadFile(std::string("textures/" + texture.name), false);
 				if(file){
 					int width, height;
 					auto hasAlpha = false;
@@ -154,23 +154,23 @@ namespace Engine {
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
 						std::cout << "Unable to load png file: " << std::endl;
-						texture.Name = "";
+						texture.name = "";
 						return;
 					}
-					texture.Width = width;
-					texture.Height = height;
+					texture.width = width;
+					texture.height = height;
 					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
-					SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, hasAlpha, textureImage);
+					setTexturePixels(texture.textureIndex, texture.width, texture.height, hasAlpha, textureImage);
 					if (textureImage) {
 						delete textureImage;
 					}
 				}
 				else {
-					DeleteTexture(texture.TextureIndex);
-					texture.TextureIndex = 0;
-					texture.Width = 0;
-					texture.Height = 0;
-					texture.Name = "";
+					deleteTexture(texture.textureIndex);
+					texture.textureIndex = 0;
+					texture.width = 0;
+					texture.height = 0;
+					texture.name = "";
 				}
 			}
 		}
@@ -188,7 +188,7 @@ TextureLoader::~TextureLoader()
 	mImpl.reset(nullptr);
 }
 
-void TextureLoader::LoadTexture(Texture2D& texture)
+void TextureLoader::loadTexture(Texture2D& texture)
 {		
-	mImpl->LoadTexture(texture);
+	mImpl->loadTexture(texture);
 }

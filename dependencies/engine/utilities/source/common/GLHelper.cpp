@@ -11,7 +11,7 @@ using namespace std;
 
 namespace Engine {
 
-	GLuint CompileShader(GLenum type, const string& source)
+	GLuint compileShader(GLenum type, const string& source)
 	{
 		TRACE("[GLHelper::CompileShader] Compiling shader\n");
 
@@ -23,7 +23,7 @@ namespace Engine {
 		GlCompileShader(shader);
 		TRACE("[GLHelper::CompileShader] Shader compiled\n");
 
-		CheckOpenGLError();
+		checkOpenGLError();
 
 		GLint compileResult;
 		GlGetShaderiv(shader, GL_COMPILE_STATUS, &compileResult);
@@ -43,22 +43,22 @@ namespace Engine {
 		return shader;
 	}
 
-	GLuint CompileProgram(const string& vsSource, const string& fsSource)
+	GLuint compileProgram(const string& vsSource, const string& fsSource)
 	{
 		TRACE("[GLHelper::CompileProgram] Creating program\n");
-		CheckOpenGLError();	
+		checkOpenGLError();	
 		const auto program = GlCreateProgram();
 		if (program == 0)
 		{
 			TRACE("[GLHelper::CompileProgram] Failed to create program -- should exit!\n");
-			CheckOpenGLError();	
+			checkOpenGLError();	
 		} else {
 			TRACE("[GLHelper::CompileProgram] Program created\n");
 		}
 
-		const auto vs = CompileShader(GL_VERTEX_SHADER, vsSource);
+		const auto vs = compileShader(GL_VERTEX_SHADER, vsSource);
 		TRACE("[GLHelper::CompileProgram] Vertex shader compiled\n");
-		const auto fs = CompileShader(GL_FRAGMENT_SHADER, fsSource);
+		const auto fs = compileShader(GL_FRAGMENT_SHADER, fsSource);
 		TRACE("[GLHelper::CompileProgram] Fragment shader compiled\n");
 
 		if (vs == 0 || fs == 0)
@@ -80,7 +80,7 @@ namespace Engine {
 
 		GLint linkStatus;
 		GlGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-		CheckOpenGLError();
+		checkOpenGLError();
 
 		if (linkStatus == 0)
 		{
@@ -98,19 +98,19 @@ namespace Engine {
 	}
 
 	// Needs to be called on UI thread
-	GLuint GenerateTexture()
+	GLuint generateTexture()
 	{
 		// Texture object handle
 		GLuint textureId = 0;
 		// Generate a texture object
 		GlGenTextures(1, &textureId);
 		printf("[GLHelper::GenerateTexture] TextureId: '%d'\n", textureId);
-		CheckOpenGLError();
+		checkOpenGLError();
 		return textureId;
 	}
 
 	// Need to be called on UI thread
-	void SetTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte* pixels)
+	void setTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte* pixels)
 	{
 		TRACE("[GLHelper::SetTexturePixels]\n");
 		// Bind the texture object
@@ -118,20 +118,20 @@ namespace Engine {
 		GlPixelStorei(GL_PACK_ALIGNMENT, 1);
 		GlPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		CheckOpenGLError();
+		checkOpenGLError();
 		GlTexImage2D(GL_TEXTURE_2D, 0, hasAlpha ? GL_RGBA : GL_RGB, static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, hasAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, pixels);
-		CheckOpenGLError();
+		checkOpenGLError();
 		// Set the filtering mode
 		GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 
-	void DeleteTexture(int textureIndex) {
+	void deleteTexture(int textureIndex) {
 		auto glTextureIndex = static_cast<GLuint>(textureIndex);
 		GlDeleteTextures(1, &glTextureIndex);
 	}
 
-	void CheckOpenGLError() {
+	void checkOpenGLError() {
 		const auto err = GlGetError();
 		if (err != GL_NO_ERROR) {
 			printf("OpenGL error %08x\n", err);

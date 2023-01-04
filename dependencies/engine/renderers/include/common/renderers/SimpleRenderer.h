@@ -15,11 +15,11 @@ namespace Engine {
 		~SimpleRenderer() = default;
 
 		// Engine::IRenderer
-        void Initialize() override;
-		void UpdateWindowSize(int width, int height) override;
-		void Clear() override;
+        void initialize() override;
+		void updateWindowSize(int width, int height) override;
+		void clear() override;
 		
-		void Draw();
+		void draw();
 		// void Draw(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
 
 	private:

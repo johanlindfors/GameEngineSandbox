@@ -45,10 +45,10 @@ static constexpr float kProjectionHalfHeight = 2.f;
 static constexpr float kProjectionNearPlane = -1.f;
 static constexpr float kProjectionFarPlane = 1.f;
 
-void GenericScene::Load() 
+void GenericScene::load() 
 {
-    printf("[GenericScene::Load]\n");
-    auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
+    printf("[GenericScene::load]\n");
+    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 
      /*
      * This is a square:
@@ -68,8 +68,8 @@ void GenericScene::Load()
             0, 1, 2, 0, 2, 3
     };
 
-    resourceManager->LoadTextures({ "coderox.png"});
-    auto spTexture = make_shared<Texture2D>(resourceManager->GetTexture("coderox.png"));
+    resourceManager->loadTextures({ "coderox.png"});
+    auto spTexture = make_shared<Texture2D>(resourceManager->getTexture("coderox.png"));
     
     // Create a model and put it in the back of the render list.
     mModels.emplace_back(vertices, indices, spTexture);
@@ -86,25 +86,25 @@ void GenericScene::Load()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void GenericScene::Unload() 
+void GenericScene::unload() 
 {
     printf("[GenericScene::Unload]\n");
     mShader->deactivate();
 }
 
-void GenericScene::UpdateScreenSize(int width, int height)
+void GenericScene::updateScreenSize(int width, int height)
 { 
     printf("[GenericScene::UpdateScreenSize]\n");
     mWidth = width;
     mHeight = height;
 }
 
-void GenericScene::Update(shared_ptr<IStepTimer> timer)
+void GenericScene::update(shared_ptr<IStepTimer> timer)
 {
     // printf("[GenericScene::Update]\n");
 }
 
-void GenericScene::Draw(std::shared_ptr<Engine::IRenderer> renderer)
+void GenericScene::draw(std::shared_ptr<Engine::IRenderer> renderer)
 {
     // printf("[GenericScene::Draw]\n");
     float mvpMatrix[16] = {0};

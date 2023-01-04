@@ -4,8 +4,8 @@ namespace Engine
 {
     class IRenderer {
         public:
-            virtual void Initialize() = 0;
-            virtual void UpdateWindowSize(int width, int height) = 0;
-		    virtual void Clear() = 0;
+            virtual void initialize() = 0;
+            virtual void updateWindowSize(int width, int height) = 0;
+		    virtual void clear() = 0;
     };
 }

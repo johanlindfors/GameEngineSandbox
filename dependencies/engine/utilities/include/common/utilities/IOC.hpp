@@ -9,7 +9,7 @@ namespace Utilities {
     class IOCContainer final : public Singleton<IOCContainer> {
         public:
             template<class T>
-            void Register(std::shared_ptr<T> t)
+            void register_type(std::shared_ptr<T> t)
             {
 	            const auto id = typeid(T).name();
 
@@ -21,7 +21,7 @@ namespace Utilities {
             }
 
             template<class T>
-            std::shared_ptr<T> Resolve()
+            std::shared_ptr<T> resolve()
             {
 	            const auto id = typeid(T).name();
 
@@ -36,7 +36,7 @@ namespace Utilities {
             }
 
             template<class T>
-            bool Contains()
+            bool contains()
             {
 	            const auto id = typeid(T).name();
 	            const std::map<std::string, std::shared_ptr<void> >::iterator iter = _map.find(id);
@@ -44,7 +44,7 @@ namespace Utilities {
             }
 
             template<class T>
-            void Remove() {
+            void remove() {
 	            const auto id = typeid(T).name();
 
                 _map.erase(id);

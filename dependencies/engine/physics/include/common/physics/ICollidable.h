@@ -7,7 +7,7 @@ namespace Engine
     {
         public:
             ICollidable(Utilities::Point<float> position)
-                : IsCollidable(false)
+                : isCollidable(false)
                 , AABB(Utilities::Rectangle(
                     position.X,
                     position.Y,
@@ -17,7 +17,7 @@ namespace Engine
 
    			virtual ~ICollidable() = default;
 
-            bool IsCollidable;
+            bool isCollidable;
             Utilities::Rectangle AABB;
     };
 }

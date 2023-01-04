@@ -5,22 +5,22 @@
 namespace Engine {
 	struct Sprite {
 		Sprite() 
-			: Texture({})
-			, Position({ 0, 0 })
-			, Velocity({ 0.0f, 0.0f })
-			, Width(0)
-			, Height(0)
-			, Rotation(0.0f)
-			, Offset(0)
+			: texture({})
+			, position({ 0, 0 })
+			, velocity({ 0.0f, 0.0f })
+			, width(0)
+			, height(0)
+			, rotation(0.0f)
+			, offset(0)
 		{}
 		~Sprite() = default;
 		
-		Texture2D Texture;
-		Utilities::Point<float> Position;
-		Utilities::Vector2 Velocity;
-		int Width;
-		int Height;
-		float Rotation;
-		int Offset;
+		Texture2D texture;
+		Utilities::Point<float> position;
+		Utilities::Vector2 velocity;
+		int width;
+		int height;
+		float rotation;
+		int offset;
 	};
 }

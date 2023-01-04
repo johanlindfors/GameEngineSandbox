@@ -9,14 +9,14 @@ namespace Utilities
 	class Tween
     {
 		public:
-			bool IsComplete;
+			bool isComplete;
 
 			Tween(float original, std::function<void(float)> setter, float target, float durationInMilliseconds);
-			void Update(std::shared_ptr<Utilities::IStepTimer> timer);
+			void update(std::shared_ptr<Utilities::IStepTimer> timer);
 
-			static bool IsTweenCompleted(std::shared_ptr<Tween> tween)
+			static bool isTweenCompleted(std::shared_ptr<Tween> tween)
 			{
-                if(tween->IsComplete) {
+                if(tween->isComplete) {
                     tween.reset();
                     return true;
                 }

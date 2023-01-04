@@ -9,7 +9,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void File::Open(string filename, bool writeable)
+void File::open(string filename, bool writeable)
 {
     mFilename = filename;
     std::cout << "[File::Open] Opening file '" << mFilename << "'!" << endl;
@@ -19,7 +19,7 @@ void File::Open(string filename, bool writeable)
     }
 }
 
-void File::Create(string filename) 
+void File::create(string filename) 
 {
     mFilename = filename;
     std::cout << "[File::Create] Creating file '" << mFilename << "'!" << endl;
@@ -29,7 +29,7 @@ void File::Create(string filename)
     }
 }
 
-void File::Close() {
+void File::close() {
     if(mFileHandle)  {
 	    const auto err = fclose(mFileHandle);
         if(err != 0) {
@@ -38,7 +38,7 @@ void File::Close() {
     }
 }
 
-string File::ReadAllText() {
+string File::readAllText() {
     ifstream fileStream;
     fileStream.open(mFilename);
     stringstream buffer;

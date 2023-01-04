@@ -20,69 +20,69 @@ ResourceManager::~ResourceManager()
 	mShaderLoader.reset();
 }
 
-Texture2D ResourceManager::CreateEmptyTexture() {
+Texture2D ResourceManager::createEmptyTexture() {
 	Texture2D texture;
-	texture.TextureIndex = GenerateTexture();
-	texture.Width = 1;
-	texture.Height = 1;
-	texture.Name = EMPTY_TEXTURE_NAME;
+	texture.textureIndex = generateTexture();
+	texture.width = 1;
+	texture.height = 1;
+	texture.name = EMPTY_TEXTURE_NAME;
 
 	const auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
-	SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, true, pixels);
+	setTexturePixels(texture.textureIndex, texture.width, texture.height, true, pixels);
 	delete[] pixels;
 
 	return texture;
 }
 
-void ResourceManager::LoadTextures(vector<string> fileNames)
+void ResourceManager::loadTextures(vector<string> fileNames)
 {
-	printf("[ResourceManager::LoadTextures]\n");
+	printf("[ResourceManager::loadTextures]\n");
 	if (!mInitialized) {
-		const auto emptyTexture = CreateEmptyTexture();
-		mTextures[emptyTexture.Name] = emptyTexture;
+		const auto emptyTexture = createEmptyTexture();
+		mTextures[emptyTexture.name] = emptyTexture;
 	}
 
 	for (auto const& filename : fileNames)
 	{
 		Texture2D texture;
-		texture.Name = filename;
-		texture.TextureIndex = GenerateTexture();
+		texture.name = filename;
+		texture.textureIndex = generateTexture();
 		mTextures[filename] = texture;
 	}
 
 	for (auto& texture : mTextures)
 	{
-		if (!texture.second.IsLoaded) {
-			mTextureLoader->LoadTexture(texture.second);
-			texture.second.IsLoaded = true;
+		if (!texture.second.isLoaded) {
+			mTextureLoader->loadTexture(texture.second);
+			texture.second.isLoaded = true;
 		}
 	}
 
 	mInitialized = true;
 }
 
-Texture2D ResourceManager::GetTexture(string fileName) const
+Texture2D ResourceManager::getTexture(string fileName) const
 {
 	if (mTextures.count(fileName) == 1) {
 		auto texture = mTextures.at(fileName);
-		if (texture.Name == fileName) {
+		if (texture.name == fileName) {
 			return texture;
 		}
 	}
 	return mTextures.at(EMPTY_TEXTURE_NAME);
 }
 
-void ResourceManager::LoadShader(const string& name, const string& vsFileName, const string& fsFileName)
+void ResourceManager::loadShader(const string& name, const string& vsFileName, const string& fsFileName)
 {
-    printf("[ResourceManager::LoadShader] Loading shader\n");
-	const auto vs = mShaderLoader->LoadShader(vsFileName);
-	const auto fs = mShaderLoader->LoadShader(fsFileName);
+    printf("[ResourceManager::loadShader] Loading shader\n");
+	const auto vs = mShaderLoader->loadShader(vsFileName);
+	const auto fs = mShaderLoader->loadShader(fsFileName);
 	auto shader = make_shared<Shader>();
-	shader->CreateShader(name, vs, fs);
+	shader->createShader(name, vs, fs);
 	mShaders[name] = shader;
 }
 
-shared_ptr<Shader> ResourceManager::GetShader(const string& name) const
+shared_ptr<Shader> ResourceManager::getShader(const string& name) const
 {
 	return mShaders.at(name);
 }

@@ -7,10 +7,10 @@ namespace Engine
         public:
 	    virtual ~IFile() = default;
 	    IFile() = default;
-            virtual void Open(std::string filename, bool writeable) = 0;
-            virtual void Create(std::string filename) = 0;
-            virtual void Close() = 0;
-            virtual bool IsOpen() = 0;
-            virtual std::string ReadAllText() = 0;
+            virtual void open(std::string filename, bool writeable) = 0;
+            virtual void create(std::string filename) = 0;
+            virtual void close() = 0;
+            virtual bool isOpen() = 0;
+            virtual std::string readAllText() = 0;
     };
 }

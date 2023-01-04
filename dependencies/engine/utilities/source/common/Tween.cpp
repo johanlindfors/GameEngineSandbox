@@ -11,17 +11,17 @@ Tween::Tween(float original, function<void(float)> setter, float target, float d
     , tweenFunc(setter)
     , duration(durationInMilliseconds)
     , elapsed(0)
-    , IsComplete(false)
+    , isComplete(false)
 { }
 
-void Tween::Update(shared_ptr<IStepTimer> timer)
+void Tween::update(shared_ptr<IStepTimer> timer)
 {
-    elapsed += timer->GetElapsedMilliSeconds();
+    elapsed += timer->getElapsedMilliSeconds();
     float currentValue = targetValue;
     if(elapsed <= duration) {
-        currentValue = Utilities::Lerp(originalValue, targetValue, elapsed / duration);
+        currentValue = Utilities::lerp(originalValue, targetValue, elapsed / duration);
     } else {
-        IsComplete = true;
+        isComplete = true;
     }
     tweenFunc(currentValue);
 }

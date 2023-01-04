@@ -108,7 +108,7 @@ void ShaderBase::drawModel(const Model &model) const {
             GL_FLOAT, // of type float
             GL_FALSE, // don't normalize
             sizeof(Utilities::Vertex), // stride is Vertex bytes
-            model.GetVertexData() // pull from the start of the vertex data
+            model.getVertexData() // pull from the start of the vertex data
     );
     glEnableVertexAttribArray(mPosition);
 
@@ -119,16 +119,16 @@ void ShaderBase::drawModel(const Model &model) const {
             GL_FLOAT, // of type float
             GL_FALSE, // don't normalize
             sizeof(Utilities::Vertex), // stride is Vertex bytes
-            ((uint8_t *) model.GetVertexData()) + sizeof(Utilities::Vector3) // offset Vector3 from the start
+            ((uint8_t *) model.getVertexData()) + sizeof(Utilities::Vector3) // offset Vector3 from the start
     );
     glEnableVertexAttribArray(mUv);
 
     // Setup the texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, model.GetTexture().TextureIndex);
+    glBindTexture(GL_TEXTURE_2D, model.getTexture().textureIndex);
 
     // Draw as indexed triangles
-    glDrawElements(GL_TRIANGLES, model.GetIndexCount(), GL_UNSIGNED_SHORT, model.GetIndexData());
+    glDrawElements(GL_TRIANGLES, model.getIndexCount(), GL_UNSIGNED_SHORT, model.getIndexData());
 
     glDisableVertexAttribArray(mUv);
     glDisableVertexAttribArray(mPosition);

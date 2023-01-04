@@ -11,15 +11,15 @@
 using namespace Engine;
 using namespace Utilities;
 
-void SimpleRenderer::Initialize() 
+void SimpleRenderer::initialize() 
 {
-    printf("[SimpleRenderer::Initialize] In initialize\n");
-    auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
-    resourceManager->LoadShader("basic_lighting", "basic_lighting.vs", "basic_lighting.fs");
-	resourceManager->LoadShader("light_cube", "light_cube.vs", "light_cube.fs");
+    printf("[SimpleRenderer::initialize] In initialize\n");
+    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+    resourceManager->loadShader("basic_lighting", "basic_lighting.vs", "basic_lighting.fs");
+	resourceManager->loadShader("light_cube", "light_cube.vs", "light_cube.fs");
 
-    lightingShader = resourceManager->GetShader("basic_lighting");
-    lightCubeShader = resourceManager->GetShader("light_cube");
+    lightingShader = resourceManager->getShader("basic_lighting");
+    lightCubeShader = resourceManager->getShader("light_cube");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -98,31 +98,28 @@ void SimpleRenderer::Initialize()
     // glFrontFace(GL_CW); 
 }
 
-void SimpleRenderer::UpdateWindowSize(int width, int height)
-{
+void SimpleRenderer::updateWindowSize(int width, int height) { }
 
-}
-
-void SimpleRenderer::Draw()
+void SimpleRenderer::draw()
 {
     // lighting
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
-    lightingShader->Use();
-    lightingShader->SetVector3f("objectColor", 1.0f, 0.5f, 0.31f);
-    lightingShader->SetVector3f("lightColor", 1.0f, 1.0f, 1.0f);
-    lightingShader->SetVector3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
+    lightingShader->use();
+    lightingShader->setVector3f("objectColor", 1.0f, 0.5f, 0.31f);
+    lightingShader->setVector3f("lightColor", 1.0f, 1.0f, 1.0f);
+    lightingShader->setVector3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
 
     // view/projection transformations
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)800 / (float)600, 0.1f, 100.0f);
-    glm::mat4 view = camera.GetViewMatrix();
-    lightingShader->SetMatrix4("projection", projection);
-    lightingShader->SetMatrix4("view", view);
+    glm::mat4 view = camera.getViewMatrix();
+    lightingShader->setMatrix4("projection", projection);
+    lightingShader->setMatrix4("view", view);
 
     // world transformation
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, angle += 0.01f, glm::vec3(1.0f,1.0f,1.0f));
-    lightingShader->SetMatrix4("model", model);
+    lightingShader->setMatrix4("model", model);
 
     // render the cube
     GlBindVertexArray(cubeVAO);
@@ -130,19 +127,19 @@ void SimpleRenderer::Draw()
 
 
     // also draw the lamp object
-    lightCubeShader->Use();
-    lightCubeShader->SetMatrix4("projection", projection);
-    lightCubeShader->SetMatrix4("view", view);
+    lightCubeShader->use();
+    lightCubeShader->setMatrix4("projection", projection);
+    lightCubeShader->setMatrix4("view", view);
     model = glm::mat4(1.0f);
     model = glm::translate(model, lightPos);
     model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-    lightCubeShader->SetMatrix4("model", model);
+    lightCubeShader->setMatrix4("model", model);
 
     GlBindVertexArray(lightCubeVAO);
     GlDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-void SimpleRenderer::Clear()
+void SimpleRenderer::clear()
 {
     GlClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     GlClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

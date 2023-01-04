@@ -29,7 +29,7 @@ namespace fs = std::filesystem;
 using namespace std;
 using namespace Engine;
 
-string FileSystem::GetResourcesDirectory()
+string FileSystem::getResourcesDirectory()
 {
 	string path;
 #ifdef UWP
@@ -59,10 +59,10 @@ string FileSystem::GetResourcesDirectory()
     return path;
 }
 
-std::shared_ptr<File> FileSystem::LoadFile(std::string filename, bool writeable)
+std::shared_ptr<File> FileSystem::loadFile(std::string filename, bool writeable)
 {
-	const auto directory = GetResourcesDirectory();
+	const auto directory = getResourcesDirectory();
 	auto file = std::make_shared<File>();
-	file->Open(directory + filename, writeable);
+	file->open(directory + filename, writeable);
 	return file;
 }

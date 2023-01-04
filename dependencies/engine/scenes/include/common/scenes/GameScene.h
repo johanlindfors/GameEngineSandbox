@@ -14,11 +14,11 @@ namespace Engine {
 	class GameScene {
 	public:
 		virtual ~GameScene() = default;
-		std::string ID;
-		virtual void Load() = 0;
-		virtual void Unload() = 0;
-		virtual void UpdateScreenSize(int width, int height) = 0;
-		virtual void Update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
-		virtual void Draw(std::shared_ptr<Engine::IRenderer> renderer) = 0;
+		std::string id;
+		virtual void load() = 0;
+		virtual void unload() = 0;
+		virtual void updateScreenSize(int width, int height) = 0;
+		virtual void update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
+		virtual void draw(std::shared_ptr<Engine::IRenderer> renderer) = 0;
 	};
 }

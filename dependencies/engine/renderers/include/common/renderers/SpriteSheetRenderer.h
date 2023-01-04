@@ -13,22 +13,22 @@ namespace Engine {
 		~SpriteSheetRenderer();
 
 		// Engine::ISpriteRenderer
-		void Initialize() override;
-		void UpdateWindowSize(int width, int height) override;
-		void Clear() override;
-		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
-		void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
+		void initialize() override;
+		void updateWindowSize(int width, int height) override;
+		void clear() override;
+		void drawSprite(std::shared_ptr<Sprite> sprite) override;
+		void drawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
 		
 		// Utilities::ILazyInitialized
-		void LazyInitialize() override;
+		void lazyInitialize() override;
 
-		void LoadSpriteSheet(std::string fileName);
+		void loadSpriteSheet(std::string fileName);
 
 	private:
-		void InitializeShaders();
-		void InitializeVertexBuffer();
-		void InitializeUVBuffer();
-		void AddUVs(int x1, int y1, int x2, int y2);
+		void initializeShaders();
+		void initializeVertexBuffer();
+		void initializeUVBuffer();
+		void addUVs(int x1, int y1, int x2, int y2);
 
 		std::string mFilename;
 		std::shared_ptr<Shader> mShader;

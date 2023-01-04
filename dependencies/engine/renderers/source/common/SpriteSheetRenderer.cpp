@@ -31,32 +31,31 @@ SpriteSheetRenderer::SpriteSheetRenderer(string filename)
 { 
 }
 
-void SpriteSheetRenderer::LazyInitialize() {
-	InitializeShaders();
-	InitializeVertexBuffer();
-	LoadSpriteSheet(mFilename);
+void SpriteSheetRenderer::lazyInitialize()
+{
+	initializeShaders();
+	initializeVertexBuffer();
+	loadSpriteSheet(mFilename);
 }
 
-void SpriteSheetRenderer::Initialize()
-{
-}
+void SpriteSheetRenderer::initialize() { }
 
-void SpriteSheetRenderer::LoadSpriteSheet(string fileName)
+void SpriteSheetRenderer::loadSpriteSheet(string fileName)
 {
-	auto filesystem = IOCContainer::Instance().Resolve<IFileSystem>();
-	auto file = filesystem->LoadFile(fileName, false);
-	if(file->IsOpen()) {
+	auto filesystem = IOCContainer::instance().resolve<IFileSystem>();
+	auto file = filesystem->loadFile(fileName, false);
+	if(file->isOpen()) {
 		int x1, y1, x2, y2;
 		char buffer[100];
-		auto fileHandle = file->Get();
+		auto fileHandle = file->get();
 		while(!feof(fileHandle)) {
     	    fscanf(fileHandle, "%d,%d,%d,%d", &x1, &y1, &x2, &y2);
-			AddUVs(x1, y1, x2, y2);
+			addUVs(x1, y1, x2, y2);
 	        fgets(buffer, 100, fileHandle); // skip the rest of the line
 		}
     }
     
-	InitializeUVBuffer();
+	initializeUVBuffer();
 }
 
 SpriteSheetRenderer::~SpriteSheetRenderer()
@@ -74,28 +73,28 @@ SpriteSheetRenderer::~SpriteSheetRenderer()
 	}
 }
 
-void SpriteSheetRenderer::UpdateWindowSize(int width, int height)
+void SpriteSheetRenderer::updateWindowSize(int width, int height)
 {
 	GlViewport(0, 0, width, height);
 	mWindowWidth = width;
 	mWindowHeight = height;
 }
 
-void SpriteSheetRenderer::Clear() {
+void SpriteSheetRenderer::clear() {
 	GlClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	GlClear(GL_COLOR_BUFFER_BIT);
 }
 
-void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite)
+void SpriteSheetRenderer::drawSprite(shared_ptr<Sprite> sprite)
 {
-	this->DrawSprite(sprite, sprite->Position);
+	this->drawSprite(sprite, sprite->position);
 }
 
-void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position)
+void SpriteSheetRenderer::drawSprite(shared_ptr<Sprite> sprite, Point<float> position)
 {
-	mShader->Use();
+	mShader->use();
 
-	mShader->SetInteger("tex", 0);
+	mShader->setInteger("tex", 0);
 
 	GlActiveTexture(GL_TEXTURE0);
 	GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));
@@ -111,29 +110,29 @@ void SpriteSheetRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> pos
 	GlEnableVertexAttribArray(mVertexAttribLocation);
 
 	glm::mat4 projection = glm::ortho(0.0f, (float)mWindowWidth, 0.0f, (float)mWindowHeight, -1.0f, 1.0f); 
-	mShader->SetMatrix4("projection", projection);
+	mShader->setMatrix4("projection", projection);
 
 	glm::mat4 world = glm::mat4(1.0f);
-	world= glm::translate(world, glm::vec3(position.X, position.Y, 0.0f)); 
-	if(sprite->Rotation != 0.0f) {
-		world = glm::translate(world, glm::vec3(0.5f * sprite->Texture.Width, 0.5f * sprite->Texture.Height, 0.0f)); 
-    	world = glm::rotate(world, glm::radians(sprite->Rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    	world = glm::translate(world, glm::vec3(-0.5f * sprite->Texture.Width, -0.5f * sprite->Texture.Height, 0.0f));		
+	world= glm::translate(world, glm::vec3(position.x, position.y, 0.0f)); 
+	if(sprite->rotation != 0.0f) {
+		world = glm::translate(world, glm::vec3(0.5f * sprite->texture.width, 0.5f * sprite->texture.height, 0.0f)); 
+    	world = glm::rotate(world, glm::radians(sprite->rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
+    	world = glm::translate(world, glm::vec3(-0.5f * sprite->texture.width, -0.5f * sprite->texture.height, 0.0f));		
 	}
-    world = glm::scale(world, glm::vec3(sprite->Width, sprite->Height, 1.0f));
-	mShader->SetMatrix4("world", world);
+    world = glm::scale(world, glm::vec3(sprite->width, sprite->height, 1.0f));
+	mShader->setMatrix4("world", world);
 
 	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*sprite->Offset*8));
+	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*sprite->offset*8));
 	GlEnableVertexAttribArray(mUVAttribLocation);
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
 	GlDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
 }
 
-void SpriteSheetRenderer::InitializeShaders() {
-	auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
-	mShader = resourceManager->GetShader("spritesheet");
+void SpriteSheetRenderer::initializeShaders() {
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	mShader = resourceManager->getShader("spritesheet");
 	auto id = mShader->ID;
 
 	// Vertex shader parameters
@@ -142,7 +141,7 @@ void SpriteSheetRenderer::InitializeShaders() {
 	printf("Program with ID: %d attributes are fetched as: %d and %d\n", id, mVertexAttribLocation, mUVAttribLocation);
 }
 
-void SpriteSheetRenderer::InitializeVertexBuffer()
+void SpriteSheetRenderer::initializeVertexBuffer()
 {
 	GLfloat vertexPositions[] =
 	{
@@ -157,7 +156,7 @@ void SpriteSheetRenderer::InitializeVertexBuffer()
 	GlBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
 }
 
-void SpriteSheetRenderer::AddUVs(int x1, int y1, int x2, int y2)
+void SpriteSheetRenderer::addUVs(int x1, int y1, int x2, int y2)
 {
 	GLfloat width = 512.0;
 	GLfloat height = 512.0;
@@ -177,7 +176,7 @@ void SpriteSheetRenderer::AddUVs(int x1, int y1, int x2, int y2)
 	mUVVertices.push_back(t1);
 }
 
-void SpriteSheetRenderer::InitializeUVBuffer() 
+void SpriteSheetRenderer::initializeUVBuffer() 
 {
 	GlGenBuffers(1, &mVertexUVBuffer);
 	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);

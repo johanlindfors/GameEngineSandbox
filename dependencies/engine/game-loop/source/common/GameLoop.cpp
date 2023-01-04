@@ -16,46 +16,46 @@ using namespace Utilities;
 GameLoop::GameLoop() 
 	: mIsInitialized(false) { }
 
-void GameLoop::Initialize(shared_ptr<Config> config) {
+void GameLoop::initialize(shared_ptr<Config> config) {
 	mTimer = make_shared<StepTimer>();
-	mTimer->SetFixedTimeStep(config->UseFixedTimeStep);
-	mTimer->SetTargetElapsedSeconds(1.0f/config->FPS);
+	mTimer->setFixedTimeStep(config->useFixedTimeStep);
+	mTimer->setTargetElapsedSeconds(1.0f/config->fps);
 
-    printf("[GameLoop::Initialize] Timer initialized\n");
+    printf("[GameLoop::initialize] Timer initialized\n");
 
 	// Ordering is important
-	if(!IOCContainer::Instance().Contains<FileSystem>()){
+	if(!IOCContainer::instance().contains<FileSystem>()){
 		mFileSystem = make_shared<FileSystem>();
-		IOCContainer::Instance().Register<IFileSystem>(mFileSystem);
-		printf("[GameLoop::Initialize] FileSystem registered\n");
+		IOCContainer::instance().register_type<IFileSystem>(mFileSystem);
+		printf("[GameLoop::initialize] FileSystem registered\n");
 	}
 	
-	if(!IOCContainer::Instance().Contains<IResourceManager>()){
+	if(!IOCContainer::instance().contains<IResourceManager>()){
 		mResourceManager = make_shared<ResourceManager>();
-		IOCContainer::Instance().Register<IResourceManager>(mResourceManager);
-		printf("[GameLoop::Initialize] ResourceManager registered\n");
+		IOCContainer::instance().register_type<IResourceManager>(mResourceManager);
+		printf("[GameLoop::initialize] ResourceManager registered\n");
 	}
 
-	if(IOCContainer::Instance().Contains<IRenderer>()){
-		mRenderer = IOCContainer::Instance().Resolve<IRenderer>();
-		mRenderer->Initialize();
-		printf("[GameLoop::Initialize] Renderer initalized\n");
+	if(IOCContainer::instance().contains<IRenderer>()){
+		mRenderer = IOCContainer::instance().resolve<IRenderer>();
+		mRenderer->initialize();
+		printf("[GameLoop::initialize] Renderer initalized\n");
 	}
 
 	mInputManager = make_shared<InputManager>();
-	IOCContainer::Instance().Register<IInputManager>(mInputManager);
-	printf("[GameLoop::Initialize] InputManager registered\n");
+	IOCContainer::instance().register_type<IInputManager>(mInputManager);
+	printf("[GameLoop::initialize] InputManager registered\n");
 
 	mSceneManager = make_shared<SceneManager>();
-	IOCContainer::Instance().Register<ISceneManager>(mSceneManager);
-	printf("[GameLoop::Initialize] SceneManager registered\n");
+	IOCContainer::instance().register_type<ISceneManager>(mSceneManager);
+	printf("[GameLoop::initialize] SceneManager registered\n");
 
-	mSceneManager->Initialize();
-	printf("[GameLoop::Initialize] SceneManager initialized\n");
+	mSceneManager->initialize();
+	printf("[GameLoop::initialize] SceneManager initialized\n");
 
 	// Game must register callback
-	mGameLoopCallback = IOCContainer::Instance().Resolve<IGameLoopCallback>();
-	mGameLoopCallback->Initialize();
+	mGameLoopCallback = IOCContainer::instance().resolve<IGameLoopCallback>();
+	mGameLoopCallback->initialize();
 
 	mIsInitialized = true;
 }
@@ -72,59 +72,59 @@ GameLoop::~GameLoop() {
 		mFileSystem.reset();
 }
 
-void GameLoop::Tick() {
+void GameLoop::tick() {
 	if (!mIsInitialized)
 		return;
-	mTimer->Tick(
+	mTimer->tick(
 		[&]() { /* process input*/ },
-		[&]() { Update(); },
-		[&]() { Render(); }
+		[&]() { update(); },
+		[&]() { render(); }
 	);
 }
 
-void GameLoop::UpdateWindowSize(int width, int height)
+void GameLoop::updateWindowSize(int width, int height)
 {
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
 	if(mRenderer)
-		mRenderer->UpdateWindowSize(width, height);
-	mSceneManager->UpdateScreenSize(width, height);
+		mRenderer->updateWindowSize(width, height);
+	mSceneManager->updateScreenSize(width, height);
 }
 
-void GameLoop::GetDefaultSize(int &width, int &height)
+void GameLoop::getDefaultSize(int &width, int &height)
 {
 	// TODO: Change to desired default window size (note minimum size is 320x200).
 	width = 500;
 	height = 500;
 }
 
-void GameLoop::Update() const
+void GameLoop::update() const
 {
 	if (!mIsInitialized)
 		return;
 
 	// TODO: Add your game logic here.
-	mGameLoopCallback->Update(mTimer);	
-	mSceneManager->Update(mTimer);
-	mInputManager->Update();
+	mGameLoopCallback->update(mTimer);	
+	mSceneManager->update(mTimer);
+	mInputManager->update();
 }
 
-void GameLoop::Render() {
+void GameLoop::render() {
 	if (!mIsInitialized)
 		return;
 	// Don't try to render anything before the first Update.
-	if (mTimer->GetFrameCount() == 0) {
+	if (mTimer->getFrameCount() == 0) {
 		return;
 	}
 
-	Clear();
+	clear();
 
-	mSceneManager->Draw(mRenderer);
+	mSceneManager->draw(mRenderer);
 }
 
-void GameLoop::Clear() const
+void GameLoop::clear() const
 {
 	if(mRenderer)
-		mRenderer->Clear();
+		mRenderer->clear();
 }

@@ -3,17 +3,17 @@
 #include <string>
 
 namespace Engine {
-    GLuint CompileShader(GLenum type, const std::string& source);
+    GLuint compileShader(GLenum type, const std::string& source);
 
-    GLuint CompileProgram(const std::string& vsSource, const std::string& fsSource);
+    GLuint compileProgram(const std::string& vsSource, const std::string& fsSource);
 
-    GLuint GenerateTexture();
+    GLuint generateTexture();
 
-    void SetTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte* pixels);
+    void setTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte* pixels);
 
-    void DeleteTexture(int textureIndex);
+    void deleteTexture(int textureIndex);
 
-    void CheckOpenGLError();
+    void checkOpenGLError();
 
     // Wrapping gl*
 

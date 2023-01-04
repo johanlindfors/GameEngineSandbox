@@ -13,8 +13,8 @@ Game::~Game()
 	printf("[Game::~Game]\n");
 }
 
-void Game::Initialize()
+void Game::initialize()
 {
-	auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
-	sceneManager->AddScene(make_shared<GenericScene>());
+	auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
+	sceneManager->addScene(make_shared<GenericScene>());
 }
