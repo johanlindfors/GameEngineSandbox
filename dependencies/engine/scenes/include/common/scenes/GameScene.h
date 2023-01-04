@@ -15,10 +15,10 @@ namespace Engine {
 	public:
 		virtual ~GameScene() = default;
 		std::string id;
-		virtual void load() = 0;
-		virtual void unload() = 0;
-		virtual void updateScreenSize(int width, int height) = 0;
-		virtual void update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
-		virtual void draw(std::shared_ptr<Engine::IRenderer> renderer) = 0;
+		virtual void load() { };
+		virtual void unload() { };
+		virtual void updateScreenSize(int width, int height) { };
+		virtual void update(std::shared_ptr<Utilities::IStepTimer> timer) { };
+		virtual void draw(std::shared_ptr<Engine::IRenderer> renderer) { };
 	};
 }
