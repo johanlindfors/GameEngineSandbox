@@ -76,7 +76,7 @@ void StepTimer::Tick(std::function<void()> processInput,std::function<void()> up
 	auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - m_lastFrameTime).count();
 	m_lastFrameTime = currentTime;
 
-	//if(delta < 0) delta = 0;
+	if(delta <= 0) delta = 1;
 
 	if(m_isFixedTimeStep) {
 		m_elapsedMilliseconds += delta;
@@ -99,7 +99,7 @@ void StepTimer::Tick(std::function<void()> processInput,std::function<void()> up
 		if(sleepForMilliseconds > 0)
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepForMilliseconds));
 	} else {
-		m_elapsedMilliseconds = delta;
+		m_elapsedMilliseconds += delta;
 		m_elapsedSeconds += delta;
 		update();
 		render();

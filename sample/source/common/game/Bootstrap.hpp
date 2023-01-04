@@ -17,7 +17,7 @@ using namespace Utilities;
 void Bootstrap() {
     auto config = make_shared<Config>();
     config->FPS = 2;
-    config->UseFixedTimeStep = true;
+    config->UseFixedTimeStep = false;
     config->Width = SCREEN_WIDTH;
     config->Height = SCREEN_HEIGHT;
     config->Title = "Sample 3d Scene";

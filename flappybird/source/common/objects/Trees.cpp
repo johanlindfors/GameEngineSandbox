@@ -24,7 +24,7 @@ Trees::Trees(Point<float> position, Vector2 velocity)
 
 void Trees::Update(shared_ptr<IStepTimer> timer)
 {
-    mPosition.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds() / 1000.0f);
+    mPosition.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds());
     if(mPosition.X <= -415.0) {
         mPosition.X += 415.0;
     }
