@@ -18,18 +18,18 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	, isLoadingResources(false)
 	, mGame(gameCallback)
 {
-	ID = typeid(SplashScene).name();
+	id = typeid(SplashScene).name();
 }
 
 SplashScene::~SplashScene() { }
 
-void SplashScene::Load()
+void SplashScene::load()
 {
-	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
+	mResourceManager = IOCContainer::instance().resolve<IResourceManager>();
     
 	vector<string> fileNames;
 	fileNames.emplace_back("coderox.png");
-	mResourceManager->LoadTextures(vector<string>(fileNames));
+	mResourceManager->loadTextures(vector<string>(fileNames));
 
 	mResourcesToLoad.push("apple.png");
 	mResourcesToLoad.push("snake.png");
@@ -39,29 +39,29 @@ void SplashScene::Load()
 	mResourcesToLoad.push("pause/text.png");
 
 
-	mSprite->Texture = mResourceManager->GetTexture("coderox.png");
-    printf("[SplashScene::Load] Loaded\n");
+	mSprite->texture = mResourceManager->getTexture("coderox.png");
+    printf("[SplashScene::load] Loaded\n");
 }
 
-void SplashScene::Unload() { }
+void SplashScene::unload() { }
 
-void SplashScene::UpdateScreenSize(int width, int height) 
+void SplashScene::updateScreenSize(int width, int height) 
 {
-	const auto spriteAspectRatio = static_cast<float>(mSprite->Texture.Height) / static_cast<float>(mSprite->Texture.Width);
+	const auto spriteAspectRatio = static_cast<float>(mSprite->texture.height) / static_cast<float>(mSprite->texture.width);
 	const auto screenAspectRatio = static_cast<float>(height) / static_cast<float>(width);
 	if (screenAspectRatio > spriteAspectRatio) {
-		mSprite->Height = static_cast<int>(width * spriteAspectRatio);
-		mSprite->Width = width;
+		mSprite->height = static_cast<int>(width * spriteAspectRatio);
+		mSprite->width = width;
 	}
 	else {
-		mSprite->Height = height;
-		mSprite->Width = static_cast<int>(height / spriteAspectRatio);
+		mSprite->height = height;
+		mSprite->width = static_cast<int>(height / spriteAspectRatio);
 	}
-	mSprite->Position = { static_cast<float>(width / 2.0f - mSprite->Width / 2.0f), 
-						  static_cast<float>(height / 2.0f - mSprite->Height / 2.0f) };
+	mSprite->position = { static_cast<float>(width / 2.0f - mSprite->width / 2.0f), 
+						  static_cast<float>(height / 2.0f - mSprite->height / 2.0f) };
 }
 
-void SplashScene::Update(shared_ptr<IStepTimer> timer)
+void SplashScene::update(shared_ptr<IStepTimer> timer)
 {
 	if(mResourcesToLoad.size() > 0) {
 	    printf("[SplashScene::Update] Loading resources\n");
@@ -70,24 +70,24 @@ void SplashScene::Update(shared_ptr<IStepTimer> timer)
 		vector<string> fileNames;
 		fileNames.emplace_back(mResourcesToLoad.front());
 		mResourcesToLoad.pop();
-		mResourceManager->LoadTextures(vector<string>(fileNames));
+		mResourceManager->loadTextures(vector<string>(fileNames));
 		isLoadingResources = false;
 		printf("[SplashScene::Update] Resources loaded\n");
 	}
-	mMillisecondsToLoad -= static_cast<float>((timer->GetElapsedSeconds() * 1000.0f));
+	mMillisecondsToLoad -= static_cast<float>((timer->getElapsedSeconds() * 1000.0f));
 	if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0) {
-		auto sceneManager = IOCContainer::Instance().Resolve<ISceneManager>();
+		auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
 		if (!hasLoadedGamePlay) {
-			mGame->GoToState(GameState::GamePlay);
+			mGame->goToState(GameState::GamePlay);
 			hasLoadedGamePlay = true;
 		}
 	}
 }
 
-void SplashScene::Draw(shared_ptr<IRenderer> renderer)
+void SplashScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
 	if (spriteRenderer && !isLoadingResources) {
-	    spriteRenderer->DrawSprite(mSprite);
+	    spriteRenderer->drawSprite(mSprite);
 	}
 }

@@ -13,18 +13,21 @@ Entity::Entity(Point<int> position)
 	, mScreenWidth(0)
 	, mScreenHeight(0)
 {
-    mSprite->Position = Point<float>{position.X, position.Y};
+    mSprite->position = Point<float>{
+        static_cast<float>(position.x), 
+        static_cast<float>(position.y)
+    };
 }
 
-void Entity::SetTexture(Texture2D texture) 
+void Entity::setTexture(Texture2D texture) 
 {
-    mSprite->Texture = texture;
+    mSprite->texture = texture;
 }
 
-void Entity::Update(int screenWidth, int screenHeight)
+void Entity::update(int screenWidth, int screenHeight)
 {
-    mSprite->Width = screenWidth / SCREEN_SIZE - 1;
-    mSprite->Height = screenHeight / SCREEN_SIZE - 1;
+    mSprite->width = screenWidth / SCREEN_SIZE - 1;
+    mSprite->height = screenHeight / SCREEN_SIZE - 1;
 
 	mScreenWidth = screenWidth;
 	mScreenHeight = screenHeight;

@@ -14,45 +14,45 @@ Snake::Snake(Point<int> position)
     : Entity(position)
 {
     mTail = INITIAL_TAIL;	
-    mSprite->Velocity = Vector2{0.0f, 1.0f};
+    mSprite->velocity = Vector2{0.0f, 1.0f};
 }
 
-bool Snake::CheckCollision(int x, int y) {
+bool Snake::checkCollision(int x, int y) {
     for (auto const& body : mTrail) {
-        if (body.X == x && body.Y == y) {
+        if (body.x == x && body.y == y) {
             return true;
         }
     }
     return false;
 }
 
-void Snake::IncreaseLength() {
+void Snake::increaseLength() {
 	mTail += 1;
 }
 
-void Snake::Reset() {
+void Snake::reset() {
 	mTail = INITIAL_TAIL;
-	mSprite->Position = Point<float>{10, 10};
+	mSprite->position = Point<float>{10, 10};
 }
 
-void Snake::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback)
+void Snake::update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback)
 {
-    Entity::Update(screenWidth, screenHeight);
+    Entity::update(screenWidth, screenHeight);
 
-	auto const newX = static_cast<int>(mSprite->Position.X + mSprite->Velocity.x + SCREEN_SIZE) % SCREEN_SIZE;
-	auto const newY = static_cast<int>(mSprite->Position.Y + mSprite->Velocity.y + SCREEN_SIZE) % SCREEN_SIZE;
+	auto const newX = static_cast<int>(mSprite->position.x + mSprite->velocity.x + SCREEN_SIZE) % SCREEN_SIZE;
+	auto const newY = static_cast<int>(mSprite->position.y + mSprite->velocity.y + SCREEN_SIZE) % SCREEN_SIZE;
 
-	if (CheckCollision(newX, newY)) {
-		gameCallback->GoToState(GameState::GameOver);
+	if (checkCollision(newX, newY)) {
+		gameCallback->goToState(GameState::GameOver);
 	}
 	else {
-		mSprite->Position.X = newX;
-		mSprite->Position.Y = newY;
+		mSprite->position.x = newX;
+		mSprite->position.y = newY;
 
 		mTrail.push_back( 
 			Point<int>{
-				static_cast<int>(mSprite->Position.X), 
-				static_cast<int>(mSprite->Position.Y)}
+				static_cast<int>(mSprite->position.x), 
+				static_cast<int>(mSprite->position.y)}
 		);
 		while (mTrail.size() > mTail) {
 			mTrail.pop_front();
@@ -60,31 +60,31 @@ void Snake::Update(int screenWidth, int screenHeight, IGameStateCallback* gameCa
 	}
 }
 
-void Snake::HandleInput(shared_ptr<IInputManager> input)
+void Snake::handleInput(shared_ptr<IInputManager> input)
 {
-	if (mSprite->Velocity.x == 0) {
-		if (input->IsKeyDown(37)) {
-			mSprite->Velocity = Utilities::Vector2{-1.0f, 0.0f};
+	if (mSprite->velocity.x == 0) {
+		if (input->isKeyDown(37)) {
+			mSprite->velocity = Utilities::Vector2{-1.0f, 0.0f};
 		}
-		if (input->IsKeyDown(39)) {
-			mSprite->Velocity = Utilities::Vector2{1.0f, 0.0f};
+		if (input->isKeyDown(39)) {
+			mSprite->velocity = Utilities::Vector2{1.0f, 0.0f};
 		}
 	}
-	if (mSprite->Velocity.y == 0) {
-		if (input->IsKeyDown(40)) {
-			mSprite->Velocity = Utilities::Vector2{0.0f, 1.0f};
+	if (mSprite->velocity.y == 0) {
+		if (input->isKeyDown(40)) {
+			mSprite->velocity = Utilities::Vector2{0.0f, 1.0f};
 		}
-		if (input->IsKeyDown(38)) {
-			mSprite->Velocity = Utilities::Vector2{0.0f, -1.0f};
+		if (input->isKeyDown(38)) {
+			mSprite->velocity = Utilities::Vector2{0.0f, -1.0f};
 		}
 	}
 }
 
-void Snake::Draw(shared_ptr<ISpriteRenderer> renderer) {
+void Snake::draw(shared_ptr<ISpriteRenderer> renderer) {
 	for (auto const& body : mTrail)
 	{
-        renderer->DrawSprite(mSprite, Point<float>{
-			static_cast<float>(body.X * mScreenWidth / SCREEN_SIZE), 
-			static_cast<float>(body.Y * mScreenHeight / SCREEN_SIZE)});
+        renderer->drawSprite(mSprite, Point<float>{
+			static_cast<float>(body.x * mScreenWidth / SCREEN_SIZE), 
+			static_cast<float>(body.y * mScreenHeight / SCREEN_SIZE)});
     }
 }

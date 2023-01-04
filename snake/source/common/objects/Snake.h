@@ -15,16 +15,16 @@ class Apple;
 class Snake : public Entity {
 public:
 	Snake(Utilities::Point<int> position);
-	bool CheckCollision(int x, int y);
-	void Update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback);
-	void HandleInput(std::shared_ptr<Engine::IInputManager> input);
-	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
-	void IncreaseLength();
+	bool checkCollision(int x, int y);
+	void update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback);
+	void handleInput(std::shared_ptr<Engine::IInputManager> input);
+	void draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	void increaseLength();
 
 private:
 	int mTail;
 	std::list<Utilities::Point<int>> mTrail;
-	void Reset();
+	void reset();
 
 	friend class Apple;
 };
