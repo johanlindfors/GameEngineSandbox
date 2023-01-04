@@ -10,38 +10,38 @@ Shader::~Shader()
    GlDeleteProgram(ID);
 }
 
-void Shader::Use()
+void Shader::use()
 {
     GlUseProgram(ID);
 }
 
-void Shader::CreateShader(const string& name, const string& vertexShader, const string& fragmentShader)
+void Shader::createShader(const string& name, const string& vertexShader, const string& fragmentShader)
 {
     mName = name;
-    ID = CompileProgram(vertexShader, fragmentShader);
+    ID = compileProgram(vertexShader, fragmentShader);
 }
 
-void Shader::SetInteger(const string& name, int value)
+void Shader::setInteger(const string& name, int value)
 {
     GlUniform1i(GlGetUniformLocation(ID, name.c_str()), value);
 }
 
-void Shader::SetVector2f(const string& name, float x, float y)
+void Shader::setVector2f(const string& name, float x, float y)
 {
     GlUniform2f(GlGetUniformLocation(ID, name.c_str()), x, y);
 }
 
-void Shader::SetVector3f(const string& name, float x, float y, float z)
+void Shader::setVector3f(const string& name, float x, float y, float z)
 {
     glUniform3f(GlGetUniformLocation(ID, name.c_str()), x, y, z);
 }
 
-void Shader::SetVector4f(const string& name, float x, float y, float z, float w)
+void Shader::setVector4f(const string& name, float x, float y, float z, float w)
 {
     GlUniform4f(GlGetUniformLocation(ID, name.c_str()), x, y, z, w);
 }
 
-void Shader::SetMatrix4(const string& name, glm::mat4 &matrix)
+void Shader::setMatrix4(const string& name, glm::mat4 &matrix)
 {
     GlUniformMatrix4fv(GlGetUniformLocation(ID, name.c_str()), 1, false, glm::value_ptr(matrix));
 }

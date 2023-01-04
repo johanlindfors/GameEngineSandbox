@@ -5,12 +5,12 @@ namespace Utilities
 {
     struct Config 
     {
-        int FPS = 60;
-        bool UseFixedTimeStep = false;
-        int Width = 288;
-        int Height = 505;
-        std::string Title = "";
-        unsigned int GLMajorVersion = 2;
-        unsigned int GLMinorVersion = 1;
+        int fps = 60;
+        bool useFixedTimeStep = false;
+        int width = 288;
+        int height = 505;
+        std::string title = "";
+        unsigned int glMajorVersion = 2;
+        unsigned int glMinorVersion = 1;
     };
 }

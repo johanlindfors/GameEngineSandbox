@@ -9,13 +9,13 @@
 namespace Engine {
 
 	struct Character {
-		int CharacterCode;
-		int UVOffset;
-		int XOffset;
-		int YOffset;
-		int XAdvance;
-		int Width;
-		int Height;
+		int characterCode;
+		int uVOffset;
+		int xOffset;
+		int yOffset;
+		int xAdvance;
+		int width;
+		int height;
 	};
 
 	class Shader;
@@ -25,23 +25,23 @@ namespace Engine {
 		FontRenderer(const std::string& atlasFilename);
 		~FontRenderer();
 
-		void Initialize();
-		void UpdateWindowSize(int width, int height);
-		void Clear();
-		void DrawString(const std::string& str, Utilities::Point<float> centerPosition, float scale);
+		void initialize();
+		void updateWindowSize(int width, int height);
+		void clear();
+		void drawString(const std::string& str, Utilities::Point<float> centerPosition, float scale);
 
 		// ILazyInitialized
-		void LazyInitialize() override;
+		void lazyInitialize() override;
 
 	private:
-		void InitializeShaders();
-		void InitializeVertexBuffer();
-		void InitializeUVBuffer();
-		void AddCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset);
-		void AddUVs(int x1, int y1, int x2, int y2);
-		void DrawCharacter(int offset, Utilities::Rectangle rectangle);
+		void initializeShaders();
+		void initializeVertexBuffer();
+		void initializeUVBuffer();
+		void addCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset);
+		void addUVs(int x1, int y1, int x2, int y2);
+		void drawCharacter(int offset, Utilities::Rectangle rectangle);
 
-		Utilities::Rectangle MeasureString(const std::string& str);
+		Utilities::Rectangle measureString(const std::string& str);
 
         std::string mAtlasFilename;
 		std::shared_ptr<Shader> mShader;

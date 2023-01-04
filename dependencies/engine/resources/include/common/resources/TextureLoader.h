@@ -12,7 +12,7 @@ namespace Engine {
 		TextureLoader();
 		~TextureLoader();
 
-		void LoadTexture(Engine::Texture2D& texture);
+		void loadTexture(Engine::Texture2D& texture);
 
 	private:
 		std::unique_ptr<TextureLoaderImpl> mImpl;

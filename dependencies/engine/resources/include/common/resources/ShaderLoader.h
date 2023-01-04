@@ -11,7 +11,7 @@ namespace Engine {
 		ShaderLoader();
 		~ShaderLoader();
 
-		std::string LoadShader(const std::string& fileName);
+		std::string loadShader(const std::string& fileName);
 
 	private:
 		std::unique_ptr<ShaderLoaderImpl> mImpl;

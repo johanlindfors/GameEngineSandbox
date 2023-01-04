@@ -10,8 +10,8 @@ namespace Utilities
     {
         public:
             TweenEngine();
-            void Add(int original, std::function<void(int)> setter, int target, int durationInMilliseconds, bool bounce);
-            void Update(std::shared_ptr<Utilities::IStepTimer> timer);
+            void add(int original, std::function<void(int)> setter, int target, int durationInMilliseconds, bool bounce);
+            void update(std::shared_ptr<Utilities::IStepTimer> timer);
         private:
 			std::vector<std::shared_ptr<Tween> > mTweens;
     };

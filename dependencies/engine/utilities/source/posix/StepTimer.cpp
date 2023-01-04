@@ -16,12 +16,12 @@ Timer::Timer()
 	, mLastFrameTime(std::chrono::system_clock::now())
 { }
 
-void Timer::SetInterval(double milliseconds)
+void Timer::setInterval(double milliseconds)
 {
 	mMillisecondsInterval = milliseconds;
 }
 
-void Timer::Update(std::function<void()> tick)
+void Timer::update(std::function<void()> tick)
 {
 	auto currentTime =  std::chrono::system_clock::now();
 	
@@ -38,21 +38,21 @@ void Timer::Update(std::function<void()> tick)
 	mLastFrameTime = currentTime;
 }
 
-void Timer::Pause()
+void Timer::pause()
 {
 	mIsEnabled = false;
 }
 
-void Timer::Resume()
+void Timer::resume()
 {
 	mIsEnabled = true;
 }
 
-void Timer::Reset()
+void Timer::reset()
 {
 	mLastFrameTime = std::chrono::system_clock::now();
 	mElapsedMilliseconds = 0;
-	Resume();
+	resume();
 }
 
 StepTimer::StepTimer() 
@@ -70,7 +70,7 @@ StepTimer::StepTimer()
 }
 
 // Update timer state, calling the specified Update function the appropriate number of times.
-void StepTimer::Tick(std::function<void()> processInput,std::function<void()> update, std::function<void()> render)
+void StepTimer::tick(std::function<void()> processInput,std::function<void()> update, std::function<void()> render)
 {
 	auto currentTime =  std::chrono::system_clock::now();
 	auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - m_lastFrameTime).count();

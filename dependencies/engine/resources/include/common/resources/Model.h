@@ -15,19 +15,19 @@ public:
             , mIndices(std::move(indices))
             , mTexture(std::move(spTexture)) {}
 
-    inline const Utilities::Vertex *GetVertexData() const {
+    inline const Utilities::Vertex *getVertexData() const {
         return mVertices.data();
     }
 
-    inline const size_t GetIndexCount() const {
+    inline const size_t getIndexCount() const {
         return mIndices.size();
     }
 
-    inline const Utilities::Index *GetIndexData() const {
+    inline const Utilities::Index *getIndexData() const {
         return mIndices.data();
     }
 
-    inline const Engine::Texture2D &GetTexture() const {
+    inline const Engine::Texture2D &getTexture() const {
         return *mTexture;
     }
 

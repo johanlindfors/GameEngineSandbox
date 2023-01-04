@@ -15,15 +15,15 @@ namespace Engine {
 		~ResourceManager();
 
 		// Engine::IResourceManager
-		void LoadTextures(std::vector<std::string> fileNames) override;
-		Texture2D GetTexture(std::string fileName) const override;
-		bool IsLoaded() const override { return mInitialized; }
+		void loadTextures(std::vector<std::string> fileNames) override;
+		Texture2D getTexture(std::string fileName) const override;
+		bool isLoaded() const override { return mInitialized; }
 
-		void LoadShader(const std::string& name, const std::string& vsFileName, const std::string& fsFileName) override;
-		std::shared_ptr<Shader> GetShader(const std::string& name) const override;
+		void loadShader(const std::string& name, const std::string& vsFileName, const std::string& fsFileName) override;
+		std::shared_ptr<Shader> getShader(const std::string& name) const override;
 
 	private:
-		static Engine::Texture2D CreateEmptyTexture();
+		static Engine::Texture2D createEmptyTexture();
 
 		bool mInitialized;
 		std::map<std::string, Texture2D> mTextures;

@@ -21,16 +21,16 @@ namespace Engine
 		GameLoop();
 		~GameLoop();
 
-		void Initialize(std::shared_ptr<Utilities::Config> config);
-		void Tick();
-		void UpdateWindowSize(int width, int height);
-		static void GetDefaultSize(int &width, int &height);
-		std::shared_ptr<IInputManager> GetInput() const { return mInputManager; }
+		void initialize(std::shared_ptr<Utilities::Config> config);
+		void tick();
+		void updateWindowSize(int width, int height);
+		static void getDefaultSize(int &width, int &height);
+		std::shared_ptr<IInputManager> getInput() const { return mInputManager; }
 
 	private:
-		void Update() const;
-		void Render();
-		void Clear() const;
+		void update() const;
+		void render();
+		void clear() const;
 
 		std::shared_ptr<Utilities::IStepTimer> mTimer;
 		std::shared_ptr<IRenderer> mRenderer;

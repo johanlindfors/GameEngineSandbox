@@ -16,14 +16,14 @@ using namespace Utilities;
 
 void Bootstrap() {
     auto config = make_shared<Config>();
-    config->FPS = 2;
-    config->UseFixedTimeStep = false;
-    config->Width = SCREEN_WIDTH;
-    config->Height = SCREEN_HEIGHT;
-    config->Title = "Sample 3d Scene";
-    config->GLMajorVersion = 3;
-    config->GLMinorVersion = 2;
+    config->fps = 2;
+    config->useFixedTimeStep = false;
+    config->width = SCREEN_WIDTH;
+    config->height = SCREEN_HEIGHT;
+    config->title = "Sample 3d Scene";
+    config->glMajorVersion = 3;
+    config->glMinorVersion = 2;
     
-    IOCContainer::Instance().Register<Config>(config);
-    IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<Sample::Game>());
+    IOCContainer::instance().register_type<Config>(config);
+    IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<Sample::Game>());
 }

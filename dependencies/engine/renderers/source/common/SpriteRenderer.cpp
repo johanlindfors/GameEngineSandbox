@@ -10,10 +10,10 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void SpriteRenderer::Initialize()
+void SpriteRenderer::initialize()
 {
-	InitializeShaders();
-	InitializeBuffers();
+	initializeShaders();
+	initializeBuffers();
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -37,27 +37,27 @@ SpriteRenderer::~SpriteRenderer()
 	}
 }
 
-void SpriteRenderer::UpdateWindowSize(int width, int height)
+void SpriteRenderer::updateWindowSize(int width, int height)
 {
 	GlViewport(0, 0, width, height);
 	mWindowWidth = width;
 	mWindowHeight = height;
 }
 
-void SpriteRenderer::Clear() {
+void SpriteRenderer::clear() {
 	GlClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	GlClear(GL_COLOR_BUFFER_BIT);
 }
 
-void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite)
+void SpriteRenderer::drawSprite(shared_ptr<Sprite> sprite)
 {
-    DrawSprite(sprite, sprite->Position);
+    drawSprite(sprite, sprite->position);
 }
 
-void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position)
+void SpriteRenderer::drawSprite(shared_ptr<Sprite> sprite, Point<float> position)
 {
 	//printf("[SpriteRenderer::DrawSprite] Id: %d Program: %d\n", sprite->Texture.TextureIndex, mProgram);
-	CheckOpenGLError();
+	checkOpenGLError();
 	GlUseProgram(mProgram);
 
 	GlEnable(GL_BLEND);
@@ -69,10 +69,10 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position
 	
 	//printf("[SpriteRenderer::DrawSprite] Width : %d\n", sprite->Width);
 	//printf("[SpriteRenderer::DrawSprite] Height: %d\n", sprite->Height);
-	Vector4 spriteRect{0.0f, 0.0f, static_cast<float>(sprite->Width), static_cast<float>(sprite->Height)};
+	Vector4 spriteRect{0.0f, 0.0f, static_cast<float>(sprite->width), static_cast<float>(sprite->height)};
 	GlUniform4fv(mSpriteRectUniformLocation, 1, &(spriteRect.idx[0]));
 	// CheckOpenGLError();
-    auto vector = Vector2{position.X, position.Y};
+    auto vector = Vector2{position.x, position.y};
 	GlUniform2fv(mSpriteWorldUniformLocation, 1, &(vector.idx[0]));
 
 	Vector2 screenSize{static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight)};
@@ -82,11 +82,11 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position
 	GlEnableVertexAttribArray(mUVAttribLocation);
 	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-	Vector2 textureSize{static_cast<float>(sprite->Texture.Width), static_cast<float>(sprite->Texture.Height)};
+	Vector2 textureSize{static_cast<float>(sprite->texture.width), static_cast<float>(sprite->texture.height)};
 	GlUniform2fv(mTextureSizeUniformLocation, 1, &(textureSize.idx[0]));
 
 	GlActiveTexture(GL_TEXTURE0);
-	GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->Texture.TextureIndex));
+	GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(sprite->texture.textureIndex));
 	// Set the sampler texture unit to 0
 	GlUniform1i(mTextureUniformLocation, 0);
 
@@ -95,7 +95,7 @@ void SpriteRenderer::DrawSprite(shared_ptr<Sprite> sprite, Point<float> position
 	//printf("[SpriteRenderer::DrawSprite] End\n");
 }
 
-void SpriteRenderer::InitializeShaders() {
+void SpriteRenderer::initializeShaders() {
 	// Vertex Shader source
 	const std::string vs = STRING
 	(
@@ -168,9 +168,9 @@ void SpriteRenderer::InitializeShaders() {
 
 	printf("[SpriteRenderer::InitializeShaders] About to compile program\n");
 	// Set up the shader and its uniform/attribute locations.
-	mProgram = CompileProgram(vs, fs);
+	mProgram = compileProgram(vs, fs);
 	printf("[SpriteRenderer::InitializeShaders] Program %d compiled\n", mProgram);
-	CheckOpenGLError();
+	checkOpenGLError();
 
 	// // Vertex shader parameters
 	mVertexAttribLocation = GlGetAttribLocation(mProgram, "a_position");
@@ -192,7 +192,7 @@ void SpriteRenderer::InitializeShaders() {
 	printf("[SpriteRenderer::InitializeShaders] mTextureUniformLocation: %d\n", mTextureUniformLocation);
 }
 
-void SpriteRenderer::InitializeBuffers() {
+void SpriteRenderer::initializeBuffers() {
 	GLfloat vertexPositions[] =
 	{
 		 0.0f, 1.0f, 0.0f,

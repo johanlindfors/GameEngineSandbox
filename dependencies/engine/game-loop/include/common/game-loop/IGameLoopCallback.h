@@ -6,7 +6,7 @@ namespace Engine {
     class IGameLoopCallback {
     public:
 	    virtual ~IGameLoopCallback() = default;
-	    virtual void Initialize() = 0;
-        virtual void Update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
+	    virtual void initialize() = 0;
+        virtual void update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
     };
 }

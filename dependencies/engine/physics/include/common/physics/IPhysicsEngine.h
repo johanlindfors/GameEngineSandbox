@@ -8,11 +8,11 @@ namespace Utilities
 
 namespace Engine {
 
-	class IPhysicsBody;
+	struct IPhysicsBody;
 
 	class IPhysicsEngine {
 	public:
-		virtual void AddBody(std::shared_ptr<IPhysicsBody> body) = 0;
-		virtual void Update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
+		virtual void addBody(std::shared_ptr<IPhysicsBody> body) = 0;
+		virtual void update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
 	};
 }

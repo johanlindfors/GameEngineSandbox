@@ -12,34 +12,33 @@ using namespace Utilities;
 class Application
 {
     public:
-        void Start() 
+        void start() 
         {
             GLFWwindow* window;
             
             auto game = std::make_unique<GameLoop>();
             printf("[StartLinuxApplication] game created\n");
-            auto config = IOCContainer::Instance().Resolve<Config>();
+            auto config = IOCContainer::instance().resolve<Config>();
             printf("[StartLinuxApplication] found config\n");
 
             int width, height;
-            width = config->Width;
-            height = config->Height;
+            width = config->width;
+            height = config->height;
             printf("[StartLinuxApplication] get default size returned\n");
             
             glfwInit();
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->GLMajorVersion);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->GLMinorVersion);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->glMinorVersion);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
-            window = glfwCreateWindow(width, height, config->Title.c_str(), NULL, NULL);
+            window = glfwCreateWindow(width, height, config->title.c_str(), NULL, NULL);
             glfwMakeContextCurrent(window);
             glfwSwapInterval(0);
             
-            game->Initialize(config);
+            game->initialize(config);
             printf("[StartLinuxApplication] initialized\n");
 
-            game->UpdateWindowSize(width, height);
+            game->updateWindowSize(width, height);
             printf("[StartLinuxApplication] Windows size updated\n");
 
             printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
@@ -51,7 +50,7 @@ class Application
             glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
             {
                 auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
-                game->UpdateWindowSize(width, height);
+                game->updateWindowSize(width, height);
                 glViewport(0,0,width, height);
             });
 
@@ -61,12 +60,12 @@ class Application
 
                 if(game) {
                     if(!mInput) {
-                        mInput = game->GetInput();
+                        mInput = game->getInput();
                     }
-                    InputHandler(window);
+                    inputHandler(window);
                 }
 
-                game->Tick();
+                game->tick();
                 glfwSwapBuffers(window);
             }
             game.reset();
@@ -74,7 +73,7 @@ class Application
         }
 
     private:
-        void InputHandler(GLFWwindow* window) 
+        void inputHandler(GLFWwindow* window) 
         {
             // Check left
             bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
@@ -100,16 +99,11 @@ class Application
             pressed = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
             mInput->AddKeyboardEvent(256, pressed);
         }
-        
-        void WindowResized(GLFWwindow* window, int width, int height)
-        {
-
-        }   
 
         shared_ptr<IInputManager> mInput;
 };
 
 void StartLinuxApplication(int argc, char **argv) {
     Application application;
-    application.Start();
+    application.start();
 }

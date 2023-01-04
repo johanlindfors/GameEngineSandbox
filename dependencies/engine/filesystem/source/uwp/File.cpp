@@ -7,13 +7,13 @@ using namespace winrt;
 using namespace Windows::Storage;
 using namespace Engine;
 
-void File::Open(string filename)
+void File::open(string filename)
 {
     std::replace(filename.begin(), filename.end(), '/', '\\');
     mStorageFile = StorageFile::GetFileFromPathAsync(filename).get();
 }
 
-void File::Close()
+void File::close()
 {
     if(mStorageFile) {
         mStorageFile = nullptr;

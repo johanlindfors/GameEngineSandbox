@@ -11,11 +11,11 @@ namespace Engine {
 		virtual ~ISpriteRenderer() = default;
 		
 		// Engine::IRenderer
-		virtual void Initialize() = 0;
-		virtual void UpdateWindowSize(int width, int height) = 0;
-		virtual void Clear() = 0;
+		virtual void initialize() = 0;
+		virtual void updateWindowSize(int width, int height) = 0;
+		virtual void clear() = 0;
 
-		virtual void DrawSprite(std::shared_ptr<Sprite> sprite) = 0;
-		virtual void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) = 0;
+		virtual void drawSprite(std::shared_ptr<Sprite> sprite) = 0;
+		virtual void drawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) = 0;
 	};
 }

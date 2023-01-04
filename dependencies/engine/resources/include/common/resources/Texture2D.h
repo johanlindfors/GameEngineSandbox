@@ -3,10 +3,10 @@
 
 namespace Engine {
     struct Texture2D {
-        std::string Name;
-        int Width = 0;
-        int Height = 0;
-        int TextureIndex = 0;
-		bool IsLoaded = false;
+        std::string name;
+        int width = 0;
+        int height = 0;
+        int textureIndex = 0;
+		bool isLoaded = false;
     };
 }

@@ -9,15 +9,15 @@ namespace Engine {
 		~SpriteRenderer();
 
 		// Engine::ISpriteRenderer
-        void Initialize() override;
-		void UpdateWindowSize(int width, int height) override;
-		void Clear() override;
-		void DrawSprite(std::shared_ptr<Sprite> sprite) override;
-        void DrawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
+        void initialize() override;
+		void updateWindowSize(int width, int height) override;
+		void clear() override;
+		void drawSprite(std::shared_ptr<Sprite> sprite) override;
+        void drawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
 
 	private:
-		void InitializeShaders();
-		void InitializeBuffers();
+		void initializeShaders();
+		void initializeBuffers();
 
 		GLuint mProgram;
 		GLsizei mWindowWidth;

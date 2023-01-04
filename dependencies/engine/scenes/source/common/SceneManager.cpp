@@ -16,12 +16,12 @@ SceneManager::~SceneManager()
 	printf("[SceneManager::~SceneManager]\n");
 	for (auto & scene : mScenes)
 	{
-		scene->Unload();
+		scene->unload();
 		scene.reset();
 	}
 }
 
-void SceneManager::Initialize() 
+void SceneManager::initialize() 
 {
 	if (mInitialized) {
 		return;
@@ -29,12 +29,12 @@ void SceneManager::Initialize()
 	
 	for (auto const& scene : mScenes)
 	{
-		scene->Load();
+		scene->load();
 	}
 	mInitialized = true;
 }
 
-void SceneManager::UpdateScreenSize(int width, int height)
+void SceneManager::updateScreenSize(int width, int height)
 {
 	mScreenWidth = width;
 	mScreenHeight = height;
@@ -45,11 +45,11 @@ void SceneManager::UpdateScreenSize(int width, int height)
 
 	for (auto const& scene : mScenes)
 	{
-		scene->UpdateScreenSize(width, height);
+		scene->updateScreenSize(width, height);
 	}
 }
 
-void SceneManager::Update(std::shared_ptr<Utilities::IStepTimer> timer)
+void SceneManager::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
 	if (!mInitialized || mScenes.size() == 0) {
 		return;
@@ -61,12 +61,12 @@ void SceneManager::Update(std::shared_ptr<Utilities::IStepTimer> timer)
 	for (auto const& scene : mScenesToUpdate)
 	{
 		if (scene) {
-			scene->Update(timer);
+			scene->update(timer);
 		}
 	}
 }
 
-void SceneManager::Draw(shared_ptr<IRenderer> renderer)
+void SceneManager::draw(shared_ptr<IRenderer> renderer)
 {
 	if (!mInitialized || mScenes.size() == 0) {
 		return;
@@ -74,36 +74,36 @@ void SceneManager::Draw(shared_ptr<IRenderer> renderer)
 
 	for (auto const& scene : mScenes)
 	{
-		scene->Draw(renderer);
+		scene->draw(renderer);
 	}
 }
 
-void SceneManager::AddScene(shared_ptr<GameScene> scene)
+void SceneManager::addScene(shared_ptr<GameScene> scene)
 {
 	if (mInitialized) {
-		scene->Load();
-		scene->UpdateScreenSize(mScreenWidth, mScreenHeight);
+		scene->load();
+		scene->updateScreenSize(mScreenWidth, mScreenHeight);
 	}
 
 	mScenes.push_back(scene);
 }
 
-void SceneManager::RemoveScene(const type_info& sceneType)
+void SceneManager::removeScene(const type_info& sceneType)
 {
 	const std::string sceneId = sceneType.name();
 
 	for (size_t i = 0; i < mScenes.size(); i++)
 	{
-		if (mScenes.at(i)->ID == sceneId) {
+		if (mScenes.at(i)->id == sceneId) {
 			auto scene = mScenes.at(i);
-			scene->Unload();
+			scene->unload();
 			mScenes.erase(mScenes.begin() + i);
 		}
 	}
 
 	for (size_t i = 0; i < mScenesToUpdate.size(); i++)
 	{
-		if (mScenesToUpdate.at(i)->ID == sceneId) {
+		if (mScenesToUpdate.at(i)->id == sceneId) {
 			mScenesToUpdate.erase(mScenesToUpdate.begin() + i);
 		}
 	}

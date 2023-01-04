@@ -8,25 +8,25 @@ using namespace Utilities;
 
 #define GRAVITY 9.1f
 
-void PhysicsEngine::AddBody(shared_ptr<IPhysicsBody> body)
+void PhysicsEngine::addBody(shared_ptr<IPhysicsBody> body)
 {
 	mBodies.push_back(body);
 }
 
-void PhysicsEngine::Update(shared_ptr<IStepTimer> timer)
+void PhysicsEngine::update(shared_ptr<IStepTimer> timer)
 {
 	for (auto body : mBodies)
 	{
-		if(!body->IsAlive) continue;
+		if(!body->isAlive) continue;
 		
-		auto velocity = body->Velocity;
-		if (body->AllowGravity)
+		auto velocity = body->velocity;
+		if (body->allowGravity)
 		{
-			velocity.idx[1] = velocity.idx[1] - (GRAVITY * timer->GetElapsedMilliSeconds() / 9.0f);
+			velocity.idx[1] = velocity.y - (GRAVITY * timer->getElapsedMilliSeconds() / 9.0f);
 		}
 
-		body->Position.X += (velocity.idx[0] * timer->GetElapsedMilliSeconds() / 1000.0f);
-		body->Position.Y += (velocity.idx[1] * timer->GetElapsedMilliSeconds() / 1000.0f);
-		body->Velocity = velocity;
+		body->position.x += (velocity.x * timer->getElapsedMilliSeconds() / 1000.0f);
+		body->position.y += (velocity.y * timer->getElapsedMilliSeconds() / 1000.0f);
+		body->velocity = velocity;
 	}	
 }
