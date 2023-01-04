@@ -112,6 +112,4 @@ void StepTimer::tick(std::function<void()> processInput,std::function<void()> up
 			printf("FPS %d\n", m_framesPerSecond);
 		}
 	}
-
-	//m_lastFrameTime = currentTime;
 }

@@ -31,7 +31,7 @@ void StartWin32Application() {
 	if (!InitInstance(hInstance)) {
 		return;
 	}
-	const auto config = IOCContainer::Instance().Resolve<Config>();
+	const auto config = IOCContainer::instance().resolve<Config>();
 	g_gameLoop->Initialize(config);
 	int width, height;
 	g_gameLoop->GetDefaultSize(width, height);
@@ -44,7 +44,7 @@ void StartWin32Application() {
 			DispatchMessage(&msg);
 		}
 		else {
-			g_gameLoop->Tick();
+			g_gameLoop->tick();
 			SwapBuffers(hDC);
 		}
 	}
@@ -163,14 +163,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	auto game = reinterpret_cast<Engine::GameLoop *>(gameParam);
 	std::shared_ptr<IInputManager> input;
 	if(game){
-		input = game->GetInput();
+		input = game->getInput();
 	}
 
 	switch (message) {
 	case WM_SIZE:
 		if (game) {
-			game->UpdateWindowSize(LOWORD(lParam), HIWORD(lParam));
-			g_gameLoop->Tick();
+			game->updateWindowSize(LOWORD(lParam), HIWORD(lParam));
+			g_gameLoop->tick();
 			SwapBuffers(hDC);
 		}
 		break;
@@ -179,7 +179,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_KEYDOWN:
 		if(input){
-			input->AddKeyboardEvent(static_cast<unsigned int>(wParam), true);
+			input->addKeyboardEvent(static_cast<unsigned int>(wParam), true);
 		}
 		break;
 	case WM_KEYUP:
@@ -188,7 +188,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		if(input){
-			input->AddKeyboardEvent(static_cast<unsigned int>(wParam), false);
+			input->addKeyboardEvent(static_cast<unsigned int>(wParam), false);
 		}
 		break;
 	default:
