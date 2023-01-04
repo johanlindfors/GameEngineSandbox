@@ -16,8 +16,8 @@ using namespace Engine;
 using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mApple(make_shared<Apple>(Point<int>(SCREEN_SIZE / 4, SCREEN_SIZE / 4)))
-	, mSnake(make_shared<Snake>(Point<int>(SCREEN_SIZE / 2, SCREEN_SIZE / 2)))
+	: mApple(make_shared<Apple>(Point<int>{SCREEN_SIZE / 4, SCREEN_SIZE / 4}))
+	, mSnake(make_shared<Snake>(Point<int>{SCREEN_SIZE / 2, SCREEN_SIZE / 2}))
 	, mCollider(make_shared<PointCollider>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
@@ -59,10 +59,10 @@ void GamePlayScene::Update(shared_ptr<IStepTimer> /*timer*/)
 		mSnake->Update(mScreenSizeX, mScreenSizeY, mGame);
 
 		if (mCollider->Collides(
-			Point<int>(static_cast<int>(mSnake->GetSprite()->Position.X),
-					   static_cast<int>(mSnake->GetSprite()->Position.Y)), 
-			Point<int>(static_cast<int>(mApple->GetSprite()->Position.X),
-		    		   static_cast<int>(mApple->GetSprite()->Position.Y))
+			Point<int>{static_cast<int>(mSnake->GetSprite()->Position.X),
+					   static_cast<int>(mSnake->GetSprite()->Position.Y)}, 
+			Point<int>{static_cast<int>(mApple->GetSprite()->Position.X),
+		    		   static_cast<int>(mApple->GetSprite()->Position.Y)}
 
 		))
 		{

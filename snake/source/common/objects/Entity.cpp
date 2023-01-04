@@ -13,7 +13,7 @@ Entity::Entity(Point<int> position)
 	, mScreenWidth(0)
 	, mScreenHeight(0)
 {
-    mSprite->Position = Point<float>(position.X, position.Y);
+    mSprite->Position = Point<float>{position.X, position.Y};
 }
 
 void Entity::SetTexture(Texture2D texture) 
