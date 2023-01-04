@@ -10,7 +10,7 @@ namespace Utilities
 		virtual ~IStepTimer() = default;
 		// virtual void ResetElapsedTime() = 0;
 
-		virtual void Tick(std::function<void()>) = 0;
+		virtual void Tick(std::function<void()>,std::function<void()>,std::function<void()>) = 0;
 
 		// // Get elapsed time since the previous Update call.
 		// virtual uint64_t GetElapsedTicks() const = 0;

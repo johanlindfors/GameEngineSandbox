@@ -4,10 +4,11 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 using namespace Utilities;
-
 
 Timer::Timer() 
 	: mIsEnabled(true)
@@ -69,32 +70,39 @@ StepTimer::StepTimer()
 }
 
 // Update timer state, calling the specified Update function the appropriate number of times.
-void StepTimer::Tick(std::function<void()> update)
+void StepTimer::Tick(std::function<void()> processInput,std::function<void()> update, std::function<void()> render)
 {
 	auto currentTime =  std::chrono::system_clock::now();
-	
 	auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - m_lastFrameTime).count();
-	if(delta < 0) delta = 0;
+	m_lastFrameTime = currentTime;
+
+	//if(delta < 0) delta = 0;
+
 	if(m_isFixedTimeStep) {
 		m_elapsedMilliseconds += delta;
 		m_elapsedSeconds += delta;
-		if(m_elapsedMilliseconds >= m_targetMilliseconds) {
-			m_frameCount++;
-			m_framesThisSecond++;
+		while(m_elapsedMilliseconds >= m_targetMilliseconds) {
 			update();
-
-			if(m_elapsedSeconds >= 1000) {
-				m_elapsedSeconds -= 1000;
-				m_framesPerSecond = m_framesThisSecond;
-				m_framesThisSecond = 0;
-				printf("FPS %d\n", m_framesPerSecond);
-			}
-			m_elapsedMilliseconds = 0;//= m_targetMilliseconds;
+			m_elapsedMilliseconds -= m_targetMilliseconds;
 		}
+		m_frameCount++;
+		m_framesThisSecond++;
+		render();
+
+		if(m_elapsedSeconds >= 1000) {
+			m_elapsedSeconds -= 1000;
+			m_framesPerSecond = m_framesThisSecond;
+			m_framesThisSecond = 0;
+			printf("FPS %d\n", m_framesPerSecond);
+		}
+		auto sleepForMilliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - std::chrono::system_clock::now()).count() + m_targetMilliseconds;
+		if(sleepForMilliseconds > 0)
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleepForMilliseconds));
 	} else {
 		m_elapsedMilliseconds = delta;
 		m_elapsedSeconds += delta;
 		update();
+		render();
 		m_frameCount++;
 		m_framesThisSecond++;
 		if(m_elapsedSeconds >= 1000) {
@@ -105,5 +113,5 @@ void StepTimer::Tick(std::function<void()> update)
 		}
 	}
 
-	m_lastFrameTime = currentTime;
+	//m_lastFrameTime = currentTime;
 }
