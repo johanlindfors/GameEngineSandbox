@@ -4,6 +4,6 @@
 class IGameStateCallback {
 public:
 	virtual ~IGameStateCallback() = default;
-	virtual void GoToState(GameState gameState) = 0;
-	virtual GameState GetCurrentState() = 0;
+	virtual void goToState(GameState gameState) = 0;
+	virtual GameState getCurrentState() = 0;
 };

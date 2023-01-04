@@ -22,16 +22,16 @@ class Pipe
 	, public Engine::ICollidable
 {
 public:
-	using Engine::IPhysicsBody::Position;
+	using Engine::IPhysicsBody::position;
 
 	Pipe(Utilities::Point<float> position)
 		: Sprite::Sprite()
 		, IPhysicsBody::IPhysicsBody(position) 
 		, ICollidable::ICollidable(position)
 	{
-		Width = 52,
-		Height = 25;
-		Position = Utilities::Point<float>{position.X, position.Y};
+		width = 52,
+		height = 25;
+		position = Utilities::Point<float>{position.x, position.y};
 	}
 };
 
@@ -39,23 +39,23 @@ class Pipes
 {
 public:
 	Pipes(Utilities::Point<float> position);
-	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
-	bool IsAlive;
-	void Reset(Utilities::Point<float> position);
-	bool Intersects(Utilities::Circle circle, Utilities::Rectangle rect);
-	bool Intersects(Utilities::Rectangle r1, Utilities::Rectangle r2);
+	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	void draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	bool isAlive;
+	void reset(Utilities::Point<float> position);
+	bool intersects(Utilities::Circle circle, Utilities::Rectangle rect);
+	bool intersects(Utilities::Rectangle r1, Utilities::Rectangle r2);
 
-	std::shared_ptr<Pipe> TopPipe;
-	std::shared_ptr<Pipe> BottomPipe;
-	std::shared_ptr<Engine::Sprite> TopPipeSprite;
-	std::shared_ptr<Engine::Sprite> BottomPipeSprite;
-	bool TopSpriteCollided;
-	bool BottomSpriteCollided;
-	bool HasScored;
+	std::shared_ptr<Pipe> topPipe;
+	std::shared_ptr<Pipe> bottomPipe;
+	std::shared_ptr<Engine::Sprite> topPipeSprite;
+	std::shared_ptr<Engine::Sprite> bottomPipeSprite;
+	bool topSpriteCollided;
+	bool bottomSpriteCollided;
+	bool hasScored;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-	std::shared_ptr<Engine::Sprite> TopPipeDebugSprite;
-	std::shared_ptr<Engine::Sprite> BottomPipeDebugSprite;	
+	std::shared_ptr<Engine::Sprite> topPipeDebugSprite;
+	std::shared_ptr<Engine::Sprite> bottomPipeDebugSprite;	
 #endif
 };
  

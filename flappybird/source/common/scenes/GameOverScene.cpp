@@ -19,78 +19,78 @@ GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
 	, mMedal(make_shared<Sprite>())
 	, mButton(make_shared<Sprite>())
 	, mGame(gameCallback)
-	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
-	, mTweenEngine(IOCContainer::Instance().Resolve<ITweenEngine>())
-	, mFontRenderer(IOCContainer::Instance().Resolve<FontRenderer>())
-	, mScoreSystem(IOCContainer::Instance().Resolve<ScoreSystem>())
+	, mInputManager(IOCContainer::instance().resolve<IInputManager>())
+	, mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
+	, mFontRenderer(IOCContainer::instance().resolve<FontRenderer>())
+	, mScoreSystem(IOCContainer::instance().resolve<ScoreSystem>())
 {
-	ID = typeid(GameOverScene).name();
+	id = typeid(GameOverScene).name();
 }
 
 GameOverScene::~GameOverScene() { 
-	mTweenEngine->Clear();
+	mTweenEngine->clear();
 }
 
-void GameOverScene::Load()
+void GameOverScene::load()
 {
-	mGameOverText->Offset = 7;
-	mGameOverText->Width = 48;
-	mGameOverText->Height = 12;
+	mGameOverText->offset = 7;
+	mGameOverText->width = 48;
+	mGameOverText->height = 12;
 
-	mButton->Offset = 12;
-	mButton->Width = 104;
-	mButton->Height = 58;
-	mButton->Position = Point<float>{92,176};
+	mButton->offset = 12;
+	mButton->width = 104;
+	mButton->height = 58;
+	mButton->position = Point<float>{92,176};
 
-	mScoreBoard->Offset = 11;
-	mScoreBoard->Width = 225;
-	mScoreBoard->Height = 113;
-	mScoreBoard->Position = Point<float>{144.0f - mScoreBoard->Width/2, 250.0};
+	mScoreBoard->offset = 11;
+	mScoreBoard->width = 225;
+	mScoreBoard->height = 113;
+	mScoreBoard->position = Point<float>{144.0f - mScoreBoard->width/2, 250.0};
 
-	mMedal->Offset = 9; // Silver
-	mMedal->Width = 44;
-	mMedal->Height = 44;
-	mMedal->Position = mScoreBoard->Position + Point<float>{25.0, 25.0};
+	mMedal->offset = 9; // Silver
+	mMedal->width = 44;
+	mMedal->height = 44;
+	mMedal->position = mScoreBoard->position + Point<float>{25.0, 25.0};
 
-	mTweenEngine->Add(mGameOverText->Width,[&](float value)
+	mTweenEngine->add(mGameOverText->width,[&](float value)
 	{ 
-		mGameOverText->Width = value; 
+		mGameOverText->width = value; 
 	}, 192, 1000, true);
-	mTweenEngine->Add(mGameOverText->Height,[&](float value)
+	mTweenEngine->add(mGameOverText->height,[&](float value)
 	{ 
-		mGameOverText->Height = value;
+		mGameOverText->height = value;
 	}, 48, 1000, true);
 }
 
-void GameOverScene::Unload() { }
+void GameOverScene::unload() { }
 
-void GameOverScene::UpdateScreenSize(int width, int height) { }
+void GameOverScene::updateScreenSize(int width, int height) { }
 
-void GameOverScene::HandleInput() { }
+void GameOverScene::handleInput() { }
 
-void GameOverScene::Update(shared_ptr<IStepTimer> timer)
+void GameOverScene::update(shared_ptr<IStepTimer> timer)
 {
-	mTweenEngine->Update(timer);
-	mGameOverText->Position = { 288.0f / 2.0f - mGameOverText->Width / 2.0f, 
-								505.0f / 2.0f - mGameOverText->Height / 2.0f + 150.0f };
-	HandleInput();
+	mTweenEngine->update(timer);
+	mGameOverText->position = { 288.0f / 2.0f - mGameOverText->width / 2.0f, 
+								505.0f / 2.0f - mGameOverText->height / 2.0f + 150.0f };
+	handleInput();
 }
 
-void GameOverScene::Draw(shared_ptr<IRenderer> renderer)
+void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
-	auto score = mScoreSystem->GetLatestScore();
+	auto score = mScoreSystem->getLatestScore();
 	if (spriteRenderer) {
-		spriteRenderer->DrawSprite(mGameOverText);
-		spriteRenderer->DrawSprite(mButton);
-		spriteRenderer->DrawSprite(mScoreBoard);
+		spriteRenderer->drawSprite(mGameOverText);
+		spriteRenderer->drawSprite(mButton);
+		spriteRenderer->drawSprite(mScoreBoard);
 		if(score >= 10) {
 			if(score >= 20) {
-				mMedal->Offset = 10;
+				mMedal->offset = 10;
 			}
-			spriteRenderer->DrawSprite(mMedal);
+			spriteRenderer->drawSprite(mMedal);
 		}
-        mFontRenderer->DrawString(to_string(score), Point<float>{mScoreBoard->Position.X + 200, mScoreBoard->Position.Y + 68}, 0.3f);
-        mFontRenderer->DrawString(to_string(mScoreSystem->GetHighScore()), Point<float>{mScoreBoard->Position.X + 200, mScoreBoard->Position.Y + 18}, 0.3f);
+        mFontRenderer->drawString(to_string(score), Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 68}, 0.3f);
+        mFontRenderer->drawString(to_string(mScoreSystem->getHighScore()), Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 18}, 0.3f);
 	}
 }

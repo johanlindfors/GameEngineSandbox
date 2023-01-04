@@ -8,14 +8,14 @@ class ScoreSystem : public Utilities::ILazyInitialized
             : mLatestScore(0)
             , mHighScore(0) { }
         ~ScoreSystem() = default;
-        int GetLatestScore() { return mLatestScore; }
-        int GetHighScore() { return mHighScore; }
-        void SetLatestScore(int score);
-        void SaveHighScore();
-        void LoadHighScore();
+        int getLatestScore() { return mLatestScore; }
+        int getHighScore() { return mHighScore; }
+        void setLatestScore(int score);
+        void saveHighScore();
+        void loadHighScore();
 
         // Utilities::ILazyInitialized
-        void LazyInitialize();
+        void lazyInitialize();
 
     private:
         int mLatestScore;

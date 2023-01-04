@@ -20,11 +20,11 @@ class Ground
 	: public Engine::ICollidable {
 public:
 	Ground(Utilities::Point<float> position, Utilities::Vector2 velocity);
-	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	void draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
 
-    void Pause() { mIsRunning = false; }
-    void Resume() { mIsRunning = true; }
+    void pause() { mIsRunning = false; }
+    void resume() { mIsRunning = true; }
 
 private:
 	std::vector<Utilities::Point<float>> mGround;

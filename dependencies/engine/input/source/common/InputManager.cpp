@@ -2,7 +2,7 @@
 
 using namespace Engine;
 
-void InputManager::AddKeyboardEvent(int keyCode, bool isPressed) 
+void InputManager::addKeyboardEvent(int keyCode, bool isPressed) 
 {
 	if(keyCode >=0 && keyCode < 256){
         if (mKeyboard[keyCode] != isPressed) {
@@ -11,7 +11,7 @@ void InputManager::AddKeyboardEvent(int keyCode, bool isPressed)
     }
 }
     
-bool InputManager::IsKeyDown(int keyCode)
+bool InputManager::isKeyDown(int keyCode)
 {
     if(keyCode >=0 && keyCode < 256){
         return mKeyboard[keyCode];

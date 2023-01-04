@@ -9,8 +9,8 @@ namespace Engine
             ICollidable(Utilities::Point<float> position)
                 : isCollidable(false)
                 , AABB(Utilities::Rectangle(
-                    position.X,
-                    position.Y,
+                    position.x,
+                    position.y,
                     0,
                     0))
             { }

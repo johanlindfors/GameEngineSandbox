@@ -31,83 +31,83 @@ SplashScene::SplashScene(IGameStateCallback* gameCallback)
 	, mWindowHeight(0)
 	, mGame(gameCallback)
 {
-	ID = typeid(SplashScene).name();
-	mBackground->Offset = 3;
-	mBackground->Width = 288;
-	mBackground->Height = 505;
+	id = typeid(SplashScene).name();
+	mBackground->offset = 3;
+	mBackground->width = 288;
+	mBackground->height = 505;
 	
-	mButton->Offset = 12;
-	mButton->Width = 104;
-	mButton->Height = 58;
-	mButton->Position = Point<float>{92,176};
+	mButton->offset = 12;
+	mButton->width = 104;
+	mButton->height = 58;
+	mButton->position = Point<float>{92,176};
 }
 
 SplashScene::~SplashScene() {
 	mBackground.reset();
  }
 
-void SplashScene::Load()
+void SplashScene::load()
 {
-	mResourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
-	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
+	mResourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	mInputManager = IOCContainer::instance().resolve<IInputManager>();
     
 	vector<string> fileNames;
 	fileNames.emplace_back("atlas.png");
-	mResourceManager->LoadTextures(vector<string>(fileNames));
-	mResourceManager->LoadShader("spritesheet", "vertex.glsl", "fragment.glsl");
-	mResourceManager->LoadShader("fontsheet", "vertex.glsl", "fragment.glsl");
-	auto lazyInitializedTypes = IOCContainer::Instance().Resolve<LazyInitializedTypes>();
+	mResourceManager->loadTextures(vector<string>(fileNames));
+	mResourceManager->loadShader("spritesheet", "vertex.glsl", "fragment.glsl");
+	mResourceManager->loadShader("fontsheet", "vertex.glsl", "fragment.glsl");
+	auto lazyInitializedTypes = IOCContainer::instance().resolve<LazyInitializedTypes>();
 	for (auto it = lazyInitializedTypes->begin(); it != lazyInitializedTypes->end(); ++it) {
-		it->get()->LazyInitialize();
+		it->get()->lazyInitialize();
 	}
 	
 	// Audio
 	// mResourcesToLoad.push(L"background.png");
 
-	mTitle->Offset = 13;
-	mTitle->Width = 179;
-	mTitle->Height = 48;
+	mTitle->offset = 13;
+	mTitle->width = 179;
+	mTitle->height = 48;
 
-    printf("[SplashScene::Load] Loaded\n");
+    printf("[SplashScene::load] Loaded\n");
 }
 
-void SplashScene::Unload() { }
+void SplashScene::unload() { }
 
-void SplashScene::UpdateScreenSize(int width, int height) 
+void SplashScene::updateScreenSize(int width, int height) 
 {
 	if(mWindowWidth == width && mWindowHeight == height)
 		return;
 
-	mTitle->Position = Point<float>{30.0f, height - 100.0f - mTitle->Height};
-	mBird->Position = Point<float>{230.0f, height - 129.0f};
+	mTitle->position = Point<float>{30.0f, height - 100.0f - mTitle->height};
+	mBird->position = Point<float>{230.0f, height - 129.0f};
 
 	mWindowWidth = width;
 	mWindowHeight = height;
 }
 
-void SplashScene::Update(shared_ptr<IStepTimer> timer)
+void SplashScene::update(shared_ptr<IStepTimer> timer)
 {
-	auto milliseconds = static_cast<float>(timer->GetElapsedMilliSeconds());
+	auto milliseconds = static_cast<float>(timer->getElapsedMilliSeconds());
 	mMillisecondsToLoad -= milliseconds;
-	mSkyline->Update(timer);
-	mGround->Update(timer);
+	mSkyline->update(timer);
+	mGround->update(timer);
 	
-	auto const spacePressed = mInputManager->IsKeyDown(32);
+	auto const spacePressed = mInputManager->isKeyDown(32);
 	if (spacePressed && !mSpacePressedBefore) {
-		mGame->GoToState(GameState::Instructions);
+		mGame->goToState(GameState::Instructions);
 	}
 	mSpacePressedBefore = spacePressed;
 }
 
-void SplashScene::Draw(shared_ptr<IRenderer> renderer)
+void SplashScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
 	if (spriteRenderer) {
-		spriteRenderer->DrawSprite(mBackground);
-		mSkyline->Draw(spriteRenderer);
-		spriteRenderer->DrawSprite(mTitle);
-		spriteRenderer->DrawSprite(mButton);
-		mGround->Draw(spriteRenderer);
-		mBird->Draw(spriteRenderer);
+		spriteRenderer->drawSprite(mBackground);
+		mSkyline->draw(spriteRenderer);
+		spriteRenderer->drawSprite(mTitle);
+		spriteRenderer->drawSprite(mButton);
+		mGround->draw(spriteRenderer);
+		mBird->draw(spriteRenderer);
 	}
 }

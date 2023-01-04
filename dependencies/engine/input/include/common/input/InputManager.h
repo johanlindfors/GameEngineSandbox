@@ -7,8 +7,8 @@ namespace Engine {
     {
     public:
 		InputManager() {}
-        void AddKeyboardEvent(int keyCode, bool isPressed) override;
-        bool IsKeyDown(int keyCode) override;
+        void addKeyboardEvent(int keyCode, bool isPressed) override;
+        bool isKeyDown(int keyCode) override;
 
     private:
 		std::array<bool, 256> mKeyboard = {};

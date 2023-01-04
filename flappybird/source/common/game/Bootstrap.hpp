@@ -18,34 +18,34 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void Bootstrap() {
+void bootstrap() {
     auto config = make_shared<Config>();
-    config->FPS = 120;
-    config->UseFixedTimeStep = true;
-    config->Width = SCREEN_WIDTH;
-    config->Height = SCREEN_HEIGHT;
-    config->Title = "Flappy Bird";
-    config->GLMajorVersion = 3;
-    config->GLMinorVersion = 2;
-    IOCContainer::Instance().Register<Config>(config);
+    config->fps = 120;
+    config->useFixedTimeStep = true;
+    config->width = SCREEN_WIDTH;
+    config->height = SCREEN_HEIGHT;
+    config->title = "Flappy Bird";
+    config->glMajorVersion = 3;
+    config->glMinorVersion = 2;
+    IOCContainer::instance().register_type<Config>(config);
 
-    IOCContainer::Instance().Register<IPhysicsEngine>(make_shared<PhysicsEngine>());
-    IOCContainer::Instance().Register<IObjectCollider>(make_shared<ObjectCollider>());
-    IOCContainer::Instance().Register<ITweenEngine>(make_shared<TweenyEngine>());
+    IOCContainer::instance().register_type<IPhysicsEngine>(make_shared<PhysicsEngine>());
+    IOCContainer::instance().register_type<IObjectCollider>(make_shared<ObjectCollider>());
+    IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenyEngine>());
     
     auto spriteSheetRenderer = make_shared<SpriteSheetRenderer>(string("textures/atlas.txt"));    
-    IOCContainer::Instance().Register<IRenderer>(spriteSheetRenderer);
+    IOCContainer::instance().register_type<IRenderer>(spriteSheetRenderer);
     
     auto fontRenderer = make_shared<FontRenderer>(string("textures/numbers.fnt"));
-    IOCContainer::Instance().Register<FontRenderer>(fontRenderer);
+    IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
     auto scoreSystem = make_shared<ScoreSystem>();
-    IOCContainer::Instance().Register<ScoreSystem>(scoreSystem);
+    IOCContainer::instance().register_type<ScoreSystem>(scoreSystem);
 
     auto lazyLoaded = make_shared<LazyInitializedTypes>();
     lazyLoaded->emplace_back(spriteSheetRenderer);
     lazyLoaded->emplace_back(fontRenderer);
     lazyLoaded->emplace_back(scoreSystem);
-    IOCContainer::Instance().Register<LazyInitializedTypes>(lazyLoaded);
-    IOCContainer::Instance().Register<IGameLoopCallback>(make_shared<GameStateMachine>());
+    IOCContainer::instance().register_type<LazyInitializedTypes>(lazyLoaded);
+    IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<GameStateMachine>());
 }

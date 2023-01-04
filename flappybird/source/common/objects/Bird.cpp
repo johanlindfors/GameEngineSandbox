@@ -14,9 +14,9 @@ using namespace Utilities;
 
 Bird::Bird(Point<float> position)
     : IPhysicsBody(position)
-	, Bounds(Circle(position.X+16, position.X+12, 12))
+	, bounds(Circle(position.x+16, position.x+12, 12))
 	, AABB(Utilities::Rectangle(0, 0, 0, 0))
-	, IsKilled(false)
+	, isKilled(false)
 	, mAnimationCounter(0)
 	, mFramesPerAnimation(4)
 	, mSprite(make_shared<Sprite>())
@@ -24,77 +24,77 @@ Bird::Bird(Point<float> position)
 	, mDebugSprite(make_shared<Sprite>())
 #endif
 {
-    mSprite->Width = 33;
-	mSprite->Height = 24;
+    mSprite->width = 33;
+	mSprite->height = 24;
 }
 
-void Bird::Reset() {
-	Position = Point<float>{85.0f, SCREEN_HEIGHT/2.0f-12};
-	Velocity = Vector2{0.0f, 0.0f};
-	mSprite->Rotation = 0;
+void Bird::reset() {
+	position = Point<float>{85.0f, SCREEN_HEIGHT/2.0f-12};
+	velocity = Vector2{0.0f, 0.0f};
+	mSprite->rotation = 0;
 	mAnimationCounter = 0;
-	IsKilled = false;
-	IsAlive = true;
-	AllowGravity = false;
+	isKilled = false;
+	isAlive = true;
+	allowGravity = false;
 }
 
-void Bird::Update(shared_ptr<IStepTimer> timer)
+void Bird::update(shared_ptr<IStepTimer> timer)
 {
-	if(IsAlive) {
-		if(Position.Y >=465){
-			Position.Y = 465;
+	if(isAlive) {
+		if(position.y >=465){
+			position.y = 465;
 		}
 		if(mAnimationCounter++ >= mFramesPerAnimation) {
-			auto offset = mSprite->Offset;
+			auto offset = mSprite->offset;
 			offset++;
 			offset %= 3;
-			mSprite->Offset = offset;
+			mSprite->offset = offset;
 			mAnimationCounter = 0;
 		}
 
-		if (AllowGravity && mSprite->Rotation > -90 && IsAlive)
+		if (allowGravity && mSprite->rotation > -90 && isAlive)
 		{
-			mSprite->Rotation -= (160.0f * timer->GetElapsedMilliSeconds() / 1000.0f);
+			mSprite->rotation -= (160.0f * timer->getElapsedMilliSeconds() / 1000.0f);
 		}
 
-		AABB = Utilities::Rectangle(Position.X,
-						Position.Y,
-						mSprite->Width,
-						mSprite->Height);
-		Bounds = Circle(Position.X + mSprite->Width/2,
-						Position.Y + mSprite->Height/2,
+		AABB = Utilities::Rectangle(position.x,
+						position.y,
+						mSprite->width,
+						mSprite->height);
+		bounds = Circle(position.x + mSprite->width/2,
+						position.y + mSprite->height/2,
 						12);
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		mDebugSprite->Position = Point<float>(AABB.Position.X, AABB.Position.Y);
-		mDebugSprite->Offset = 22;
-		mDebugSprite->Width = AABB.Width;
-		mDebugSprite->Height = AABB.Height;
+		mDebugSprite->position = Point<float>(AABB.position.x, AABB.position.y);
+		mDebugSprite->offset = 22;
+		mDebugSprite->width = AABB.width;
+		mDebugSprite->height = AABB.height;
 #endif
 	}
 }
 
-void Bird::Flap()
+void Bird::flap()
 {
-	if(IsAlive && !IsKilled) {
-		AllowGravity = true;
-		Velocity.idx[1] = 400;
+	if(isAlive && !isKilled) {
+		allowGravity = true;
+		velocity.y = 400;
 
-		auto tweenEngine = IOCContainer::Instance().Resolve<ITweenEngine>();
-		tweenEngine->Add(mSprite->Rotation, [&](int value)
+		auto tweenEngine = IOCContainer::instance().resolve<ITweenEngine>();
+		tweenEngine->add(mSprite->rotation, [&](int value)
 		{
- 			mSprite->Rotation = value;
+ 			mSprite->rotation = value;
 		}, 40, 100, false);
 	}
 }
 
-void Bird::CollideWithPipe()
+void Bird::collideWithPipe()
 {
-	IsKilled = true;
+	isKilled = true;
 }
 
-void Bird::Draw(shared_ptr<ISpriteRenderer> renderer) {
+void Bird::draw(shared_ptr<ISpriteRenderer> renderer) {
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-	renderer->DrawSprite(mDebugSprite, Position);
+	renderer->drawSprite(mDebugSprite, position);
 #endif
-	renderer->DrawSprite(mSprite, Position);
+	renderer->drawSprite(mSprite, position);
 }

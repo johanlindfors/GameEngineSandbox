@@ -22,49 +22,49 @@ Ground::Ground(Point<float> position, Vector2 velocity)
 {
     for (size_t i = 0; i < 14; i++)
     {
-        auto ground = Point<float>{position.X + i * 23, position.Y};
+        auto ground = Point<float>{position.x + i * 23, position.y};
         mGround.push_back(ground);
     }
 
-    mGroundSprite->Width = 23;
-    mGroundSprite->Height = 26;
-    mGroundSprite->Offset = 15;
+    mGroundSprite->width = 23;
+    mGroundSprite->height = 26;
+    mGroundSprite->offset = 15;
 
-    mGroundBackgroundSprite->Position = Point<float>{position.X, position.Y-200};
-    mGroundBackgroundSprite->Width = 288;
-    mGroundBackgroundSprite->Height = 200;
-    mGroundBackgroundSprite->Offset = 20;
+    mGroundBackgroundSprite->position = Point<float>{position.x, position.y - 200};
+    mGroundBackgroundSprite->width = 288;
+    mGroundBackgroundSprite->height = 200;
+    mGroundBackgroundSprite->offset = 20;
 
-    AABB.Width = 288;
-    AABB.Height = 105;
-    AABB.Position.Y = 0;
+    AABB.width = 288;
+    AABB.height = 105;
+    AABB.position.y = 0;
     
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-    mGroundDebugSprite->Width = 288;
-    mGroundDebugSprite->Height = 105;
-    mGroundDebugSprite->Offset = 22;
+    mGroundDebugSprite->width = 288;
+    mGroundDebugSprite->height = 105;
+    mGroundDebugSprite->offset = 22;
 #endif
 }
 
-void Ground::Update(shared_ptr<IStepTimer> timer)
+void Ground::update(shared_ptr<IStepTimer> timer)
 {
     if(!mIsRunning)
         return;
     for(auto &ground: mGround) {
-        ground.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds());// / 1000.0);
-        if(ground.X <= -30) {
-            ground.X += 14 * 23;
+        ground.x += (mVelocity.x * timer->getElapsedMilliSeconds());
+        if(ground.x <= -30) {
+            ground.x += 14 * 23;
         } 
     }
 }
 
-void Ground::Draw(shared_ptr<ISpriteRenderer> renderer)
+void Ground::draw(shared_ptr<ISpriteRenderer> renderer)
 {
-    renderer->DrawSprite(mGroundBackgroundSprite, mGroundBackgroundSprite->Position);
+    renderer->drawSprite(mGroundBackgroundSprite, mGroundBackgroundSprite->position);
     for(auto position: mGround) {
-        renderer->DrawSprite(mGroundSprite, position);
+        renderer->drawSprite(mGroundSprite, position);
     }
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-    renderer->DrawSprite(mGroundDebugSprite);
+    renderer->drawSprite(mGroundDebugSprite);
 #endif
 }

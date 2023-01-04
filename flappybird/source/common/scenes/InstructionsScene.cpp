@@ -20,27 +20,27 @@ InstructionsScene::InstructionsScene(IGameStateCallback* gameCallback)
 	, mGame(gameCallback)
     , mSpacePressedBefore(true)
 {
-	ID = typeid(InstructionsScene).name();
+	id = typeid(InstructionsScene).name();
 
-	mInstructions->Offset = 6;
-	mInstructions->Width = 113;
-	mInstructions->Height = 102;
-	mInstructions->Position = Point<float>{92,136};
+	mInstructions->offset = 6;
+	mInstructions->width = 113;
+	mInstructions->height = 102;
+	mInstructions->position = Point<float>{92,136};
 
-	mGetReady->Offset = 8;
-	mGetReady->Width = 184;
-	mGetReady->Height = 52;
-	mGetReady->Position = Point<float>{52,380};
+	mGetReady->offset = 8;
+	mGetReady->width = 184;
+	mGetReady->height = 52;
+	mGetReady->position = Point<float>{52,380};
 }
 
-void InstructionsScene::Load()
+void InstructionsScene::load()
 {
-	mInputManager = IOCContainer::Instance().Resolve<IInputManager>();
+	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 }
 
-void InstructionsScene::Unload() { }
+void InstructionsScene::unload() { }
 
-void InstructionsScene::UpdateScreenSize(int width, int height) 
+void InstructionsScene::updateScreenSize(int width, int height) 
 {
 	if(mWindowWidth == width && mWindowHeight == height)
 		return;
@@ -49,20 +49,20 @@ void InstructionsScene::UpdateScreenSize(int width, int height)
 	mWindowHeight = height;
 }
 
-void InstructionsScene::Update(shared_ptr<IStepTimer> timer)
+void InstructionsScene::update(shared_ptr<IStepTimer> timer)
 {	
-	auto const spacePressed = mInputManager->IsKeyDown(32);
+	auto const spacePressed = mInputManager->isKeyDown(32);
     if (spacePressed && !mSpacePressedBefore) {
-        mGame->GoToState(GameState::GamePlay);
+        mGame->goToState(GameState::GamePlay);
     }
 	mSpacePressedBefore = spacePressed;
 }
 
-void InstructionsScene::Draw(shared_ptr<IRenderer> renderer)
+void InstructionsScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
 	if (spriteRenderer) {
-		spriteRenderer->DrawSprite(mInstructions);
-		spriteRenderer->DrawSprite(mGetReady);
+		spriteRenderer->drawSprite(mInstructions);
+		spriteRenderer->drawSprite(mGetReady);
 	}
 }
