@@ -7,6 +7,7 @@ namespace Engine {
     class SceneManager : public ISceneManager {
     public:
         SceneManager();
+        ~SceneManager();
 
     	// Engine::ISceneManager
         void Initialize() override;

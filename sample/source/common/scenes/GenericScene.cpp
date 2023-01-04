@@ -47,6 +47,7 @@ static constexpr float kProjectionFarPlane = 1.f;
 
 void GenericScene::Load() 
 {
+    printf("[GenericScene::Load]\n");
     auto resourceManager = IOCContainer::Instance().Resolve<IResourceManager>();
 
      /*
@@ -85,18 +86,27 @@ void GenericScene::Load()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void GenericScene::Unload() {
+void GenericScene::Unload() 
+{
+    printf("[GenericScene::Unload]\n");
     mShader->deactivate();
 }
 
 void GenericScene::UpdateScreenSize(int width, int height)
 { 
+    printf("[GenericScene::UpdateScreenSize]\n");
     mWidth = width;
     mHeight = height;
 }
 
+void GenericScene::Update(shared_ptr<IStepTimer> timer)
+{
+    // printf("[GenericScene::Update]\n");
+}
+
 void GenericScene::Draw(std::shared_ptr<Engine::IRenderer> renderer)
-{ 
+{
+    // printf("[GenericScene::Draw]\n");
     float mvpMatrix[16] = {0};
     buildOrthographicMatrix(
                 mvpMatrix,

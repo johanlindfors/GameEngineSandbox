@@ -25,14 +25,14 @@ void GameLoop::Initialize(shared_ptr<Config> config) {
 
 	// Ordering is important
 	if(!IOCContainer::Instance().Contains<FileSystem>()){
-		const auto fileSystem = make_shared<FileSystem>();
-		IOCContainer::Instance().Register<IFileSystem>(fileSystem);
+		mFileSystem = make_shared<FileSystem>();
+		IOCContainer::Instance().Register<IFileSystem>(mFileSystem);
 		printf("[GameLoop::Initialize] FileSystem registered\n");
 	}
 	
 	if(!IOCContainer::Instance().Contains<IResourceManager>()){
-		const auto resourceManager = make_shared<ResourceManager>();
-		IOCContainer::Instance().Register<IResourceManager>(resourceManager);
+		mResourceManager = make_shared<ResourceManager>();
+		IOCContainer::Instance().Register<IResourceManager>(mResourceManager);
 		printf("[GameLoop::Initialize] ResourceManager registered\n");
 	}
 
@@ -58,7 +58,17 @@ void GameLoop::Initialize(shared_ptr<Config> config) {
 	mIsInitialized = true;
 }
 
-GameLoop::~GameLoop() { }
+GameLoop::~GameLoop() {
+	printf("[GameLoop::~GameLoop]\n");
+	mTimer.reset();
+
+	mSceneManager.reset();
+	mInputManager.reset();
+	if(mResourceManager.get())
+		mResourceManager.reset();
+	if(mFileSystem.get())
+		mFileSystem.reset();
+}
 
 void GameLoop::Tick() {
 	if (!mIsInitialized)

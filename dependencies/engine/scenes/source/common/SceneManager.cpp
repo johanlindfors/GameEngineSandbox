@@ -11,6 +11,16 @@ SceneManager::SceneManager()
 	, mScreenWidth(0)
 	, mScreenHeight(0) { }
 
+SceneManager::~SceneManager()
+{
+	printf("[SceneManager::~SceneManager]\n");
+	for (auto & scene : mScenes)
+	{
+		scene->Unload();
+		scene.reset();
+	}
+}
+
 void SceneManager::Initialize() 
 {
 	if (mInitialized) {
