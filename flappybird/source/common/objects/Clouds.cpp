@@ -13,28 +13,28 @@ Clouds::Clouds(Point<float> position, Vector2 velocity)
     , mClouds(make_shared<Sprite>())
     , mCloudsBackground(make_shared<Sprite>())
 {
-    mClouds->Position = Point<float>{position.X, position.Y + 200};
-    mClouds->Width = 351;
-    mClouds->Height = 33;
-    mClouds->Offset = 5;
+    mClouds->position = Point<float>{position.x, position.y + 200};
+    mClouds->width = 351;
+    mClouds->height = 33;
+    mClouds->offset = 5;
 
-    mCloudsBackground->Position = Point<float>{position.X, position.Y};
-    mCloudsBackground->Width = 288;
-    mCloudsBackground->Height = 200;
-    mCloudsBackground->Offset = 18;   
+    mCloudsBackground->position = Point<float>{position.x, position.y};
+    mCloudsBackground->width = 288;
+    mCloudsBackground->height = 200;
+    mCloudsBackground->offset = 18;   
 }
 
-void Clouds::Update(shared_ptr<IStepTimer> timer)
+void Clouds::update(shared_ptr<IStepTimer> timer)
 {
-    mPosition.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds());// / 1000.0f);
-    if(mPosition.X <= -351.0) {
-        mPosition.X += 351.0;
+    mPosition.x += (mVelocity.x * timer->getElapsedMilliSeconds());
+    if(mPosition.x <= -351.0) {
+        mPosition.x += 351.0;
     }
 }
 
-void Clouds::Draw(shared_ptr<ISpriteRenderer> renderer)
+void Clouds::draw(shared_ptr<ISpriteRenderer> renderer)
 {
-    renderer->DrawSprite(mClouds, mPosition);
-    renderer->DrawSprite(mClouds, Point<float>{mPosition.X + 351, mPosition.Y});
-    renderer->DrawSprite(mCloudsBackground, Point<float>{0, mPosition.Y - 200});
+    renderer->drawSprite(mClouds, mPosition);
+    renderer->drawSprite(mClouds, Point<float>{mPosition.x + 351, mPosition.y});
+    renderer->drawSprite(mCloudsBackground, Point<float>{0, mPosition.y - 200});
 }

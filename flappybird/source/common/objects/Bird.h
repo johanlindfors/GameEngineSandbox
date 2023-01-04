@@ -24,14 +24,14 @@ class IGameStateCallback;
 class Bird : public Engine::IPhysicsBody {
 public:
 	Bird(Utilities::Point<float> position);
-	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void Draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
-	void Flap();
-	Utilities::Circle Bounds;
+	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	void draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	void flap();
+	Utilities::Circle bounds;
 	Utilities::Rectangle AABB;
-	bool IsKilled;
-	void CollideWithPipe();
-	void Reset();
+	bool isKilled;
+	void collideWithPipe();
+	void reset();
 	
 private:
 	int mAnimationCounter;

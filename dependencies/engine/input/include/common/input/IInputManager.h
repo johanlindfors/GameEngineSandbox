@@ -5,10 +5,10 @@ namespace Engine {
 	class IInputManager {
 	public:
 		virtual ~IInputManager() = default;
-		virtual void AddKeyboardEvent(int keyCode, bool isPressed) = 0;
-		virtual void AddMouseEvent(MouseButton button, MouseButtonState action, int x, int y) = 0;
-		virtual bool IsKeyDown(int keyCode) = 0;
-		virtual MouseState GetMouseState() = 0;
-		virtual void Update() = 0;
+		virtual void addKeyboardEvent(int keyCode, bool isPressed) = 0;
+		virtual bool isKeyDown(int keyCode) = 0;
+		virtual void addMouseEvent(MouseButton button, MouseButtonState action, int x, int y) = 0;
+		virtual MouseState getMouseState() = 0;
+		virtual void update() = 0;
 	};
 }

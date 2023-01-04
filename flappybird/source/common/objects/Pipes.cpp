@@ -10,99 +10,99 @@ using namespace Engine;
 using namespace Utilities;
 
 Pipes::Pipes(Point<float> position)
-	: TopPipe(make_shared<Pipe>(position))
-	, BottomPipe(make_shared<Pipe>(position))
-	, TopPipeSprite(make_shared<Sprite>())
-	, BottomPipeSprite(make_shared<Sprite>())
+	: topPipe(make_shared<Pipe>(position))
+	, bottomPipe(make_shared<Pipe>(position))
+	, topPipeSprite(make_shared<Sprite>())
+	, bottomPipeSprite(make_shared<Sprite>())
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	, TopPipeDebugSprite(make_shared<Sprite>())
 	, BottomPipeDebugSprite(make_shared<Sprite>())
 #endif
-	, IsAlive(true)
-	, HasScored(false)
+	, isAlive(true)
+	, hasScored(false)
 {
-	Reset(position);
+	reset(position);
 
-	TopPipe->Offset = 16;
-	TopPipeSprite->Offset = 21;
-	TopPipeSprite->Width = TopPipe->Width;
+	topPipe->offset = 16;
+	topPipeSprite->offset = 21;
+	topPipeSprite->width = topPipe->width;
 	
-	BottomPipe->Offset = 17;
-	BottomPipeSprite->Offset = 21;
-	BottomPipeSprite->Width = TopPipe->Width;
+	bottomPipe->offset = 17;
+	bottomPipeSprite->offset = 21;
+	bottomPipeSprite->width = topPipe->width;
 }
 
-void Pipes::Reset(Point<float> position)
+void Pipes::reset(Point<float> position)
 {
-	TopPipe->Position = Point<float>{position.X, position.Y};
-	BottomPipe->Position = Point<float>{position.X, position.Y};
+	topPipe->position = Point<float>{position.x, position.y};
+	bottomPipe->position = Point<float>{position.x, position.y};
 
-	TopPipe->Position.Y += 400;
-	BottomPipe->Position.Y += 250;
+	topPipe->position.y += 400;
+	bottomPipe->position.y += 250;
 
-	TopPipeSprite->Height = 505 - TopPipe->Position.Y - TopPipe->Height;
-	TopPipeSprite->Position = Point<float>{TopPipe->Position.X, TopPipe->Position.Y + 25};
+	topPipeSprite->height = 505 - topPipe->position.y - topPipe->height;
+	topPipeSprite->position = Point<float>{topPipe->position.x, topPipe->position.y + 25};
 
-	BottomPipeSprite->Height = BottomPipe->Position.Y - 95;
-	BottomPipeSprite->Position = Point<float>{BottomPipe->Position.X, BottomPipe->Position.Y - BottomPipeSprite->Height};
+	bottomPipeSprite->height = bottomPipe->position.y - 95;
+	bottomPipeSprite->position = Point<float>{bottomPipe->position.x, bottomPipe->position.y - bottomPipeSprite->height};
 
-	IsAlive = true;
-	HasScored = false;
+	isAlive = true;
+	hasScored = false;
 }
 
-void Pipes::Update(shared_ptr<IStepTimer> timer)
+void Pipes::update(shared_ptr<IStepTimer> timer)
 {
-	if(IsAlive) {
-		Vector2 delta = Vector2{(SCROLL_SPEED * timer->GetElapsedMilliSeconds()), 0};
-		TopPipe->Position = TopPipe->Position + delta;
-		TopPipeSprite->Position = TopPipeSprite->Position + delta;
-		BottomPipe->Position = BottomPipe->Position + delta;
-		BottomPipeSprite->Position = BottomPipeSprite->Position + delta;
-		if(TopPipe->Position.X <= -54) {
-			IsAlive = false;
+	if(isAlive) {
+		Vector2 delta = Vector2{(SCROLL_SPEED * timer->getElapsedMilliSeconds()), 0};
+		topPipe->position = topPipe->position + delta;
+		topPipeSprite->position = topPipeSprite->position + delta;
+		bottomPipe->position = bottomPipe->position + delta;
+		bottomPipeSprite->position = bottomPipeSprite->position + delta;
+		if(topPipe->position.x <= -54) {
+			isAlive = false;
 		}
 		Utilities::Rectangle topAABB(
-			TopPipe->Position.X,
-			TopPipe->Position.Y,
-			TopPipe->Width,
-			TopPipe->Height + TopPipeSprite->Height
+			topPipe->position.x,
+			topPipe->position.y,
+			topPipe->width,
+			topPipe->height + topPipeSprite->height
 		);
 	
 		Utilities::Rectangle bottomAABB(
-			BottomPipe->Position.X,
-			BottomPipe->Position.Y - BottomPipeSprite->Height,
-			BottomPipe->Width,
-			BottomPipe->Height + BottomPipeSprite->Height
+			bottomPipe->position.x,
+			bottomPipe->position.y - bottomPipeSprite->height,
+			bottomPipe->width,
+			bottomPipe->height + bottomPipeSprite->height
 		);
 
-		TopPipe->AABB = topAABB;
-		BottomPipe->AABB = bottomAABB;
+		topPipe->AABB = topAABB;
+		bottomPipe->AABB = bottomAABB;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		BottomPipeDebugSprite->Position = Point<float>(bottomAABB.Position.X, bottomAABB.Position.Y);
-		BottomPipeDebugSprite->Width = bottomAABB.Width;
-		BottomPipeDebugSprite->Height = bottomAABB.Height;
-		BottomPipeDebugSprite->Offset = 22;
+		bottomPipeDebugSprite->position = Point<float>(bottomAABB.position.x, bottomAABB.position.y);
+		ottomPipeDebugSprite->width = bottomAABB.width;
+		bottomPipeDebugSprite-height = bottomAABB.height;
+		bottomPipeDebugSprite->offset = 22;
 
-		TopPipeDebugSprite->Position = Point<float>(topAABB.Position.X, topAABB.Position.Y);
-		TopPipeDebugSprite->Width = topAABB.Width;
-		TopPipeDebugSprite->Height = topAABB.Height;
-		TopPipeDebugSprite->Offset = 22;
+		topPipeDebugSprite->position = Point<float>(topAABB.position.x, topAABB.position.y);
+		topPipeDebugSprite->width = topAABB.width;
+		topPipeDebugSprite->height = topAABB.height;
+		topPipeDebugSprite->offset = 22;
 #endif
 	}
 }
 
-void Pipes::Draw(shared_ptr<ISpriteRenderer> renderer)
+void Pipes::draw(shared_ptr<ISpriteRenderer> renderer)
 {
-	if(IsAlive) {
-		renderer->DrawSprite(TopPipe, Point<float>{TopPipe->Position.X, TopPipe->Position.Y});
-		renderer->DrawSprite(TopPipeSprite, TopPipeSprite->Position);
+	if(isAlive) {
+		renderer->drawSprite(topPipe, Point<float>{topPipe->position.x, topPipe->position.y});
+		renderer->drawSprite(topPipeSprite, topPipeSprite->position);
 		
-		renderer->DrawSprite(BottomPipe, Point<float>{BottomPipe->Position.X, BottomPipe->Position.Y});
-		renderer->DrawSprite(BottomPipeSprite, BottomPipeSprite->Position);
+		renderer->drawSprite(bottomPipe, Point<float>{bottomPipe->position.x, bottomPipe->position.y});
+		renderer->drawSprite(bottomPipeSprite, bottomPipeSprite->position);
 
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		renderer->DrawSprite(BottomPipeDebugSprite);
-		renderer->DrawSprite(TopPipeDebugSprite);
+		renderer->drawSprite(bottomPipeDebugSprite);
+		renderer->drawSprite(topPipeDebugSprite);
 #endif
 	}
 }

@@ -8,31 +8,31 @@ using namespace Engine;
 using namespace Utilities;
 
 Trees::Trees(Point<float> position, Vector2 velocity)
-    : mPosition(Point<float>{position.X, position.Y})
+    : mPosition(position)
     , mVelocity(velocity)
     , mTrees(make_shared<Sprite>())
     , mTreesBackground(make_shared<Sprite>())
 {
-    mTrees->Width = 415;
-    mTrees->Height = 32;
-    mTrees->Offset = 14;
+    mTrees->width = 415;
+    mTrees->height = 32;
+    mTrees->offset = 14;
 
-    mTreesBackground->Width = 415;
-    mTreesBackground->Height = 200;
-    mTreesBackground->Offset = 19;   
+    mTreesBackground->width = 415;
+    mTreesBackground->height = 200;
+    mTreesBackground->offset = 19;   
 }
 
-void Trees::Update(shared_ptr<IStepTimer> timer)
+void Trees::update(shared_ptr<IStepTimer> timer)
 {
-    mPosition.X += (mVelocity.idx[0] * timer->GetElapsedMilliSeconds());
-    if(mPosition.X <= -415.0) {
-        mPosition.X += 415.0;
+    mPosition.x += (mVelocity.x * timer->getElapsedMilliSeconds());
+    if(mPosition.x <= -415.0) {
+        mPosition.x += 415.0;
     }
 }
 
-void Trees::Draw(shared_ptr<ISpriteRenderer> renderer)
+void Trees::draw(shared_ptr<ISpriteRenderer> renderer)
 {
-    renderer->DrawSprite(mTrees, Point<float>{mPosition.X, mPosition.Y});
-    renderer->DrawSprite(mTrees, Point<float>{mPosition.X + 415, mPosition.Y});
-    renderer->DrawSprite(mTreesBackground, Point<float>{0, mPosition.Y-200});
+    renderer->drawSprite(mTrees, mPosition);
+    renderer->drawSprite(mTrees, Point<float>{mPosition.x + 415, mPosition.y});
+    renderer->drawSprite(mTreesBackground, Point<float>{0, mPosition.y - 200});
 }

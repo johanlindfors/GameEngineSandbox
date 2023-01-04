@@ -4,7 +4,7 @@
 using namespace tweeny;
 using tweeny::easing;
 
-void TweenyEngine::Add(int original, std::function<void(int)> setter, int target, int durationInMilliseconds, bool bounce)
+void TweenyEngine::add(int original, std::function<void(int)> setter, int target, int durationInMilliseconds, bool bounce)
 {
     tweeny::tween<int> tween;
     if(bounce) {
@@ -28,28 +28,28 @@ void TweenyEngine::Add(int original, std::function<void(int)> setter, int target
     mTweenies.push_back(tween);
 }
 
-static bool IsTweenyCompleted(tweeny::tween<int> tween) {
+static bool isTweenyCompleted(tweeny::tween<int> tween) {
     if(tween.progress() >= 1)
         return true;
     return false;
 }
 
-void TweenyEngine::Update(std::shared_ptr<Utilities::IStepTimer> timer)
+void TweenyEngine::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
     for(auto &tween : mTweenies) {
-        auto ms = timer->GetElapsedMilliSeconds();
-        tween.step(timer->GetElapsedMilliSeconds());
+        auto ms = timer->getElapsedMilliSeconds();
+        tween.step(timer->getElapsedMilliSeconds());
     }
 
     mTweenies.erase(
         remove_if(
             mTweenies.begin(), 
             mTweenies.end(), 
-            IsTweenyCompleted),
+            isTweenyCompleted),
         mTweenies.end());
 }
 
-void TweenyEngine::Clear() 
+void TweenyEngine::clear() 
 {
     mTweenies.clear();
 }

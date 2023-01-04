@@ -26,18 +26,18 @@ ParallaxBackground::~ParallaxBackground()
     mTrees.reset();
 }
 
-void ParallaxBackground::Update(shared_ptr<IStepTimer> timer)
+void ParallaxBackground::update(shared_ptr<IStepTimer> timer)
 {
     if(mIsRunning) {
-        mClouds->Update(timer);
-        mSkyline->Update(timer);
-        mTrees->Update(timer);
+        mClouds->update(timer);
+        mSkyline->update(timer);
+        mTrees->update(timer);
     }
 }
 
-void ParallaxBackground::Draw(shared_ptr<ISpriteRenderer> renderer)
+void ParallaxBackground::draw(shared_ptr<ISpriteRenderer> renderer)
 {
-    mClouds->Draw(renderer);
-    mSkyline->Draw(renderer);
-    mTrees->Draw(renderer);
+    mClouds->draw(renderer);
+    mSkyline->draw(renderer);
+    mTrees->draw(renderer);
 }

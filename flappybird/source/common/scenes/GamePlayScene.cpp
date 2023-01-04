@@ -30,25 +30,25 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mBird(make_shared<Bird>(Point<float>{80,SCREEN_HEIGHT/2.0f}))
 	, mGround(make_shared<Ground>(Point<float>{0,79}, Vector2{SCROLL_SPEED,0}))
 	, mPipes(vector<shared_ptr<Pipes>>())
-	, mInputManager(IOCContainer::Instance().Resolve<IInputManager>())
-	, mPhysicsEngine(IOCContainer::Instance().Resolve<IPhysicsEngine>())
-	, mCollider(IOCContainer::Instance().Resolve<IObjectCollider>())
-	, mTweenEngine(IOCContainer::Instance().Resolve<ITweenEngine>())
+	, mInputManager(IOCContainer::instance().resolve<IInputManager>())
+	, mPhysicsEngine(IOCContainer::instance().resolve<IPhysicsEngine>())
+	, mCollider(IOCContainer::instance().resolve<IObjectCollider>())
+	, mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mGame(gameCallback)
 	, mSpacePressedBefore(true)
-	, mFontRenderer(IOCContainer::Instance().Resolve<FontRenderer>())
+	, mFontRenderer(IOCContainer::instance().resolve<FontRenderer>())
 	, mShowInstructions(true)
 	, mScore(0)
 {
-	ID = typeid(GamePlayScene).name();
-	mPipesGenerator.SetInterval(1250);
+	id = typeid(GamePlayScene).name();
+	mPipesGenerator.setInterval(1250);
 
 	std::random_device rd;
     mGen = std::mt19937(rd());
 	mDistrib = std::uniform_int_distribution<>(0, 200);
-	Reset();
+	reset();
 }
 
 GamePlayScene::~GamePlayScene()
@@ -59,31 +59,31 @@ GamePlayScene::~GamePlayScene()
 	mGround.reset();
 }
 
-void GamePlayScene::Load()
+void GamePlayScene::load()
 {
-	mBackground->Offset = 3;
-	mBackground->Width = 288;
-	mBackground->Height = 505;
+	mBackground->offset = 3;
+	mBackground->width = 288;
+	mBackground->height = 505;
 
-	mPhysicsEngine->AddBody(mBird);
+	mPhysicsEngine->addBody(mBird);
 }
 
-void GamePlayScene::Unload()
+void GamePlayScene::unload()
 {
 	mBackground.reset();
 	mSkyline.reset();
 	mGround.reset();
 }
 
-void GamePlayScene::UpdateScreenSize(int width, int height)
+void GamePlayScene::updateScreenSize(int width, int height)
 {
 	mScreenSizeX = width;
 	mScreenSizeY = height;
 
-	mFontRenderer->UpdateWindowSize(width, height);
+	mFontRenderer->updateWindowSize(width, height);
 }
 
-void GamePlayScene::Reset()
+void GamePlayScene::reset()
 {
 	for (auto pipe : mPipes)
 	{
@@ -91,20 +91,20 @@ void GamePlayScene::Reset()
 	}
 
 	mPipes.clear();
-	mBird->Reset();
-	mPipesGenerator.Reset();
-	mPipesGenerator.Pause();
-	mSkyline->Resume();
-	mGround->Resume();
+	mBird->reset();
+	mPipesGenerator.reset();
+	mPipesGenerator.pause();
+	mSkyline->resume();
+	mGround->resume();
 	mScore = 0;
 }
 
-void GamePlayScene::GeneratePipes()
+void GamePlayScene::generatePipes()
 {
  	shared_ptr<Pipes> newPipes = nullptr;
 	for (auto pipe : mPipes)
 	{
-		if(!pipe->IsAlive) {
+		if(!pipe->isAlive) {
 			newPipes = pipe;
 			break;
 		}
@@ -114,103 +114,99 @@ void GamePlayScene::GeneratePipes()
 		mPipes.push_back(newPipes);
 	}
 	auto y = mDistrib(mGen) - 100;
-	newPipes->Reset(Point<float>{288 + 45, y});
+	newPipes->reset(Point<float>{
+		static_cast<float>(288 + 45),
+		static_cast<float>(y)}
+	);
 }
 
-void GamePlayScene::Update(shared_ptr<IStepTimer> timer)
+void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
-	auto const mousePressed = mInputManager->GetMouseState().State == MouseButtonState::Pressed;
+	auto const mousePressed = mInputManager->getMouseState().state == MouseButtonState::Pressed;
 
-	switch(mGame->GetCurrentState()) {
-	// case GameState::GameOver:
-	// 	if (spacePressed && !mSpacePressedBefore)
-	// 	{
-	// 		Reset();
-	// 		mGame->GoToState(GameState::Instructions);
-	// 	}
-	// 	break;
+	switch(mGame->getCurrentState()) {
 	case GameState::Instructions:
-		mSkyline->Update(timer);
-		mGround->Update(timer);
-		mBird->Update(timer);
+		mSkyline->update(timer);
+		mGround->update(timer);
+		mBird->update(timer);
 		if (mousePressed)
 		{
-			Reset();
-			mGame->GoToState(GameState::GamePlay);
-			mBird->Flap();
-			mPipesGenerator.Resume();
+		reset();
+			mGame->goToState(GameState::GamePlay);
+			mBird->flap();
+			mPipesGenerator.resume();
 		}
 		break;
 	default:
 		// do updates
-		mSkyline->Update(timer);
-		mGround->Update(timer);
-		mBird->Update(timer);
-		mPhysicsEngine->Update(timer);
+		mSkyline->update(timer);
+		mGround->update(timer);
+		mBird->update(timer);
+		mPhysicsEngine->update(timer);
 
-		if(!mBird->IsKilled) {
+		if(!mBird->isKilled) {
 			for(auto pipe : mPipes) {
-				pipe->Update(timer);
+				pipe->update(timer);
 			}
 		}
 
-		mPipesGenerator.Update([&]()
+		mPipesGenerator.update([&]()
 		{
-			GeneratePipes();
+			generatePipes();
 		});
 
-		mTweenEngine->Update(timer);
+		mTweenEngine->update(timer);
 
-		CheckCollisions();
+		checkCollisions();
 
 		if (mousePressed)
 		{
-			mBird->Flap();
+			mBird->flap();
 		}
 
 		break;
 	}
 }
 
-void GamePlayScene::CheckCollisions()
+void GamePlayScene::checkCollisions()
 {
 	for(auto pipe : mPipes) {
-		bool collision = mCollider->Intersects(mBird->Bounds, pipe->TopPipe->AABB) || 
-					mCollider->Intersects(mBird->Bounds, pipe->BottomPipe->AABB);
-		if(collision && mBird->IsAlive) { // Collided with a pipe
-			mBird->CollideWithPipe();
-			mPipesGenerator.Pause();
-			mSkyline->Pause();
-			mGround->Pause();
+		bool collision = mCollider->intersects(mBird->bounds, pipe->topPipe->AABB) || 
+					mCollider->intersects(mBird->bounds, pipe->bottomPipe->AABB);
+		if(collision && mBird->isAlive) { // Collided with a pipe
+			mBird->collideWithPipe();
+			mPipesGenerator.pause();
+			mSkyline->pause();
+			mGround->pause();
 		}
-		if(!pipe->HasScored && pipe->BottomPipe->Position.X < mBird->Position.X) {
+		if(!pipe->hasScored && pipe->bottomPipe->position.x < mBird->position.y) {
 			mScore++;
-			pipe->HasScored = true;
+			pipe->hasScored = true;
 		}
 	}
 
-	if(mCollider->Intersects(mBird->Bounds, mGround->AABB)) {
-		auto scoreSystem= IOCContainer::Instance().Resolve<ScoreSystem>();
-		scoreSystem->SetLatestScore(mScore);
-		mPipesGenerator.Pause();
-		mSkyline->Pause();
-		mBird->AllowGravity = false;
-		mGame->GoToState(GameState::GameOver);
+	if(mCollider->intersects(mBird->bounds, mGround->AABB)) {
+		auto scoreSystem= IOCContainer::instance().resolve<ScoreSystem>();
+		scoreSystem->setLatestScore(mScore);
+		mPipesGenerator.pause();
+		mSkyline->pause();
+		mBird->allowGravity = false;
+		mGame->goToState(GameState::GameOver);
 	}
 }
 
-void GamePlayScene::Draw(shared_ptr<IRenderer> renderer)
+void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
-	spriteRenderer->DrawSprite(mBackground);
-	mSkyline->Draw(spriteRenderer);
-	mBird->Draw(spriteRenderer); 
+	spriteRenderer->drawSprite(mBackground);
+	mSkyline->draw(spriteRenderer);
+	mBird->draw(spriteRenderer); 
 	for(auto pipe : mPipes)
-		pipe->Draw(spriteRenderer);
-	mGround->Draw(spriteRenderer);
-	if(mGame->GetCurrentState() == GameState::GamePlay) {
+		pipe->draw(spriteRenderer);
+	mGround->draw(spriteRenderer);
+	if(mGame->getCurrentState() == GameState::GamePlay) {
 		float x = mScreenSizeX / 2.0f;
 		float y = mScreenSizeY / 2.0f + 220.0f;
-		mFontRenderer->DrawString(to_string(mScore), Point<float>{x,y}, 0.4f);
+		mFontRenderer->drawString(to_string(mScore), Point<float>{x,y}, 0.4f);
 	}
 }

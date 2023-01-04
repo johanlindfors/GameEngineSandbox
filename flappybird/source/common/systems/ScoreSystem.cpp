@@ -7,43 +7,43 @@
 using namespace Engine;
 using namespace Utilities;
 
-void ScoreSystem::SetLatestScore(int score) { 
+void ScoreSystem::setLatestScore(int score) { 
     mLatestScore = score;
     if(mLatestScore > mHighScore) {
         mHighScore = mLatestScore;
-        SaveHighScore();
+        saveHighScore();
         printf("[ScoreSystem::SetLatestScore] HighScore saved: %d\n", mHighScore);
     }
 };
 
-void ScoreSystem::LazyInitialize() 
+void ScoreSystem::lazyInitialize() 
 {
-    LoadHighScore();
+    loadHighScore();
     printf("[ScoreSystem::LazyInitialize] HighScore is: %d\n", mHighScore);
 }
 
-void ScoreSystem::LoadHighScore()
+void ScoreSystem::loadHighScore()
 {
-    auto fileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-    auto saveFile = fileSystem->LoadFile("highscore.txt", false);
+    auto fileSystem = IOCContainer::instance().resolve<IFileSystem>();
+    auto saveFile = fileSystem->loadFile("highscore.txt", false);
     int score = 0;
-    if(saveFile->IsOpen()) {
-		auto fileHandle = saveFile->Get();
+    if(saveFile->isOpen()) {
+		auto fileHandle = saveFile->get();
         fscanf(fileHandle, "%d", &score);
     }
-    saveFile->Close();
+    saveFile->close();
     mHighScore = score;
 }
 
-void ScoreSystem::SaveHighScore()
+void ScoreSystem::saveHighScore()
 {
-    auto fileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-    auto saveFile = fileSystem->LoadFile("highscore.txt", true);
-    if(!saveFile->IsOpen()) {
-        auto dataDirectory = fileSystem->GetResourcesDirectory();        
-        saveFile->Create(dataDirectory + "highscore.txt");
+    auto fileSystem = IOCContainer::instance().resolve<IFileSystem>();
+    auto saveFile = fileSystem->loadFile("highscore.txt", true);
+    if(!saveFile->isOpen()) {
+        auto dataDirectory = fileSystem->getResourcesDirectory();        
+        saveFile->create(dataDirectory + "highscore.txt");
     }
-    auto fileHandle = saveFile->Get();
+    auto fileHandle = saveFile->get();
     auto bytesWritten = fprintf(fileHandle, "%d", mHighScore);
-    saveFile->Close();
+    saveFile->close();
 }

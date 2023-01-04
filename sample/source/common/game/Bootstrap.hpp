@@ -14,7 +14,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void Bootstrap() {
+void bootstrap() {
     auto config = make_shared<Config>();
     config->fps = 2;
     config->useFixedTimeStep = false;

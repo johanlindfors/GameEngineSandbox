@@ -16,21 +16,21 @@ public:
     GameStateMachine();
 
     // Engine::IGameLoopCallback
-    void Initialize() override;
-    void Update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+    void initialize() override;
+    void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
 
     // Engine::IGameStateCallback
-    void GoToState(GameState gameState) override;
-	GameState GetCurrentState() override { return mCurrentState; }
+    void goToState(GameState gameState) override;
+	GameState getCurrentState() override { return mCurrentState; }
 
 private:
-    void HandleUnknownState();
-    void HandleBootState();
-    void HandleSplashState();
-    void HandleGamePlayState();
-    void HandleGameOverState();
-    void HandlePauseState();
-    void HandleInstructionsState();
+    void handleUnknownState();
+    void handleBootState();
+    void handleSplashState();
+    void handleGamePlayState();
+    void handleGameOverState();
+    void handlePauseState();
+    void handleInstructionsState();
 
 	std::shared_ptr<Engine::ISceneManager> mSceneManager;
 	GameState mCurrentState;

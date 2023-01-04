@@ -87,33 +87,33 @@ class Application
         {
             // Check left
             bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
-            mInput->AddKeyboardEvent(0x25, pressed);
+            mInput->addKeyboardEvent(0x25, pressed);
 
             // Check right
             pressed = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
-            mInput->AddKeyboardEvent(0x27, pressed);
+            mInput->addKeyboardEvent(0x27, pressed);
             
             // Check up
             pressed = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
-            mInput->AddKeyboardEvent(0x26, pressed);
+            mInput->addKeyboardEvent(0x26, pressed);
 
             // Check down
             pressed = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
-            mInput->AddKeyboardEvent(0x28, pressed);
+            mInput->addKeyboardEvent(0x28, pressed);
 
             // Space
             pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
-            mInput->AddKeyboardEvent(32, pressed);
+            mInput->addKeyboardEvent(32, pressed);
 
             // Escape
             pressed = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
-            mInput->AddKeyboardEvent(256, pressed);
+            mInput->addKeyboardEvent(256, pressed);
         }
 
         shared_ptr<IInputManager> mInput;
 };
 
-void StartLinuxApplication(int argc, char **argv) {
+void startLinuxApplication(int argc, char **argv) {
     Application application;
     application.start();
 }

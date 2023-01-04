@@ -23,11 +23,11 @@ public:
     ParallaxBackground();
     ~ParallaxBackground();
 
-	void Update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void Draw(std::shared_ptr<Engine::ISpriteRenderer> timer);
+	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	void draw(std::shared_ptr<Engine::ISpriteRenderer> timer);
 
-    void Pause() { mIsRunning = false; }
-    void Resume() { mIsRunning = true; }
+    void pause() { mIsRunning = false; }
+    void resume() { mIsRunning = true; }
 
 private:
 	std::unique_ptr<Clouds> mClouds;

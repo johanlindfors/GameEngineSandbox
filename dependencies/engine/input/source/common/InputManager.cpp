@@ -2,7 +2,7 @@
 #include <cstdio>
 using namespace Engine;
 
-void InputManager::AddKeyboardEvent(int keyCode, bool isPressed) 
+void InputManager::addKeyboardEvent(int keyCode, bool isPressed) 
 {
 	if(keyCode >=0 && keyCode < 256){
         if (mKeyboard[keyCode] != isPressed) {
@@ -20,7 +20,7 @@ void InputManager::AddMouseEvent(MouseButton button, MouseButtonState state, int
     mMouseStates.push(newState);
 }
     
-bool InputManager::IsKeyDown(int keyCode)
+bool InputManager::isKeyDown(int keyCode)
 {
     if(keyCode >=0 && keyCode < 256){
         return mKeyboard[keyCode];
