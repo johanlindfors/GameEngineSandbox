@@ -11,7 +11,10 @@ namespace Engine {
 		SimpleRenderer() 
 			: camera(glm::vec3(0.0f, 0.0f, 5.0f))
 			, angle(0.0f)
+			, mWidth(0)
+			, mHeight(0)
 			{ }
+			
 		~SimpleRenderer() = default;
 
 		// Engine::IRenderer
@@ -29,5 +32,6 @@ namespace Engine {
 		std::shared_ptr<Shader> lightCubeShader;
 		Camera camera;
 		float angle;
+		int mWidth, mHeight;
 	};
 }

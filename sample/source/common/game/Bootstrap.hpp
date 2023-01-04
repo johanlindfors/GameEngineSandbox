@@ -26,4 +26,6 @@ void bootstrap() {
     
     IOCContainer::instance().register_type<Config>(config);
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<Sample::Game>());
+    
+    IOCContainer::instance().register_type<IRenderer>(make_shared<Engine::SimpleRenderer>());
 }

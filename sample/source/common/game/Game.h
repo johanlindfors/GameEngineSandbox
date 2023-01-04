@@ -10,7 +10,8 @@ namespace Sample {
     {
     public:
         Game() = default;
-        ~Game();
+        ~Game() = default;
+        
         // Engine::IGameLoopCallback
         void initialize() override;
         void update(std::shared_ptr<Utilities::IStepTimer> timer) override { }
