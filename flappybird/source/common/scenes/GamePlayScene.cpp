@@ -187,7 +187,7 @@ void GamePlayScene::checkCollisions()
 			mSkyline->pause();
 			mGround->pause();
 		}
-		if(!pipe->hasScored && pipe->bottomPipe->position.x < mBird->position.y) {
+		if(!pipe->hasScored && pipe->bottomPipe->position.x < mBird->position.x) {
 			mScore++;
 			pipe->hasScored = true;
 		}

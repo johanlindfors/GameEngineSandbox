@@ -20,7 +20,7 @@ bool ObjectCollider::intersects(Circle circle, Utilities::Rectangle rect)
 		testY = rect.position.y + rect.height; // bottom edge
 
 	// get distance from closest edges
-	float distX = circle.position.y - testX;
+	float distX = circle.position.x - testX;
 	float distY = circle.position.y - testY;
 	float distance = sqrt( (distX*distX) + (distY*distY) );
 
