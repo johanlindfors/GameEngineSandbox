@@ -1,4 +1,5 @@
-#version 320 es
+#version 300 es
+precision mediump float;
 in vec2 fragUV;
 
 uniform sampler2D uTexture;

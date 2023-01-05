@@ -10,35 +10,6 @@ using namespace Engine;
 using namespace Utilities;
 using namespace Sample;
 
-// Vertex shader, you'd typically load this from assets
-static const char *vertex = R"vertex(#version 330 core
-layout (location = 0) in vec3 inPosition;
-layout (location = 1) in vec2 inUV;
-
-out vec2 fragUV;
-
-uniform mat4 uMVP;
-
-void main() {
-    fragUV = inUV;
-    gl_Position = uMVP * vec4(inPosition, 1.0);
-}
-)vertex";
-
-// Fragment shader, you'd typically load this from assets
-static const char *fragment = R"fragment(#version 330 core
-precision mediump float;
-in vec2 fragUV;
-
-uniform sampler2D uTexture;
-
-out vec4 outColor;
-
-void main() {
-    outColor = texture(uTexture, fragUV);
-}
-)fragment";
-
 //! Color for cornflower blue. Can be sent directly to glClearColor
 #define CORNFLOWER_BLUE 100 / 255.f, 149 / 255.f, 237 / 255.f, 1
 
@@ -60,17 +31,17 @@ void GenericScene::load()
      * 3 --- 2
      */
     std::vector<Vertex> vertices = {
-            Vertex(Vector3{1, 1, 0}, Vector2{0, 0}), // 0
-            Vertex(Vector3{-1, 1, 0}, Vector2{1, 0}), // 1
-            Vertex(Vector3{-1, -1, 0}, Vector2{1, 1}), // 2
-            Vertex(Vector3{1, -1, 0}, Vector2{0, 1}) // 3
+        Vertex(Vector3{1, 1, 0}, Vector2{0, 0}),    // 0
+        Vertex(Vector3{-1, 1, 0}, Vector2{1, 0}),   // 1
+        Vertex(Vector3{-1, -1, 0}, Vector2{1, 1}),  // 2
+        Vertex(Vector3{1, -1, 0}, Vector2{0, 1})    // 3
     };
     std::vector<Index> indices = {
             0, 1, 2, 0, 2, 3
     };
 
-    resourceManager->loadTextures({ "coderox.png"});
-    auto spTexture = make_shared<Texture2D>(resourceManager->getTexture("coderox.png"));
+    resourceManager->loadTextures({ "coderox.png" });
+    auto spTexture = make_shared<Texture2D>(resourceManager->getTexture( "coderox.png" ));
     
     // Create a model and put it in the back of the render list.
     mModels.emplace_back(vertices, indices, spTexture);
@@ -82,8 +53,7 @@ void GenericScene::load()
     auto fs = fsFile->readAllText();
 
     mShader = std::unique_ptr<GenericShader>(
-            GenericShader::loadShader(vertex, fragment, "inPosition", "inUV", "uMVP"));
-//            GenericShader::loadShader(vs, fs, 0, 1, 0));
+            GenericShader::loadShader(vs, fs, 0, 1, 0)); // hardcoded values
     if(mShader.get()){
         printf("Here\n");
         mShader->activate();
@@ -120,11 +90,11 @@ void GenericScene::draw(std::shared_ptr<Engine::IRenderer> renderer)
     // printf("[GenericScene::Draw]\n");
     float mvpMatrix[16] = {0};
     buildOrthographicMatrix(
-                mvpMatrix,
-                -kProjectionHalfHeight,
-                float(mWidth)/mHeight,
-                kProjectionNearPlane,
-                kProjectionFarPlane);
+        mvpMatrix,
+        -kProjectionHalfHeight,
+        float(mWidth)/mHeight,
+        kProjectionNearPlane,
+        kProjectionFarPlane);
 
     mShader->setMvpMatrix(mvpMatrix);
 

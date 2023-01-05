@@ -34,7 +34,11 @@ class Application
             window = glfwCreateWindow(width, height, config->title.c_str(), NULL, NULL);
             glfwMakeContextCurrent(window);
             glfwSwapInterval(0);
-            
+
+            printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
+            printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
+            printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
+
             game->initialize(config);
             printf("[StartLinuxApplication] initialized\n");
 
