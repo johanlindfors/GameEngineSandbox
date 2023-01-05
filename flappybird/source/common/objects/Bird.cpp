@@ -65,7 +65,7 @@ void Bird::update(shared_ptr<IStepTimer> timer)
 						position.y + mSprite->height/2,
 						12);
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		mDebugSprite->position = Point<float>(AABB.position.x, AABB.position.y);
+		mDebugSprite->position = Point<float>{AABB.position.x, AABB.position.y};
 		mDebugSprite->offset = 22;
 		mDebugSprite->width = AABB.width;
 		mDebugSprite->height = AABB.height;

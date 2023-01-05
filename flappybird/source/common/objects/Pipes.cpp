@@ -15,8 +15,8 @@ Pipes::Pipes(Point<float> position)
 	, topPipeSprite(make_shared<Sprite>())
 	, bottomPipeSprite(make_shared<Sprite>())
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-	, TopPipeDebugSprite(make_shared<Sprite>())
-	, BottomPipeDebugSprite(make_shared<Sprite>())
+	, topPipeDebugSprite(make_shared<Sprite>())
+	, bottomPipeDebugSprite(make_shared<Sprite>())
 #endif
 	, isAlive(true)
 	, hasScored(false)
@@ -78,12 +78,12 @@ void Pipes::update(shared_ptr<IStepTimer> timer)
 		topPipe->AABB = topAABB;
 		bottomPipe->AABB = bottomAABB;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		bottomPipeDebugSprite->position = Point<float>(bottomAABB.position.x, bottomAABB.position.y);
-		ottomPipeDebugSprite->width = bottomAABB.width;
-		bottomPipeDebugSprite-height = bottomAABB.height;
+		bottomPipeDebugSprite->position = Point<float>{bottomAABB.position.x, bottomAABB.position.y};
+		bottomPipeDebugSprite->width = bottomAABB.width;
+		bottomPipeDebugSprite->height = bottomAABB.height;
 		bottomPipeDebugSprite->offset = 22;
 
-		topPipeDebugSprite->position = Point<float>(topAABB.position.x, topAABB.position.y);
+		topPipeDebugSprite->position = Point<float>{topAABB.position.x, topAABB.position.y};
 		topPipeDebugSprite->width = topAABB.width;
 		topPipeDebugSprite->height = topAABB.height;
 		topPipeDebugSprite->offset = 22;

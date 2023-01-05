@@ -20,7 +20,7 @@ using namespace Utilities;
 
 void bootstrap() {
     auto config = make_shared<Config>();
-    config->fps = 120;
+    config->fps = 60;
     config->useFixedTimeStep = true;
     config->width = SCREEN_WIDTH;
     config->height = SCREEN_HEIGHT;
