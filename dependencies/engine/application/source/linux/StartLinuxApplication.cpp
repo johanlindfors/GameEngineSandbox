@@ -50,7 +50,6 @@ class Application
             printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
 
             glfwSetWindowUserPointer(window, game.get());
-
             glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
             {
                 auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
