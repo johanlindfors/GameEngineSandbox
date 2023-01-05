@@ -9,24 +9,27 @@ GenericShader *GenericShader::loadShader(
         const std::string &fragmentSource,
         const std::string &positionAttributeName,
         const std::string &uvAttributeName,
-        const std::string &projectionMatrixUniformName) {
+        const std::string &mvpMatrixUniformName) {
     GenericShader *shader = nullptr;
 
-    GLint positionAttribute, uvAttribute;
     GLuint program = ShaderBase::loadShader(
         vertexSource, 
-        fragmentSource, 
-        positionAttributeName, 
-        uvAttributeName,
-        positionAttribute,
-        uvAttribute);
+        fragmentSource);
     if (program > 0) {
-        GLint projectionMatrixUniform = glGetUniformLocation(
+        GLint positionAttribute = GlGetAttribLocation(
                 program,
-                projectionMatrixUniformName.c_str());
-
+                positionAttributeName.c_str());
+        printf("Position: %d\n", positionAttribute);
+        GLint uvAttribute = GlGetAttribLocation(
+                program,
+                uvAttributeName.c_str());
+        printf("UV: %d\n", uvAttribute);
+        GLint mvpMatrixUniform = glGetUniformLocation(
+                program,
+                mvpMatrixUniformName.c_str());
+        printf("MVP: %d\n", mvpMatrixUniform);
         // Only create a new shader if all the attributes are found.
-        if (projectionMatrixUniform != -1 &&
+        if (mvpMatrixUniform != -1 &&
             positionAttribute != -1 &&
             uvAttribute != -1) {
 
@@ -34,13 +37,42 @@ GenericShader *GenericShader::loadShader(
                     program,
                     positionAttribute,
                     uvAttribute,
-                    projectionMatrixUniform);
+                    mvpMatrixUniform);
         } else {
             glDeleteProgram(program);
         }
     }
     return shader;
 }
+
+GenericShader *GenericShader::loadShader(
+        const std::string &vertexSource,
+        const std::string &fragmentSource,
+        GLint positionAttribute,
+        GLint uvAttribute,
+        GLint mvpMatrixUniform) {
+    GenericShader *shader = nullptr;
+    GLuint program = ShaderBase::loadShader(
+        vertexSource, 
+        fragmentSource);
+    if (program > 0) {
+        // Only create a new shader if all the attributes are found.
+        if (mvpMatrixUniform != -1 &&
+            positionAttribute != -1 &&
+            uvAttribute != -1) {
+
+            shader = new GenericShader(
+                    program,
+                    positionAttribute,
+                    uvAttribute,
+                    mvpMatrixUniform);
+        } else {
+            glDeleteProgram(program);
+        }
+    }
+    return shader;
+}
+
 
 void GenericShader::setMvpMatrix(float *mvpMatrix) const {
     glUniformMatrix4fv(mMvpMatrix, 1, false, mvpMatrix);

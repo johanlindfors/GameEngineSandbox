@@ -20,11 +20,7 @@ public:
      */
     static GLuint loadShader(
             const std::string &vertexSource,
-            const std::string &fragmentSource,
-            const std::string &positionAttributeName,
-            const std::string &uvAttributeName,
-            GLint& positionAttribute,
-            GLint& uvAttribute);
+            const std::string &fragmentSource);
 
     inline ~ShaderBase() {
         if (mProgram) {

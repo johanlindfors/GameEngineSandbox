@@ -12,6 +12,6 @@ using namespace Sample;
 void Game::initialize()
 {
 	auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
-	// sceneManager->addScene(make_shared<GenericScene>());
+	//sceneManager->addScene(make_shared<GenericScene>());
 	sceneManager->addScene(make_shared<SimpleScene>());
 }

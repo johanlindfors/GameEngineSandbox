@@ -2,6 +2,8 @@
 #include "utilities/IOC.hpp"
 #include "resources/IResourceManager.h"
 #include "utilities/MathHelper.h"
+#include "filesystem/FileSystem.h"
+#include "File.h"
 
 using namespace std;
 using namespace Engine;
@@ -9,9 +11,9 @@ using namespace Utilities;
 using namespace Sample;
 
 // Vertex shader, you'd typically load this from assets
-static const char *vertex = R"vertex(#version 300 es
-in vec3 inPosition;
-in vec2 inUV;
+static const char *vertex = R"vertex(#version 330 core
+layout (location = 0) in vec3 inPosition;
+layout (location = 1) in vec2 inUV;
 
 out vec2 fragUV;
 
@@ -24,9 +26,8 @@ void main() {
 )vertex";
 
 // Fragment shader, you'd typically load this from assets
-static const char *fragment = R"fragment(#version 300 es
+static const char *fragment = R"fragment(#version 330 core
 precision mediump float;
-
 in vec2 fragUV;
 
 uniform sampler2D uTexture;
@@ -49,7 +50,7 @@ void GenericScene::load()
 {
     printf("[GenericScene::load]\n");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-
+    auto fileSystem = IOCContainer::instance().resolve<IFileSystem>();
      /*
      * This is a square:
      * 0 --- 1
@@ -74,9 +75,19 @@ void GenericScene::load()
     // Create a model and put it in the back of the render list.
     mModels.emplace_back(vertices, indices, spTexture);
 
+    auto vsFile = fileSystem->loadFile("shaders/simple.vs", false);
+    auto fsFile = fileSystem->loadFile("shaders/simple.fs", false);
+
+    auto vs = vsFile->readAllText();
+    auto fs = fsFile->readAllText();
+
     mShader = std::unique_ptr<GenericShader>(
             GenericShader::loadShader(vertex, fragment, "inPosition", "inUV", "uMVP"));
-    mShader->activate();
+//            GenericShader::loadShader(vs, fs, 0, 1, 0));
+    if(mShader.get()){
+        printf("Here\n");
+        mShader->activate();
+    }
 
     // setup any other gl related global states
     glClearColor(CORNFLOWER_BLUE);
