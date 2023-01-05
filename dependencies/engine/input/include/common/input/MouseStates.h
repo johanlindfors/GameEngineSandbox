@@ -17,12 +17,12 @@ namespace Engine
     };
     
     struct MouseState {
-        MouseButton Button;
-        MouseButtonState State;
-        Utilities::Point<int> Position;
+        MouseButton button;
+        MouseButtonState state;
+        Utilities::Point<int> position;
 
         MouseState() 
-            : Position(0,0)
+            : position{0,0}
             { }
     };
 }

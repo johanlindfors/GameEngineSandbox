@@ -11,7 +11,7 @@ namespace Engine
         InputManager() {}
         void addKeyboardEvent(int keyCode, bool isPressed) override;
         bool isKeyDown(int keyCode) override;
-        bool isKeyDown(int keyCode) override;
+        void addMouseEvent(MouseButton button, MouseButtonState state, int x, int y) override;
         MouseState getMouseState() override;
         void update();
 

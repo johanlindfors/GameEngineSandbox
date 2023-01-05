@@ -91,7 +91,7 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 	mMillisecondsToLoad -= milliseconds;
 	mSkyline->update(timer);
 	mGround->update(timer);
-
+	
 	auto const mouseState = mInputManager->getMouseState();
 	if(mouseState.state == MouseButtonState::Pressed) {
 		auto position = mouseState.position;

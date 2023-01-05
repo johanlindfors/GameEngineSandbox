@@ -126,9 +126,10 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 
 	switch(mGame->getCurrentState()) {
 	case GameState::Instructions:
+		reset();
 		mSkyline->update(timer);
 		mGround->update(timer);
-		mBird->update(timer);
+		mBird->update(timer);		
 		if (mousePressed)
 		{
 		reset();

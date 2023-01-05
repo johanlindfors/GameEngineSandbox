@@ -11,12 +11,12 @@ void InputManager::addKeyboardEvent(int keyCode, bool isPressed)
     }
 }
 
-void InputManager::AddMouseEvent(MouseButton button, MouseButtonState state, int x, int y) 
+void InputManager::addMouseEvent(MouseButton button, MouseButtonState state, int x, int y) 
 {
     MouseState newState;
-    newState.Button = button;
-    newState.State = state;
-    newState.Position = Utilities::Point<int>(x, y);
+    newState.button = button;
+    newState.state = state;
+    newState.position = Utilities::Point<int>{x, y};
     mMouseStates.push(newState);
 }
     
@@ -28,18 +28,18 @@ bool InputManager::isKeyDown(int keyCode)
     return false;
 }
 
-MouseState InputManager::GetMouseState() 
+MouseState InputManager::getMouseState() 
 {
     MouseState result;
     if(mMouseStates.empty()) {
-        result.State = MouseButtonState::None;
+        result.state = MouseButtonState::None;
     } else {
         result = mMouseStates.front();        
     }
     return result;
 }
 
-void InputManager::Update() 
+void InputManager::update() 
 {
     if(!mMouseStates.empty()) {
         mMouseStates.pop();
