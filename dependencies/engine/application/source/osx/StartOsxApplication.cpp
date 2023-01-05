@@ -53,8 +53,12 @@ void startOsxApplication(int argc, char **argv) {
 
     printf("[StartOsxApplication] Creating Context\n");
     glfwMakeContextCurrent(window);
-
     glfwGetError(NULL);
+
+    printf("GL_VERSION  : %s\n", glGetString(GL_VERSION) );
+    printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER) );
+    printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
+
     printf("[StartOsxApplication] Initializing game\n");
     game->initialize(config);
     printf("[StartOsxApplication] initialized\n");
@@ -62,10 +66,13 @@ void startOsxApplication(int argc, char **argv) {
     game->updateWindowSize(width, height);
     printf("[StartOsxApplication] Windows size updated\n");
 
-    printf("GL_VERSION  : %s\n", glGetString(GL_VERSION) );
-    printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER) );
-    printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
-
+    glfwSetWindowUserPointer(window, game.get());
+    glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
+    {
+        auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
+        game->updateWindowSize(width, height);
+        glViewport(0,0,width, height);
+    });
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);

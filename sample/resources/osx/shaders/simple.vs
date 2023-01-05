@@ -1,8 +1,7 @@
-#version 320 es
-in vec3 inPosition;
-in vec2 inUV;
+attribute vec3 inPosition;
+attribute vec2 inUV;
 
-out vec2 fragUV;
+varying vec2 fragUV;
 
 uniform mat4 uMVP;
 
