@@ -26,6 +26,13 @@ namespace Engine
             const std::string &uvAttributeName,
             const std::string &mvpMatrixUniformName);
 
+    static GenericShader *loadShader(
+            const std::string &vertexSource,
+            const std::string &fragmentSource,
+            GLint positionAttribute,
+            GLint uvAttribute,
+            GLint mvpMatrixUniformName);
+
     /*!
      * Sets the model/view/projection matrix in the shader.
      * @param mvpMatrix sixteen floats, column major, defining an OpenGL model, view, projection matrix.

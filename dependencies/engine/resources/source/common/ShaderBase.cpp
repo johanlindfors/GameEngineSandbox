@@ -4,12 +4,9 @@
 using namespace Engine;
 
 GLuint ShaderBase::loadShader(
-        const std::string &vertexSource,
-        const std::string &fragmentSource,
-        const std::string &positionAttributeName,
-        const std::string &uvAttributeName,
-        GLint& positionAttribute,
-        GLint& uvAttribute) {
+    const std::string &vertexSource,
+    const std::string &fragmentSource) 
+{
     GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vertexSource);
     if (!vertexShader) {
         return -1;
@@ -30,6 +27,7 @@ GLuint ShaderBase::loadShader(
         GLint linkStatus = GL_FALSE;
         glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
         if (linkStatus != GL_TRUE) {
+            printf("Failed to link\n");
             GLint logLength = 0;
             glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
 
@@ -42,17 +40,6 @@ GLuint ShaderBase::loadShader(
             }
 
             glDeleteProgram(program);
-        } else {
-            // Get the attribute and uniform locations by name. You may also choose to hardcode
-            // indices with layout= in your shader, but it is not done in this sample
-            positionAttribute = glGetAttribLocation(program, positionAttributeName.c_str());
-            uvAttribute = glGetAttribLocation(program, uvAttributeName.c_str());
-
-            // Only create a new shader if all the attributes are found.
-            if (positionAttribute == -1
-                || uvAttribute == -1) {
-                glDeleteProgram(program);
-            }
         }
     }
     // The shaders are no longer needed once the program is linked. Release their memory.
@@ -61,6 +48,7 @@ GLuint ShaderBase::loadShader(
 
     return program;
 }
+
 
 GLuint ShaderBase::loadShader(GLenum shaderType, const std::string &shaderSource) {
     GLuint shader = glCreateShader(shaderType);

@@ -20,6 +20,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 else ()
     set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "NDEBUG")
 endif ()
+set(CMAKE_APPLE_SILICON_PROCESSOR arm64)
 
 include(dependencies/pipeline/functions.cmake)
 initialize_pipeline()
