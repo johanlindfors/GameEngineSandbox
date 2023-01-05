@@ -1,5 +1,6 @@
 #include "resources/ShaderBase.h"
 #include "resources/Model.h"
+#include <iostream>
 
 using namespace Engine;
 
@@ -35,7 +36,7 @@ GLuint ShaderBase::loadShader(
             if (logLength) {
                 GLchar *log = new GLchar[logLength];
                 glGetProgramInfoLog(program, logLength, nullptr, log);
-                // aout << "Failed to link program with:\n" << log << std::endl;
+                std::cout << "Failed to compile with:\n" << log << std::endl;
                 delete[] log;
             }
 
@@ -69,7 +70,7 @@ GLuint ShaderBase::loadShader(GLenum shaderType, const std::string &shaderSource
             if (infoLength) {
                 auto *infoLog = new GLchar[infoLength];
                 glGetShaderInfoLog(shader, infoLength, nullptr, infoLog);
-                //aout << "Failed to compile with:\n" << infoLog << std::endl;
+                std::cout << "Failed to compile with:\n" << infoLog << std::endl;
                 delete[] infoLog;
             }
 
