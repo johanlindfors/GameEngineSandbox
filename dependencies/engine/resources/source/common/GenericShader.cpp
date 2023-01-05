@@ -32,7 +32,6 @@ GenericShader *GenericShader::loadShader(
         if (mvpMatrixUniform != -1 &&
             positionAttribute != -1 &&
             uvAttribute != -1) {
-
             shader = new GenericShader(
                     program,
                     positionAttribute,
@@ -60,7 +59,6 @@ GenericShader *GenericShader::loadShader(
         if (mvpMatrixUniform != -1 &&
             positionAttribute != -1 &&
             uvAttribute != -1) {
-
             shader = new GenericShader(
                     program,
                     positionAttribute,
@@ -72,7 +70,6 @@ GenericShader *GenericShader::loadShader(
     }
     return shader;
 }
-
 
 void GenericShader::setMvpMatrix(float *mvpMatrix) const {
     glUniformMatrix4fv(mMvpMatrix, 1, false, mvpMatrix);
