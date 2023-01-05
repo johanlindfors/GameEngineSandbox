@@ -57,6 +57,17 @@ class Application
                 glViewport(0,0,width, height);
             });
 
+            glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
+            {
+                if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+                    double xpos, ypos;
+                    glfwGetCursorPos(window, &xpos, &ypos);
+                    auto input = IOCContainer::instance().resolve<IInputManager>();
+                    input->addMouseEvent(MouseButton::Left, MouseButtonState::Pressed, xpos, 505 - ypos);
+                    printf("Mouse down: %lf, %lf", xpos, ypos);
+                }
+            });
+
             while (!glfwWindowShouldClose(window)) {
                 glfwPollEvents();
                 glClear(GL_COLOR_BUFFER_BIT);

@@ -1,16 +1,22 @@
 #pragma once
 #include "IInputManager.h"
 #include <array>
+#include <queue>
 
-namespace Engine {
-    class InputManager : public IInputManager 
+namespace Engine
+{
+    class InputManager : public IInputManager
     {
     public:
-		InputManager() {}
+        InputManager() {}
         void addKeyboardEvent(int keyCode, bool isPressed) override;
         bool isKeyDown(int keyCode) override;
+        void addMouseEvent(MouseButton button, MouseButtonState state, int x, int y) override;
+        MouseState getMouseState() override;
+        void update();
 
     private:
-		std::array<bool, 256> mKeyboard = {};
+        std::array<bool, 256> mKeyboard = {};
+        std::queue<MouseState> mMouseStates = {};
     };
 }

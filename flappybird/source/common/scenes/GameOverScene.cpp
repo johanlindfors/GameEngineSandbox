@@ -66,7 +66,20 @@ void GameOverScene::unload() { }
 
 void GameOverScene::updateScreenSize(int width, int height) { }
 
-void GameOverScene::handleInput() { }
+void GameOverScene::handleInput() 
+{ 
+	auto const mouseState = mInputManager->getMouseState();
+	if(mouseState.state == MouseButtonState::Pressed) {
+		auto position = mouseState.position;
+		if(position.x > 92 && 
+		   position.x < 92 + 104 &&
+		   position.y > 176 &&
+		   position.y < 176 + 58)
+		{
+			mGame->goToState(GameState::Instructions);
+	    }
+	}
+}
 
 void GameOverScene::update(shared_ptr<IStepTimer> timer)
 {

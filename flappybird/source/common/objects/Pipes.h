@@ -50,8 +50,6 @@ public:
 	std::shared_ptr<Pipe> bottomPipe;
 	std::shared_ptr<Engine::Sprite> topPipeSprite;
 	std::shared_ptr<Engine::Sprite> bottomPipeSprite;
-	bool topSpriteCollided;
-	bool bottomSpriteCollided;
 	bool hasScored;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	std::shared_ptr<Engine::Sprite> topPipeDebugSprite;

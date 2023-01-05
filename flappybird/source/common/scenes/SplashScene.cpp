@@ -92,11 +92,17 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 	mSkyline->update(timer);
 	mGround->update(timer);
 	
-	auto const spacePressed = mInputManager->isKeyDown(32);
-	if (spacePressed && !mSpacePressedBefore) {
-		mGame->goToState(GameState::Instructions);
+	auto const mouseState = mInputManager->getMouseState();
+	if(mouseState.state == MouseButtonState::Pressed) {
+		auto position = mouseState.position;
+		if(position.x > 92 && 
+		   position.x < 92 + 104 &&
+		   position.y > 176 &&
+		   position.y < 176 + 58)
+		{
+			mGame->goToState(GameState::Instructions);
+	    }
 	}
-	mSpacePressedBefore = spacePressed;
 }
 
 void SplashScene::draw(shared_ptr<IRenderer> renderer)

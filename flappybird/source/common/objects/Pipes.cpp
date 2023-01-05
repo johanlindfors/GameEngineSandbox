@@ -101,10 +101,8 @@ void Pipes::draw(shared_ptr<ISpriteRenderer> renderer)
 		renderer->drawSprite(bottomPipeSprite, bottomPipeSprite->position);
 
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		if(bottomSpriteCollided)
-			renderer->drawSprite(bottomPipeDebugSprite);
-		if(topSpriteCollided)
-			renderer->drawSprite(topPipeDebugSprite);
+		renderer->drawSprite(bottomPipeDebugSprite);
+		renderer->drawSprite(topPipeDebugSprite);
 #endif
 	}
 }
