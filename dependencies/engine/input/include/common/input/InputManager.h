@@ -13,7 +13,7 @@ namespace Engine
         bool isKeyDown(int keyCode) override;
         void addMouseEvent(MouseButton button, MouseButtonState state, int x, int y) override;
         MouseState getMouseState() override;
-        void update();
+        void update() override;
 
     private:
         std::array<bool, 256> mKeyboard = {};

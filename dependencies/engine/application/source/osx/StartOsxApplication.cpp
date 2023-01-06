@@ -118,8 +118,8 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
-        auto input = IOCContainer::Instance().Resolve<IInputManager>();
-        input->AddMouseEvent(MouseButton::Left, MouseButtonState::Pressed, xpos, 505 - ypos);
+        auto input = IOCContainer::instance().resolve<IInputManager>();
+        input->addMouseEvent(MouseButton::Left, MouseButtonState::Pressed, xpos, 505 - ypos);
         printf("Mouse down: %lf, %lf", xpos, ypos);
     }
 }
