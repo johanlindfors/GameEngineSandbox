@@ -42,10 +42,9 @@ namespace Engine {
 
 	public:
 		TextureLoaderImpl()
-		{
-			mDispatcher = IOCContainer::Instance().Resolve<IDispatcherWrapper>();
-			mFileSystem = IOCContainer::Instance().Resolve<IFileSystem>();
-		}
+			: mDispatcher(IOCContainer::instance().resolve<IDispatcherWrapper>())
+			, mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) 
+		{ }	
 
 		void LoadTexture(Texture2D& texture) 
 		{

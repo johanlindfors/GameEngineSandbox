@@ -54,7 +54,7 @@ GLuint ShaderBase::loadShader(
 GLuint ShaderBase::loadShader(GLenum shaderType, const std::string &shaderSource) {
     GLuint shader = glCreateShader(shaderType);
     if (shader) {
-        auto *shaderRawString = (GLchar *) shaderSource.c_str();
+        auto *shaderRawString = static_cast<const GLchar*>(shaderSource.c_str());
         GLint shaderLength = shaderSource.length();
         glShaderSource(shader, 1, &shaderRawString, &shaderLength);
         glCompileShader(shader);

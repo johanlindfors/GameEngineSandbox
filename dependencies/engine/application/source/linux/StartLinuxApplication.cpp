@@ -64,7 +64,6 @@ class Application
                     glfwGetCursorPos(window, &xpos, &ypos);
                     auto input = IOCContainer::instance().resolve<IInputManager>();
                     input->addMouseEvent(MouseButton::Left, MouseButtonState::Pressed, xpos, 505 - ypos);
-                    printf("Mouse down: %lf, %lf", xpos, ypos);
                 }
             });
 

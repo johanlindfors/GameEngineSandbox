@@ -19,7 +19,7 @@
 #include <vector>
 
 #define STRING(s) #s
-#define BUFFER_OFFSET(i) ((void*)(i))
+#define BUFFER_OFFSET(i) (reinterpret_cast<void*>(i))
 
 using namespace std;
 using namespace Engine;

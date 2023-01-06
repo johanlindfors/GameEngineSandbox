@@ -139,9 +139,7 @@ namespace Engine {
 
 	public:
 		TextureLoaderImpl()
-		{
-			mFileSystem = IOCContainer::instance().resolve<IFileSystem>();
-		}	
+			: mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) { }	
 
 		void loadTexture(Texture2D& texture)
 		{

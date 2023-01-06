@@ -12,7 +12,7 @@ namespace Engine
 {
     struct GLPage : winrt::Windows::UI::Xaml::Controls::PageT<GLPage> 
     {
-        GLPage(std::shared_ptr<OpenGLES> openGLES);
+        explicit GLPage(std::shared_ptr<OpenGLES> openGLES);
 
 		// Event handlers
 		void HandleKeyDown(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const& args) const;

@@ -5,9 +5,7 @@ using namespace Engine;
 void InputManager::addKeyboardEvent(int keyCode, bool isPressed) 
 {
 	if(keyCode >=0 && keyCode < 256){
-        if (mKeyboard[keyCode] != isPressed) {
-            mKeyboard[keyCode] = isPressed;
-        }
+        mKeyboard[keyCode] = isPressed;        
     }
 }
 

@@ -92,6 +92,7 @@ namespace Engine {
 
 			string errorMessage("Program link failed: ");
 			errorMessage += string(infoLog.begin(), infoLog.end());
+			printf(errorMessage.c_str());
 		}
 
 		return program;

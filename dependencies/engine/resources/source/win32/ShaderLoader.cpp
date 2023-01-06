@@ -18,10 +18,8 @@ namespace Engine {
 	{
 	public:
 		ShaderLoaderImpl()
-		{
-			mFileSystem = IOCContainer::instance().resolve<IFileSystem>();
-		}	
-
+			: mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) { }	
+			
 		string LoadShader(const string& fileName)
 		{
 			const auto file = mFileSystem->loadFile(std::string("shaders/" + fileName), false);

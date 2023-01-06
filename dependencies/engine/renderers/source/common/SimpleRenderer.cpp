@@ -79,7 +79,7 @@ void SimpleRenderer::initialize()
     GlVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     GlEnableVertexAttribArray(0);
     // normal attribute
-    GlVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    GlVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
     GlEnableVertexAttribArray(1);
 
 
