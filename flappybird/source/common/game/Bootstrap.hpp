@@ -26,7 +26,7 @@ void bootstrap() {
     config->height = SCREEN_HEIGHT;
     config->title = "Flappy Bird";
     config->glMajorVersion = 3;
-    config->glMinorVersion = 2;
+    config->glMinorVersion = 3;
     IOCContainer::instance().register_type<Config>(config);
 
     IOCContainer::instance().register_type<IPhysicsEngine>(make_shared<PhysicsEngine>());

@@ -21,3 +21,8 @@ void TweenEngine::update(shared_ptr<IStepTimer> timer)
     mTweens.erase(remove_if(mTweens.begin(), mTweens.end(), Tween::isTweenCompleted),
         mTweens.end());
 }
+
+void TweenEngine::clear()
+{
+    mTweens.clear();
+}
