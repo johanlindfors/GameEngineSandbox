@@ -26,6 +26,7 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::initialize()
 {
+    Renderer::initialize();
     printf("[SpriteRenderer::initialize]\n");
 
     float vertices[] = { 

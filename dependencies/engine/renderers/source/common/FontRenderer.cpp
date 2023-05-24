@@ -35,6 +35,7 @@ FontRenderer::FontRenderer(const string& atlasFilename,
 { }
 
 void FontRenderer::initialize() {
+	SpriteRenderer::initialize();
 	auto filesystem = IOCContainer::instance().resolve<IFileSystem>();
 	auto file = filesystem->loadFile(mAtlasFilename, false);
 	if(file->isOpen()) {
@@ -52,7 +53,8 @@ void FontRenderer::initialize() {
     }
 	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	auto atlasTexture = resourceManager->getTexture("atlas.png");
-	mCharacterSprite->texture.textureIndex = atlasTexture.textureIndex;
+	mCharacterSprite->texture = atlasTexture;
+	mInitialized = true;
 }
 
 void FontRenderer::drawString(const string& str, Utilities::Point<float> centerPosition, float scale)
@@ -85,7 +87,7 @@ void FontRenderer::drawCharacter(char character, Utilities::Rectangle<float> rec
 	);
 	mCharacterSprite->offset = spriteOffset;
 	mCharacterSprite->size = rectangle.size;
-	SpriteRenderer::drawSprite(mCharacterSprite, rectangle.position);
+ 	SpriteRenderer::drawSprite(mCharacterSprite, rectangle.position);
 }
 
 void FontRenderer::addCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset)

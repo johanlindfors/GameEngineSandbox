@@ -204,6 +204,8 @@ void GamePlayScene::checkCollisions()
 		scoreSystem->setLatestScore(mScore);
 		mPipesGenerator.pause();
 		mSkyline->pause();
+		mGround->pause();
+		mBird->collideWithPipe();
 		mBird->allowGravity = false;
 		mGame->goToState(GameState::GameOver);
 	}
