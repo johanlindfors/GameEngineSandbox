@@ -18,7 +18,7 @@ namespace Engine
 	class IRenderer;
 	class IInputManager;
 	class IPhysicsEngine;
-	class Sprite;
+	struct Sprite;
 	class FontRenderer;
 }
 

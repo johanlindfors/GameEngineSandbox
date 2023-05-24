@@ -10,7 +10,7 @@ namespace Utilities
 namespace Engine
 {
 	class IRenderer;
-	class Sprite;
+	struct Sprite;
 }
 
 class Trees {

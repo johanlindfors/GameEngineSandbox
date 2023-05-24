@@ -16,7 +16,7 @@ namespace Engine
 {
 	class IInputManager;
 	class IRenderer;
-	class Sprite;
+	struct Sprite;
 }
 
 class IGameStateCallback;
