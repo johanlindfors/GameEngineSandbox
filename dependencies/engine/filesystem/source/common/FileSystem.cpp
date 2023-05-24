@@ -18,11 +18,7 @@ namespace fs = std::filesystem;
 #include <filesystem>
 namespace fs = std::filesystem;
 #elif __linux__
-#include <vector>
 #include <filesystem>
-#include <libgen.h>
-#include <stdio.h>
-#include <unistd.h>
 namespace fs = std::filesystem;
 #endif
 
@@ -43,16 +39,13 @@ string FileSystem::getResourcesDirectory()
 	const string s = &buffer[0];
 	const fs::path p(s);
 	const auto executableDirectory = p.parent_path();
-	const auto folderPath = executableDirectory.generic_wstring();
+	const auto folderPath = executableDirectory.generic_string();
+	path =  std::string(folderPath + "/resources/");
 #elif __APPLE__
-	char buffer[FILENAME_MAX];
-	getcwd( buffer, FILENAME_MAX );
-	std::string current_working_dir(buffer);
-	path = string(current_working_dir + "/");//resources/");
+	std::string current_working_dir(fs::current_path().generic_string());
+	path = string(current_working_dir + "/");
 #elif __linux__
-	char buffer[FILENAME_MAX];
-	getcwd(buffer, FILENAME_MAX);
-	std::string current_working_dir(buffer);
+	std::string current_working_dir(fs::current_path().generic_string());
 	path = string(current_working_dir + "/resources/");
 #endif
 	//printf("=== %s\n", path.c_str());

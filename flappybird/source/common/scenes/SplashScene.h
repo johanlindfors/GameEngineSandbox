@@ -10,7 +10,6 @@ class Ground;
 
 namespace Engine
 {
-	class IResourceManager;
 	class IInputManager;
 	class IRenderer;
 	struct Sprite;
@@ -48,7 +47,6 @@ private:
 	int mWindowHeight;
 	bool mSpacePressedBefore;
 
-	std::shared_ptr<Engine::IResourceManager> mResourceManager;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
 	IGameStateCallback* mGame;
 };

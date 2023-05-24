@@ -4,10 +4,12 @@
 
 using namespace std;
 using namespace Engine;
+using namespace Utilities;
 
-Shader::~Shader() 
+Shader::~Shader()
 {
-   GlDeleteProgram(ID);
+    printf("[Shader::~Shader]\n");
+    GlDeleteProgram(ID);
 }
 
 void Shader::use()
@@ -41,7 +43,12 @@ void Shader::setVector4f(const string& name, float x, float y, float z, float w)
     GlUniform4f(GlGetUniformLocation(ID, name.c_str()), x, y, z, w);
 }
 
-void Shader::setMatrix4(const string& name, glm::mat4 &matrix)
+void Shader::setVector4fv(const string& name, Vector4 vec)
+{
+    GlUniform4f(GlGetUniformLocation(ID, name.c_str()), vec.x, vec.y, vec.z, vec.w);
+}
+
+void Shader::setMatrix4(const string& name, const glm::mat4& matrix)
 {
     GlUniformMatrix4fv(GlGetUniformLocation(ID, name.c_str()), 1, false, glm::value_ptr(matrix));
 }

@@ -23,6 +23,8 @@ namespace Engine
 
         MouseState() 
             : position{0,0}
+            , button(MouseButton::Left)
+            , state(MouseButtonState::None)
             { }
     };
 }

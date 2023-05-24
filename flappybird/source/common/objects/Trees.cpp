@@ -1,7 +1,9 @@
 #include "Trees.h"
 #include "utilities/IStepTimer.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "renderers/Sprite.h"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -13,13 +15,27 @@ Trees::Trees(Point<float> position, Vector2 velocity)
     , mTrees(make_shared<Sprite>())
     , mTreesBackground(make_shared<Sprite>())
 {
-    mTrees->width = 415;
-    mTrees->height = 32;
-    mTrees->offset = 14;
+    mTrees->size = { 415.0f, 32.0f };
+    // mTrees->offset = 14;
 
-    mTreesBackground->width = 415;
-    mTreesBackground->height = 200;
-    mTreesBackground->offset = 19;   
+    mTreesBackground->size = { 415.0f, 200.0f };
+    // mTreesBackground->offset = 19;   
+}
+
+void Trees::initializeSprite()
+{
+    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto texture = resourceManager->getTexture("atlas.png");
+	mTrees->texture = texture;
+    mTreesBackground->texture = texture;
+    mTrees->offset = {
+        2.0f / 512.0f, (512.0f - 510.0f) / 512.0f,
+        415.0f / 512.0f, 32.0f / 512.0f
+    }; // 2, 478, 417, 510
+    mTreesBackground->offset = {
+        2.0f / 512.0f, 2.0f / 512.0f,
+        1.0f / 512.0f, 1.0f / 512.0f
+    }; // 2, 509, 3, 510
 }
 
 void Trees::update(shared_ptr<IStepTimer> timer)
@@ -30,9 +46,12 @@ void Trees::update(shared_ptr<IStepTimer> timer)
     }
 }
 
-void Trees::draw(shared_ptr<ISpriteRenderer> renderer)
+void Trees::draw(shared_ptr<IRenderer> renderer)
 {
-    renderer->drawSprite(mTrees, mPosition);
-    renderer->drawSprite(mTrees, Point<float>{mPosition.x + 415, mPosition.y});
-    renderer->drawSprite(mTreesBackground, Point<float>{0, mPosition.y - 200});
+    auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
+    if(spriteRenderer) {
+        spriteRenderer->drawSprite(mTrees, mPosition);
+        spriteRenderer->drawSprite(mTrees, Point<float>{mPosition.x + 415, mPosition.y});
+        spriteRenderer->drawSprite(mTreesBackground, Point<float>{0, mPosition.y - 200});
+    }
 }

@@ -15,7 +15,7 @@ namespace Utilities
 namespace Engine
 {
 	class IInputManager;
-	class ISpriteRenderer;
+	class IRenderer;
 	class Sprite;
 }
 
@@ -25,15 +25,17 @@ class Bird : public Engine::IPhysicsBody {
 public:
 	Bird(Utilities::Point<float> position);
 	void update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 	void flap();
+	void initializeSprite();
 	Utilities::Circle bounds;
-	Utilities::Rectangle AABB;
+	Utilities::Rectangle<float> AABB;
 	bool isKilled;
 	void collideWithPipe();
 	void reset();
 	
 private:
+	int mCounter;
 	int mAnimationCounter;
 	int mFramesPerAnimation;
 	std::shared_ptr<Engine::Sprite> mSprite;

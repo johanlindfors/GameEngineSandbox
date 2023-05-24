@@ -4,7 +4,7 @@
 #include "objects/Snake.h"
 #include "objects/Apple.h"
 #include "objects/PointCollider.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "game/IGameStateCallback.h"
 #include "utilities/MathHelper.h"
@@ -86,7 +86,7 @@ void GamePlayScene::update(shared_ptr<IStepTimer> /*timer*/)
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
-	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if(spriteRenderer) {
 		mApple->draw(spriteRenderer);
 		mSnake->draw(spriteRenderer);

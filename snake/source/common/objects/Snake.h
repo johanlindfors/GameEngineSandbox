@@ -6,7 +6,7 @@
 namespace Engine
 {
 	class IInputManager;
-	class ISpriteRenderer;
+	class SpriteRenderer;
 }
 
 class IGameStateCallback;
@@ -18,7 +18,7 @@ public:
 	bool checkCollision(int x, int y);
 	void update(int screenWidth, int screenHeight, IGameStateCallback* gameCallback);
 	void handleInput(std::shared_ptr<Engine::IInputManager> input);
-	void draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	void draw(std::shared_ptr<Engine::SpriteRenderer> renderer);
 	void increaseLength();
 
 private:

@@ -5,56 +5,43 @@
 #include "glwrapper.h"
 #include "utilities/MathHelper.h"
 #include "utilities/ILazyInitialized.h"
+#include "SpriteRenderer.h"
 
 namespace Engine {
 
 	struct Character {
 		int characterCode;
 		int uVOffset;
-		int xOffset;
-		int yOffset;
+		float xOffset;
+		float yOffset;
 		int xAdvance;
-		int width;
-		int height;
+		float width;
+		float height;
 	};
 
 	class Shader;
+	struct Sprite;
 
-	class FontRenderer : public Utilities::ILazyInitialized  {
+	class FontRenderer 
+		: public SpriteRenderer {
 	public:
-		FontRenderer(const std::string& atlasFilename);
-		~FontRenderer();
+		FontRenderer(
+			const std::string& atlasFilename,
+			std::shared_ptr<Engine::Shader> shader, 
+			std::shared_ptr<Engine::OrthographicCamera> camera);
+		~FontRenderer() = default;
 
 		void initialize();
-		void updateWindowSize(int width, int height);
-		void clear();
 		void drawString(const std::string& str, Utilities::Point<float> centerPosition, float scale);
 
-		// ILazyInitialized
-		void lazyInitialize() override;
-
 	private:
-		void initializeShaders();
-		void initializeVertexBuffer();
-		void initializeUVBuffer();
 		void addCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset);
-		void addUVs(int x1, int y1, int x2, int y2);
-		void drawCharacter(int offset, Utilities::Rectangle rectangle);
+		void drawCharacter(char character, Utilities::Rectangle<float> rectangle);
 
-		Utilities::Rectangle measureString(const std::string& str);
+		Utilities::Rectangle<float> measureString(const std::string& str);
 
         std::string mAtlasFilename;
-		std::shared_ptr<Shader> mShader;
-		GLsizei mWindowWidth;
-		GLsizei mWindowHeight;
-
-		// Vertex shader parameters
-		GLint mVertexAttribLocation;
-		GLint mUVAttribLocation;
-
-		GLuint mVertexPositionBuffer;
-		GLuint mVertexUVBuffer;
-		std::vector<GLfloat> mUVVertices;
+		std::shared_ptr<Engine::Sprite> mCharacterSprite;
 		std::map<char, Character> mCharacters;
 		bool mInitialized;
 	};

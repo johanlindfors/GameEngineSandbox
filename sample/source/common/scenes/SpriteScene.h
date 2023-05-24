@@ -2,10 +2,14 @@
 #include <memory>
 #include <vector>
 #include "scenes/GameScene.h"
-#include "resources/Model.h"
-#include "resources/GenericShader.h"
 
 class IGameStateCallback;
+namespace Engine
+{
+    class SpriteRenderer;
+    class IInputManager;
+    struct Sprite;
+}
 
 namespace Utilities
 {
@@ -14,13 +18,10 @@ namespace Utilities
 
 namespace Sample 
 {
-    class GenericScene : public Engine::GameScene 
+    class SpriteScene : public Engine::GameScene 
     {
         public:
-            explicit GenericScene()
-                : mWidth(0)
-                , mHeight(0)
-                { }
+            SpriteScene() { id = typeid(SpriteScene).name(); }
             
             // Engine::GameScene
             void load() override;
@@ -30,8 +31,8 @@ namespace Sample
             void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
         private:
-            std::vector<Engine::Model> mModels;
-            std::unique_ptr<Engine::GenericShader> mShader;
-            int mWidth, mHeight;
+            std::shared_ptr<Engine::SpriteRenderer> mRenderer;
+            std::shared_ptr<Engine::Sprite> mSprite;
+            std::shared_ptr<Engine::IInputManager> mInputManager;
     };
 }

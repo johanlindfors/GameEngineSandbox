@@ -1,7 +1,9 @@
 #include "Ground.h"
 #include "utilities/IStepTimer.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "renderers/Sprite.h"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -26,24 +28,41 @@ Ground::Ground(Point<float> position, Vector2 velocity)
         mGround.push_back(ground);
     }
 
-    mGroundSprite->width = 23;
-    mGroundSprite->height = 26;
-    mGroundSprite->offset = 15;
+    mGroundSprite->size = { 23.0, 26.0f };
 
     mGroundBackgroundSprite->position = Point<float>{position.x, position.y - 200};
-    mGroundBackgroundSprite->width = 288;
-    mGroundBackgroundSprite->height = 200;
-    mGroundBackgroundSprite->offset = 20;
+    mGroundBackgroundSprite->size = { 288.0, 200.0f };
 
-    AABB.width = 288;
-    AABB.height = 105;
-    AABB.position.y = 0;
+    AABB.size = { 288.0, 105.0 };
+    AABB.position.y = 0.0f;
     
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-    mGroundDebugSprite->width = 288;
-    mGroundDebugSprite->height = 105;
-    mGroundDebugSprite->offset = 22;
+    mGroundDebugSprite->size = { 288.0, 105.0f };
+    mGroundDebugSprite->offset = {
+        1.0f / 512.0f, (512.0f - 371.0f) / 512.0f,
+        1.0f / 512.0f, 1.0f / 512.0f
+    }; // 1, 364, 8, 371
 #endif
+}
+
+void Ground::initializeSprite()
+{
+  	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto texture = resourceManager->getTexture("atlas.png");
+	mGroundSprite->texture = texture;
+	mGroundBackgroundSprite->texture = texture;
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
+    mGroundDebugSprite->texture = texture;
+#endif
+    mGroundSprite->offset = {
+        108.0f / 512.0f, (512.0f - 27.0f) / 512.0f,
+        23.0f / 512.0f, 26.0f / 512.0f
+    }; //108, 1, 131, 27;
+
+    mGroundBackgroundSprite->offset = {
+        108.0f / 512.0f, (512.0f - 27.0f) / 512.0f,
+        1.0f / 512.0f, 1.0f / 512.0f
+    }; //108, 26, 109, 27
 }
 
 void Ground::update(shared_ptr<IStepTimer> timer)
@@ -58,13 +77,14 @@ void Ground::update(shared_ptr<IStepTimer> timer)
     }
 }
 
-void Ground::draw(shared_ptr<ISpriteRenderer> renderer)
+void Ground::draw(shared_ptr<IRenderer> renderer)
 {
-    renderer->drawSprite(mGroundBackgroundSprite, mGroundBackgroundSprite->position);
+    auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
+    spriteRenderer->drawSprite(mGroundBackgroundSprite, mGroundBackgroundSprite->position);
     for(auto position: mGround) {
-        renderer->drawSprite(mGroundSprite, position);
+        spriteRenderer->drawSprite(mGroundSprite, position);
     }
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-    renderer->drawSprite(mGroundDebugSprite);
+    spriteRenderer->drawSprite(mGroundDebugSprite);
 #endif
 }

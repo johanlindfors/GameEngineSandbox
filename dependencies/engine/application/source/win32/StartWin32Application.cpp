@@ -22,7 +22,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-void StartWin32Application() {
+void startWin32Application() {
 	const HINSTANCE hInstance = GetModuleHandle(nullptr);
 	MyRegisterClass(hInstance);
 
@@ -32,10 +32,14 @@ void StartWin32Application() {
 		return;
 	}
 	const auto config = IOCContainer::instance().resolve<Config>();
-	g_gameLoop->Initialize(config);
+	g_gameLoop->initialize(config);
 	int width, height;
-	g_gameLoop->GetDefaultSize(width, height);
-	g_gameLoop->UpdateWindowSize(width, height);
+	width = config->width;
+	height = config->height;
+	if (width == 0 || height == 0) {
+		g_gameLoop->getDefaultSize(width, height);
+	}
+	g_gameLoop->updateWindowSize(width, height);
 
 	MSG msg = {};
 	while (WM_QUIT != msg.message) {
@@ -75,10 +79,14 @@ ATOM MyRegisterClass(HINSTANCE hInstance) {
 BOOL InitInstance(HINSTANCE hInstance) {
 	hInst = hInstance; // Store instance handle in our global variable
 
-	// Create window
-	int w, h;
-	g_gameLoop->GetDefaultSize(w, h);
-	RECT rc = { 0, 0, static_cast<LONG>(w), static_cast<LONG>(h) };
+	const auto config = IOCContainer::instance().resolve<Config>();
+	int width, height;
+	width = config->width;
+	height = config->height;
+	if (width == 0 || height == 0) {
+		g_gameLoop->getDefaultSize(width, height);
+	}
+	RECT rc = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
 
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	const HWND hWnd = CreateWindowEx(

@@ -8,7 +8,7 @@ class Skyline;
 
 namespace Engine
 {
-	class ISpriteRenderer;
+	class IRenderer;
 	struct Sprite;
 }
 
@@ -24,10 +24,11 @@ public:
     ~ParallaxBackground();
 
 	void update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void draw(std::shared_ptr<Engine::ISpriteRenderer> timer);
+	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 
     void pause() { mIsRunning = false; }
     void resume() { mIsRunning = true; }
+	void initializeSprites();
 
 private:
 	std::unique_ptr<Clouds> mClouds;

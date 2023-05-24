@@ -20,7 +20,7 @@ namespace Engine {
 		ShaderLoaderImpl()
 			: mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) { }	
 			
-		string LoadShader(const string& fileName)
+		string loadShader(const string& fileName)
 		{
 			const auto file = mFileSystem->loadFile(std::string("shaders/" + fileName), false);
 			std::string shader;

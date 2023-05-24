@@ -3,9 +3,11 @@
 #include "scenes/ISceneManager.h"
 #include "game/IGameStateCallback.h"
 #include "resources/IResourceManager.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "renderers/Sprite.h"
 #include "utilities/IStepTimer.h"
+#include "utilities/Config.h"
+#include "renderers/Camera.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -38,8 +40,17 @@ void SplashScene::load()
 	mResourcesToLoad.push("pause/background.png");
 	mResourcesToLoad.push("pause/text.png");
 
-
 	mSprite->texture = mResourceManager->getTexture("coderox.png");
+
+    mResourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
+	
+    auto config = IOCContainer::instance().resolve<Utilities::Config>();
+    auto camera = make_shared<Engine::OrthographicCamera>( 0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f );
+    auto shader = mResourceManager->getShader( "simple" );
+    auto renderer = make_shared<SpriteRenderer>( shader, camera );
+    renderer->initialize();
+    IOCContainer::instance().register_type<IRenderer>( renderer );
+
     printf("[SplashScene::load] Loaded\n");
 }
 
@@ -50,15 +61,19 @@ void SplashScene::updateScreenSize(int width, int height)
 	const auto spriteAspectRatio = static_cast<float>(mSprite->texture.height) / static_cast<float>(mSprite->texture.width);
 	const auto screenAspectRatio = static_cast<float>(height) / static_cast<float>(width);
 	if (screenAspectRatio > spriteAspectRatio) {
-		mSprite->height = static_cast<int>(width * spriteAspectRatio);
-		mSprite->width = width;
+		mSprite->size = { 
+			static_cast<float>(width * spriteAspectRatio),
+			static_cast<float>(width)
+		};
 	}
 	else {
-		mSprite->height = height;
-		mSprite->width = static_cast<int>(height / spriteAspectRatio);
+		mSprite->size = { 
+			static_cast<float>(height),
+			static_cast<float>(height / spriteAspectRatio)
+		};
 	}
-	mSprite->position = { static_cast<float>(width / 2.0f - mSprite->width / 2.0f), 
-						  static_cast<float>(height / 2.0f - mSprite->height / 2.0f) };
+	mSprite->position = { static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f), 
+						  static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f) };
 }
 
 void SplashScene::update(shared_ptr<IStepTimer> timer)
@@ -86,7 +101,7 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 
 void SplashScene::draw(shared_ptr<IRenderer> renderer)
 {
-	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if (spriteRenderer && !isLoadingResources) {
 	    spriteRenderer->drawSprite(mSprite);
 	}

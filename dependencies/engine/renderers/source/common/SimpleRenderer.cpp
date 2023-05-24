@@ -15,10 +15,10 @@ void SimpleRenderer::initialize()
 {
     printf("[SimpleRenderer::initialize] In initialize\n");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    resourceManager->loadShader("basic_lighting", "basic_lighting.vs", "basic_lighting.fs");
+    resourceManager->loadShader("simple", "simple.vs", "simple.fs");
 	resourceManager->loadShader("light_cube", "light_cube.vs", "light_cube.fs");
 
-    lightingShader = resourceManager->getShader("basic_lighting");
+    lightingShader = resourceManager->getShader("simple");
     lightCubeShader = resourceManager->getShader("light_cube");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes

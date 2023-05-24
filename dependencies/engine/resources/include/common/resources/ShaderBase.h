@@ -39,6 +39,8 @@ public:
      */
     virtual void deactivate() const;
 
+    GLuint GetProgramID() { return mProgram; }
+
     /*!
      * Renders a single model
      * @param model a model to render
@@ -63,11 +65,11 @@ protected:
             GLuint program, GLint position, GLint uv)
             : mProgram(program)
             , mPosition(position)
-            , mUv(uv)
+            , mUV(uv)
             {}
 
     GLuint mProgram;
     GLint mPosition;
-    GLint mUv;
+    GLint mUV;
 };
 }

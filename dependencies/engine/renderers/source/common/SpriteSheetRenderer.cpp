@@ -119,11 +119,11 @@ void SpriteSheetRenderer::drawSprite(shared_ptr<Sprite> sprite, Point<float> pos
     	world = glm::rotate(world, glm::radians(sprite->rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
     	world = glm::translate(world, glm::vec3(-0.5f * sprite->texture.width, -0.5f * sprite->texture.height, 0.0f));		
 	}
-    world = glm::scale(world, glm::vec3(sprite->width, sprite->height, 1.0f));
+    world = glm::scale(world, glm::vec3(sprite->size.width, sprite->size.height, 1.0f));
 	mShader->setMatrix4("world", world);
 
 	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*sprite->offset*8));
+	GlVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*8));
 	GlEnableVertexAttribArray(mUVAttribLocation);
 
 	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };

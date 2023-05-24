@@ -1,7 +1,9 @@
 #include "Clouds.h"
 #include "utilities/IStepTimer.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "renderers/Sprite.h"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -14,14 +16,29 @@ Clouds::Clouds(Point<float> position, Vector2 velocity)
     , mCloudsBackground(make_shared<Sprite>())
 {
     mClouds->position = Point<float>{position.x, position.y + 200};
-    mClouds->width = 351;
-    mClouds->height = 33;
-    mClouds->offset = 5;
+    mClouds->size = { 351.0, 33.0 };
+    // mClouds->offset = 5;
 
     mCloudsBackground->position = Point<float>{position.x, position.y};
-    mCloudsBackground->width = 288;
-    mCloudsBackground->height = 200;
-    mCloudsBackground->offset = 18;   
+    mCloudsBackground->size = { 288.0, 200.0 };
+    // mCloudsBackground->offset = 18;   
+}
+
+void Clouds::initializeSprite()
+{
+    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto texture = resourceManager->getTexture("atlas.png");
+	mClouds->texture = texture;
+    mCloudsBackground->texture = texture;
+    mClouds->offset = {
+        1.0f / 512.0f, (512.0f - 103.0f) / 512.0f,
+        351.0f / 512.0f, 33.0f / 512.0f
+    }; // 1, 70, 352, 103
+    mCloudsBackground->offset = {
+        1.0f / 512.0f, (512.0f - 103.0f) / 512.0f,
+        1.0f / 512.0f, 1.0f / 512.0f
+
+    }; // 1, 102, 2, 103
 }
 
 void Clouds::update(shared_ptr<IStepTimer> timer)
@@ -32,9 +49,10 @@ void Clouds::update(shared_ptr<IStepTimer> timer)
     }
 }
 
-void Clouds::draw(shared_ptr<ISpriteRenderer> renderer)
+void Clouds::draw(shared_ptr<IRenderer> renderer)
 {
-    renderer->drawSprite(mClouds, mPosition);
-    renderer->drawSprite(mClouds, Point<float>{mPosition.x + 351, mPosition.y});
-    renderer->drawSprite(mCloudsBackground, Point<float>{0, mPosition.y - 200});
+    auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);    
+    spriteRenderer->drawSprite(mClouds, mPosition);
+    spriteRenderer->drawSprite(mClouds, Point<float>{mPosition.x + 351, mPosition.y});
+    spriteRenderer->drawSprite(mCloudsBackground, Point<float>{0, mPosition.y - 200});
 }

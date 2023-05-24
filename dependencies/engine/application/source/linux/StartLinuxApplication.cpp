@@ -27,9 +27,10 @@ class Application
             printf("[StartLinuxApplication] get default size returned\n");
             
             glfwInit();
-            glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+            //glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->glMinorVersion);
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             window = glfwCreateWindow(width, height, config->title.c_str(), NULL, NULL);
             glfwMakeContextCurrent(window);

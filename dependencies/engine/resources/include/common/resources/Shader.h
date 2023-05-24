@@ -1,6 +1,7 @@
 #pragma once
 #include "utilities/GLHelper.h"
 #include "glm/glm.hpp"
+#include "utilities/MathHelper.h"
 
 namespace Engine {
     class Shader {
@@ -14,7 +15,8 @@ namespace Engine {
         void setVector2f(const std::string& name, float x, float y);
         void setVector3f(const std::string&name, float x, float y, float z);
         void setVector4f(const std::string& name, float x, float y, float z, float w);
-        void setMatrix4(const std::string& name, glm::mat4 &matrix);
+        void setVector4fv(const std::string& name, Utilities::Vector4 vec);
+        void setMatrix4(const std::string& name, const glm::mat4& matrix);
     private:
         std::string mName;
     };

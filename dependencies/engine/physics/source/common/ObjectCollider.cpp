@@ -4,7 +4,7 @@
 using namespace Utilities;
 
 // Reference: https://www.jeffreythompson.org/collision-detection/circle-rect.php
-bool ObjectCollider::intersects(Circle circle, Utilities::Rectangle rect)
+bool ObjectCollider::intersects(Circle circle, Utilities::Rectangle<float> rect)
 {
 	float testX = circle.position.x;
 	float testY = circle.position.y;
@@ -12,12 +12,12 @@ bool ObjectCollider::intersects(Circle circle, Utilities::Rectangle rect)
 	// which edge is closest?
 	if (circle.position.x < rect.position.x)
 		testX = rect.position.x;      						// test left edge
-	else if (circle.position.x > rect.position.x + rect.width)
-		testX = rect.position.x + rect.width;   // right edge
+	else if (circle.position.x > rect.position.x + rect.size.width)
+		testX = rect.position.x + rect.size.width;   // right edge
 	if (circle.position.y < rect.position.y)
 		testY = rect.position.y;      						// top edge
-	else if (circle.position.y > rect.position.y + rect.height)
-		testY = rect.position.y + rect.height; // bottom edge
+	else if (circle.position.y > rect.position.y + rect.size.height)
+		testY = rect.position.y + rect.size.height; // bottom edge
 
 	// get distance from closest edges
 	float distX = circle.position.x - testX;
@@ -31,8 +31,8 @@ bool ObjectCollider::intersects(Circle circle, Utilities::Rectangle rect)
 	return false;
 }
 
-bool ObjectCollider::intersects(Utilities::Rectangle r1, Utilities::Rectangle r2)
+bool ObjectCollider::intersects(Utilities::Rectangle<float> r1, Utilities::Rectangle<float> r2)
 {
-	return r1.position.x <= (r2.position.x + r2.width) && (r1.position.x + r1.width) >= r2.position.x &&
-		   r1.position.y <= (r2.position.y + r2.height) && (r1.position.y + r1.height) >= r2.position.y;
+	return r1.position.x <= (r2.position.x + r2.size.width) && (r1.position.x + r1.size.width) >= r2.position.x &&
+		   r1.position.y <= (r2.position.y + r2.size.height) && (r1.position.y + r1.size.height) >= r2.position.y;
 }

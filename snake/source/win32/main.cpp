@@ -1,5 +1,4 @@
 #include <Windows.h>
-#include <iostream>
 #include "game/Bootstrap.hpp"
 
 void StartWin32Application();

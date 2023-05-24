@@ -87,8 +87,14 @@ void GameLoop::updateWindowSize(int width, int height)
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
-	if(mRenderer)
+	if(!mRenderer) {
+		if(IOCContainer::instance().contains<IRenderer>()){
+			mRenderer = IOCContainer::instance().resolve<IRenderer>();
+		}
+	}
+	if(mRenderer) {
 		mRenderer->updateWindowSize(width, height);
+	}
 	mSceneManager->updateScreenSize(width, height);
 }
 
@@ -117,14 +123,18 @@ void GameLoop::render() {
 	if (mTimer->getFrameCount() == 0) {
 		return;
 	}
-
+	if(!mRenderer) {
+		if(IOCContainer::instance().contains<IRenderer>()){
+			mRenderer = IOCContainer::instance().resolve<IRenderer>();
+		}
+	}
 	clear();
-
 	mSceneManager->draw(mRenderer);
 }
 
 void GameLoop::clear() const
 {
-	if(mRenderer)
+	if(mRenderer) {
 		mRenderer->clear();
+	}
 }

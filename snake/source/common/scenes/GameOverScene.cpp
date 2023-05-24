@@ -34,14 +34,18 @@ void GameOverScene::unload() { }
 
 void GameOverScene::updateScreenSize(int width, int height) 
 {
-	mBackground->height = height;
-	mBackground->width = width;
-	mBackground->position = { 0, 0 };
+	mBackground->size = {
+		static_cast<float>(width), 
+		static_cast<float>(height)
+	};
+	mBackground->position = { 0.0f, 0.0f };
 
-	mText->height = height / 4;
-	mText->width = width / 4;
-	mText->position = { static_cast<float>(width / 2 - mText->width / 2), 
-						static_cast<float>(height / 2 - mText->height / 2) };
+	mText->size = {
+		static_cast<float>(width / 4),
+		static_cast<float>(height / 4)
+	};
+	mText->position = { static_cast<float>(width / 2 - mText->size.width / 2.0f ), 
+						static_cast<float>(height / 2 - mText->size.height / 2.0f ) };
 }
 
 void GameOverScene::handleInput() 
@@ -59,7 +63,7 @@ void GameOverScene::update(shared_ptr<IStepTimer> timer)
 
 void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 {
-	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if (spriteRenderer) {
 		spriteRenderer->drawSprite(mBackground);
         spriteRenderer->drawSprite(mText);

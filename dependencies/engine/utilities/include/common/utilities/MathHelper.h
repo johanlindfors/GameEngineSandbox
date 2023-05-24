@@ -46,10 +46,32 @@ namespace Utilities
         float idx[4];
     };
 
-    struct Vertex {
+    union VertexPositionNormalTexture
+    {
+        struct {
+            Vector3 position;
+            Vector3 normal;
+            Vector2 uv;
+        };
+
+        constexpr VertexPositionNormalTexture(
+            const Vector3 &inPosition, const Vector3 &inNormal, const Vector2 &inUV) 
+            : position(inPosition)
+            , normal(inNormal)
+            , uv(inUV) { }
+
+        constexpr VertexPositionNormalTexture(
+            const float vertices[]) 
+            : position(Vector3{vertices[0], vertices[1], vertices[2]})
+            , normal(Vector3{vertices[3], vertices[4], vertices[5]})
+            , uv(Vector2{vertices[6], vertices[7]}) { }
+    };
+
+    struct Vertex 
+    {
         constexpr Vertex(const Vector3 &inPosition, const Vector2 &inUV) 
             : position(inPosition)
-            , uv(inUV) {}
+            , uv(inUV) { }
 
         Vector3 position;
         Vector2 uv;
@@ -77,17 +99,32 @@ namespace Utilities
         }
 	};
 
-    struct Rectangle
+    template <typename T>
+	union Size 
     {
-        Rectangle(int x, int y, int w, int h)
-            : position(Point<float>{static_cast<float>(x), static_cast<float>(y)})
-            , width(w)
-            , height(h)
-        { }
+        struct {
+		    T width;
+		    T height;
+        };
 
-        Point<float> position;
-        int width;
-        int height;
+        // Overloading "+" operator
+        Size<T> operator+ (Size<T> const& obj)
+        {
+            return Size<T>{width + obj.width, height + obj.height};
+        }
+	};
+
+    template <typename T>
+    union Rectangle
+    {
+        struct {
+            Point<T> position;
+            Size<T> size;
+        };
+        Rectangle(T x, T y, T w, T h)
+            : position(Point<T>{ x, y })
+            , size(Size<T>{ w, h })
+        { }
     };
 
     struct Circle 
@@ -147,8 +184,8 @@ namespace Utilities
     buildOrthographicMatrix(float *outMatrix, 
                             float halfHeight,
                             float aspect,
-                            float near,
-                            float far) {
+                            float nearFOV = 1.0f,
+                            float farFOV = 100.0f) {
         float halfWidth = halfHeight * aspect;
 
         // column 1
@@ -164,10 +201,12 @@ namespace Utilities
         outMatrix[7] = 0.f;
 
         // column 3
+        float farMinusNear = farFOV - nearFOV;
+        float farPlusNear = farFOV + nearFOV;
         outMatrix[8] = 0.f;
         outMatrix[9] = 0.f;
-        outMatrix[10] = -2.f / (far - near);
-        outMatrix[11] = -(far + near) / (far - near);
+        outMatrix[10] = -2.f / farMinusNear;
+        outMatrix[11] = -farPlusNear / farMinusNear;
 
         // column 4
         outMatrix[12] = 0.f;

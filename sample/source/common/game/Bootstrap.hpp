@@ -22,7 +22,7 @@ void bootstrap() {
     config->height = SCREEN_HEIGHT;
     config->title = "Sample 3d Scene";
     config->glMajorVersion = 3;
-    config->glMinorVersion = 2;
+    config->glMinorVersion = 3;
     
     IOCContainer::instance().register_type<Config>(config);
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<Sample::Game>());

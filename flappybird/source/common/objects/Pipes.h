@@ -13,7 +13,7 @@ namespace Utilities
 namespace Engine
 {
 	class IInputManager;
-	class ISpriteRenderer;
+	class IRenderer;
 }
 
 class Pipe 
@@ -29,8 +29,7 @@ public:
 		, IPhysicsBody::IPhysicsBody(position) 
 		, ICollidable::ICollidable(position)
 	{
-		width = 52,
-		height = 25;
+		size = { 52.0f, 25.0f };
 		position = Utilities::Point<float>{position.x, position.y};
 	}
 };
@@ -40,11 +39,11 @@ class Pipes
 public:
 	Pipes(Utilities::Point<float> position);
 	void update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
+	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 	bool isAlive;
 	void reset(Utilities::Point<float> position);
-	bool intersects(Utilities::Circle circle, Utilities::Rectangle rect);
-	bool intersects(Utilities::Rectangle r1, Utilities::Rectangle r2);
+	bool intersects(Utilities::Circle circle, Utilities::Rectangle<float> rect);
+	bool intersects(Utilities::Rectangle<float> r1, Utilities::Rectangle<float> r2);
 
 	std::shared_ptr<Pipe> topPipe;
 	std::shared_ptr<Pipe> bottomPipe;

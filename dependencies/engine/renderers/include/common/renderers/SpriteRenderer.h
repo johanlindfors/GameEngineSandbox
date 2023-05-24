@@ -1,40 +1,29 @@
 #pragma once
+#include <memory>
+#include "Renderer.h"
 #include "glwrapper.h"
-#include "ISpriteRenderer.h"
+#include "utilities/MathHelper.h"
 
-namespace Engine {
-	class SpriteRenderer : public ISpriteRenderer {
-	public:
-		SpriteRenderer() = default;
-		~SpriteRenderer();
+namespace Engine 
+{
+    class Shader;
+    class OrthographicCamera;
+    struct Sprite;
 
-		// Engine::ISpriteRenderer
-        void initialize() override;
-		void updateWindowSize(int width, int height) override;
-		void clear() override;
-		void drawSprite(std::shared_ptr<Sprite> sprite) override;
-        void drawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
+    class SpriteRenderer : public Renderer {
+        public:
+            SpriteRenderer(
+				std::shared_ptr<Engine::Shader> shader, 
+				std::shared_ptr<Engine::OrthographicCamera> camera);
+            ~SpriteRenderer();
 
-	private:
-		void initializeShaders();
-		void initializeBuffers();
-
-		GLuint mProgram;
-		GLsizei mWindowWidth;
-		GLsizei mWindowHeight;
-
-		// Vertex shader parameters
-		GLint mVertexAttribLocation;
-		GLint mUVAttribLocation;
-		GLint mSpriteRectUniformLocation;
-		GLint mSpriteWorldUniformLocation;
-		GLint mTextureSizeUniformLocation;
-		GLint mScreenSizeUniformLocation;
-
-		// Fragment shader parameters
-		GLint mTextureUniformLocation;
-
-		GLuint mVertexPositionBuffer;
-		GLuint mVertexUVBuffer;
-	};
+            virtual void initialize() override;
+            virtual void updateWindowSize(int width, int height) override;
+            void drawSprite(std::shared_ptr<Engine::Sprite> sprite);
+            void drawSprite(std::shared_ptr<Engine::Sprite> sprite, Utilities::Point<float> position);
+            void clear(float r, float g, float b, float a) override;
+        private:
+            GLuint mVAO, mVBO, mEBO;
+            std::shared_ptr<Engine::OrthographicCamera> mCamera;
+    };
 }

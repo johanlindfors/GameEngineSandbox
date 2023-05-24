@@ -1,9 +1,11 @@
 #include "Pipes.h"
 #include "game/GameDefines.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "utilities/MathHelper.h"
 #include "utilities/IStepTimer.h"
 #include "game/GameDefines.h"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -23,13 +25,36 @@ Pipes::Pipes(Point<float> position)
 {
 	reset(position);
 
-	topPipe->offset = 16;
-	topPipeSprite->offset = 21;
-	topPipeSprite->width = topPipe->width;
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto texture = resourceManager->getTexture("atlas.png");
+	topPipe->texture = texture;
+	topPipeSprite->texture = texture;
+	bottomPipe->texture = texture;
+	bottomPipeSprite->texture = texture;
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
+	topPipeDebugSprite->texture = texture;
+	bottomPipeDebugSprite->texture = texture;
+#endif
+
+	topPipeSprite->size.width = topPipe->size.width;
+	topPipe->offset = {
+		402.0f / 512.0f, (512.0f - 430.0f) / 512.0f,
+		52.0f / 512.0f, 25.0f / 512.0f
+	}; // 402, 405, 454, 430
+	topPipeSprite->offset = {
+		402.0f / 512.0f, (512.0f - 120.0f) / 512.0f,
+		52.0f / 512.0f, 10.0f / 512.0f
+	}; // 402, 110, 454, 120
 	
-	bottomPipe->offset = 17;
-	bottomPipeSprite->offset = 21;
-	bottomPipeSprite->width = topPipe->width;
+	bottomPipeSprite->size.width = topPipe->size.width;
+	bottomPipe->offset = {
+		458.0f / 512.0f, (512.0f - 135.0f) / 512.0f,
+		52.0f / 512.0f, 25.0f / 512.0f
+	}; // 458, 110, 510, 135
+	bottomPipeSprite->offset = {
+		402.0f / 512.0f, (512.0f - 120.0f) / 512.0f,
+		52.0f / 512.0f, 10.0f / 512.0f
+	}; // 402, 110, 454, 120
 }
 
 void Pipes::reset(Point<float> position)
@@ -40,11 +65,11 @@ void Pipes::reset(Point<float> position)
 	topPipe->position.y += 400;
 	bottomPipe->position.y += 250;
 
-	topPipeSprite->height = 505 - topPipe->position.y - topPipe->height;
+	topPipeSprite->size.height = 505.0f - topPipe->position.y - topPipe->size.height;
 	topPipeSprite->position = Point<float>{topPipe->position.x, topPipe->position.y + 25};
 
-	bottomPipeSprite->height = bottomPipe->position.y - 95;
-	bottomPipeSprite->position = Point<float>{bottomPipe->position.x, bottomPipe->position.y - bottomPipeSprite->height};
+	bottomPipeSprite->size.height = bottomPipe->position.y - 95.0f;
+	bottomPipeSprite->position = Point<float>{bottomPipe->position.x, bottomPipe->position.y - bottomPipeSprite->size.height};
 
 	isAlive = true;
 	hasScored = false;
@@ -64,45 +89,50 @@ void Pipes::update(shared_ptr<IStepTimer> timer)
 		Utilities::Rectangle topAABB(
 			topPipe->position.x,
 			topPipe->position.y,
-			topPipe->width,
-			topPipe->height + topPipeSprite->height
+			topPipe->size.width,
+			topPipe->size.height + topPipeSprite->size.height
 		);
 	
 		Utilities::Rectangle bottomAABB(
 			bottomPipe->position.x,
-			bottomPipe->position.y - bottomPipeSprite->height,
-			bottomPipe->width,
-			bottomPipe->height + bottomPipeSprite->height
+			bottomPipe->position.y - bottomPipeSprite->size.height,
+			bottomPipe->size.width,
+			bottomPipe->size.height + bottomPipeSprite->size.height
 		);
 
 		topPipe->AABB = topAABB;
 		bottomPipe->AABB = bottomAABB;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 		bottomPipeDebugSprite->position = Point<float>{bottomAABB.position.x, bottomAABB.position.y};
-		bottomPipeDebugSprite->width = bottomAABB.width;
-		bottomPipeDebugSprite->height = bottomAABB.height;
-		bottomPipeDebugSprite->offset = 22;
+		bottomPipeDebugSprite->size = bottomAABB.size;
+		bottomPipeDebugSprite->offset = {
+			1.0f / 512.0f, (512.0f - 371.0f) / 512.0f,
+			1.0f / 512.0f, 1.0f / 512.0f
+		}; // 1, 364, 8, 371
 
 		topPipeDebugSprite->position = Point<float>{topAABB.position.x, topAABB.position.y};
-		topPipeDebugSprite->width = topAABB.width;
-		topPipeDebugSprite->height = topAABB.height;
-		topPipeDebugSprite->offset = 22;
+		topPipeDebugSprite->size = topAABB.size;
+		topPipeDebugSprite->offset = {
+			1.0f / 512.0f, (512.0f - 371.0f) / 512.0f,
+			1.0f / 512.0f, 1.0f / 512.0f
+		}; // 1, 364, 8, 371
 #endif
 	}
 }
 
-void Pipes::draw(shared_ptr<ISpriteRenderer> renderer)
+void Pipes::draw(shared_ptr<IRenderer> renderer)
 {
-	if(isAlive) {
-		renderer->drawSprite(topPipe, Point<float>{topPipe->position.x, topPipe->position.y});
-		renderer->drawSprite(topPipeSprite, topPipeSprite->position);
+	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
+	if(spriteRenderer && isAlive) {
+		spriteRenderer->drawSprite(topPipe, Point<float>{topPipe->position.x, topPipe->position.y});
+		spriteRenderer->drawSprite(topPipeSprite, topPipeSprite->position);
 		
-		renderer->drawSprite(bottomPipe, Point<float>{bottomPipe->position.x, bottomPipe->position.y});
-		renderer->drawSprite(bottomPipeSprite, bottomPipeSprite->position);
+		spriteRenderer->drawSprite(bottomPipe, Point<float>{bottomPipe->position.x, bottomPipe->position.y});
+		spriteRenderer->drawSprite(bottomPipeSprite, bottomPipeSprite->position);
 
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-		renderer->drawSprite(bottomPipeDebugSprite);
-		renderer->drawSprite(topPipeDebugSprite);
+		spriteRenderer->drawSprite(bottomPipeDebugSprite);
+		spriteRenderer->drawSprite(topPipeDebugSprite);
 #endif
 	}
 }

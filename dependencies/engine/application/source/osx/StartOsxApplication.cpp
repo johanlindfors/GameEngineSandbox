@@ -63,7 +63,7 @@ void startOsxApplication(int argc, char **argv) {
     game->initialize(config);
     printf("[StartOsxApplication] initialized\n");
 
-    game->updateWindowSize(width, height);
+    //game->updateWindowSize(width, height);
     printf("[StartOsxApplication] Windows size updated\n");
 
     glfwSetWindowUserPointer(window, game.get());
@@ -73,6 +73,10 @@ void startOsxApplication(int argc, char **argv) {
         game->updateWindowSize(width, height);
         glViewport(0,0,width, height);
     });
+
+    game->updateWindowSize(width, height);
+    glViewport(0, 0, width, height);
+
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);

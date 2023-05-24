@@ -5,6 +5,7 @@
 
 #include <vector>
 
+namespace Engine {
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
 enum Camera_Movement {
     FORWARD,
@@ -110,6 +111,11 @@ public:
             Zoom = 45.0f;
     }
 
+    glm::mat4 getProjectionMatrix()
+    {
+        return glm::perspective(glm::radians(Zoom), (float)800.0f / (float)600.0f, 0.1f, 100.0f);
+    }
+
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors()
@@ -125,3 +131,27 @@ private:
         Up    = glm::normalize(glm::cross(Right, Front));
     }
 };
+
+class OrthographicCamera {
+public:
+    float right, left;
+    float top, bottom;
+    float zFar, zNear;
+
+    OrthographicCamera(float left, float right, float bottom, float top, float zNear, float zFar) 
+    {
+        this->left = left;
+        this->right = right;
+        this->bottom = bottom;
+        this->top = top;
+        this->zNear = zNear;
+        this->zFar = zFar;
+    }
+
+    glm::mat4 getProjectionMatrix()
+    {
+        return glm::ortho(left, right, bottom, top, zNear, zFar);
+    }
+};
+
+}

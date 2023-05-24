@@ -11,7 +11,7 @@ namespace Utilities
 
 namespace Engine
 {
-	class ISpriteRenderer;
+	class IRenderer;
 	class Sprite;
 }
 
@@ -19,8 +19,9 @@ class Skyline {
 public:
 	Skyline(Utilities::Point<float> position, Utilities::Vector2 velocity);
 	void update(std::shared_ptr<Utilities::IStepTimer> timer);
-	void draw(std::shared_ptr<Engine::ISpriteRenderer> renderer);
-
+	void draw(std::shared_ptr<Engine::IRenderer> renderer);
+	void initializeSprite();
+	
 private:
 	std::shared_ptr<Engine::Sprite> mSprite;
 	std::vector<Utilities::Point<float>> mSkyline;

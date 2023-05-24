@@ -1,12 +1,13 @@
 #include "Bird.h"
 #include "game/GameDefines.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "utilities/ITweenEngine.h"
 #include "utilities/MathHelper.h"
 #include "renderers/Sprite.h"
 #include "utilities/IStepTimer.h"
 #include "utilities/IOC.hpp"
+#include "resources/IResourceManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -14,25 +15,40 @@ using namespace Utilities;
 
 Bird::Bird(Point<float> position)
     : IPhysicsBody(position)
-	, bounds(Circle(position.x+16, position.x+12, 12))
-	, AABB(Utilities::Rectangle(0, 0, 0, 0))
+	, bounds(Circle( position.x+16, position.x+12, 12 ))
+	, AABB(Utilities::Rectangle<float>( 0.0f, 0.0f, 0.0f, 0.0f ))
 	, isKilled(false)
-	, mAnimationCounter(0)
-	, mFramesPerAnimation(4)
+	, mCounter( 0 )
+	, mAnimationCounter( 0 )
+	, mFramesPerAnimation( 4 )
 	, mSprite(make_shared<Sprite>())
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	, mDebugSprite(make_shared<Sprite>())
 #endif
 {
-    mSprite->width = 33;
-	mSprite->height = 24;
+    mSprite->size = { 33.0f, 24.0f };
+}
+
+void Bird::initializeSprite() {
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto texture = resourceManager->getTexture("atlas.png");
+	mSprite->texture.textureIndex = texture.textureIndex;
+#if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
+	mDebugSprite->texture.textureIndex = texture.textureIndex;
+#endif
+	mSprite->offset = {
+		1.0f / 512.0f + (34.0f / 512.0f * mAnimationCounter), (512.0f - 25.0f) / 512.0f,
+		34.0f / 512.0f, 24.0f / 512.0f
+	};
+
 }
 
 void Bird::reset() {
-	position = Point<float>{85.0f, SCREEN_HEIGHT/2.0f-12};
-	velocity = Vector2{0.0f, 0.0f};
-	mSprite->rotation = 0;
+	position = Point<float>{ 85.0f, SCREEN_HEIGHT/2.0f - 12.0f };
+	velocity = Vector2{ 0.0f, 0.0f };
+	mSprite->rotation = 0.0f;
 	mAnimationCounter = 0;
+	mCounter = 0;
 	isKilled = false;
 	isAlive = true;
 	allowGravity = false;
@@ -41,15 +57,16 @@ void Bird::reset() {
 void Bird::update(shared_ptr<IStepTimer> timer)
 {
 	if(isAlive) {
-		if(position.y >=465){
-			position.y = 465;
+		if( position.y >= 465.0f ){
+			position.y = 465.0f;
 		}
-		if(mAnimationCounter++ >= mFramesPerAnimation) {
-			auto offset = mSprite->offset;
-			offset++;
-			offset %= 3;
-			mSprite->offset = offset;
-			mAnimationCounter = 0;
+		if( mCounter++ >= mFramesPerAnimation ) {
+			mSprite->offset = {
+				1.0f / 512.0f + (34.0f / 512.0f * mAnimationCounter), (512.0f - 25.0f) / 512.0f,
+				34.0f / 512.0f, 24.0f / 512.0f
+			};
+			mCounter = 0;
+			mAnimationCounter = (mAnimationCounter + 1) % 3;
 		}
 
 		if (allowGravity && mSprite->rotation > -90 && isAlive)
@@ -57,18 +74,20 @@ void Bird::update(shared_ptr<IStepTimer> timer)
 			mSprite->rotation -= (160.0f * timer->getElapsedMilliSeconds() / 1000.0f);
 		}
 
-		AABB = Utilities::Rectangle(position.x,
+		AABB = Utilities::Rectangle<float>(position.x,
 						position.y,
-						mSprite->width,
-						mSprite->height);
-		bounds = Circle(position.x + mSprite->width/2,
-						position.y + mSprite->height/2,
+						mSprite->size.width,
+						mSprite->size.height);
+		bounds = Circle(position.x + mSprite->size.width/2.0f,
+						position.y + mSprite->size.height/2.0f,
 						12);
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 		mDebugSprite->position = Point<float>{AABB.position.x, AABB.position.y};
-		mDebugSprite->offset = 22;
-		mDebugSprite->width = AABB.width;
-		mDebugSprite->height = AABB.height;
+		mDebugSprite->offset = {
+			1.0f / 512.0f, (512.0f - 371.0f) / 512.0f,
+			1.0f / 512.0f, 1.0f / 512.0f
+		}; // 1, 364, 8, 371
+		mDebugSprite->size = AABB.size;
 #endif
 	}
 }
@@ -92,9 +111,12 @@ void Bird::collideWithPipe()
 	isKilled = true;
 }
 
-void Bird::draw(shared_ptr<ISpriteRenderer> renderer) {
+void Bird::draw(shared_ptr<IRenderer> renderer) {
+	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
+	if(spriteRenderer) {
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-	renderer->drawSprite(mDebugSprite, position);
+		spriteRenderer->drawSprite(mDebugSprite, position);
 #endif
-	renderer->drawSprite(mSprite, position);
+		spriteRenderer->drawSprite(mSprite, position);
+	}
 }

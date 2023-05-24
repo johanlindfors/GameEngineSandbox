@@ -1,6 +1,8 @@
 #include "resources/ResourceManager.h"
 #include "resources/TextureLoader.h"
 #include "resources/ShaderLoader.h"
+#include "resources/ModelLoader.h"
+#include "resources/Model.h"
 #include "resources/Shader.h"
 #include <memory>
 #include "utilities/GLHelper.h"
@@ -12,12 +14,14 @@ using namespace Engine;
 ResourceManager::ResourceManager()
 	: mInitialized(false)
 	, mTextureLoader(make_unique<TextureLoader>())
-	, mShaderLoader(make_unique<ShaderLoader>()) { }
+	, mShaderLoader(make_unique<ShaderLoader>())
+	, mModelLoader(make_unique<ModelLoader>()) { }
 
 ResourceManager::~ResourceManager()
 {
 	mTextureLoader.reset();
 	mShaderLoader.reset();
+	mModelLoader.reset();
 }
 
 Texture2D ResourceManager::createEmptyTexture() {
@@ -41,13 +45,15 @@ void ResourceManager::loadTextures(vector<string> fileNames)
 		const auto emptyTexture = createEmptyTexture();
 		mTextures[emptyTexture.name] = emptyTexture;
 	}
-
+	
 	for (auto const& filename : fileNames)
 	{
-		Texture2D texture;
-		texture.name = filename;
-		texture.textureIndex = generateTexture();
-		mTextures[filename] = texture;
+		if(mTextures.find(filename) == mTextures.end()) {
+			Texture2D texture;
+			texture.name = filename;
+			texture.textureIndex = generateTexture();
+			mTextures[filename] = texture;
+		}
 	}
 
 	for (auto& texture : mTextures)
@@ -74,15 +80,32 @@ Texture2D ResourceManager::getTexture(string fileName) const
 
 void ResourceManager::loadShader(const string& name, const string& vsFileName, const string& fsFileName)
 {
-    printf("[ResourceManager::loadShader] Loading shader\n");
-	const auto vs = mShaderLoader->loadShader(vsFileName);
-	const auto fs = mShaderLoader->loadShader(fsFileName);
-	auto shader = make_shared<Shader>();
-	shader->createShader(name, vs, fs);
-	mShaders[name] = shader;
+	if(mShaders.find(name) == mShaders.end()) {
+		printf("[ResourceManager::loadShader] Loading shader\n");
+		const auto vs = mShaderLoader->loadShader(vsFileName);
+		const auto fs = mShaderLoader->loadShader(fsFileName);
+
+		auto shader = make_shared<Shader>();
+		shader->createShader(name, vs, fs);
+		mShaders[name] = shader;
+	}
 }
 
 shared_ptr<Shader> ResourceManager::getShader(const string& name) const
 {
 	return mShaders.at(name);
+}
+
+void ResourceManager::loadModel(const string& fileName)
+{
+	if(mModels.find(fileName) == mModels.end()) {
+
+		const auto model = mModelLoader->loadModel(fileName);
+		mModels[fileName] = model;
+	}
+}
+
+shared_ptr<Model> ResourceManager::getModel(const string& name) const
+{
+	return mModels.at(name);
 }

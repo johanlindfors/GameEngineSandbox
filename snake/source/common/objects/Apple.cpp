@@ -1,6 +1,6 @@
 #include "Apple.h"
 #include "game/GameDefines.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "renderers/Sprite.h"
 #include "Snake.h"
 #include "PointCollider.h"
@@ -8,7 +8,7 @@
 
 using std::shared_ptr;
 using Utilities::Point;
-using Engine::ISpriteRenderer;
+using Engine::SpriteRenderer;
 
 Apple::Apple(Point<int> position)
     : Entity(position)
@@ -18,7 +18,7 @@ Apple::Apple(Point<int> position)
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
-void Apple::draw(std::shared_ptr<ISpriteRenderer> renderer) {
+void Apple::draw(std::shared_ptr<SpriteRenderer> renderer) {
     renderer->drawSprite(mSprite, Point<float>{mScreenPositionX, mScreenPositionY});
 }
 

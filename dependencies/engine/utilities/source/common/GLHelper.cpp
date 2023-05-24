@@ -90,9 +90,8 @@ namespace Engine {
 			vector<GLchar> infoLog(infoLogLength);
 			GlGetProgramInfoLog(program, static_cast<GLsizei>(infoLog.size()), nullptr, infoLog.data());
 
-			string errorMessage("Program link failed: ");
-			errorMessage += string(infoLog.begin(), infoLog.end());
-			printf(errorMessage.c_str());
+			auto errorMessage = string(infoLog.begin(), infoLog.end());
+			printf("Program link failed: %s\n", errorMessage.c_str());
 		}
 
 		return program;

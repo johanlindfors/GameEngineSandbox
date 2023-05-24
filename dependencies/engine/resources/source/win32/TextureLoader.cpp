@@ -142,33 +142,33 @@ namespace Engine {
 
 		void loadTexture(Texture2D& texture)
 		{
-			if (texture.Name != EMPTY_TEXTURE_NAME) {
+			if (texture.name != EMPTY_TEXTURE_NAME) {
 				//auto wFilename = s2ws(texture.Name);
-				const auto file = mFileSystem->loadFile(std::string("textures\\" + texture.Name), false);
+				const auto file = mFileSystem->loadFile(std::string("textures\\" + texture.name), false);
 				if(file){
 					int width, height;
 					auto hasAlpha = false;
 					GLubyte *textureImage;
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success) {
-						texture.Name = "";
+						texture.name = "";
 						std::cout << "Unable to load png file" << std::endl;
 						return;
 					}
-					texture.Width = width;
-					texture.Height = height;
+					texture.width = width;
+					texture.height = height;
 					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
-					setTexturePixels(texture.TextureIndex, texture.Width, texture.Height, hasAlpha, textureImage);
+					setTexturePixels(texture.textureIndex, texture.width, texture.height, hasAlpha, textureImage);
 					if (textureImage) {
 						delete textureImage;
 					}
 				}
 				else {
-					deleteTexture(texture.TextureIndex);
-					texture.TextureIndex = 0;
-					texture.Width = 0;
-					texture.Height = 0;
-					texture.Name = "";
+					deleteTexture(texture.textureIndex);
+					texture.textureIndex = 0;
+					texture.width = 0;
+					texture.height = 0;
+					texture.name = "";
 				}
 			}
 		}

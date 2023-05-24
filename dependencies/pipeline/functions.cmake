@@ -142,3 +142,22 @@ function(build_executable project_name)
     set_property(TARGET ${project_name} PROPERTY CXX_STANDARD 17)
     set_property(TARGET ${project_name} PROPERTY CXX_STANDARD_REQUIRED ON)
 endfunction()
+
+function (copy_resources)
+    if(EXISTS "${COMMON_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${COMMON_RESOURCES_DIRECTORY}")
+        message(STATUS "Found common resources")
+        add_custom_target(copy_common_resources ALL
+            COMMAND ${CMAKE_COMMAND} -E copy_directory 
+            ${COMMON_RESOURCES_DIRECTORY} 
+            "${PROJECT_BINARY_DIR}/resources"
+            COMMENT "Copying common resources to binary directory")
+    endif()
+    if(EXISTS "${PLATFORM_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${PLATFORM_RESOURCES_DIRECTORY}")
+        message(STATUS "Found platform specific resources")
+        add_custom_target(copy_platform_resources ALL
+            COMMAND ${CMAKE_COMMAND} -E copy_directory 
+            ${PLATFORM_RESOURCES_DIRECTORY} 
+            "${PROJECT_BINARY_DIR}/resources"
+            COMMENT "Copying platform specific resources to binary directory")
+    endif()
+endfunction()

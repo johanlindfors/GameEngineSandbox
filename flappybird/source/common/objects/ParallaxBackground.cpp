@@ -1,5 +1,5 @@
 #include "ParallaxBackground.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "objects/Clouds.h"
 #include "objects/Trees.h"
 #include "objects/Skyline.h"
@@ -26,6 +26,13 @@ ParallaxBackground::~ParallaxBackground()
     mTrees.reset();
 }
 
+void ParallaxBackground::initializeSprites()
+{
+    mClouds->initializeSprite();
+    mSkyline->initializeSprite();
+    mTrees->initializeSprite();
+}
+
 void ParallaxBackground::update(shared_ptr<IStepTimer> timer)
 {
     if(mIsRunning) {
@@ -35,7 +42,7 @@ void ParallaxBackground::update(shared_ptr<IStepTimer> timer)
     }
 }
 
-void ParallaxBackground::draw(shared_ptr<ISpriteRenderer> renderer)
+void ParallaxBackground::draw(shared_ptr<IRenderer> renderer)
 {
     mClouds->draw(renderer);
     mSkyline->draw(renderer);

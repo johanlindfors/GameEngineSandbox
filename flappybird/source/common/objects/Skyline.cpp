@@ -1,7 +1,9 @@
 #include "Skyline.h"
 #include "utilities/IStepTimer.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "renderers/Sprite.h"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -12,15 +14,25 @@ Skyline::Skyline(Point<float> position, Vector2 velocity)
     , mVelocity(velocity)
     , mSkyline(vector<Point<float>>())
 {
-    mSprite->width = 86;
-    mSprite->height = 42,
-    mSprite->offset = 4;
+    mSprite->size = { 86.0f, 42.0f };
+    // mSprite->offset = 4;
 
     for (size_t i = 0; i < 6; i++)
     {
         auto point = Point<float>{position.x + i * 86, position.y};
         mSkyline.push_back(point);
     }
+}
+
+void Skyline::initializeSprite()
+{
+   	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto texture = resourceManager->getTexture("atlas.png");
+	mSprite->texture = texture;
+    mSprite->offset = {
+        1.0f / 512.0f, (512.0f - 68.0f) / 512.0f,
+        86.0f / 512.0f, 42.0f / 512.0f
+    }; // 1, 26, 87, 68
 }
 
 void Skyline::update(shared_ptr<IStepTimer> timer)
@@ -33,9 +45,10 @@ void Skyline::update(shared_ptr<IStepTimer> timer)
     }
 }
 
-void Skyline::draw(shared_ptr<ISpriteRenderer> renderer)
+void Skyline::draw(shared_ptr<IRenderer> renderer)
 {
+    auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
     for(auto const& position: mSkyline) {
-        renderer->drawSprite(mSprite, position);
+        spriteRenderer->drawSprite(mSprite, position);
     }
 }

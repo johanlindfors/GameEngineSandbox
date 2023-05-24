@@ -1,13 +1,11 @@
 #pragma once
+#include "utilities/MathHelper.h"
 
 namespace Utilities
 {
-    struct Circle;
-    struct Rectangle;
-
     class IObjectCollider {
     public:
-        virtual bool intersects(Utilities::Circle circle, Utilities::Rectangle rectangle) = 0;
-        virtual bool intersects(Utilities::Rectangle r1, Utilities::Rectangle r2) = 0;
+        virtual bool intersects(Utilities::Circle circle, Utilities::Rectangle<float> rectangle) = 0;
+        virtual bool intersects(Utilities::Rectangle<float> r1, Utilities::Rectangle<float> r2) = 0;
     };
 }

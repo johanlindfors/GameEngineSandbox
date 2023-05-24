@@ -2,7 +2,7 @@
 #include "utilities/IOC.hpp"
 #include "objects/Bird.h"
 #include "physics/IObjectCollider.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "physics/IPhysicsEngine.h"
 #include "utilities/TweenEngine.h"
 #include "input/IInputManager.h"
@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include "resources/IResourceManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -61,10 +62,20 @@ GamePlayScene::~GamePlayScene()
 
 void GamePlayScene::load()
 {
-	mBackground->offset = 3;
-	mBackground->width = 288;
-	mBackground->height = 505;
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto atlas = resourceManager->getTexture( "atlas.png" );
+	mBackground->texture.textureIndex = atlas.textureIndex;
 
+	// mBackground->offset = 3;
+	mBackground->size = { 288.0f, 505.0f };
+	mBackground->offset = { 
+		1.0f / 512.0f, (512.0f - 71.0f) / 512.0f, 
+		1.0f / 512.0f, 1.0f / 512.0f 
+	};
+	mSkyline->initializeSprites();
+	mGround->initializeSprite();
+
+	mBird->initializeSprite();
 	mPhysicsEngine->addBody(mBird);
 }
 
@@ -200,13 +211,14 @@ void GamePlayScene::checkCollisions()
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
-	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
-	spriteRenderer->drawSprite(mBackground);
-	mSkyline->draw(spriteRenderer);
-	mBird->draw(spriteRenderer); 
+	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
+	if(spriteRenderer)
+		spriteRenderer->drawSprite(mBackground);
+	mSkyline->draw(renderer);
+	mBird->draw(renderer); 
 	for(auto pipe : mPipes)
-		pipe->draw(spriteRenderer);
-	mGround->draw(spriteRenderer);
+		pipe->draw(renderer);
+	mGround->draw(renderer);
 	if(mGame->getCurrentState() == GameState::GamePlay) {
 		float x = mScreenSizeX / 2.0f;
 		float y = mScreenSizeY / 2.0f + 220.0f;

@@ -1,13 +1,14 @@
 #include "GameOverScene.h"
 #include "scenes/ISceneManager.h"
 #include "input/IInputManager.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "renderers/Sprite.h"
 #include "utilities/IOC.hpp"
 #include "game/IGameStateCallback.h"
 #include "utilities/ITweenEngine.h"
 #include "renderers/FontRenderer.h"
 #include "systems/ScoreSystem.h"
+#include "resources/IResourceManager.h"
 
 using namespace std;
 using namespace Engine;
@@ -33,33 +34,48 @@ GameOverScene::~GameOverScene() {
 
 void GameOverScene::load()
 {
-	mGameOverText->offset = 7;
-	mGameOverText->width = 48;
-	mGameOverText->height = 12;
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto texture = resourceManager->getTexture("atlas.png");
+	mGameOverText->texture = texture;
+	mButton->texture = texture;
+	mScoreBoard->texture = texture;
+	mMedal->texture = texture;
+	
+	mGameOverText->size = { 48.0f, 12.0f };
+	mGameOverText->offset = {
+		1.0f / 512.0f, (512.0f - 153.0f) / 512.0f,
+		192.0f / 512.0f, 48.0f / 512.0f
+	}; // 1, 105, 193, 153
 
-	mButton->offset = 12;
-	mButton->width = 104;
-	mButton->height = 58;
-	mButton->position = Point<float>{92,176};
+	mButton->size = { 104.0f, 58.0f };
+	mButton->position = Point<float>{ 92.0f, 176.0f };
+	mButton->offset = {
+		2.0f / 512.0f, (512.0f - 351.0f) / 512.0f,
+		104.0f / 512.0f, 58.0f / 512.0f
+	}; // 2, 293, 106, 351
 
-	mScoreBoard->offset = 11;
-	mScoreBoard->width = 225;
-	mScoreBoard->height = 113;
-	mScoreBoard->position = Point<float>{144.0f - mScoreBoard->width/2, 250.0};
+	mScoreBoard->size = { 225.0f, 113.0f };
+	mScoreBoard->position = Point<float>{144.0f - mScoreBoard->size.width/2.0f, 250.0f };
+	mScoreBoard->offset = {
+		53.0f / 512.0f, (512.0f - 287.0f) / 512.0f,
+		225.0f / 512.0f, 113.0f / 512.0f
+	}; // 53, 174, 278, 287
 
-	mMedal->offset = 9; // Silver
-	mMedal->width = 44;
-	mMedal->height = 44;
-	mMedal->position = mScoreBoard->position + Point<float>{25.0, 25.0};
+	mMedal->size = { 44.0f, 44.0f };
+	mMedal->position = mScoreBoard->position + Point<float>{ 25.0f, 25.0f };
+	mMedal->offset = {
+		2.0f / 512.0f, (512.0f - 217.0f) / 512.0f,
+		44.0f / 512.0f, 44.0f / 512.0f
+	}; // 2, 173, 46, 217
 
-	mTweenEngine->add(mGameOverText->width,[&](float value)
+	mTweenEngine->add(mGameOverText->size.width,[&](float value)
 	{ 
-		mGameOverText->width = value; 
-	}, 192, 1000, true);
-	mTweenEngine->add(mGameOverText->height,[&](float value)
+		mGameOverText->size.width = value; 
+	}, 192, 1500, true);
+	mTweenEngine->add(mGameOverText->size.height,[&](float value)
 	{ 
-		mGameOverText->height = value;
-	}, 48, 1000, true);
+		mGameOverText->size.height = value;
+	}, 48, 1500, true);
 }
 
 void GameOverScene::unload() { }
@@ -84,22 +100,25 @@ void GameOverScene::handleInput()
 void GameOverScene::update(shared_ptr<IStepTimer> timer)
 {
 	mTweenEngine->update(timer);
-	mGameOverText->position = { 288.0f / 2.0f - mGameOverText->width / 2.0f, 
-								505.0f / 2.0f - mGameOverText->height / 2.0f + 150.0f };
+	mGameOverText->position = { 288.0f / 2.0f - mGameOverText->size.width / 2.0f, 
+								505.0f / 2.0f - mGameOverText->size.height / 2.0f + 150.0f };
 	handleInput();
 }
 
 void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 {
-	auto spriteRenderer = static_pointer_cast<ISpriteRenderer>(renderer);
+	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	auto score = mScoreSystem->getLatestScore();
 	if (spriteRenderer) {
 		spriteRenderer->drawSprite(mGameOverText);
 		spriteRenderer->drawSprite(mButton);
 		spriteRenderer->drawSprite(mScoreBoard);
-		if(score >= 10) {
-			if(score >= 20) {
-				mMedal->offset = 10;
+		if( score >= 10 ) {
+			if( score >= 20 ) {
+				mMedal->offset = {
+					2.0f / 512.0f, (512.0f - 265.0f) / 512.0f,
+					44.0f / 512.0f, 44.0f / 512.0f
+				}; // 2, 221, 46, 265
 			}
 			spriteRenderer->drawSprite(mMedal);
 		}

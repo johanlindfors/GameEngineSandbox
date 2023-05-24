@@ -7,7 +7,38 @@
 namespace Engine {
 class Model {
 public:
-    inline Model(
+    Model(
+        std::vector<Utilities::VertexPositionNormalTexture> vertices,
+        Engine::Texture2D texture
+    );
+
+    Model(
+        float vertices[],
+        int vertexCount,
+        Engine::Texture2D texture
+    );
+
+    inline const size_t getVertexCount() const {
+        return mVertexCount;
+    }
+
+    inline const Engine::Texture2D getTexture() const {
+        return mTexture;
+    }
+
+    unsigned int VAO;
+
+private:
+    void InitializeGlBuffers();
+    void UpdateGlAttributes();
+    unsigned int mVBO;
+    Engine::Texture2D mTexture;
+    int mVertexCount;
+};
+
+class OldModel {
+public:
+    inline OldModel(
             std::vector<Utilities::Vertex> vertices,
             std::vector<Utilities::Index> indices,
             std::shared_ptr<Engine::Texture2D> spTexture)

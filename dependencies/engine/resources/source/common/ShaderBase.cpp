@@ -91,34 +91,34 @@ void ShaderBase::deactivate() const {
 
 void ShaderBase::drawModel(const Model &model) const {
     // The position attribute is 3 floats
-    glVertexAttribPointer(
-            mPosition, // attrib
-            3, // elements
-            GL_FLOAT, // of type float
-            GL_FALSE, // don't normalize
-            sizeof(Utilities::Vertex), // stride is Vertex bytes
-            model.getVertexData() // pull from the start of the vertex data
-    );
+    // glVertexAttribPointer(
+    //         mPosition, // attrib
+    //         3, // elements
+    //         GL_FLOAT, // of type float
+    //         GL_FALSE, // don't normalize
+    //         sizeof(Utilities::Vertex), // stride is Vertex bytes
+    //         model.getVertexData() // pull from the start of the vertex data
+    // );
     glEnableVertexAttribArray(mPosition);
 
     // The uv attribute is 2 floats
-    glVertexAttribPointer(
-            mUv, // attrib
-            2, // elements
-            GL_FLOAT, // of type float
-            GL_FALSE, // don't normalize
-            sizeof(Utilities::Vertex), // stride is Vertex bytes
-            ((uint8_t *) model.getVertexData()) + sizeof(Utilities::Vector3) // offset Vector3 from the start
-    );
-    glEnableVertexAttribArray(mUv);
+    // glVertexAttribPointer(
+    //         mUV, // attrib
+    //         2, // elements
+    //         GL_FLOAT, // of type float
+    //         GL_FALSE, // don't normalize
+    //         sizeof(Utilities::Vertex), // stride is Vertex bytes
+    //         ((uint8_t *) model.getVertexData()) + sizeof(Utilities::Vector3) // offset Vector3 from the start
+    // );
+    glEnableVertexAttribArray(mUV);
 
     // Setup the texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, model.getTexture().textureIndex);
 
     // Draw as indexed triangles
-    glDrawElements(GL_TRIANGLES, model.getIndexCount(), GL_UNSIGNED_SHORT, model.getIndexData());
+    //glDrawElements(GL_TRIANGLES, model.getIndexCount(), GL_UNSIGNED_SHORT, model.getIndexData());
 
-    glDisableVertexAttribArray(mUv);
+    glDisableVertexAttribArray(mUV);
     glDisableVertexAttribArray(mPosition);
 }

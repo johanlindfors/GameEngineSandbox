@@ -25,16 +25,16 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-FontRenderer::FontRenderer(const string& atlasFilename)
-	: mAtlasFilename(atlasFilename)
-	, mShader(make_unique<Shader>())
+FontRenderer::FontRenderer(const string& atlasFilename,
+				std::shared_ptr<Engine::Shader> shader, 
+				std::shared_ptr<Engine::OrthographicCamera> camera)
+	: SpriteRenderer::SpriteRenderer(shader, camera)
+	, mAtlasFilename(atlasFilename)
+	, mCharacterSprite(make_shared<Sprite>())
 	, mInitialized(false)
 { }
 
-void FontRenderer::lazyInitialize() {
-	initializeShaders();
-	initializeVertexBuffer();
-
+void FontRenderer::initialize() {
 	auto filesystem = IOCContainer::instance().resolve<IFileSystem>();
 	auto file = filesystem->loadFile(mAtlasFilename, false);
 	if(file->isOpen()) {
@@ -43,146 +43,49 @@ void FontRenderer::lazyInitialize() {
 		auto fileHandle = file->get();
 		int offset = 0;
 		while(!feof(fileHandle)) {
-    	    fscanf(fileHandle, "%d:%d,%d,%d,%d,%d,%d,%d", &id, &x, &y, &width, &height, &xoffset, &yoffset, &xadvance);
-			addCharacter(id, x, y, width, height, xoffset, yoffset, xadvance, offset++);
-	        fgets(buffer, 100, fileHandle); // skip the rest of the line
+			auto readBytes = fscanf(fileHandle, "%d:%d,%d,%d,%d,%d,%d,%d", &id, &x, &y, &width, &height, &xoffset, &yoffset, &xadvance);
+			if (readBytes > 0) {
+				addCharacter(id, x, y, width, height, xoffset, yoffset, xadvance, offset++);
+				auto ptr = fgets(buffer, 100, fileHandle); // skip the rest of the line
+			}
 		}
     }
-    
-	initializeUVBuffer();
-}
-
-FontRenderer::~FontRenderer()
-{
-	mShader.reset();
-
-	if (mVertexPositionBuffer != 0)
-	{
-		glDeleteBuffers(1, &mVertexPositionBuffer);
-		mVertexPositionBuffer = 0;
-	}
-
-	if (mVertexUVBuffer != 0)
-	{
-		glDeleteBuffers(1, &mVertexUVBuffer);
-		mVertexUVBuffer = 0;
-	}
-}
-
-void FontRenderer::updateWindowSize(int width, int height)
-{
-	glViewport(0, 0, width, height);
-	mWindowWidth = width;
-	mWindowHeight = height;
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto atlasTexture = resourceManager->getTexture("atlas.png");
+	mCharacterSprite->texture.textureIndex = atlasTexture.textureIndex;
 }
 
 void FontRenderer::drawString(const string& str, Utilities::Point<float> centerPosition, float scale)
 {
 	auto dimensions = measureString(str);
-	int x = centerPosition.x - dimensions.width/2 * scale;
-	int y = centerPosition.y - dimensions.height/2 * scale;
+	auto x = centerPosition.x - dimensions.size.width/2 * scale;
+	auto y = centerPosition.y - dimensions.size.height/2 * scale;
 	for(const auto& character : str) {
 		auto characterToDraw = mCharacters[character];
- 		drawCharacter(characterToDraw.uVOffset, Utilities::Rectangle(x, y, characterToDraw.width * scale, characterToDraw.height * scale));
+		drawCharacter(character, Utilities::Rectangle<float>(x, y, characterToDraw.width * scale, characterToDraw.height * scale));
 		x += characterToDraw.xAdvance * scale;
 	}
 }
 
-Utilities::Rectangle FontRenderer::measureString(const string& str) 
+Utilities::Rectangle<float> FontRenderer::measureString(const string& str) 
 {
-	auto dimensions = Utilities::Rectangle(0,0,0,63);
+	auto dimensions = Utilities::Rectangle<float>({ 0.0f, 0.0f, 0.0f, 63.0f });
 	for(const auto& character : str) {
-		dimensions.width += mCharacters[character].xAdvance;
+		dimensions.size.width += mCharacters[character].xAdvance;
 	}
 	return dimensions;
 }
 
-void FontRenderer::drawCharacter(int offset, Utilities::Rectangle rectangle)
+void FontRenderer::drawCharacter(char character, Utilities::Rectangle<float> rectangle)
 {
-	mShader->use();
-
-	mShader->setInteger("texture", 0);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(2));
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-	glEnableVertexAttribArray(mVertexAttribLocation);
-	glVertexAttribPointer(mVertexAttribLocation, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-	glm::mat4 projection = glm::ortho(0.0f, (float)mWindowWidth, 0.0f, (float)mWindowHeight, -1.0f, 1.0f); 
-	mShader->setMatrix4("projection", projection);
-
-	glm::mat4 world = glm::mat4(1.0f);
-	world= glm::translate(world, glm::vec3(rectangle.position.x, rectangle.position.y, 0.0f));
-	world = glm::scale(world, glm::vec3(rectangle.width, rectangle.height, 1.0f));
-	mShader->setMatrix4("world", world);
-
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	glEnableVertexAttribArray(mUVAttribLocation);
-	glVertexAttribPointer(mUVAttribLocation, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GL_FLOAT), BUFFER_OFFSET(sizeof(GL_FLOAT)*offset*8));
-
-	GLushort indices[] = { 0, 1, 3, 1, 2, 3 };
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
-}
-
-void FontRenderer::initializeShaders() {
-	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-	mShader = resourceManager->getShader("fontsheet");
-	auto id = mShader->ID;
-
-	// Vertex shader parameters
-	mVertexAttribLocation = 0;// GlGetAttribLocation(id, "vertex");
-	mUVAttribLocation = 1;// GlGetAttribLocation(id, "a_uv");
-	printf("Program with ID: %d attributes are fetched as: %d and %d\n", id, mVertexAttribLocation, mUVAttribLocation);
-}
-
-void FontRenderer::initializeVertexBuffer()
-{
-	GLfloat vertexPositions[] =
-	{
-		 0.0f, 1.0f, 0.0f, 1.0f,
-		 0.0f, 0.0f, 0.0f, 1.0f,
-		 1.0f, 0.0f, 0.0f, 1.0f,
-		 1.0f, 1.0f, 0.0f, 1.0f,
-	};
-
-	GlGenBuffers(1, &mVertexPositionBuffer);
-	GlBindBuffer(GL_ARRAY_BUFFER, mVertexPositionBuffer);
-	GlBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
-}
-
-void FontRenderer::addUVs(int x1, int y1, int x2, int y2)
-{
-	GLfloat width = 512.0;
-	GLfloat height = 512.0;
-
-	GLfloat s1 = x1 / width;
-	GLfloat t1 = (height - y1) / height;
-	GLfloat s2 = x2 / width;
-	GLfloat t2 = (height - y2) / height;
-
-	mUVVertices.push_back(s1);
-	mUVVertices.push_back(t1);
-	mUVVertices.push_back(s1);
-	mUVVertices.push_back(t2);
-	mUVVertices.push_back(s2);
-	mUVVertices.push_back(t2);
-	mUVVertices.push_back(s2);
-	mUVVertices.push_back(t1);
-}
-
-void FontRenderer::initializeUVBuffer() 
-{
-	GlGenBuffers(1, &mVertexUVBuffer);
-	GlBindBuffer(GL_ARRAY_BUFFER, mVertexUVBuffer);
-	GlBufferData(GL_ARRAY_BUFFER, mUVVertices.size() * sizeof(GLfloat), &mUVVertices.front(), GL_STATIC_DRAW);
+	auto characterToDraw = mCharacters[character];
+	Utilities::Rectangle<float> spriteOffset(
+		characterToDraw.xOffset / 512.0f,  characterToDraw.yOffset / 512.0f,
+		characterToDraw.width / 512.0f,  characterToDraw.height / 512.0f
+	);
+	mCharacterSprite->offset = spriteOffset;
+	mCharacterSprite->size = rectangle.size;
+	SpriteRenderer::drawSprite(mCharacterSprite, rectangle.position);
 }
 
 void FontRenderer::addCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset)
@@ -191,11 +94,10 @@ void FontRenderer::addCharacter(int id, int x, int y, int width, int height, int
 	character.characterCode = id;
 	character.uVOffset = offset;
 	character.xAdvance = xadvance;
-	character.xOffset = xoffset;
-	character.yOffset = yoffset;
-	character.width = width;
-	character.height = height;
+	character.xOffset = static_cast<float>(x);
+	character.yOffset = (512.0f - (y + height));
+	character.width = static_cast<float>(width);
+	character.height = static_cast<float>(height);
 
-	addUVs(x,y, x + width, y + height);
 	mCharacters[(char)id] = character; 
 }

@@ -1,6 +1,6 @@
 #include "Snake.h"
 #include "game/GameDefines.h"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/SpriteRenderer.h"
 #include "input/IInputManager.h"
 #include "utilities/MathHelper.h"
 #include "renderers/Sprite.h"
@@ -72,15 +72,15 @@ void Snake::handleInput(shared_ptr<IInputManager> input)
 	}
 	if (mSprite->velocity.y == 0) {
 		if (input->isKeyDown(40)) {
-			mSprite->velocity = Utilities::Vector2{0.0f, 1.0f};
+			mSprite->velocity = Utilities::Vector2{0.0f, -1.0f};
 		}
 		if (input->isKeyDown(38)) {
-			mSprite->velocity = Utilities::Vector2{0.0f, -1.0f};
+			mSprite->velocity = Utilities::Vector2{0.0f, 1.0f};
 		}
 	}
 }
 
-void Snake::draw(shared_ptr<ISpriteRenderer> renderer) {
+void Snake::draw(shared_ptr<SpriteRenderer> renderer) {
 	for (auto const& body : mTrail)
 	{
         renderer->drawSprite(mSprite, Point<float>{
