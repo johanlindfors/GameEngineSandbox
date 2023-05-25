@@ -63,9 +63,12 @@ void FontRenderer::drawString(const string& str, Utilities::Point<float> centerP
 	auto x = centerPosition.x - dimensions.size.width/2 * scale;
 	auto y = centerPosition.y - dimensions.size.height/2 * scale;
 	for(const auto& character : str) {
-		auto characterToDraw = mCharacters[character];
-		drawCharacter(character, Utilities::Rectangle<float>(x, y, characterToDraw.width * scale, characterToDraw.height * scale));
-		x += characterToDraw.xAdvance * scale;
+		drawCharacter(character, Utilities::Rectangle<float>(
+			x, 
+			y, 
+			mCharacters[character].width * scale,
+			mCharacters[character].height * scale));
+		x += mCharacters[character].xAdvance * scale;
 	}
 }
 
@@ -80,10 +83,9 @@ Utilities::Rectangle<float> FontRenderer::measureString(const string& str)
 
 void FontRenderer::drawCharacter(char character, Utilities::Rectangle<float> rectangle)
 {
-	auto characterToDraw = mCharacters[character];
 	Utilities::Rectangle<float> spriteOffset(
-		characterToDraw.xOffset / 512.0f,  characterToDraw.yOffset / 512.0f,
-		characterToDraw.width / 512.0f,  characterToDraw.height / 512.0f
+		mCharacters[character].xOffset / 512.0f, mCharacters[character].yOffset / 512.0f,
+		mCharacters[character].width / 512.0f, mCharacters[character].height / 512.0f
 	);
 	mCharacterSprite->offset = spriteOffset;
 	mCharacterSprite->size = rectangle.size;

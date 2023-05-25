@@ -28,6 +28,12 @@ using namespace Utilities;
 SpriteSheetRenderer::SpriteSheetRenderer(string filename)
 	: mFilename(filename)
 	, mInitialized(false)
+	, mUVAttribLocation(0)
+	, mVertexAttribLocation(0)
+	, mVertexPositionBuffer(0)
+	, mVertexUVBuffer(0)
+	, mWindowHeight(0)
+	, mWindowWidth(0)
 { 
 }
 

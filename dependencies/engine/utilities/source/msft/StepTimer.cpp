@@ -14,6 +14,7 @@ Timer::Timer()
 	: mIsEnabled(true)
 	, mElapsedMilliseconds(0)
 	, mLastFrameTime(std::chrono::system_clock::now())
+	, mMillisecondsInterval(0)
 { }
 
 void Timer::setInterval(double milliseconds)
@@ -79,8 +80,8 @@ void StepTimer::tick(std::function<void()> processInput,std::function<void()> up
 	if(delta <= 0) delta = 1;
 
 	if(m_isFixedTimeStep) {
-		m_elapsedMilliseconds += delta;
-		m_elapsedSeconds += delta;
+		m_elapsedMilliseconds += static_cast<unsigned int>(delta);
+		m_elapsedSeconds += static_cast<unsigned int>(delta);
 		while(m_elapsedMilliseconds >= m_targetMilliseconds) {
 			update();
 			m_elapsedMilliseconds -= m_targetMilliseconds;
@@ -99,8 +100,8 @@ void StepTimer::tick(std::function<void()> processInput,std::function<void()> up
 		if(sleepForMilliseconds > 0)
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepForMilliseconds));
 	} else {
-		m_elapsedMilliseconds += delta;
-		m_elapsedSeconds += delta;
+		m_elapsedMilliseconds += static_cast<unsigned int>(delta);;
+		m_elapsedSeconds += static_cast<unsigned int>(delta);;
 		update();
 		render();
 		m_frameCount++;

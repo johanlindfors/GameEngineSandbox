@@ -99,9 +99,9 @@ void Bird::flap()
 		velocity.y = 400;
 
 		auto tweenEngine = IOCContainer::instance().resolve<ITweenEngine>();
-		tweenEngine->add(mSprite->rotation, [&](int value)
+		tweenEngine->add(static_cast<int>(mSprite->rotation), [&](int value)
 		{
- 			mSprite->rotation = value;
+ 			mSprite->rotation = static_cast<float>(value);
 		}, 40, 100, false);
 	}
 }
