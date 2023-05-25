@@ -5,7 +5,6 @@
 #include "game/GameDefines.h"
 #include "physics/PhysicsEngine.h"
 #include "physics/ObjectCollider.h"
-#include "renderers/SpriteSheetRenderer.h"
 #include "renderers/FontRenderer.h"
 #include "systems/ScoreSystem.h"
 
