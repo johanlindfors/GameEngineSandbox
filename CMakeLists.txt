@@ -8,12 +8,12 @@ SET(CMAKE_APPLE_SILICON_PROCESSOR arm64)
 
 project(${GAME_TO_BUILD})
 
-if (CMAKE_BUILD_TYPE STREQUAL "")
+if (DEFINED CMAKE_BUILD_TYPE)
+    message(STATUS "  Diag: Build type specified as '${CMAKE_BUILD_TYPE}'")
+else ()
     # Build type is not set eg. command was "cmake .."
     message(STATUS "  Diag: Build type was unspecified, set to Release")
-    set(CMAKE_BUILD_TYPE Release)
-else ()
-    message(STATUS "  Diag: Build type specified as '${CMAKE_BUILD_TYPE}'")
+    set(CMAKE_BUILD_TYPE Debug)
 endif ()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
