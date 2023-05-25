@@ -164,6 +164,11 @@ namespace Engine {
         glClear(mask);
 	}
 
+	void GlDisable(GLenum cap) {
+		TRACE("[GLHelper::GlDisable]\n");
+		glDisable(cap);
+	}
+
 	void GlActiveTexture(GLenum texture) {
 		TRACE("[GLHelper::GlActiveTexture]\n");
 		glActiveTexture(texture);

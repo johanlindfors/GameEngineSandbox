@@ -86,7 +86,7 @@ void GameOverScene::handleInput()
 { 
 	auto const mouseState = mInputManager->getMouseState();
 	if(mouseState.state == MouseButtonState::Pressed) {
-		auto position = mouseState.position;
+		Utilities::Point<int> position = { mouseState.position.x, 505 - mouseState.position.y };
 		if(position.x > 92 && 
 		   position.x < 92 + 104 &&
 		   position.y > 176 &&

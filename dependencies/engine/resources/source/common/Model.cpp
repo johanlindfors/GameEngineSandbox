@@ -11,7 +11,7 @@ Model::Model(
     std::vector<VertexPositionNormalTexture> vertices,
     Texture2D texture)
     : mTexture(texture)
-    , mVertexCount(vertices.size()) 
+    , mVertexCount(static_cast<int>(vertices.size())) 
 { 
     InitializeGlBuffers();
     

@@ -123,8 +123,8 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 	
 	auto const mouseState = mInputManager->getMouseState();
 	if(mouseState.state == MouseButtonState::Pressed) {
-		auto position = mouseState.position;
-		if(position.x > 92 && 
+		Utilities::Point<int> position = { mouseState.position.x, 505 - mouseState.position.y };
+		if(position.x > 92 &&
 		   position.x < 92 + 104 &&
 		   position.y > 176 &&
 		   position.y < 176 + 58)

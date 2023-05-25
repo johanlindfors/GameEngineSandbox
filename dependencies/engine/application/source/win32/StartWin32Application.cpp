@@ -1,5 +1,6 @@
 #include "game-loop/GameLoop.h"
 #include <Windows.h>
+#include <windowsx.h>
 #include <memory>
 #include "glwrapper.h"
 #include "input/IInputManager.h"
@@ -197,6 +198,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		if(input){
 			input->addKeyboardEvent(static_cast<unsigned int>(wParam), false);
+		}
+		break;
+	case WM_LBUTTONDOWN:
+		if (input) {
+			auto xpos = GET_X_LPARAM(lParam);
+			auto ypos = GET_Y_LPARAM(lParam);
+			input->addMouseEvent(MouseButton::Left, MouseButtonState::Pressed , xpos, ypos);
 		}
 		break;
 	default:

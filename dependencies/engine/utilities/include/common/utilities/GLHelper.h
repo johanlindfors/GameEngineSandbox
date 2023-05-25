@@ -67,4 +67,5 @@ namespace Engine {
     void GlAttachShader(GLuint program, GLuint shader);
 
     GLenum GlGetError();
+    void GlDisable(GLenum cap);
 }
