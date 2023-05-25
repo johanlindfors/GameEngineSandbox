@@ -1,10 +1,12 @@
 #include "game-loop/GameLoop.h"
 #include <Windows.h>
+#include <windowsx.h>
 #include <memory>
 #include "glwrapper.h"
 #include "input/IInputManager.h"
 #include "utilities/IOC.hpp"
 #include "utilities/Config.h"
+#include "utilities/StringHelpers.h"
 
 using namespace Engine;
 using namespace Utilities;
@@ -58,7 +60,6 @@ void startWin32Application() {
 
 ATOM MyRegisterClass(HINSTANCE hInstance) {
 	WNDCLASSEXW wcex;
-
 	wcex.cbSize = sizeof(WNDCLASSEX);
 
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
@@ -66,7 +67,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance) {
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = nullptr;
+	wcex.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 	wcex.hCursor = nullptr;
 	wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = nullptr;
@@ -87,10 +88,10 @@ BOOL InitInstance(HINSTANCE hInstance) {
 		g_gameLoop->getDefaultSize(width, height);
 	}
 	RECT rc = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-
+	
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	const HWND hWnd = CreateWindowEx(
-		0, "GAME_ENGINE_SANDBOX", "Game Engine Sandbox",
+		0, "GAME_ENGINE_SANDBOX", config->title.c_str(),
 		WS_OVERLAPPEDWINDOW, 0, 0,
 		rc.right - rc.left, rc.bottom - rc.top, 
 		nullptr, nullptr, hInstance, nullptr);
@@ -197,6 +198,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		if(input){
 			input->addKeyboardEvent(static_cast<unsigned int>(wParam), false);
+		}
+		break;
+	case WM_LBUTTONDOWN:
+		if (input) {
+			auto xpos = GET_X_LPARAM(lParam);
+			auto ypos = GET_Y_LPARAM(lParam);
+			input->addMouseEvent(MouseButton::Left, MouseButtonState::Pressed , xpos, ypos);
 		}
 		break;
 	default:

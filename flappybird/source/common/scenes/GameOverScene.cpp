@@ -68,13 +68,13 @@ void GameOverScene::load()
 		44.0f / 512.0f, 44.0f / 512.0f
 	}; // 2, 173, 46, 217
 
-	mTweenEngine->add(mGameOverText->size.width,[&](float value)
+	mTweenEngine->add(static_cast<int>(mGameOverText->size.width),[&](int value)
 	{ 
-		mGameOverText->size.width = value; 
+		mGameOverText->size.width = static_cast<float>(value); 
 	}, 192, 1500, true);
-	mTweenEngine->add(mGameOverText->size.height,[&](float value)
+	mTweenEngine->add(static_cast<int>(mGameOverText->size.height),[&](int value)
 	{ 
-		mGameOverText->size.height = value;
+		mGameOverText->size.height = static_cast<float>(value);
 	}, 48, 1500, true);
 }
 
@@ -86,7 +86,7 @@ void GameOverScene::handleInput()
 { 
 	auto const mouseState = mInputManager->getMouseState();
 	if(mouseState.state == MouseButtonState::Pressed) {
-		auto position = mouseState.position;
+		Utilities::Point<int> position = { mouseState.position.x, 505 - mouseState.position.y };
 		if(position.x > 92 && 
 		   position.x < 92 + 104 &&
 		   position.y > 176 &&

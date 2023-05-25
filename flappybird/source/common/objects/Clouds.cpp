@@ -14,6 +14,8 @@ Clouds::Clouds(Point<float> position, Vector2 velocity)
     , mVelocity(velocity)
     , mClouds(make_shared<Sprite>())
     , mCloudsBackground(make_shared<Sprite>())
+    , mCloudsBackgroundOffset(0)
+    , mCloudsOffset(0)
 {
     mClouds->position = Point<float>{position.x, position.y + 200};
     mClouds->size = { 351.0, 33.0 };

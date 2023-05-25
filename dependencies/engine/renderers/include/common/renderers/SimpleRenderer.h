@@ -13,6 +13,9 @@ namespace Engine {
 			, angle(0.0f)
 			, mWidth(0)
 			, mHeight(0)
+			, VBO(0)
+			, cubeVAO(0)
+			, lightCubeVAO(0)
 			{ }
 			
 		~SimpleRenderer() = default;

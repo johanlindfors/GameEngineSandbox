@@ -13,6 +13,7 @@ Skyline::Skyline(Point<float> position, Vector2 velocity)
     : mSprite(make_shared<Sprite>())
     , mVelocity(velocity)
     , mSkyline(vector<Point<float>>())
+    , mTextureOffset(0)
 {
     mSprite->size = { 86.0f, 42.0f };
     // mSprite->offset = 4;

@@ -14,6 +14,8 @@ Trees::Trees(Point<float> position, Vector2 velocity)
     , mVelocity(velocity)
     , mTrees(make_shared<Sprite>())
     , mTreesBackground(make_shared<Sprite>())
+    , mCloudsBackgroundOffset(0)
+    , mCloudsOffset(0)
 {
     mTrees->size = { 415.0f, 32.0f };
     // mTrees->offset = 14;

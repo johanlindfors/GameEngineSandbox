@@ -3,7 +3,7 @@
 #include <vector>
 
 namespace Engine {
-	class IPhysicsBody;
+	struct IPhysicsBody;
 
 	class PhysicsEngine : public IPhysicsEngine {
 	public:

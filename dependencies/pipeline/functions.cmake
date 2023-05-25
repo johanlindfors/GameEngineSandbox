@@ -35,25 +35,25 @@ endmacro()
 macro(update_sources)
     file(GLOB_RECURSE COMMON_SOURCES
         source/common/*.cpp
-        # source/common/*.h*
+        source/common/*.h*
     )
     source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${COMMON_SOURCES})
     
     file(GLOB PLATFORM_SOURCES
         source/${PLATFORM}/*.cpp
-        # source/${PLATFORM}/*.h*
+        source/${PLATFORM}/*.h*
     )
     source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${PLATFORM_SOURCES})
 
     if(UWP OR WIN32)
         file(GLOB PLATFORM_COMMON_SOURCES
             source/msft/*.cpp
-            # source/msft/*.h*
+            source/msft/*.h*
         )
     else()
         file(GLOB PLATFORM_COMMON_SOURCES
             source/posix/*.cpp
-            # source/posix/*.h*
+            source/posix/*.h*
         )
     endif()
     source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${PLATFORM_COMMON_SOURCES})
@@ -144,20 +144,25 @@ function(build_executable project_name)
 endfunction()
 
 function (copy_resources)
+    if(MSVC)
+        set(OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/resources")
+    else()
+        set(OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/resources")
+    endif()
     if(EXISTS "${COMMON_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${COMMON_RESOURCES_DIRECTORY}")
         message(STATUS "Found common resources")
         add_custom_target(copy_common_resources ALL
             COMMAND ${CMAKE_COMMAND} -E copy_directory 
             ${COMMON_RESOURCES_DIRECTORY} 
-            "${PROJECT_BINARY_DIR}/resources"
-            COMMENT "Copying common resources to binary directory")
+            "${OUTPUT_DIRECTORY}"
+            COMMENT "Copying common resources to binary directory: ${OUTPUT_DIRECTORY}")
     endif()
     if(EXISTS "${PLATFORM_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${PLATFORM_RESOURCES_DIRECTORY}")
         message(STATUS "Found platform specific resources")
         add_custom_target(copy_platform_resources ALL
             COMMAND ${CMAKE_COMMAND} -E copy_directory 
             ${PLATFORM_RESOURCES_DIRECTORY} 
-            "${PROJECT_BINARY_DIR}/resources"
-            COMMENT "Copying platform specific resources to binary directory")
+            "${OUTPUT_DIRECTORY}"
+            COMMENT "Copying platform specific resources to binary directory: ${OUTPUT_DIRECTORY}")
     endif()
 endfunction()

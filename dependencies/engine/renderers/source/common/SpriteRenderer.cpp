@@ -41,21 +41,21 @@ void SpriteRenderer::initialize()
         0, 3, 1, // first triangle
         1, 3, 2  // second triangle
     };
-    glGenVertexArrays(1, &mVAO);
-    glGenBuffers(1, &mVBO);
-    glGenBuffers(1, &mEBO);
+    GlGenVertexArrays(1, &mVAO);
+    GlGenBuffers(1, &mVBO);
+    GlGenBuffers(1, &mEBO);
 
-    glBindVertexArray(mVAO);
+    GlBindVertexArray(mVAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    GlBindBuffer(GL_ARRAY_BUFFER, mVBO);
+    GlBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    GlBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
+    GlBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    GlVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    GlEnableVertexAttribArray(0);
 }
 
 void SpriteRenderer::updateWindowSize(int width, int height)
@@ -69,8 +69,8 @@ void SpriteRenderer::updateWindowSize(int width, int height)
 void SpriteRenderer::clear(float r, float g, float b, float a)
 {
     Renderer::clear(r, g, b, a);
-    glDisable(GL_DEPTH_TEST);
-  	glClear(GL_COLOR_BUFFER_BIT);
+    GlDisable(GL_DEPTH_TEST);
+  	GlClear(GL_COLOR_BUFFER_BIT);
 }
 
 void SpriteRenderer::drawSprite(shared_ptr<Sprite> sprite)
@@ -102,14 +102,14 @@ void SpriteRenderer::drawSprite(shared_ptr<Sprite> sprite, Point<float> position
     mShader->setMatrix4("world", world);
     mShader->setMatrix4("projection", mCamera->getProjectionMatrix());
 
-    glBindTexture(GL_TEXTURE_2D, sprite->texture.textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    GlBindTexture(GL_TEXTURE_2D, sprite->texture.textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
     // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // set texture filtering parameters
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GlEnable(GL_BLEND);
+    GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glBindVertexArray(mVAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    GlBindVertexArray(mVAO);
+    GlDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

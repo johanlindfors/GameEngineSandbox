@@ -17,6 +17,8 @@ Ground::Ground(Point<float> position, Vector2 velocity)
     , mGroundBackgroundSprite(make_shared<Sprite>())
     , ICollidable::ICollidable(position)
     , mIsRunning(true)
+    , mGroundBackgroundOffset(0)
+    , mGroundOffset(0)
 
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
     , mGroundDebugSprite(make_shared<Sprite>())
@@ -81,7 +83,7 @@ void Ground::draw(shared_ptr<IRenderer> renderer)
 {
     auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
     spriteRenderer->drawSprite(mGroundBackgroundSprite, mGroundBackgroundSprite->position);
-    for(auto position: mGround) {
+    for(const auto& position: mGround) {
         spriteRenderer->drawSprite(mGroundSprite, position);
     }
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
