@@ -1,9 +1,6 @@
 [CmdletBinding()]
 Param(
     [Parameter(Mandatory = $False)]
-    [string]$toolchainFile,
-
-    [Parameter(Mandatory = $False)]
     [switch]$generate,
 
     [Parameter(Mandatory = $False)]
@@ -34,10 +31,6 @@ $BuildConfiguration = "Debug"
 
 If($win32) {
     $BuildDirectory = "build/win32"
-    if(-NOT $toolchainFile -AND -NOT $compile) {
-        $toolchainFile = "dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake"
-    }
-    $PlatformParameters = "-DCMAKE_TOOLCHAIN_FILE='$toolchainFile'"
 } ElseIf($uwp) {
     $BuildDirectory = "build/uwp"
     $PlatformParameters = @("-DCMAKE_SYSTEM_NAME='WindowsStore'", "-DCMAKE_SYSTEM_VERSION='10.0.22000.0'")
