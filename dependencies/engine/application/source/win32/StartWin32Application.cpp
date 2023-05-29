@@ -7,6 +7,7 @@
 #include "utilities/IOC.hpp"
 #include "utilities/Config.h"
 #include "utilities/StringHelpers.h"
+#include "OutputDebug.h"
 
 using namespace Engine;
 using namespace Utilities;
@@ -156,9 +157,12 @@ BOOL InitInstance(HINSTANCE hInstance) {
 		return false;
 	}
 
+	Info("GL_VERSION  : %s", glGetString(GL_VERSION));
+	Info("GL_RENDERER : %s", glGetString(GL_RENDERER));
+	Info("GL_SHADING_LANGUAGE_VERSION : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
 	ShowWindow(hWnd, 5);
 	UpdateWindow(hWnd);
-
 	if (glewInit() != GLEW_OK) { // Enable GLEW
 		return false;
 	}
