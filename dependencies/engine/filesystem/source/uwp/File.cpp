@@ -1,6 +1,6 @@
-#include "File.h"
+#include "File.hpp"
 
-#include "winrt/Windows.Foundation.h"
+#include "winrt/Windows.Foundation.hpp"
 
 using namespace std;
 using namespace winrt;

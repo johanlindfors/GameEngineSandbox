@@ -1,10 +1,10 @@
-#include "GLPage.h"
+#include "GLPage.hpp"
 #include "utilities/IOC.hpp"
-#include "IDispatcherWrapper.h"
-#include "SetThreadName.h"
-#include "game-loop/GameLoop.h"
+#include "IDispatcherWrapper.hpp"
+#include "SetThreadName.hpp"
+#include "game-loop/GameLoop.hpp"
 #include <winrt/Windows.System.Threading.h>
-#include "utilities/Config.h"
+#include "utilities/Config.hpp"
 
 using std::shared_ptr;
 using namespace Engine;

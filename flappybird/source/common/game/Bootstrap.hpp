@@ -1,15 +1,15 @@
 #pragma once
 #include "utilities/IOC.hpp"
-#include "game/GameStateMachine.h"
-#include "utilities/Config.h"
-#include "game/GameDefines.h"
-#include "physics/PhysicsEngine.h"
-#include "physics/ObjectCollider.h"
-#include "renderers/FontRenderer.h"
-#include "systems/ScoreSystem.h"
+#include "game/GameStateMachine.hpp"
+#include "utilities/Config.hpp"
+#include "game/GameDefines.hpp"
+#include "physics/PhysicsEngine.hpp"
+#include "physics/ObjectCollider.hpp"
+#include "renderers/FontRenderer.hpp"
+#include "systems/ScoreSystem.hpp"
 
-#include "utilities/TweenEngine.h"
-#include "systems/TweenyEngine.h"
+#include "utilities/TweenEngine.hpp"
+#include "systems/TweenyEngine.hpp"
 #include <string>
 #include <vector>
 

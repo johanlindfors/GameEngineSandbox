@@ -1,11 +1,11 @@
-#include "GameOverScene.h"
-#include "resources/ResourceManager.h"
-#include "scenes/ISceneManager.h"
-#include "input/IInputManager.h"
-#include "renderers/SpriteRenderer.h"
-#include "renderers/Sprite.h"
+#include "GameOverScene.hpp"
+#include "resources/ResourceManager.hpp"
+#include "scenes/ISceneManager.hpp"
+#include "input/IInputManager.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "renderers/Sprite.hpp"
 #include "utilities/IOC.hpp"
-#include "game/IGameStateCallback.h"
+#include "game/IGameStateCallback.hpp"
 
 using namespace std;
 using namespace Engine;

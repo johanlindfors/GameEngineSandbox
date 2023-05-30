@@ -1,8 +1,8 @@
 #pragma once
 #include "utilities/IOC.hpp"
-#include "game/Game.h"
-#include "utilities/Config.h"
-#include "renderers/SpriteRenderer.h"
+#include "game/Game.hpp"
+#include "utilities/Config.hpp"
+#include "renderers/SpriteRenderer.hpp"
 
 using namespace std;
 using namespace Engine;

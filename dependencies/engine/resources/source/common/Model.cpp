@@ -1,8 +1,8 @@
-#include "resources/Model.h"
+#include "resources/Model.hpp"
 #include <vector>
-#include "utilities/MathHelper.h"
-#include "resources/Texture2D.h"
-#include "utilities/GLHelper.h"
+#include "utilities/MathHelper.hpp"
+#include "resources/Texture2D.hpp"
+#include "utilities/GLHelper.hpp"
 
 using namespace Engine;
 using namespace Utilities;

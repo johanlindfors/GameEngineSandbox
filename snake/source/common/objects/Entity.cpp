@@ -1,8 +1,8 @@
-#include "Entity.h"
-#include "utilities/MathHelper.h"
-#include "resources/Texture2D.h"
-#include "renderers/Sprite.h"
-#include "game/GameDefines.h"
+#include "Entity.hpp"
+#include "utilities/MathHelper.hpp"
+#include "resources/Texture2D.hpp"
+#include "renderers/Sprite.hpp"
+#include "game/GameDefines.hpp"
 
 using namespace std;
 using namespace Engine;

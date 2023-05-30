@@ -3,12 +3,12 @@
 #include <vector>
 
 #include "utilities/IOC.hpp"
-#include "utilities/Config.h"
-#include "Game.h"
-#include "GameDefines.h"
-#include "renderers/SimpleRenderer.h"
-#include "resources/ResourceManager.h"
-#include "filesystem/FileSystem.h"
+#include "utilities/Config.hpp"
+#include "Game.hpp"
+#include "GameDefines.hpp"
+#include "renderers/SimpleRenderer.hpp"
+#include "resources/ResourceManager.hpp"
+#include "filesystem/FileSystem.hpp"
 
 using namespace std;
 using namespace Engine;

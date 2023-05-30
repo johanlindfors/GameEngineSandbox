@@ -1,9 +1,9 @@
-#include "resources/ModelLoader.h"
-#include "resources/IResourceManager.h"
-#include "resources/Model.h"
+#include "resources/ModelLoader.hpp"
+#include "resources/IResourceManager.hpp"
+#include "resources/Model.hpp"
 #include "utilities/IOC.hpp"
-#include "filesystem/IFileSystem.h"
-#include "File.h"
+#include "filesystem/IFileSystem.hpp"
+#include "File.hpp"
 #include <vector>
 
 using namespace std;

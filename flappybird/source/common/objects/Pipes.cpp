@@ -1,11 +1,11 @@
-#include "Pipes.h"
-#include "game/GameDefines.h"
-#include "renderers/SpriteRenderer.h"
-#include "utilities/MathHelper.h"
-#include "utilities/IStepTimer.h"
-#include "game/GameDefines.h"
+#include "Pipes.hpp"
+#include "game/GameDefines.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "utilities/MathHelper.hpp"
+#include "utilities/IStepTimer.hpp"
+#include "game/GameDefines.hpp"
 #include "utilities/IOC.hpp"
-#include "resources/IResourceManager.h"
+#include "resources/IResourceManager.hpp"
 
 using namespace std;
 using namespace Engine;

@@ -1,9 +1,9 @@
-#include "PauseScene.h"
-#include "resources/IResourceManager.h"
+#include "PauseScene.hpp"
+#include "resources/IResourceManager.hpp"
 #include "utilities/IOC.hpp"
-#include "scenes/ISceneManager.h"
-#include "renderers/Sprite.h"
-#include "renderers/SpriteRenderer.h"
+#include "scenes/ISceneManager.hpp"
+#include "renderers/Sprite.hpp"
+#include "renderers/SpriteRenderer.hpp"
 
 using namespace std;
 using namespace Engine;

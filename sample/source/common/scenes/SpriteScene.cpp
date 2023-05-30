@@ -1,18 +1,18 @@
-#include "SpriteScene.h"
+#include "SpriteScene.hpp"
 #include "utilities/IOC.hpp"
-#include "utilities/MathHelper.h"
-#include "resources/IResourceManager.h"
+#include "utilities/MathHelper.hpp"
+#include "resources/IResourceManager.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "StepTimer.h"
-#include "resources/Shader.h"
-#include "renderers/Sprite.h"
-#include "renderers/SpriteRenderer.h"
+#include "StepTimer.hpp"
+#include "resources/Shader.hpp"
+#include "renderers/Sprite.hpp"
+#include "renderers/SpriteRenderer.hpp"
 #include "renderers/Camera.hpp"
-#include "utilities/Config.h"
-#include "input/IInputManager.h"
-#include "ModelScene.h"
-#include "scenes/ISceneManager.h"
+#include "utilities/Config.hpp"
+#include "input/IInputManager.hpp"
+#include "ModelScene.hpp"
+#include "scenes/ISceneManager.hpp"
 
 using namespace std;
 using namespace Engine;

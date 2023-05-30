@@ -1,4 +1,4 @@
-#include "DispatcherWrapper.h"
+#include "DispatcherWrapper.hpp"
 #include <concurrent_queue.h>
 
 using namespace std;

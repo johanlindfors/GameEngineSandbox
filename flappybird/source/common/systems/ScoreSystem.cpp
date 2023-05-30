@@ -1,7 +1,7 @@
-#include "ScoreSystem.h"
+#include "ScoreSystem.hpp"
 #include "utilities/IOC.hpp"
-#include "filesystem/IFileSystem.h"
-#include "File.h"
+#include "filesystem/IFileSystem.hpp"
+#include "File.hpp"
 #include <stdio.h>
 
 using namespace Engine;

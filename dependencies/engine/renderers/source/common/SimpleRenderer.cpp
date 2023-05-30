@@ -1,8 +1,8 @@
-#include "renderers/SimpleRenderer.h"
+#include "renderers/SimpleRenderer.hpp"
 #include "utilities/IOC.hpp"
-#include "resources/IResourceManager.h"
-#include "resources/Shader.h"
-#include "glwrapper.h"
+#include "resources/IResourceManager.hpp"
+#include "resources/Shader.hpp"
+#include "glwrapper.hpp"
 
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>

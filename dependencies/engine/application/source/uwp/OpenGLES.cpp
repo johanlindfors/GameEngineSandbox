@@ -1,4 +1,4 @@
-#include "OpenGLES.h"
+#include "OpenGLES.hpp"
 
 #define ANGLE_ERROR(id, text) hresult_error(id, text);
 

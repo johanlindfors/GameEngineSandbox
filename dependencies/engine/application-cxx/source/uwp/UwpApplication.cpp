@@ -1,8 +1,8 @@
-#include "UwpApplication.h"
+#include "UwpApplication.hpp"
 #include <concurrent_queue.h>
-#include "OpenGLES.h"
-#include "GLPage.h"
-#include "IDispatcherWrapper.h"
+#include "OpenGLES.hpp"
+#include "GLPage.hpp"
+#include "IDispatcherWrapper.hpp"
 #include "utilities/IOC.hpp"
 
 using namespace std;

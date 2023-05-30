@@ -1,13 +1,13 @@
-#include "game-loop/GameLoop.h"
+#include "game-loop/GameLoop.hpp"
 #include "utilities/IOC.hpp"
-#include "utilities/Config.h"
-#include "scenes/SceneManager.h"
-#include "input/InputManager.h"
-#include "resources/ResourceManager.h"
-#include "renderers/ISpriteRenderer.h"
-#include "StepTimer.h"
-#include "game-loop/IGameLoopCallback.h"
-#include "filesystem/FileSystem.h"
+#include "utilities/Config.hpp"
+#include "scenes/SceneManager.hpp"
+#include "input/InputManager.hpp"
+#include "resources/ResourceManager.hpp"
+#include "renderers/ISpriteRenderer.hpp"
+#include "StepTimer.hpp"
+#include "game-loop/IGameLoopCallback.hpp"
+#include "filesystem/FileSystem.hpp"
 
 using namespace std;
 using namespace Engine;

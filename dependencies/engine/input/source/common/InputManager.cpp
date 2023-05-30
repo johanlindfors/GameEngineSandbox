@@ -1,4 +1,4 @@
-#include "input/InputManager.h"
+#include "input/InputManager.hpp"
 #include <cstdio>
 using namespace Engine;
 

@@ -1,5 +1,5 @@
-#include "resources/SpriteShader.h"
-#include "utilities/MathHelper.h"
+#include "resources/SpriteShader.hpp"
+#include "utilities/MathHelper.hpp"
 
 using namespace Engine;
 

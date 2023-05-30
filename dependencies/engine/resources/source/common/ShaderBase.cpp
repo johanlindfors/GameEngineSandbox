@@ -1,5 +1,5 @@
-#include "resources/ShaderBase.h"
-#include "resources/Model.h"
+#include "resources/ShaderBase.hpp"
+#include "resources/Model.hpp"
 #include <iostream>
 
 using namespace Engine;

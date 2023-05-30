@@ -1,21 +1,21 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include "ModelScene.h"
+#include "ModelScene.hpp"
 #include <vector>
 #include "utilities/IOC.hpp"
-#include "utilities/MathHelper.h"
-#include "resources/IResourceManager.h"
-#include "StepTimer.h"
-#include "resources/Shader.h"
-#include "renderers/ModelRenderer.h"
+#include "utilities/MathHelper.hpp"
+#include "resources/IResourceManager.hpp"
+#include "StepTimer.hpp"
+#include "resources/Shader.hpp"
+#include "renderers/ModelRenderer.hpp"
 #include "renderers/Camera.hpp"
-#include "utilities/Config.h"
-#include "resources/Model.h"
+#include "utilities/Config.hpp"
+#include "resources/Model.hpp"
 #include <glm/gtc/matrix_transform.hpp>
-#include "input/IInputManager.h"
-#include "scenes/ISceneManager.h"
-#include "SpriteScene.h"
+#include "input/IInputManager.hpp"
+#include "scenes/ISceneManager.hpp"
+#include "SpriteScene.hpp"
 
 using namespace std;
 using namespace Engine;

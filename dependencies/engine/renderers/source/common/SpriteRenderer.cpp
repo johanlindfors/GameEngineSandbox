@@ -1,9 +1,9 @@
-#include "renderers/SpriteRenderer.h"
+#include "renderers/SpriteRenderer.hpp"
 #include <string>
-#include "utilities/GLHelper.h"
-#include "renderers/Sprite.h"
+#include "utilities/GLHelper.hpp"
+#include "renderers/Sprite.hpp"
 #include "renderers/Camera.hpp"
-#include "resources/Shader.h"
+#include "resources/Shader.hpp"
 
 using namespace std;
 using namespace Engine;

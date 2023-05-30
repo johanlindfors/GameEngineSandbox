@@ -1,15 +1,15 @@
-#include "resources/TextureLoader.h"
+#include "resources/TextureLoader.hpp"
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Graphics.Imaging.h>
 #include <winrt/Windows.ApplicationModel.h>
 #include <memory>
-#include "IDispatcherWrapper.h"
+#include "IDispatcherWrapper.hpp"
 #include "utilities/IOC.hpp"
-#include "utilities/GLHelper.h"
-#include "filesystem/FileSystem.h"
-#include "File.h"
-#include "resources/Texture2D.h"
+#include "utilities/GLHelper.hpp"
+#include "filesystem/FileSystem.hpp"
+#include "File.hpp"
+#include "resources/Texture2D.hpp"
 
 using namespace std;
 using namespace winrt;

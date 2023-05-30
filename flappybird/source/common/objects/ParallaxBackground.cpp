@@ -1,11 +1,11 @@
-#include "ParallaxBackground.h"
-#include "renderers/SpriteRenderer.h"
-#include "objects/Clouds.h"
-#include "objects/Trees.h"
-#include "objects/Skyline.h"
-#include "objects/Ground.h"
-#include "renderers/Sprite.h"
-#include "game/GameDefines.h"
+#include "ParallaxBackground.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "objects/Clouds.hpp"
+#include "objects/Trees.hpp"
+#include "objects/Skyline.hpp"
+#include "objects/Ground.hpp"
+#include "renderers/Sprite.hpp"
+#include "game/GameDefines.hpp"
 
 using namespace std;
 using namespace Engine;

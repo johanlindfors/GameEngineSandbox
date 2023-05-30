@@ -1,6 +1,6 @@
-#include "scenes/SceneManager.h"
+#include "scenes/SceneManager.hpp"
 #include "utilities/IOC.hpp"
-#include "renderers/ISpriteRenderer.h"
+#include "renderers/ISpriteRenderer.hpp"
 #include <string>
 
 using namespace std;

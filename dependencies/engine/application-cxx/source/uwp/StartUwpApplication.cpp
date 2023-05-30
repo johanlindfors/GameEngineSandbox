@@ -1,4 +1,4 @@
-#include "UwpApplication.h"
+#include "UwpApplication.hpp"
 
 using namespace Windows::UI::Xaml;
 

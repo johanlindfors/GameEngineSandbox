@@ -1,5 +1,5 @@
-#include "TweenyEngine.h"
-#include "utilities/IStepTimer.h"
+#include "TweenyEngine.hpp"
+#include "utilities/IStepTimer.hpp"
 
 using namespace tweeny;
 using tweeny::easing;
