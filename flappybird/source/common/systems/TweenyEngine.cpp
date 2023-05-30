@@ -38,7 +38,7 @@ void TweenyEngine::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
     for(auto &tween : mTweenies) {
         auto ms = timer->getElapsedMilliSeconds();
-        tween.step(timer->getElapsedMilliSeconds());
+        tween.step(static_cast<float>(timer->getElapsedMilliSeconds()));
     }
 
     mTweenies.erase(

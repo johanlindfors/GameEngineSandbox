@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "ModelScene.h"
 #include <vector>
 #include "utilities/IOC.hpp"
@@ -68,7 +71,7 @@ void ModelScene::update(shared_ptr<IStepTimer> timer)
 
     // update models
     if(mAnimate) {
-        angle += (timer->getElapsedMilliSeconds() * 0.000001f);
+        angle = (timer->getElapsedSeconds() * 2 * M_PI);
     }
     // angle = glm::radians(135.0f);
 }

@@ -1,12 +1,12 @@
 #include <Windows.h>
 #include "game/Bootstrap.hpp"
 
-void StartWin32Application();
+void startWin32Application();
 
 int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
-  Bootstrap();
+  bootstrap();
   
-  StartWin32Application();
+  startWin32Application();
   
   return 0;
 }

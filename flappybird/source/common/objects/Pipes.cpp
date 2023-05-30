@@ -78,7 +78,7 @@ void Pipes::reset(Point<float> position)
 void Pipes::update(shared_ptr<IStepTimer> timer)
 {
 	if(isAlive) {
-		Vector2 delta = Vector2{(SCROLL_SPEED * timer->getElapsedMilliSeconds()), 0};
+		Vector2 delta = Vector2{(SCROLL_SPEED * static_cast<float>(timer->getElapsedMilliSeconds())), 0};
 		topPipe->position = topPipe->position + delta;
 		topPipeSprite->position = topPipeSprite->position + delta;
 		bottomPipe->position = bottomPipe->position + delta;
