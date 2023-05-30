@@ -13,6 +13,7 @@
 #include "input/IInputManager.h"
 #include "scenes/ISceneManager.h"
 #include "SpriteScene.h"
+#include <cmath>
 
 using namespace std;
 using namespace Engine;
@@ -68,7 +69,7 @@ void ModelScene::update(shared_ptr<IStepTimer> timer)
 
     // update models
     if(mAnimate) {
-        angle += (timer->getElapsedMilliSeconds() * 0.000001f);
+        angle = (timer->getElapsedSeconds() * 2 * M_PI);
     }
     // angle = glm::radians(135.0f);
 }
