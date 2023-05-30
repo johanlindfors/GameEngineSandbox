@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <functional>
 #include "utilities/IStepTimer.h"
-#include "time.h" 
+#include <time.h>
 #include <chrono>
 
 namespace Utilities
@@ -15,7 +15,7 @@ namespace Utilities
 	public:
 		Timer();
 
-		void setInterval(double milliseconds);
+		void setInterval(double microseconds);
 		void update(std::function<void()> tick);
 
 		void pause();
@@ -24,8 +24,8 @@ namespace Utilities
 
 	private:
 		std::chrono::time_point<std::chrono::system_clock> mLastFrameTime;
-		double mMillisecondsInterval;
-		double mElapsedMilliseconds;
+		double mMicroSecondsInterval;
+		double mElapsedMicroSeconds;
 		bool mIsEnabled;
 	};
 
@@ -36,11 +36,20 @@ namespace Utilities
 		StepTimer();
 
 		// Get elapsed time since the previous Update call.
-		double getElapsedSeconds() const { return m_elapsedSeconds; }
-		unsigned int getElapsedMilliSeconds() const { 
-			if(m_elapsedMilliseconds > m_targetMilliseconds)
-				return m_targetMilliseconds;
-			return m_elapsedMilliseconds; 
+		double getElapsedSeconds() const { 
+			return m_elapsedMicroSeconds / 1000000.0;
+		}
+		
+		double getElapsedMilliSeconds() const { 
+			if(m_elapsedMicroSeconds > m_targetMicroSeconds)
+				return m_targetMicroSeconds / 1000.0;
+			return m_elapsedMicroSeconds / 1000.0;
+		}
+
+		unsigned int getElapsedMicroSeconds() const { 
+			if(m_elapsedMicroSeconds > m_targetMicroSeconds)
+				return m_targetMicroSeconds;
+			return m_elapsedMicroSeconds;
 		}
 
 		// Get total number of updates since start of the program.
@@ -53,36 +62,22 @@ namespace Utilities
 		void setFixedTimeStep(bool isFixedTimestep) { m_isFixedTimeStep = isFixedTimestep; }
 
 		// Set how often to call Update when in fixed timestep mode.
-		// void SetTargetElapsedTicks(uint64_t targetElapsed) { m_targetElapsedTicks = targetElapsed; }
-		void setTargetElapsedSeconds(double targetElapsed) { m_targetMilliseconds = static_cast<uint32_t>(targetElapsed * 1000); }
-
-		// // Integer format represents time using 10,000,000 ticks per second.
-		// static const uint64_t TicksPerSecond = 10000000;
-
-		// static double TicksToSeconds(uint64_t ticks) { return static_cast<double>(ticks) / TicksPerSecond; }
-		// static uint64_t SecondsToMilliseconds(double seconds) { return 0; }//return static_cast<uint64_t>(seconds * CLOCKS_PER_SEC); }
+		void setTargetElapsedSeconds(double targetElapsed) { m_targetMicroSeconds = targetElapsed * 1000000; }
 	
-		// Update timer state, calling the specified Update function the appropriate number of times.
+		// Update timer state, calling the specified functions the appropriate number of times.
 		void tick(std::function<void()> update,std::function<void()>,std::function<void()>);
 
 	private:
-		//clock_t m_lastFrameTime;
 		 std::chrono::time_point<std::chrono::system_clock> m_lastFrameTime;
 		
-		// Derived timing data uses a canonical tick format.
-		unsigned int m_elapsedMilliseconds;
-		unsigned int m_targetMilliseconds;
 		unsigned int m_elapsedSeconds;
+		unsigned int m_elapsedMicroSeconds;
+		unsigned int m_targetMicroSeconds;
 		bool m_isFixedTimeStep;
 
 		// Members for tracking the framerate.
 		uint32_t m_frameCount;
 		uint32_t m_framesPerSecond;
 		uint32_t m_framesThisSecond;
-		// uint64_t m_qpcSecondCounter;
-
-		// Members for configuring fixed timestep mode.
-		// bool m_isFixedTimeStep;
-		// uint64_t m_targetElapsedTicks;
 	};
 }

@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "ModelScene.h"
 #include <vector>
 #include "utilities/IOC.hpp"
@@ -13,7 +16,6 @@
 #include "input/IInputManager.h"
 #include "scenes/ISceneManager.h"
 #include "SpriteScene.h"
-#include <cmath>
 
 using namespace std;
 using namespace Engine;
