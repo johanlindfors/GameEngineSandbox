@@ -1,10 +1,10 @@
-#include "GameStateMachine.h"
+#include "GameStateMachine.hpp"
 #include "utilities/IOC.hpp"
-#include "scenes/SplashScene.h"
-#include "scenes/GamePlayScene.h"
-#include "scenes/GameOverScene.h"
-#include "scenes/ISceneManager.h"
-#include "scenes/InstructionsScene.h"
+#include "scenes/SplashScene.hpp"
+#include "scenes/GamePlayScene.hpp"
+#include "scenes/GameOverScene.hpp"
+#include "scenes/ISceneManager.hpp"
+#include "scenes/InstructionsScene.hpp"
 
 using namespace std;
 using namespace Utilities;

@@ -1,9 +1,9 @@
-#include "Apple.h"
-#include "game/GameDefines.h"
-#include "renderers/SpriteRenderer.h"
-#include "renderers/Sprite.h"
-#include "Snake.h"
-#include "PointCollider.h"
+#include "Apple.hpp"
+#include "game/GameDefines.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "renderers/Sprite.hpp"
+#include "Snake.hpp"
+#include "PointCollider.hpp"
 #include <ctime>
 
 using std::shared_ptr;

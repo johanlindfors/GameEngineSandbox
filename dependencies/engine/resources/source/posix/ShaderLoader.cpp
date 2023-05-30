@@ -1,13 +1,13 @@
-#include "resources/ShaderLoader.h"
-#include "filesystem/FileSystem.h"
-#include "utilities/GLHelper.h"
+#include "resources/ShaderLoader.hpp"
+#include "filesystem/FileSystem.hpp"
+#include "utilities/GLHelper.hpp"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
 #include <cstring>
 #include "utilities/IOC.hpp"
-#include "File.h"
-#include "resources/Shader.h"
+#include "File.hpp"
+#include "resources/Shader.hpp"
 
 using namespace std;
 using namespace Engine;

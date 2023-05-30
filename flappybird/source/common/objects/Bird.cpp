@@ -1,13 +1,13 @@
-#include "Bird.h"
-#include "game/GameDefines.h"
-#include "renderers/SpriteRenderer.h"
-#include "input/IInputManager.h"
-#include "utilities/ITweenEngine.h"
-#include "utilities/MathHelper.h"
-#include "renderers/Sprite.h"
-#include "utilities/IStepTimer.h"
+#include "Bird.hpp"
+#include "game/GameDefines.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "input/IInputManager.hpp"
+#include "utilities/ITweenEngine.hpp"
+#include "utilities/MathHelper.hpp"
+#include "renderers/Sprite.hpp"
+#include "utilities/IStepTimer.hpp"
 #include "utilities/IOC.hpp"
-#include "resources/IResourceManager.h"
+#include "resources/IResourceManager.hpp"
 
 using namespace std;
 using namespace Engine;

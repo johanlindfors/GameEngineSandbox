@@ -1,9 +1,9 @@
-#include "Trees.h"
-#include "utilities/IStepTimer.h"
-#include "renderers/SpriteRenderer.h"
-#include "renderers/Sprite.h"
+#include "Trees.hpp"
+#include "utilities/IStepTimer.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "renderers/Sprite.hpp"
 #include "utilities/IOC.hpp"
-#include "resources/IResourceManager.h"
+#include "resources/IResourceManager.hpp"
 
 using namespace std;
 using namespace Engine;

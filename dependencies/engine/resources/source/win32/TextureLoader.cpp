@@ -1,14 +1,14 @@
-#include "resources/TextureLoader.h"
-#include "filesystem/FileSystem.h"
-#include "utilities/GLHelper.h"
-#include "png.h"
+#include "resources/TextureLoader.hpp"
+#include "filesystem/FileSystem.hpp"
+#include "utilities/GLHelper.hpp"
+#include "png.hpp"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
 #include "utilities/IOC.hpp"
-#include "File.h"
-#include "resources/Texture2D.h"
-#include "utilities/StringHelpers.h"
+#include "File.hpp"
+#include "resources/Texture2D.hpp"
+#include "utilities/StringHelpers.hpp"
 
 using namespace std;
 using namespace Engine;

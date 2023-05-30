@@ -1,8 +1,8 @@
-#include "UwpApplication.h"
+#include "UwpApplication.hpp"
 #include <winrt/Windows.UI.Xaml.Controls.h>
-#include "OpenGLES.h"
-#include "GLPage.h"
-#include "DispatcherWrapper.h"
+#include "OpenGLES.hpp"
+#include "GLPage.hpp"
+#include "DispatcherWrapper.hpp"
 #include "utilities/IOC.hpp"
 
 using namespace std;

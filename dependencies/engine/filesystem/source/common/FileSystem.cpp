@@ -1,5 +1,5 @@
-#include "filesystem/FileSystem.h"
-#include "File.h"
+#include "filesystem/FileSystem.hpp"
+#include "File.hpp"
 
 #ifdef UWP
 #include <winrt/Windows.Storage.h>

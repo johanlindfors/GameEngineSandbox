@@ -1,4 +1,4 @@
-#include "StepTimer.h"
+#include "StepTimer.hpp"
 #include <cmath>
 #include <exception>
 #include <stdint.h>

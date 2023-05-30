@@ -1,10 +1,10 @@
-#include "Snake.h"
-#include "game/GameDefines.h"
-#include "renderers/SpriteRenderer.h"
-#include "input/IInputManager.h"
-#include "utilities/MathHelper.h"
-#include "renderers/Sprite.h"
-#include "game/IGameStateCallback.h"
+#include "Snake.hpp"
+#include "game/GameDefines.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "input/IInputManager.hpp"
+#include "utilities/MathHelper.hpp"
+#include "renderers/Sprite.hpp"
+#include "game/IGameStateCallback.hpp"
 
 using namespace std;
 using namespace Engine;

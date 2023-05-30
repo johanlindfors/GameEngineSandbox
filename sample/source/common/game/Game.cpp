@@ -1,8 +1,8 @@
-#include "Game.h"
+#include "Game.hpp"
 #include "utilities/IOC.hpp"
-#include "scenes/ISceneManager.h"
-#include "scenes/SpriteScene.h"
-#include "scenes/ModelScene.h"
+#include "scenes/ISceneManager.hpp"
+#include "scenes/SpriteScene.hpp"
+#include "scenes/ModelScene.hpp"
 
 using namespace std;
 using namespace Utilities;

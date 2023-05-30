@@ -1,8 +1,8 @@
-#include "GameLoop.h"
+#include "GameLoop.hpp"
 #include <Windows.h>
 #include <memory>
-#include "glwrapper.h"
-#include "input/IInputManager.h"
+#include "glwrapper.hpp"
+#include "input/IInputManager.hpp"
 
 using namespace Engine;
 

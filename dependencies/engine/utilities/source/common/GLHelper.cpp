@@ -1,4 +1,4 @@
-#include "utilities/GLHelper.h"
+#include "utilities/GLHelper.hpp"
 #include <vector>
 //#define DEBUG 1
 #ifdef DEBUG

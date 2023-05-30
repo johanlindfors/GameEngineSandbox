@@ -1,4 +1,4 @@
-#include "UwpApplication.h"
+#include "UwpApplication.hpp"
 #include <winrt/Windows.UI.Xaml.h>
 
 using namespace winrt;

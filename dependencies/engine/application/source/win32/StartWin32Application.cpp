@@ -1,13 +1,13 @@
-#include "game-loop/GameLoop.h"
+#include "game-loop/GameLoop.hpp"
 #include <Windows.h>
 #include <windowsx.h>
 #include <memory>
-#include "glwrapper.h"
-#include "input/IInputManager.h"
+#include "glwrapper.hpp"
+#include "input/IInputManager.hpp"
 #include "utilities/IOC.hpp"
-#include "utilities/Config.h"
-#include "utilities/StringHelpers.h"
-#include "OutputDebug.h"
+#include "utilities/Config.hpp"
+#include "utilities/StringHelpers.hpp"
+#include "OutputDebug.hpp"
 
 using namespace Engine;
 using namespace Utilities;

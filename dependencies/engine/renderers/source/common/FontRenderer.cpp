@@ -1,13 +1,13 @@
-#include "renderers/FontRenderer.h"
-#include "resources/IResourceManager.h"
+#include "renderers/FontRenderer.hpp"
+#include "resources/IResourceManager.hpp"
 #include <string>
-#include "utilities/MathHelper.h"
-#include "utilities/GLHelper.h"
-#include "renderers/Sprite.h"
-#include "filesystem/IFileSystem.h"
+#include "utilities/MathHelper.hpp"
+#include "utilities/GLHelper.hpp"
+#include "renderers/Sprite.hpp"
+#include "filesystem/IFileSystem.hpp"
 #include "utilities/IOC.hpp"
-#include "File.h"
-#include "resources/Shader.h"
+#include "File.hpp"
+#include "resources/Shader.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>

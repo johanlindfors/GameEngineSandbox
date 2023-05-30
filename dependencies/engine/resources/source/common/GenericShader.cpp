@@ -1,6 +1,6 @@
-#include "resources/GenericShader.h"
-#include "resources/Model.h"
-#include "utilities/MathHelper.h"
+#include "resources/GenericShader.hpp"
+#include "resources/Model.hpp"
+#include "utilities/MathHelper.hpp"
 
 using namespace Engine;
 

@@ -1,4 +1,4 @@
-#include "OpenGLES.h"
+#include "OpenGLES.hpp"
 
 #define ANGLE_ERROR(id, text) ref new Platform::Exception(id, text);
 

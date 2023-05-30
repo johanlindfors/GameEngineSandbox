@@ -1,8 +1,8 @@
-#include "GLPage.h"
+#include "GLPage.hpp"
 #include "utilities/IOC.hpp"
-#include "IDispatcherWrapper.h"
-#include "SetThreadName.h"
-#include "application/Config.h"
+#include "IDispatcherWrapper.hpp"
+#include "SetThreadName.hpp"
+#include "application/Config.hpp"
 
 using std::shared_ptr;
 using namespace Engine;

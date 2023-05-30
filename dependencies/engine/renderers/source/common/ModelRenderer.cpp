@@ -1,8 +1,8 @@
-#include "renderers/ModelRenderer.h"
+#include "renderers/ModelRenderer.hpp"
 #include <string>
-#include "resources/Model.h"
+#include "resources/Model.hpp"
 #include "renderers/Camera.hpp"
-#include "resources/Shader.h"
+#include "resources/Shader.hpp"
 
 using namespace std;
 using namespace Engine;

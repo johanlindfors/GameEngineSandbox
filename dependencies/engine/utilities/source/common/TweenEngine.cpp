@@ -1,5 +1,5 @@
-#include "utilities/TweenEngine.h"
-#include "utilities/Tween.h"
+#include "utilities/TweenEngine.hpp"
+#include "utilities/Tween.hpp"
 
 using namespace std;
 using namespace Utilities;

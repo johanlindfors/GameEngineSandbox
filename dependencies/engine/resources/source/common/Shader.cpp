@@ -1,5 +1,5 @@
-#include "resources/Shader.h"
-#include "utilities/GLHelper.h"
+#include "resources/Shader.hpp"
+#include "utilities/GLHelper.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
 using namespace std;

@@ -1,4 +1,4 @@
-#include "utilities/StringHelpers.h"
+#include "utilities/StringHelpers.hpp"
 #include <locale>
 #include <codecvt>
 

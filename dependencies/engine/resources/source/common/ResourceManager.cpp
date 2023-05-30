@@ -1,12 +1,12 @@
-#include "resources/ResourceManager.h"
-#include "resources/TextureLoader.h"
-#include "resources/ShaderLoader.h"
-#include "resources/ModelLoader.h"
-#include "resources/Model.h"
-#include "resources/Shader.h"
+#include "resources/ResourceManager.hpp"
+#include "resources/TextureLoader.hpp"
+#include "resources/ShaderLoader.hpp"
+#include "resources/ModelLoader.hpp"
+#include "resources/Model.hpp"
+#include "resources/Shader.hpp"
 #include <memory>
-#include "utilities/GLHelper.h"
-#include "File.h"
+#include "utilities/GLHelper.hpp"
+#include "File.hpp"
 
 using namespace std;
 using namespace Engine;

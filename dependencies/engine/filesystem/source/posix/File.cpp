@@ -1,9 +1,9 @@
-#include "File.h"
+#include "File.hpp"
 #include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "utilities/StringHelpers.h"
+#include "utilities/StringHelpers.hpp"
 
 using namespace std;
 using namespace Engine;

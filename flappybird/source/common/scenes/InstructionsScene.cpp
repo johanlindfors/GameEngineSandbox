@@ -1,12 +1,12 @@
-#include "InstructionsScene.h"
+#include "InstructionsScene.hpp"
 #include "utilities/IOC.hpp"
-#include "scenes/ISceneManager.h"
-#include "game/IGameStateCallback.h"
-#include "input/IInputManager.h"
-#include "renderers/SpriteRenderer.h"
-#include "renderers/Sprite.h"
-#include "utilities/IStepTimer.h"
-#include "resources/IResourceManager.h"
+#include "scenes/ISceneManager.hpp"
+#include "game/IGameStateCallback.hpp"
+#include "input/IInputManager.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "renderers/Sprite.hpp"
+#include "utilities/IStepTimer.hpp"
+#include "resources/IResourceManager.hpp"
 
 using namespace std;
 using namespace Engine;

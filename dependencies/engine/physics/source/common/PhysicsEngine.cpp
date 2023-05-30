@@ -1,6 +1,6 @@
-#include "physics/PhysicsEngine.h"
-#include "physics/IPhysicsBody.h"
-#include "utilities/IStepTimer.h"
+#include "physics/PhysicsEngine.hpp"
+#include "physics/IPhysicsBody.hpp"
+#include "utilities/IStepTimer.hpp"
 
 using namespace std;
 using namespace Engine;

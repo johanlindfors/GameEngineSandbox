@@ -1,4 +1,4 @@
-#include "PointCollider.h"
+#include "PointCollider.hpp"
 
 using namespace Utilities;
 
