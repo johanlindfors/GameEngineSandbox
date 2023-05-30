@@ -44,7 +44,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mScore(0)
 {
 	id = typeid(GamePlayScene).name();
-	mPipesGenerator.setInterval(1250);
+	mPipesGenerator.setInterval(1250000);
 
 	std::random_device rd;
     mGen = std::mt19937(rd());
