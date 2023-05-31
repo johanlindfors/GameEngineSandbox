@@ -261,4 +261,5 @@ __pycache__/
 
 output/
 build/
+build*/
 **/*.DS_Store
