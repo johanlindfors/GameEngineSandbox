@@ -6,7 +6,7 @@
 #include "utilities/IOC.hpp"
 #include "utilities/MathHelper.hpp"
 #include "resources/IResourceManager.hpp"
-#include "StepTimer.hpp"
+#include "utilities/StepTimer.hpp"
 #include "resources/Shader.hpp"
 #include "renderers/ModelRenderer.hpp"
 #include "renderers/Camera.hpp"

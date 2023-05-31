@@ -5,7 +5,7 @@
 #include "input/InputManager.hpp"
 #include "resources/ResourceManager.hpp"
 #include "renderers/ISpriteRenderer.hpp"
-#include "StepTimer.hpp"
+#include "utilities/StepTimer.hpp"
 #include "game-loop/IGameLoopCallback.hpp"
 #include "filesystem/FileSystem.hpp"
 

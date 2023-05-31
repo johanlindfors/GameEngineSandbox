@@ -4,7 +4,7 @@
 #include "resources/IResourceManager.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "StepTimer.hpp"
+#include "utilities/StepTimer.hpp"
 #include "resources/Shader.hpp"
 #include "renderers/Sprite.hpp"
 #include "renderers/SpriteRenderer.hpp"

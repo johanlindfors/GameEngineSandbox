@@ -5,8 +5,13 @@
 #include <stdint.h>
 #include <functional>
 #include "utilities/IStepTimer.hpp"
-#include <sys/time.h> 
 #include <chrono>
+
+#if defined(WIN32) || defined(UWP)
+#include <time.h>
+#else
+#include <sys/time.h>
+#endif
 
 namespace Utilities
 {
