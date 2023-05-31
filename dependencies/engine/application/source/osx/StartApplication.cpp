@@ -17,17 +17,17 @@ class Application
             GLFWwindow* window;
             
             auto game = std::make_unique<GameLoop>();
-            printf("[StartLinuxApplication] game created\n");
+            printf("[StartOsxApplication] game created\n");
             auto config = IOCContainer::instance().resolve<Config>();
-            printf("[StartLinuxApplication] found config\n");
+            printf("[StartOsxApplication] found config\n");
 
             int width, height;
             width = config->width;
             height = config->height;
-            printf("[StartLinuxApplication] get default size returned\n");
+            printf("[StartOsxApplication] get default size returned\n");
             
             glfwInit();
-            //glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+            glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->glMinorVersion);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -41,14 +41,10 @@ class Application
             printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
 
             game->initialize(config);
-            printf("[StartLinuxApplication] initialized\n");
+            printf("[StartOsxApplication] initialized\n");
 
             game->updateWindowSize(width, height);
-            printf("[StartLinuxApplication] Windows size updated\n");
-
-            printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
-            printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
-            printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
+            printf("[StartOsxApplication] Windows size updated\n");
 
             glfwSetWindowUserPointer(window, game.get());
             glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
@@ -117,7 +113,7 @@ class Application
         shared_ptr<IInputManager> mInput;
 };
 
-void startLinuxApplication(int argc, char **argv) {
+void startApplication(int argc, char **argv) {
     Application application;
     application.start();
 }
