@@ -1,7 +1,7 @@
 #include "resources/TextureLoader.hpp"
 #include "filesystem/FileSystem.hpp"
 #include "utilities/GLHelper.hpp"
-#include "png.hpp"
+#include "png.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>

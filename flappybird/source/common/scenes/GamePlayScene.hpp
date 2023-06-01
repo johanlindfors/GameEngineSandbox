@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 #include <random>
-#include "StepTimer.hpp"
+#include "utilities/StepTimer.hpp"
 
 class IGameStateCallback;
 class Bird;

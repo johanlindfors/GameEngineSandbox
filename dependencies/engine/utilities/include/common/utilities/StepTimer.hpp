@@ -5,8 +5,13 @@
 #include <stdint.h>
 #include <functional>
 #include "utilities/IStepTimer.hpp"
-#include <time.h>
 #include <chrono>
+
+#if defined(WIN32) || defined(UWP)
+#include <time.h>
+#else
+#include <sys/time.h>
+#endif
 
 namespace Utilities
 {
@@ -37,7 +42,7 @@ namespace Utilities
 
 		// Get elapsed time since the previous Update call.
 		double getElapsedSeconds() const { 
-			return m_elapsedMicroSeconds / 1000000.0;
+			return m_elapsedSeconds;
 		}
 		
 		double getElapsedMilliSeconds() const { 
@@ -70,7 +75,7 @@ namespace Utilities
 	private:
 		 std::chrono::time_point<std::chrono::system_clock> m_lastFrameTime;
 		
-		unsigned int m_elapsedSeconds;
+		double m_elapsedSeconds;
 		unsigned int m_elapsedMicroSeconds;
 		unsigned int m_targetMicroSeconds;
 		bool m_isFixedTimeStep;

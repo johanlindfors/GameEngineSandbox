@@ -6,7 +6,7 @@
 #include "utilities/IOC.hpp"
 #include "utilities/MathHelper.hpp"
 #include "resources/IResourceManager.hpp"
-#include "StepTimer.hpp"
+#include "utilities/StepTimer.hpp"
 #include "resources/Shader.hpp"
 #include "renderers/ModelRenderer.hpp"
 #include "renderers/Camera.hpp"
@@ -69,11 +69,9 @@ void ModelScene::update(shared_ptr<IStepTimer> timer)
         sceneManager->removeScene(typeid(ModelScene));
 	}
 
-    // update models
     if(mAnimate) {
-        angle = (timer->getElapsedSeconds() * 2 * M_PI);
+        angle = timer->getElapsedSeconds();
     }
-    // angle = glm::radians(135.0f);
 }
 
 void ModelScene::draw(shared_ptr<IRenderer> renderer)

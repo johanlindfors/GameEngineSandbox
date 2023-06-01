@@ -17,17 +17,17 @@ class Application
             GLFWwindow* window;
             
             auto game = std::make_unique<GameLoop>();
-            printf("[StartOsxApplication] game created\n");
+            printf("[StartLinuxApplication] game created\n");
             auto config = IOCContainer::instance().resolve<Config>();
-            printf("[StartOsxApplication] found config\n");
+            printf("[StartLinuxApplication] found config\n");
 
             int width, height;
             width = config->width;
             height = config->height;
-            printf("[StartOsxApplication] get default size returned\n");
+            printf("[StartLinuxApplication] get default size returned\n");
             
             glfwInit();
-            glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+            //glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->glMinorVersion);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -41,10 +41,14 @@ class Application
             printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
 
             game->initialize(config);
-            printf("[StartOsxApplication] initialized\n");
+            printf("[StartLinuxApplication] initialized\n");
 
             game->updateWindowSize(width, height);
-            printf("[StartOsxApplication] Windows size updated\n");
+            printf("[StartLinuxApplication] Windows size updated\n");
+
+            printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
+            printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
+            printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
 
             glfwSetWindowUserPointer(window, game.get());
             glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
@@ -113,7 +117,7 @@ class Application
         shared_ptr<IInputManager> mInput;
 };
 
-void startOsxApplication(int argc, char **argv) {
+void startApplication(int argc, char **argv) {
     Application application;
     application.start();
 }

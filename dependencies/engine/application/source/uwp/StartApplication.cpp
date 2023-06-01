@@ -4,7 +4,7 @@
 using namespace winrt;
 using namespace Windows::UI::Xaml;
 
-void StartUwpApplication() 
+void startApplication() 
 {
    	Application::Start([](auto &&) {
   		make<Engine::UwpApplication>();
