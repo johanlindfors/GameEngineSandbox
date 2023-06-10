@@ -1,0 +1,22 @@
+#include "BootScene.hpp"
+#include "game/IGameStateCallback.hpp"
+
+BootScene::BootScene(IGameStateCallback* gameCallback)
+{
+    id = typeid(BootScene).name();
+}
+
+void BootScene::load()
+{}
+
+void BootScene::unload()
+{}
+
+void BootScene::updateScreenSize(int width, int height)
+{}
+
+void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
+{}
+
+void BootScene::draw(std::shared_ptr<Engine::IRenderer> renderer)
+{}
