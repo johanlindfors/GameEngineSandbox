@@ -6,6 +6,7 @@
 #include "game/IGameStateCallback.hpp"
 #include "game/GameDefines.hpp"
 #include "renderers/Sprite.hpp"
+#include "objects/Map.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -15,11 +16,12 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mGame(gameCallback)
 {
 	id = typeid(GamePlayScene).name();
+	mMap = make_unique<Map>();
 }
 
 GamePlayScene::~GamePlayScene()
 {
-    
+    mMap.reset();
 }
 
 void GamePlayScene::load()

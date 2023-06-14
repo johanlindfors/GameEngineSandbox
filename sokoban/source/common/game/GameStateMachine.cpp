@@ -37,15 +37,16 @@ void GameStateMachine::handleBootState()
 
 void GameStateMachine::handleGamePlayState()
 {
-	// switch (mCurrentState)
-	// {
-	// 	case GameState::Instructions:
-	// 		mSceneManager->removeScene(typeid(BootScene));
-	// 		break;
-	// 	default:
-	// 		break;
-	// }
-	// mCurrentState = GameState::GamePlay;
+	switch (mCurrentState)
+	{
+		case GameState::Boot:
+			mSceneManager->removeScene(typeid(BootScene));
+			mSceneManager->addScene(make_shared<GamePlayScene>(this));
+			break;
+		default:
+			break;
+	}
+	mCurrentState = GameState::GamePlay;
 }
 
 void GameStateMachine::handleGameOverState()

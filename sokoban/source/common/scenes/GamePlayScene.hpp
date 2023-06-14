@@ -2,6 +2,7 @@
 #include "scenes/GameScene.hpp"
 
 class IGameStateCallback;
+class Map;
 
 namespace Utilities
 {
@@ -33,7 +34,7 @@ public:
 private:
 	void handleInput();
 
-	std::shared_ptr<Engine::Sprite> mGameOverText;
+	std::unique_ptr<Map> mMap;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
   	std::shared_ptr<Engine::IInputManager> mInputManager;
 	IGameStateCallback* mGame;

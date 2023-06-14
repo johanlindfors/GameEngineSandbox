@@ -22,7 +22,7 @@ class GameOverScene : public Engine::GameScene
 {
 public:
 	GameOverScene(IGameStateCallback* gameCallback);
-    ~GameOverScene();
+    ~GameOverScene() = default;
 
 	// Engine::GameScene
     void load() override;
