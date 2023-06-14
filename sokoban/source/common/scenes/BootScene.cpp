@@ -18,6 +18,7 @@ void BootScene::updateScreenSize(int width, int height)
 
 void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
+    // TODO: Fetch level from backend, register level in IoC?
     mGame->goToState(GameState::GamePlay);
 }
 

@@ -30,7 +30,6 @@ void GamePlayScene::load()
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
 	// mApple->setTexture(resourceManager->getTexture("apple.png"));
-	// mSnake->setTexture(resourceManager->getTexture("snake.png"));
 }
 
 void GamePlayScene::unload()
@@ -53,6 +52,6 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if(spriteRenderer) {
-
+		mMap->draw(renderer);
 	}
 }
