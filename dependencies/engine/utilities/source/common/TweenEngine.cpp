@@ -10,7 +10,12 @@ TweenEngine::TweenEngine()
 
 void TweenEngine::add(int original, function<void(int)> setter, int target, int durationInMilliseconds, bool bounce)
 {
-    mTweens.push_back(make_unique<Tween>(original, setter, target, durationInMilliseconds));
+    mTweens.push_back(make_unique<Tween>(original, setter, target, durationInMilliseconds, nullptr));
+}
+
+void TweenEngine::add(int original, function<void(int)> setter, int target, int durationInMilliseconds, bool bounce, function<void()> onCompleteCallback)
+{
+    mTweens.push_back(make_unique<Tween>(original, setter, target, durationInMilliseconds, onCompleteCallback));
 }
 
 void TweenEngine::update(shared_ptr<IStepTimer> timer)

@@ -46,12 +46,14 @@ void MoveableObject::move(int deltaX, int deltaY)
         tweenEngine->add(static_cast<int>(mSprite->position.x), [&](int value)
         {
             mSprite->position.x = static_cast<float>(value);
-        }, mSprite->position.x + (deltaX * TILE_SIZE), 150, false);
+        }, mSprite->position.x + (deltaX * TILE_SIZE), 150, false,
+        [&]() { isMoving = false; });
     }
     if(deltaY != 0) {
         tweenEngine->add(static_cast<int>(mSprite->position.y), [&](int value)
         {
             mSprite->position.y = static_cast<float>(value);
-        }, mSprite->position.y + (deltaY * TILE_SIZE), 150, false);
+        }, mSprite->position.y + (deltaY * TILE_SIZE), 150, false,
+        [&]() { isMoving = false; });
     }
 }
