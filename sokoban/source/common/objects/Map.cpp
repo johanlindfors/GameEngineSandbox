@@ -1,8 +1,11 @@
 #include "Map.hpp"
 #include "renderers/SpriteRenderer.hpp"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.hpp"
 
 using namespace std;
 using namespace Engine;
+using namespace Utilities;
 
 Map::Map()
 {
@@ -16,7 +19,7 @@ Map::~Map()
 
 void Map::initialize()
 {
-
+    printf("[Map::initialize]\n");
 }
 
 void Map::draw(shared_ptr<IRenderer> renderer)

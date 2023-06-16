@@ -3,6 +3,7 @@
 
 class IGameStateCallback;
 class Map;
+class Player;
 
 namespace Utilities
 {
@@ -35,6 +36,7 @@ private:
 	void handleInput();
 
 	std::unique_ptr<Map> mMap;
+	std::unique_ptr<Player> mPlayer;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
   	std::shared_ptr<Engine::IInputManager> mInputManager;
 	IGameStateCallback* mGame;

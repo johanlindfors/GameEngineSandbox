@@ -7,6 +7,7 @@
 #include "game/GameDefines.hpp"
 #include "renderers/Sprite.hpp"
 #include "objects/Map.hpp"
+#include "objects/Player.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -17,18 +18,23 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 {
 	id = typeid(GamePlayScene).name();
 	mMap = make_unique<Map>();
+	mPlayer = make_unique<Player>();
 }
 
 GamePlayScene::~GamePlayScene()
 {
     mMap.reset();
+	mPlayer.reset();
 }
 
 void GamePlayScene::load()
 {
+	printf("[GamePlayScene::load]\n");
 	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
+	mMap->initialize();
+	mPlayer->initialize();
 	// mApple->setTexture(resourceManager->getTexture("apple.png"));
 }
 
@@ -45,13 +51,10 @@ void GamePlayScene::updateScreenSize(int width, int height)
 
 void GamePlayScene::update(shared_ptr<IStepTimer> /*timer*/)
 {
-
 }
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
-	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
-	if(spriteRenderer) {
-		mMap->draw(renderer);
-	}
+	mMap->draw(renderer);
+	mPlayer->draw(renderer);
 }

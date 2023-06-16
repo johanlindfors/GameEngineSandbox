@@ -1,7 +1,17 @@
 #pragma once
-#include "renderers/Sprite.hpp"
+#include <memory>
 
-class MoveableObject : public Engine::Sprite 
+namespace Engine
 {
+    class Sprite;
+}
 
+class MoveableObject 
+{
+    public:
+        MoveableObject();
+        ~MoveableObject();
+
+    protected:
+        std::shared_ptr<Engine::Sprite> mSprite; 
 };

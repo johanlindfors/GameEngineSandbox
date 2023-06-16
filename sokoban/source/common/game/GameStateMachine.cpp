@@ -30,9 +30,9 @@ void GameStateMachine::handleBootState()
 {
 	if(mCurrentState == GameState::Unknown)
 	{
-		mCurrentState = GameState::Boot;
-		mNextState = GameState::GamePlay;
+		mSceneManager->addScene(make_shared<BootScene>(this));
 	}
+	mCurrentState = GameState::Boot;
 }
 
 void GameStateMachine::handleGamePlayState()
