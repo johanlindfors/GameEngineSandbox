@@ -1,37 +1,33 @@
-#include "MoveableObject.hpp"
-#include "utilities/IOC.hpp"
+#include "FixedTile.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "renderers/Sprite.hpp"
-#include "resources/IResourceManager.hpp"
 #include "game/GameDefines.hpp"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.hpp"
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-MoveableObject::MoveableObject()
-    : mFrame(0)
+FixedTile::FixedTile(int x, int y, int frame)
 {
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     mSprite = make_shared<Engine::Sprite>();
     mSprite->texture = resourceManager->getTexture( "tiles.png" );
     mSprite->size = { TILE_SIZE, TILE_SIZE };
+    mSprite->position = { static_cast<float>(x * TILE_SIZE), static_cast<float>(y * TILE_SIZE) };
+    mSprite->offset = { TILE_SIZE / 280.0f * frame, 0.0f, TILE_SIZE / 280.0f, 1.0f };
 }
 
-MoveableObject::~MoveableObject()
+FixedTile::~FixedTile()
 {
 
 }
 
-void MoveableObject::update()
-{
-    mSprite->offset = { TILE_SIZE / 280.0f * mFrame, 0.0f, TILE_SIZE / 280.0f, 1.0f };
-}
-
-void MoveableObject::draw(shared_ptr<IRenderer> renderer)
+void FixedTile::draw(shared_ptr<IRenderer> renderer)
 {
     auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
-	if(spriteRenderer) {
+    if(spriteRenderer) {
         spriteRenderer->drawSprite(mSprite);
     }
 }

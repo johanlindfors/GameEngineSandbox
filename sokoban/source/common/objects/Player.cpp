@@ -3,6 +3,7 @@
 #include "utilities/IOC.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "renderers/Sprite.hpp"
+#include "game/GameDefines.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -10,7 +11,7 @@ using namespace Utilities;
 
 Player::Player()
 {
-
+    mFrame = 4;
 }
 
 Player::~Player()
@@ -18,23 +19,17 @@ Player::~Player()
 
 }
 
-void Player::initialize()
+void Player::initialize(int x, int y)
 {
-    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    mSprite = make_shared<Engine::Sprite>();
-    mSprite->texture = resourceManager->getTexture( "tiles.png" );
-    mSprite->size = { 256.0f, 256.0f };
+    mSprite->position = { static_cast<float>(x * TILE_SIZE), static_cast<float>(y * TILE_SIZE)};
 }
 
 void Player::update(shared_ptr<IStepTimer> timer)
 {
-
+    MoveableObject::update();
 }
 
 void Player::draw(shared_ptr<IRenderer> renderer)
 {
-    auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
-	if(spriteRenderer) {
-        spriteRenderer->drawSprite(mSprite);
-    }
+    MoveableObject::draw(renderer);
 }

@@ -34,7 +34,7 @@ void GamePlayScene::load()
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
 	mMap->initialize();
-	mPlayer->initialize();
+	mPlayer->initialize(mMap->playerStartPosition.x, mMap->playerStartPosition.y);
 	// mApple->setTexture(resourceManager->getTexture("apple.png"));
 }
 
@@ -49,8 +49,10 @@ void GamePlayScene::updateScreenSize(int width, int height)
 	// mScreenSizeY = height;
 }
 
-void GamePlayScene::update(shared_ptr<IStepTimer> /*timer*/)
+void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
+	mMap->update(timer);
+	mPlayer->update(timer);
 }
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)

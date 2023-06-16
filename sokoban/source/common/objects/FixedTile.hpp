@@ -7,15 +7,14 @@ namespace Engine
     class IRenderer;
 }
 
-class MoveableObject 
+class FixedTile
 {
     public:
-        MoveableObject();
-        ~MoveableObject();
-        void update();
+        FixedTile(int x, int y, int frame);
+        ~FixedTile();
+
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
 
-    protected:
+    private:
         std::shared_ptr<Engine::Sprite> mSprite;
-        int mFrame;
 };

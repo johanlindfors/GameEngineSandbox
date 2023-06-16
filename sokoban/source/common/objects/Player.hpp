@@ -18,7 +18,7 @@ class Player : public MoveableObject
         Player();
         ~Player();
         
-        void initialize();
+        void initialize(int x, int y);
 	    void update(std::shared_ptr<Utilities::IStepTimer> timer);
 	    void draw(std::shared_ptr<Engine::IRenderer> renderer);
 };
