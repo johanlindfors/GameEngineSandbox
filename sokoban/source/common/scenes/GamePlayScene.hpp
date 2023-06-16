@@ -8,6 +8,7 @@ class Player;
 namespace Utilities
 {
 	class IStepTimer;
+	class ITweenEngine;
 }
 
 namespace Engine
@@ -39,5 +40,6 @@ private:
 	std::unique_ptr<Player> mPlayer;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
   	std::shared_ptr<Engine::IInputManager> mInputManager;
+	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
 	IGameStateCallback* mGame;
 };

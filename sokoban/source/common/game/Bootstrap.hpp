@@ -8,6 +8,7 @@
 #include "utilities/TweenEngine.hpp"
 #include <string>
 #include <vector>
+#include "utilities/TweenEngine.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -26,4 +27,5 @@ void bootstrap() {
 
     IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<GameStateMachine>());
+    IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());
 }
