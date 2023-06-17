@@ -2,6 +2,7 @@
 #include <vector>
 #include "objects/Crate.hpp"
 #include "utilities/MathHelper.hpp"
+#include <functional>
 
 namespace Engine
 {
@@ -24,12 +25,12 @@ class Map {
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
         bool isWalkable(int x, int y);
         bool isCrate(int x, int y);
-        void moveCrate(int deltaX, int deltaY, int playerX, int playerY);
+        void moveCrate(int deltaX, int deltaY, int playerX, int playerY, std::function<void()> onCompleteCallback);
+        bool checkWin();
 
         Utilities::Point<int> playerStartPosition;
 
     private:
-        bool checkWin();
         int mLevel[100];
         std::vector<std::shared_ptr<FixedTile>> mFixedTiles;
         std::vector<std::shared_ptr<Crate>> mCrates;

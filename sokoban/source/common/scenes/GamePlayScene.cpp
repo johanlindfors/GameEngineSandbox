@@ -70,7 +70,11 @@ void GamePlayScene::move(int deltaX, int deltaY)
 {
 	if(mMap->isCrate(mPlayer->posX + deltaX, mPlayer->posY + deltaY)){
 		if(mMap->isWalkable(mPlayer->posX + 2 * deltaX, mPlayer->posY + 2 * deltaY)) {
-			mMap->moveCrate(deltaX, deltaY, mPlayer->posX, mPlayer->posY);
+			mMap->moveCrate(deltaX, deltaY, mPlayer->posX, mPlayer->posY, [&]() {
+				if(mMap->checkWin()) {
+					mGame->goToState(GameState::GameOver);
+				}
+			});
 			movePlayer(deltaX, deltaY);
 			// this.cratePushes++;
 		}

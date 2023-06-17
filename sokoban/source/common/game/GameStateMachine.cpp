@@ -52,9 +52,10 @@ void GameStateMachine::handleGamePlayState()
 void GameStateMachine::handleGameOverState()
 {
 	if (mCurrentState == GameState::GamePlay) {
-		mCurrentState = GameState::GameOver;
+		mSceneManager->removeScene(typeid(GamePlayScene));
 		mSceneManager->addScene(make_shared<GameOverScene>(this));
 	}
+	mCurrentState = GameState::GameOver;
 }
 
 void GameStateMachine::update(shared_ptr<IStepTimer> timer)

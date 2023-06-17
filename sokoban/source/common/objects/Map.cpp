@@ -83,7 +83,7 @@ bool Map::isCrate(int x, int y){
     return mLevel[index] == CRATE || mLevel[index] == CRATE+SPOT;
 }
 
-void Map::moveCrate(int deltaX, int deltaY, int playerX, int playerY) {
+void Map::moveCrate(int deltaX, int deltaY, int playerX, int playerY, function<void()> onCompleteCallback) {
     int oldCrateIndex = (playerY + deltaY) * 10 + playerX + deltaX;
     int newCrateIndex = (playerY + 2 * deltaY) * 10 + playerX + 2 * deltaX;
 
@@ -93,11 +93,7 @@ void Map::moveCrate(int deltaX, int deltaY, int playerX, int playerY) {
     auto it = std::find_if(mCrates.begin(), mCrates.end(), [oldCrateIndex](shared_ptr<Crate> crate) { return crate->index == oldCrateIndex; });
     auto crate = it->get();
     crate->index = newCrateIndex;
-    crate->move(deltaX, deltaY, [&]() {
-        if(checkWin()) {
-            printf("WIN!!!\n");
-        }
-    });
+    crate->move(deltaX, deltaY, onCompleteCallback);
 }
 
 bool Map::checkWin()
