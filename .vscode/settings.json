@@ -114,7 +114,8 @@
         "__nullptr": "cpp",
         "__string": "cpp",
         "cmath": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "__availability": "cpp"
     },
     "cmake.configureOnOpen": true
 }

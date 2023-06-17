@@ -14,7 +14,9 @@ using namespace Utilities;
 MoveableObject::MoveableObject()
     : mFrame(0)
     , isMoving(false)
+    , mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
 {
+    printf("[MoveableObject::constructor]\n");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     mSprite = make_shared<Engine::Sprite>();
     mSprite->texture = resourceManager->getTexture( "tiles.png" );
@@ -41,46 +43,37 @@ void MoveableObject::draw(shared_ptr<IRenderer> renderer)
 
 void MoveableObject::move(int deltaX, int deltaY)
 {
-    // move(deltaX, deltaY, nullptr);
-    isMoving = true;
-    auto tweenEngine = IOCContainer::instance().resolve<ITweenEngine>();
-    if(deltaX != 0) {
-        tweenEngine->add(static_cast<int>(mSprite->position.x), [&](int value)
-        {
-            mSprite->position.x = static_cast<float>(value);
-        }, mSprite->position.x + (deltaX * TILE_SIZE), 150, false,
-        [&]() { 
-            isMoving = false;
-        });
-    }
-    if(deltaY != 0) {
-        tweenEngine->add(static_cast<int>(mSprite->position.y), [&](int value)
-        {
-            mSprite->position.y = static_cast<float>(value);
-        }, mSprite->position.y + (deltaY * TILE_SIZE), 150, false,
-        [&]() { 
-            isMoving = false;
-        });
-    }
+    move(deltaX, deltaY, [&]() { 
+        isMoving = false;
+    });
 }
 
 void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCallback)
 {
     isMoving = true;
-    auto tweenEngine = IOCContainer::instance().resolve<ITweenEngine>();
     if(deltaX != 0) {
-        tweenEngine->add(static_cast<int>(mSprite->position.x), [&](int value)
-        {
-            mSprite->position.x = static_cast<float>(value);
-        }, mSprite->position.x + (deltaX * TILE_SIZE), 150, false,
-        onCompleteCallback);
+        mTweenEngine->add(
+            mSprite->position.x,
+            mSprite->position.x + (deltaX * TILE_SIZE),
+            [&](float value)
+            {
+                mSprite->position.x = value;
+            },  
+            150, 
+            false,
+            onCompleteCallback);
     }
     if(deltaY != 0) {
-        tweenEngine->add(static_cast<int>(mSprite->position.y), [&](int value)
-        {
-            mSprite->position.y = static_cast<float>(value);
-        }, mSprite->position.y + (deltaY * TILE_SIZE), 150, false,
-        onCompleteCallback);    
+        mTweenEngine->add(
+            mSprite->position.y,
+            mSprite->position.y + (deltaY * TILE_SIZE),
+            [&](float value)
+            {
+                mSprite->position.y = value;
+            },  
+            150, 
+            false,
+            onCompleteCallback);    
     }
 }
 

@@ -54,6 +54,34 @@ class Application
                 glViewport(0,0,width, height);
             });
 
+            glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+            {
+                auto input = IOCContainer::instance().resolve<IInputManager>();
+                bool pressed = action != GLFW_RELEASE;
+                switch(key) {
+                    case GLFW_KEY_LEFT:
+                        input->addKeyboardEvent(0x25, pressed);
+                        break;
+                    case GLFW_KEY_RIGHT:
+                        input->addKeyboardEvent(0x27, pressed);
+                        break;
+                    case GLFW_KEY_UP:
+                        input->addKeyboardEvent(0x26, pressed);
+                        break;
+                    case GLFW_KEY_DOWN:
+                        input->addKeyboardEvent(0x28, pressed);
+                        break;
+                    case GLFW_KEY_SPACE:
+                        input->addKeyboardEvent(0x20, pressed);
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        input->addKeyboardEvent(0xFF, pressed);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
             glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
             {
                 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
@@ -67,50 +95,12 @@ class Application
             while (!glfwWindowShouldClose(window)) {
                 glfwPollEvents();
                 glClear(GL_COLOR_BUFFER_BIT);
-
-                if(game) {
-                    if(!mInput) {
-                        mInput = game->getInput();
-                    }
-                    inputHandler(window);
-                }
-
                 game->tick();
                 glfwSwapBuffers(window);
             }
             game.reset();
             glfwTerminate();
         }
-
-    private:
-        void inputHandler(GLFWwindow* window) 
-        {
-            // Check left
-            bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
-            mInput->addKeyboardEvent(0x25, pressed);
-
-            // Check right
-            pressed = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
-            mInput->addKeyboardEvent(0x27, pressed);
-            
-            // Check up
-            pressed = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
-            mInput->addKeyboardEvent(0x26, pressed);
-
-            // Check down
-            pressed = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
-            mInput->addKeyboardEvent(0x28, pressed);
-
-            // Space
-            pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
-            mInput->addKeyboardEvent(32, pressed);
-
-            // Escape
-            pressed = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
-            mInput->addKeyboardEvent(256, pressed);
-        }
-
-        shared_ptr<IInputManager> mInput;
 };
 
 void startApplication(int argc, char **argv) {

@@ -11,6 +11,7 @@ namespace Engine
 namespace Utilities
 {
     class IStepTimer;
+    class ITweenEngine;
 }
 
 class MoveableObject 
@@ -20,8 +21,8 @@ class MoveableObject
         ~MoveableObject();
         void update(std::shared_ptr<Utilities::IStepTimer> timer);
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
-        void move(int deltaX, int deltaY);
-        void move(int deltaX, int deltaY, std::function<void()> onCompleteCallback);
+        virtual void move(int deltaX, int deltaY);
+        virtual void move(int deltaX, int deltaY, std::function<void()> onCompleteCallback);
 
         bool isMoving;
         void setFrame(int frame);
@@ -29,4 +30,5 @@ class MoveableObject
     protected:
         std::shared_ptr<Engine::Sprite> mSprite;
         int mFrame;
+        std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
 };

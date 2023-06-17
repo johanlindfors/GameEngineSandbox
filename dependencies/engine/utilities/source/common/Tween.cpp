@@ -5,7 +5,13 @@
 using namespace std;
 using namespace Utilities;
 
-Tween::Tween(float original, function<void(float)> setter, float target, float durationInMilliseconds, function<void()> onCompleteCallback = nullptr)
+Tween::Tween(
+    float original, 
+    float target, 
+    function<void(float)> setter, 
+    unsigned int durationInMilliseconds, 
+    function<void()> onCompleteCallback = nullptr
+)
     : originalValue(original)
     , targetValue(target)
     , tweenFunc(setter)
@@ -17,10 +23,10 @@ Tween::Tween(float original, function<void(float)> setter, float target, float d
 
 void Tween::update(shared_ptr<IStepTimer> timer)
 {
-    elapsed += timer->getDeltaMicroSeconds() / 1000.0f;
+    elapsed += static_cast<unsigned int>(timer->getDeltaMicroSeconds() / 1000.0f);
     float currentValue = targetValue;
     if(elapsed <= duration) {
-        currentValue = Utilities::lerp(originalValue, targetValue, elapsed / duration);
+        currentValue = Utilities::lerp(originalValue, targetValue, static_cast<float>(elapsed) / static_cast<float>(duration));
     } else {
         isComplete = true;
         if(onCompleteCallback) {

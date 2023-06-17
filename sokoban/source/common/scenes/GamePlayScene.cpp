@@ -68,7 +68,10 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 
 void GamePlayScene::move(int deltaX, int deltaY) 
 {
-	if(mMap->isCrate(mPlayer->posX + deltaX, mPlayer->posY + deltaY)){
+	if(mMap->isWalkable(mPlayer->posX + deltaX, mPlayer->posY + deltaY)) {
+		movePlayer(deltaX, deltaY);
+	}
+	else if(mMap->isCrate(mPlayer->posX + deltaX, mPlayer->posY + deltaY)) {
 		if(mMap->isWalkable(mPlayer->posX + 2 * deltaX, mPlayer->posY + 2 * deltaY)) {
 			mMap->moveCrate(deltaX, deltaY, mPlayer->posX, mPlayer->posY, [&]() {
 				if(mMap->checkWin()) {
@@ -79,9 +82,6 @@ void GamePlayScene::move(int deltaX, int deltaY)
 			mCratePushes++;
 		}
 	}
-	else if(mMap->isWalkable(mPlayer->posX + deltaX, mPlayer->posY + deltaY)){
-		movePlayer(deltaX, deltaY);
-	}
 }
 
 void GamePlayScene::updateStatus()  {
@@ -90,11 +90,13 @@ void GamePlayScene::updateStatus()  {
 
 void GamePlayScene::movePlayer(int deltaX, int deltaY)
 {
+	mPlayer->setFrame(deltaY == 1 ? 6 : 4);
 	mPlayer->move(deltaX, deltaY);
+	mPlayer->posX += deltaX;
+	mPlayer->posY += deltaY;
 	mPlayerMoves++;
 	updateStatus();
 }
-
 
 void GamePlayScene::handleInput()
 {

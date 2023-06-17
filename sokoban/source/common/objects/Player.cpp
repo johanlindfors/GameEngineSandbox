@@ -13,12 +13,8 @@ Player::Player()
     : posX(0)
     , posY(0)
 {
+    printf("[Player::constructor]\n");
     mFrame = 4;
-}
-
-Player::~Player()
-{
-
 }
 
 void Player::initialize(int x, int y)
@@ -26,11 +22,4 @@ void Player::initialize(int x, int y)
     posX = x;
     posY = y;
     mSprite->position = { static_cast<float>(x * TILE_SIZE), static_cast<float>(y * TILE_SIZE)};
-}
-
-void Player::move(int deltaX, int deltaY)
-{
-    MoveableObject::move(deltaX, deltaY);
-    posX += deltaX;
-    posY += deltaY;
 }

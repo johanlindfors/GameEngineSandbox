@@ -59,7 +59,7 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
     // TODO: Fetch level from backend, register level in IoC?
     if(mInitialized) {
         printf("[BootScene::update] Fetching level from server\n");
-        cpr::Response r = cpr::Get(cpr::Url{"https://www.programmeramera.se/pages/sokobants/assets/002.txt"});
+        cpr::Response r = cpr::Get(cpr::Url{"https://www.programmeramera.se/pages/sokobants/assets/001.txt"});
         std::string result;
         if(r.status_code == 200) {
             printf("[BootScene::update] Fetched level from server\n");
