@@ -40,6 +40,7 @@ void MoveableObject::draw(shared_ptr<IRenderer> renderer)
 
 void MoveableObject::move(int deltaX, int deltaY)
 {
+    // move(deltaX, deltaY, nullptr);
     isMoving = true;
     auto tweenEngine = IOCContainer::instance().resolve<ITweenEngine>();
     if(deltaX != 0) {
@@ -47,13 +48,42 @@ void MoveableObject::move(int deltaX, int deltaY)
         {
             mSprite->position.x = static_cast<float>(value);
         }, mSprite->position.x + (deltaX * TILE_SIZE), 150, false,
-        [&]() { isMoving = false; });
+        [&]() { 
+            isMoving = false;
+        });
     }
     if(deltaY != 0) {
         tweenEngine->add(static_cast<int>(mSprite->position.y), [&](int value)
         {
             mSprite->position.y = static_cast<float>(value);
         }, mSprite->position.y + (deltaY * TILE_SIZE), 150, false,
-        [&]() { isMoving = false; });
+        [&]() { 
+            isMoving = false;
+        });
     }
+}
+
+void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCallback)
+{
+    isMoving = true;
+    auto tweenEngine = IOCContainer::instance().resolve<ITweenEngine>();
+    if(deltaX != 0) {
+        tweenEngine->add(static_cast<int>(mSprite->position.x), [&](int value)
+        {
+            mSprite->position.x = static_cast<float>(value);
+        }, mSprite->position.x + (deltaX * TILE_SIZE), 150, false,
+        onCompleteCallback);
+    }
+    if(deltaY != 0) {
+        tweenEngine->add(static_cast<int>(mSprite->position.y), [&](int value)
+        {
+            mSprite->position.y = static_cast<float>(value);
+        }, mSprite->position.y + (deltaY * TILE_SIZE), 150, false,
+        onCompleteCallback);    
+    }
+}
+
+void MoveableObject::setFrame(int frame) 
+{
+    mFrame = frame;
 }

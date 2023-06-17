@@ -66,21 +66,47 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 	mPlayer->draw(renderer);
 }
 
+void GamePlayScene::move(int deltaX, int deltaY) 
+{
+	if(mMap->isCrate(mPlayer->posX + deltaX, mPlayer->posY + deltaY)){
+		if(mMap->isWalkable(mPlayer->posX + 2 * deltaX, mPlayer->posY + 2 * deltaY)) {
+			mMap->moveCrate(deltaX, deltaY, mPlayer->posX, mPlayer->posY);
+			movePlayer(deltaX, deltaY);
+			// this.cratePushes++;
+		}
+	}
+	else if(mMap->isWalkable(mPlayer->posX + deltaX, mPlayer->posY + deltaY)){
+		movePlayer(deltaX, deltaY);
+	}
+}
+
+        // updateStatus()  {
+        //     this.status.text = this.map.id + " : " + this.playerMoves + " / " + this.cratePushes;
+        // }
+
+void GamePlayScene::movePlayer(int deltaX, int deltaY)
+{
+	mPlayer->move(deltaX, deltaY);
+	// this.playerMoves++
+	// this.updateStatus();
+}
+
+
 void GamePlayScene::handleInput()
 {
 	if(mPlayer->isMoving) {
 		return;
 	}
 	if (mInputManager->isKeyDown(37)) {
-		mPlayer->move(-1, 0);
+		move(-1, 0);
 	}
 	if (mInputManager->isKeyDown(39)) {
-		mPlayer->move(1, 0);
+		move(1, 0);
 	}
 	if (mInputManager->isKeyDown(40)) {
-		mPlayer->move(0, -1);
+		move(0, -1);
 	}
 	if (mInputManager->isKeyDown(38)) {
-		mPlayer->move(0, 1);
+		move(0, 1);
 	}
 }

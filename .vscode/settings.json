@@ -112,7 +112,9 @@
         "queue": "cpp",
         "stack": "cpp",
         "__nullptr": "cpp",
-        "__string": "cpp"
+        "__string": "cpp",
+        "cmath": "cpp",
+        "regex": "cpp"
     },
     "cmake.configureOnOpen": true
 }

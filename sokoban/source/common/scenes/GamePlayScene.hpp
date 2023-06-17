@@ -35,6 +35,8 @@ public:
 
 private:
 	void handleInput();
+	void move(int deltaX, int deltaY);
+	void movePlayer(int deltaX, int deltaY);
 
 	std::unique_ptr<Map> mMap;
 	std::unique_ptr<Player> mPlayer;

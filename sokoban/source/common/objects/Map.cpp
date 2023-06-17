@@ -5,6 +5,8 @@
 #include "objects/Crate.hpp"
 #include "game/GameDefines.hpp"
 #include "objects/FixedTile.hpp"
+#include <algorithm>
+#include <functional>
 
 using namespace std;
 using namespace Engine;
@@ -69,4 +71,41 @@ void Map::draw(shared_ptr<IRenderer> renderer)
             crate->draw(renderer);
         }
 	}
+}
+
+bool Map::isWalkable(int x, int y) {
+    int index = y * 10 + x;
+    return mLevel[index] == EMPTY || mLevel[index] == SPOT;
+}
+
+bool Map::isCrate(int x, int y){
+    int index = y * 10 + x;
+    return mLevel[index] == CRATE || mLevel[index] == CRATE+SPOT;
+}
+
+void Map::moveCrate(int deltaX, int deltaY, int playerX, int playerY) {
+    int oldCrateIndex = (playerY + deltaY) * 10 + playerX + deltaX;
+    int newCrateIndex = (playerY + 2 * deltaY) * 10 + playerX + 2 * deltaX;
+
+    mLevel[oldCrateIndex] -= CRATE;
+    mLevel[newCrateIndex] += CRATE;
+
+    auto it = std::find_if(mCrates.begin(), mCrates.end(), [oldCrateIndex](shared_ptr<Crate> crate) { return crate->index == oldCrateIndex; });
+    auto crate = it->get();
+    crate->index = newCrateIndex;
+    crate->move(deltaX, deltaY, [&]() {
+        if(checkWin()) {
+            printf("WIN!!!\n");
+        }
+    });
+}
+
+bool Map::checkWin()
+{
+    for(auto value : mLevel) {
+        if(value == SPOT) {
+            return false;
+        }
+    }
+    return true;
 }
