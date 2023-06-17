@@ -75,7 +75,7 @@ class Application
                         input->addKeyboardEvent(0x20, pressed);
                         break;
                     case GLFW_KEY_ESCAPE:
-                        input->addKeyboardEvent(0xFF, pressed);
+                        glfwSetWindowShouldClose(window, 1);
                         break;
                     default:
                         break;
