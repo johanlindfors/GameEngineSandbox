@@ -75,7 +75,11 @@ void Map::moveCrate(int deltaX, int deltaY, int playerX, int playerY, function<v
     auto it = std::find_if(mCrates.begin(), mCrates.end(), [oldCrateIndex](shared_ptr<Crate> crate) { return crate->index == oldCrateIndex; });
     auto crate = it->get();
     crate->index = newCrateIndex;
-    crate->move(deltaX, deltaY, onCompleteCallback);
+    auto frame = mLevel[crate->index];
+    crate->move(deltaX, deltaY, [crate, frame, onCompleteCallback](){
+        crate->setFrame(frame);
+        onCompleteCallback();
+    });
 }
 
 bool Map::checkWin()

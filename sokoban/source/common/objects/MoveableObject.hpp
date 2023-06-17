@@ -20,7 +20,6 @@ class MoveableObject
         MoveableObject();
         ~MoveableObject() { printf("[MoveableObject::destructor]\n"); };
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
-        virtual void move(int deltaX, int deltaY);
         virtual void move(int deltaX, int deltaY, std::function<void()> onCompleteCallback);
 
         bool isMoving;

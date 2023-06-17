@@ -4,11 +4,9 @@
 #include "utilities/Config.hpp"
 #include "game/GameDefines.hpp"
 #include "renderers/FontRenderer.hpp"
-
 #include "utilities/TweenEngine.hpp"
 #include <string>
 #include <vector>
-#include "utilities/TweenEngine.hpp"
 #include "http/HttpClient.hpp"
 
 using namespace std;

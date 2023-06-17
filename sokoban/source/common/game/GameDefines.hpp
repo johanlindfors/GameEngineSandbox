@@ -9,6 +9,7 @@
 #define SPOT 2
 #define CRATE 3
 #define PLAYER 4
+#define TILES "tiles.png"
 
 #define SAMPLE_MAP "\
 ##########\r\n\

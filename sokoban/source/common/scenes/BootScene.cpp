@@ -35,7 +35,7 @@ void BootScene::load()
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     
     resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
-    resourceManager->loadTextures({ "tiles.png" });
+    resourceManager->loadTextures({ TILES });
     
     auto config = IOCContainer::instance().resolve<Utilities::Config>();
     auto camera = make_shared<Engine::OrthographicCamera>( 0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f );

@@ -18,7 +18,7 @@ MoveableObject::MoveableObject()
     printf("[MoveableObject::constructor]\n");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     mSprite = make_shared<Engine::Sprite>();
-    mSprite->texture = resourceManager->getTexture( "tiles.png" );
+    mSprite->texture = resourceManager->getTexture( TILES );
     mSprite->size = { TILE_SIZE, TILE_SIZE };
 }
 
@@ -30,16 +30,8 @@ void MoveableObject::draw(shared_ptr<IRenderer> renderer)
     }
 }
 
-void MoveableObject::move(int deltaX, int deltaY)
-{
-    move(deltaX, deltaY, [&]() { 
-        isMoving = false;
-    });
-}
-
 void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCallback)
 {
-    isMoving = true;
     if(deltaX != 0) {
         mTweenEngine->add(
             mSprite->position.x,

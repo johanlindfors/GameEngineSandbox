@@ -13,7 +13,7 @@ FixedTile::FixedTile(int x, int y, int frame)
 {
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     mSprite = make_shared<Engine::Sprite>();
-    mSprite->texture = resourceManager->getTexture( "tiles.png" );
+    mSprite->texture = resourceManager->getTexture( TILES );
     mSprite->size = { TILE_SIZE, TILE_SIZE };
     mSprite->position = { static_cast<float>(x * TILE_SIZE), static_cast<float>(y * TILE_SIZE) };
     mSprite->offset = { TILE_SIZE / 280.0f * frame, 0.0f, TILE_SIZE / 280.0f, 1.0f };

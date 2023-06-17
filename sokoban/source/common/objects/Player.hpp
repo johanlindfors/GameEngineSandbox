@@ -19,5 +19,6 @@ class Player : public MoveableObject
         ~Player() { printf("[Player::destructor]\n"); };
         
         void initialize(int x, int y);
+        void move(int deltaX, int deltaY);
         int posX, posY;
 };

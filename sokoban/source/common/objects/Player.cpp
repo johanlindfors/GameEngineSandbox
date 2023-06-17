@@ -23,3 +23,11 @@ void Player::initialize(int x, int y)
         static_cast<float>(y * TILE_SIZE)
     };
 }
+
+void Player::move(int deltaX, int deltaY)
+{
+    isMoving = true;
+    MoveableObject::move(deltaX, deltaY, [&](){
+        isMoving = false;
+    });
+}
