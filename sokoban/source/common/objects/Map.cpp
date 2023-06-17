@@ -16,7 +16,7 @@ using namespace Utilities;
 
 void Map::initialize(std::vector<int> level)
 {
-    std::copy(level.begin(), level.end(), mLevel);
+    copy(level.begin(), level.end(), mLevel.begin());
     printf("[Map::initialize]\n");
     for(int index = 0; index < 100; index++) {
         int x = index % 10;

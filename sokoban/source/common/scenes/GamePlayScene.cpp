@@ -1,5 +1,4 @@
 #include "GamePlayScene.hpp"
-#include "resources/IResourceManager.hpp"
 #include "utilities/IOC.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "input/IInputManager.hpp"
@@ -35,7 +34,6 @@ GamePlayScene::~GamePlayScene()
 void GamePlayScene::load()
 {
 	printf("[GamePlayScene::load]\n");
-	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
 	mPlayer->initialize(mMap->playerStartPosition.x, mMap->playerStartPosition.y);
@@ -43,7 +41,7 @@ void GamePlayScene::load()
 
 void GamePlayScene::unload()
 {
-
+	printf("[GamePlayScene::unload]\n");
 }
 
 void GamePlayScene::updateScreenSize(int width, int height)

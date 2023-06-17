@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "objects/Crate.hpp"
 #include "utilities/MathHelper.hpp"
 #include <functional>
 #include <vector>
@@ -16,6 +15,7 @@ namespace Utilities
 }
 
 class FixedTile;
+class Crate;
 
 class Map {
     public:
@@ -30,7 +30,7 @@ class Map {
         static std::shared_ptr<Map> parse(std::string input);
 
     private:
-        int mLevel[100];
+        std::array<int, 100> mLevel = {};
         std::vector<std::shared_ptr<FixedTile>> mFixedTiles;
         std::vector<std::shared_ptr<Crate>> mCrates;
 };

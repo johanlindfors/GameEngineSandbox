@@ -17,6 +17,6 @@ class Crate : public MoveableObject
 {
     public:
         Crate(int x, int y);
-        ~Crate() = default;
+        ~Crate() { printf("[Crate::destructor]\n"); };
         int index;
 };

@@ -57,7 +57,6 @@ void BootScene::updateScreenSize(int width, int height)
 
 void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
-    // TODO: Fetch level from backend, register level in IoC?
     if(mInitialized) {
         printf("[BootScene::update] Fetching level from server\n");
 
@@ -69,7 +68,7 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
             printf("[BootScene::update] Failed to fetch level\n");
             result = SAMPLE_MAP;
         }
-        printf("[BootScene::update] %s", result.c_str());
+
         IOCContainer::instance().register_type<Map>(Map::parse(result));
         mGame->goToState(GameState::GamePlay);
     }

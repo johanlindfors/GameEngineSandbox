@@ -13,6 +13,7 @@ get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
 
 set(DEPENDENCIES 
     application
+    utilities
     game-loop
     renderers
     resources
