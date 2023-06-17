@@ -4,7 +4,6 @@ using namespace Engine;
 
 void InputManager::addKeyboardEvent(int keyCode, bool isPressed) 
 {
-    printf("[Keyboard event]\n");
 	if(keyCode >=0 && keyCode < 256){
         mKeyboard[keyCode] = isPressed;        
     }

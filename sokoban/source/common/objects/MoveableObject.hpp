@@ -18,8 +18,7 @@ class MoveableObject
 {
     public:
         MoveableObject();
-        ~MoveableObject();
-        void update(std::shared_ptr<Utilities::IStepTimer> timer);
+        ~MoveableObject() = default;
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
         virtual void move(int deltaX, int deltaY);
         virtual void move(int deltaX, int deltaY, std::function<void()> onCompleteCallback);
@@ -29,6 +28,5 @@ class MoveableObject
 
     protected:
         std::shared_ptr<Engine::Sprite> mSprite;
-        int mFrame;
         std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
 };

@@ -55,8 +55,6 @@ void GamePlayScene::updateScreenSize(int width, int height)
 void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
 	handleInput();
-	mMap->update(timer);
-	mPlayer->update(timer);
 	mTweenEngine->update(timer);
 }
 

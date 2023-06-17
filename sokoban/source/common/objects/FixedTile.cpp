@@ -19,11 +19,6 @@ FixedTile::FixedTile(int x, int y, int frame)
     mSprite->offset = { TILE_SIZE / 280.0f * frame, 0.0f, TILE_SIZE / 280.0f, 1.0f };
 }
 
-FixedTile::~FixedTile()
-{
-
-}
-
 void FixedTile::draw(shared_ptr<IRenderer> renderer)
 {
     auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);

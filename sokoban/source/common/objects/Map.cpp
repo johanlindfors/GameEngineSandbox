@@ -14,16 +14,6 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Map::Map()
-{
-    printf("[Map::constructor]\n");
-}
-
-Map::~Map()
-{
-    printf("[Map::destructor]\n");
-}
-
 void Map::initialize(std::vector<int> level)
 {
     std::copy(level.begin(), level.end(), mLevel);
@@ -49,13 +39,6 @@ void Map::initialize(std::vector<int> level)
                 mFixedTiles.emplace_back(make_shared<FixedTile>(x, y, mLevel[index]));
                 break;
         }
-    }
-}
-
-void Map::update(shared_ptr<IStepTimer> timer)
-{
-    for(const auto crate : mCrates) {
-        crate->update(timer);
     }
 }
 

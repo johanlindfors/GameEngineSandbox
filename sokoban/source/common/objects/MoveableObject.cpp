@@ -12,8 +12,7 @@ using namespace Engine;
 using namespace Utilities;
 
 MoveableObject::MoveableObject()
-    : mFrame(0)
-    , isMoving(false)
+    : isMoving(false)
     , mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
 {
     printf("[MoveableObject::constructor]\n");
@@ -21,16 +20,6 @@ MoveableObject::MoveableObject()
     mSprite = make_shared<Engine::Sprite>();
     mSprite->texture = resourceManager->getTexture( "tiles.png" );
     mSprite->size = { TILE_SIZE, TILE_SIZE };
-}
-
-MoveableObject::~MoveableObject()
-{
-
-}
-
-void MoveableObject::update(shared_ptr<IStepTimer> timer)
-{
-    mSprite->offset = { TILE_SIZE / 280.0f * mFrame, 0.0f, TILE_SIZE / 280.0f, 1.0f };
 }
 
 void MoveableObject::draw(shared_ptr<IRenderer> renderer)
@@ -59,7 +48,7 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
             {
                 mSprite->position.x = value;
             },  
-            150, 
+            150 * 1000, 
             false,
             onCompleteCallback);
     }
@@ -71,7 +60,7 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
             {
                 mSprite->position.y = value;
             },  
-            150, 
+            150 * 1000, 
             false,
             onCompleteCallback);    
     }
@@ -79,5 +68,5 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
 
 void MoveableObject::setFrame(int frame) 
 {
-    mFrame = frame;
+    mSprite->offset = { TILE_SIZE / 280.0f * frame, 0.0f, TILE_SIZE / 280.0f, 1.0f };
 }

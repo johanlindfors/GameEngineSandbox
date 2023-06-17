@@ -23,7 +23,8 @@ Tween::Tween(
 
 void Tween::update(shared_ptr<IStepTimer> timer)
 {
-    elapsed += static_cast<unsigned int>(timer->getDeltaMicroSeconds() / 1000.0f);
+    auto delta = timer->getDeltaMicroSeconds();
+    elapsed += delta;
     float currentValue = targetValue;
     if(elapsed <= duration) {
         currentValue = Utilities::lerp(originalValue, targetValue, static_cast<float>(elapsed) / static_cast<float>(duration));

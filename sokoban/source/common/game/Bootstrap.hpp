@@ -17,8 +17,8 @@ using namespace Utilities;
 
 void bootstrap() {
     auto config = make_shared<Config>();
-    config->fps = 60;
-    config->useFixedTimeStep = true;
+    config->fps = FRAMES_PER_SECOND;
+    config->useFixedTimeStep = false;
     config->width = SCREEN_WIDTH;
     config->height = SCREEN_HEIGHT;
     config->title = "Sokoban";
@@ -27,7 +27,6 @@ void bootstrap() {
     IOCContainer::instance().register_type<Config>(config);
 
     IOCContainer::instance().register_type<IHttpClient>(make_shared<CprHttpClient>());
-    IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<GameStateMachine>());
     IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());
 }

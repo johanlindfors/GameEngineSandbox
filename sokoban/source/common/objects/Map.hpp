@@ -19,9 +19,7 @@ class FixedTile;
 
 class Map {
     public:
-        ~Map();
         void initialize(std::vector<int> level);
-        void update(std::shared_ptr<Utilities::IStepTimer> timer);
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
         bool isWalkable(int x, int y);
         bool isCrate(int x, int y);
@@ -32,7 +30,6 @@ class Map {
         static std::shared_ptr<Map> parse(std::string input);
 
     private:
-        Map();
         int mLevel[100];
         std::vector<std::shared_ptr<FixedTile>> mFixedTiles;
         std::vector<std::shared_ptr<Crate>> mCrates;

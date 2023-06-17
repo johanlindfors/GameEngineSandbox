@@ -19,7 +19,5 @@ class Player : public MoveableObject
         ~Player() = default;
         
         void initialize(int x, int y);
-        // void move(int deltaX, int deltaY) override;
-
         int posX, posY;
 };

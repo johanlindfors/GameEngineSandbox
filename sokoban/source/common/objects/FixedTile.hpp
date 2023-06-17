@@ -11,7 +11,7 @@ class FixedTile
 {
     public:
         FixedTile(int x, int y, int frame);
-        ~FixedTile();
+        ~FixedTile() = default;
 
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
 
