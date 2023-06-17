@@ -18,6 +18,7 @@ set(DEPENDENCIES
     resources
     input
     scenes
+    cpr
 )
 
 if(LINUX)

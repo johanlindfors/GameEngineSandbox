@@ -12,13 +12,14 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Map::Map()
+Map::Map(vector<int> level)
 {
     printf("[Map::constructor]\n");
     int index = 0;
-    for(int value : PARSED_MAP){
+    for(int value : level){
         mLevel[index++] = value;
     }
+    printf("[Map::constructor] %d\n", index);
 }
 
 Map::~Map()

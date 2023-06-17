@@ -18,9 +18,9 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mGame(gameCallback)
 	, mInputManager(IOCContainer::instance().resolve<IInputManager>())
 	, mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
+	, mMap(IOCContainer::instance().resolve<Map>())
 {
 	id = typeid(GamePlayScene).name();
-	mMap = make_unique<Map>();
 	mPlayer = make_unique<Player>();
 }
 

@@ -3,6 +3,7 @@
 #include "objects/Crate.hpp"
 #include "utilities/MathHelper.hpp"
 #include <functional>
+#include <vector>
 
 namespace Engine
 {
@@ -18,7 +19,7 @@ class FixedTile;
 
 class Map {
     public:
-        Map();
+        Map(std::vector<int> level);
         ~Map();
         void initialize();
         void update(std::shared_ptr<Utilities::IStepTimer> timer);
