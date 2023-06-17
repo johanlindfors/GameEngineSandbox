@@ -4,6 +4,8 @@ add_subdirectory(filesystem ${CMAKE_CURRENT_BINARY_DIR}/engine/filesystem)
 
 add_subdirectory(game-loop ${CMAKE_CURRENT_BINARY_DIR}/engine/game-loop)
 
+add_subdirectory(http ${CMAKE_CURRENT_BINARY_DIR}/engine/http)
+
 add_subdirectory(input ${CMAKE_CURRENT_BINARY_DIR}/engine/input)
 
 add_subdirectory(physics ${CMAKE_CURRENT_BINARY_DIR}/engine/physics)

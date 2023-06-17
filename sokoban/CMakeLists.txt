@@ -18,7 +18,7 @@ set(DEPENDENCIES
     resources
     input
     scenes
-    cpr
+    http
 )
 
 if(LINUX)

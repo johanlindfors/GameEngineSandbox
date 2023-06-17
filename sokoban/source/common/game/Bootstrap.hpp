@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "utilities/TweenEngine.hpp"
+#include "http/HttpClient.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -25,6 +26,7 @@ void bootstrap() {
     config->glMinorVersion = 3;
     IOCContainer::instance().register_type<Config>(config);
 
+    IOCContainer::instance().register_type<IHttpClient>(make_shared<HttpClient>());
     IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<GameStateMachine>());
     IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());

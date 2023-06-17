@@ -9,6 +9,7 @@
 #include "utilities/IOC.hpp"
 #include "game/GameDefines.hpp"
 #include "objects/Map.hpp"
+#include "http/IHttpClient.hpp"
 
 #include <fstream>
 #include <vector>
@@ -59,25 +60,15 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
     // TODO: Fetch level from backend, register level in IoC?
     if(mInitialized) {
         printf("[BootScene::update] Fetching level from server\n");
-        cpr::Response r = cpr::Get(cpr::Url{"https://www.programmeramera.se/pages/sokobants/assets/001.txt"});
-        std::string result;
-        if(r.status_code == 200) {
-            printf("[BootScene::update] Fetched level from server\n");
-            result = r.text;
-        } else {
-            result = "\
-##########\r\n\
-#####  ..#\r\n\
-##### $  #\r\n\
-####    .#\r\n\
-###  $   #\r\n\
-###     .#\r\n\
-#     ####\r\n\
-# $ $ @###\r\n\
-##       #\r\n\
-##########\r\n";
+
+        auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
+        string url("https://www.programmeramera.se/pages/sokobants/assets/001.txt");
+        auto result = httpClient->get(url);
+
+        if(result.empty()) {
             printf("[BootScene::update] Failed to fetch level\n");
-        }
+            result = SAMPLE_MAP;
+        }    
         IOCContainer::instance().register_type<Map>(Map::parse(result));
         mGame->goToState(GameState::GamePlay);
     }
