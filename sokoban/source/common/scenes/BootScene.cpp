@@ -58,9 +58,11 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
     // TODO: Fetch level from backend, register level in IoC?
     if(mInitialized) {
-        cpr::Response r = cpr::Get(cpr::Url{"https://www.programmeramera.se/pages/sokobants/assets/003.txt"});
+        printf("[BootScene::update] Fetching level from server\n");
+        cpr::Response r = cpr::Get(cpr::Url{"https://www.programmeramera.se/pages/sokobants/assets/002.txt"});
         std::string result;
         if(r.status_code == 200) {
+            printf("[BootScene::update] Fetched level from server\n");
             result = r.text;
         } else {
             result = "\
@@ -76,34 +78,7 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 ##########\r\n";
             printf("[BootScene::update] Failed to fetch level\n");
         }
-        std::istringstream parsed(result);
-        vector<int> level;
-        char c;
-        while(parsed.get(c)) {
-            switch (c)
-            {
-                case '|':
-                case '\r':
-                case '\n':
-                    break;
-            case '#':
-                level.emplace_back(1);
-                break;
-            case '$':
-                level.emplace_back(3);
-                break;
-            case '@':
-                level.emplace_back(4);
-                break;
-            case '.':
-                level.emplace_back(2);
-                break;
-            default:
-                level.emplace_back(0);
-                break;
-            }
-        }
-        IOCContainer::instance().register_type<Map>(make_shared<Map>(level));
+        IOCContainer::instance().register_type<Map>(Map::parse(result));
         mGame->goToState(GameState::GamePlay);
     }
 }

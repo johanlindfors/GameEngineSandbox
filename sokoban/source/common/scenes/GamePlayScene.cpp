@@ -19,9 +19,11 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mInputManager(IOCContainer::instance().resolve<IInputManager>())
 	, mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
 	, mMap(IOCContainer::instance().resolve<Map>())
+	, mPlayer(make_unique<Player>())
+	, mCratePushes(0)
+	, mPlayerMoves(0)
 {
 	id = typeid(GamePlayScene).name();
-	mPlayer = make_unique<Player>();
 }
 
 GamePlayScene::~GamePlayScene()
@@ -36,9 +38,7 @@ void GamePlayScene::load()
 	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
-	mMap->initialize();
 	mPlayer->initialize(mMap->playerStartPosition.x, mMap->playerStartPosition.y);
-	// mApple->setTexture(resourceManager->getTexture("apple.png"));
 }
 
 void GamePlayScene::unload()
@@ -76,7 +76,7 @@ void GamePlayScene::move(int deltaX, int deltaY)
 				}
 			});
 			movePlayer(deltaX, deltaY);
-			// this.cratePushes++;
+			mCratePushes++;
 		}
 	}
 	else if(mMap->isWalkable(mPlayer->posX + deltaX, mPlayer->posY + deltaY)){
@@ -84,15 +84,15 @@ void GamePlayScene::move(int deltaX, int deltaY)
 	}
 }
 
-        // updateStatus()  {
-        //     this.status.text = this.map.id + " : " + this.playerMoves + " / " + this.cratePushes;
-        // }
+void GamePlayScene::updateStatus()  {
+    printf("%d / %d\n", mPlayerMoves, mCratePushes);
+}
 
 void GamePlayScene::movePlayer(int deltaX, int deltaY)
 {
 	mPlayer->move(deltaX, deltaY);
-	// this.playerMoves++
-	// this.updateStatus();
+	mPlayerMoves++;
+	updateStatus();
 }
 
 

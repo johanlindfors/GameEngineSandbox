@@ -17,9 +17,6 @@ class Crate : public MoveableObject
 {
     public:
         Crate(int x, int y);
-        ~Crate();
+        ~Crate() = default;
         int index;
-        void initialize();
-	    void update(std::shared_ptr<Utilities::IStepTimer> timer);
-	    void draw(std::shared_ptr<Engine::IRenderer> renderer);
 };

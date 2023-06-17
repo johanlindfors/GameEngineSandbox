@@ -10,6 +10,7 @@ namespace Utilities
 
 		virtual void tick(std::function<void()>,std::function<void()>,std::function<void()>) = 0;
 
+		virtual unsigned int getDeltaMicroSeconds() const = 0;
 		//  Get elapsed time since the previous Update call.
 		virtual double getElapsedSeconds() const = 0;
 		virtual double getElapsedMilliSeconds() const = 0;

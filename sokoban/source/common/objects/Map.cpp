@@ -7,19 +7,16 @@
 #include "objects/FixedTile.hpp"
 #include <algorithm>
 #include <functional>
+#include <sstream>
+#include <vector>
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-Map::Map(vector<int> level)
+Map::Map()
 {
     printf("[Map::constructor]\n");
-    int index = 0;
-    for(int value : level){
-        mLevel[index++] = value;
-    }
-    printf("[Map::constructor] %d\n", index);
 }
 
 Map::~Map()
@@ -27,8 +24,9 @@ Map::~Map()
     printf("[Map::destructor]\n");
 }
 
-void Map::initialize()
+void Map::initialize(std::vector<int> level)
 {
+    std::copy(level.begin(), level.end(), mLevel);
     printf("[Map::initialize]\n");
     for(int index = 0; index < 100; index++) {
         int x = index % 10;
@@ -105,4 +103,41 @@ bool Map::checkWin()
         }
     }
     return true;
+}
+
+shared_ptr<Map> Map::parse(string input) {
+    printf("[Map::parse] parsing input\n");
+    std::istringstream parsed(input);
+    vector<int> level;
+    char c;
+    while(parsed.get(c)) {
+        switch (c)
+        {
+            case '|':
+            case '\r':
+            case '\n':
+                break;
+        case '#':
+            level.emplace_back(1);
+            break;
+        case '$':
+            level.emplace_back(3);
+            break;
+        case '@':
+            level.emplace_back(4);
+            break;
+        case '.':
+            level.emplace_back(2);
+            break;
+        default:
+            level.emplace_back(0);
+            break;
+        }
+    }
+    printf("[Map::parse] parsed fetch input\n");
+    struct MkShrdEnablr : public Map {};
+    auto map = make_shared<MkShrdEnablr>();
+    map->initialize(level);
+    printf("[Map::parse] initialized level\n");
+    return map;
 }

@@ -83,6 +83,7 @@ void StepTimer::tick(
 
 	if(delta <= 0) delta = 1;
 
+	m_delta = delta;
 	m_elapsedMicroSeconds += static_cast<unsigned int>(delta);
 	m_elapsedSeconds += static_cast<double>(delta/1000000.0);
 	m_frameCount++;

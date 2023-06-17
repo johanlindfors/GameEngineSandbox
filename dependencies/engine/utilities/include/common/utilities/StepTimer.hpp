@@ -57,6 +57,10 @@ namespace Utilities
 			return m_elapsedMicroSeconds;
 		}
 
+		unsigned int getDeltaMicroSeconds() const { 
+			return m_delta;
+		}
+
 		// Get total number of updates since start of the program.
 		uint32_t getFrameCount() const { return m_frameCount; }
 
@@ -75,6 +79,7 @@ namespace Utilities
 	private:
 		 std::chrono::time_point<std::chrono::system_clock> m_lastFrameTime;
 		
+		unsigned int m_delta;
 		double m_elapsedSeconds;
 		unsigned int m_elapsedMicroSeconds;
 		unsigned int m_targetMicroSeconds;

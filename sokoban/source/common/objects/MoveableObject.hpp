@@ -8,12 +8,17 @@ namespace Engine
     class IRenderer;
 }
 
+namespace Utilities
+{
+    class IStepTimer;
+}
+
 class MoveableObject 
 {
     public:
         MoveableObject();
         ~MoveableObject();
-        void update();
+        void update(std::shared_ptr<Utilities::IStepTimer> timer);
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
         void move(int deltaX, int deltaY);
         void move(int deltaX, int deltaY, std::function<void()> onCompleteCallback);

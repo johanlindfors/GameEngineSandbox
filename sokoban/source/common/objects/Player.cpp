@@ -28,16 +28,6 @@ void Player::initialize(int x, int y)
     mSprite->position = { static_cast<float>(x * TILE_SIZE), static_cast<float>(y * TILE_SIZE)};
 }
 
-void Player::update(shared_ptr<IStepTimer> timer)
-{
-    MoveableObject::update();
-}
-
-void Player::draw(shared_ptr<IRenderer> renderer)
-{
-    MoveableObject::draw(renderer);
-}
-
 void Player::move(int deltaX, int deltaY)
 {
     MoveableObject::move(deltaX, deltaY);

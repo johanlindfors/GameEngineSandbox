@@ -17,7 +17,7 @@ Tween::Tween(float original, function<void(float)> setter, float target, float d
 
 void Tween::update(shared_ptr<IStepTimer> timer)
 {
-    elapsed += timer->getElapsedMilliSeconds();
+    elapsed += timer->getDeltaMicroSeconds() / 1000.0f;
     float currentValue = targetValue;
     if(elapsed <= duration) {
         currentValue = Utilities::lerp(originalValue, targetValue, elapsed / duration);

@@ -5,6 +5,7 @@
 #include "resources/IResourceManager.hpp"
 #include "game/GameDefines.hpp"
 #include "utilities/TweenEngine.hpp"
+#include "utilities/IStepTimer.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -25,7 +26,7 @@ MoveableObject::~MoveableObject()
 
 }
 
-void MoveableObject::update()
+void MoveableObject::update(shared_ptr<IStepTimer> timer)
 {
     mSprite->offset = { TILE_SIZE / 280.0f * mFrame, 0.0f, TILE_SIZE / 280.0f, 1.0f };
 }

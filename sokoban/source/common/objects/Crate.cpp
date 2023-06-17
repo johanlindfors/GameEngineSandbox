@@ -17,23 +17,3 @@ Crate::Crate(int x, int y)
         static_cast<float>(y) * TILE_SIZE
     };
 }
-
-Crate::~Crate()
-{
-
-}
-
-void Crate::initialize()
-{
-
-}
-
-void Crate::update(shared_ptr<IStepTimer> timer)
-{
-    MoveableObject::update();
-}
-
-void Crate::draw(shared_ptr<IRenderer> renderer)
-{
-    MoveableObject::draw(renderer);
-}
