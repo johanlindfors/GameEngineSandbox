@@ -10,6 +10,3 @@
 [submodule "dependencies/thirdparty/glm"]
 	path = dependencies/thirdparty/glm
 	url = https://github.com/g-truc/glm.git
-[submodule "dependencies/thirdparty/cpr"]
-	path = dependencies/thirdparty/cpr
-	url = https://github.com/libcpr/cpr.git

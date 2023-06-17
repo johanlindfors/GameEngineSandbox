@@ -2,7 +2,7 @@ project(http)
 
 set(DEPENDENCIES
     utilities
-    cpr
+    curl
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

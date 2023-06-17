@@ -24,7 +24,7 @@ void bootstrap() {
     config->glMinorVersion = 3;
     IOCContainer::instance().register_type<Config>(config);
 
-    IOCContainer::instance().register_type<IHttpClient>(make_shared<CprHttpClient>());
+    IOCContainer::instance().register_type<IHttpClient>(make_shared<CurlHttpClient>());
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<GameStateMachine>());
     IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());
 }

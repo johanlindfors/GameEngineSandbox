@@ -1,15 +1,8 @@
 #include "http/HttpClient.hpp"
-#include <cpr/cpr.h>
 #include <curl/curl.h>
 
 using namespace std;
 using namespace Engine;
-
-string CprHttpClient::get(string url) 
-{
-    cpr::Response r = cpr::Get(cpr::Url{url});
-    return r.text;
-}
 
 size_t writeFunction(void *ptr, size_t size, size_t nmemb, std::string* data) {
     data->append((char*) ptr, size * nmemb);
