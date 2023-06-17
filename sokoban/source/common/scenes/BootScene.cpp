@@ -62,13 +62,14 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
         printf("[BootScene::update] Fetching level from server\n");
 
         auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
-        string url("https://www.programmeramera.se/pages/sokobants/assets/001.txt");
+        string url("https://programmeramera.se/pages/sokobants/assets/001.txt");
         auto result = httpClient->get(url);
 
-        if(result.empty()) {
+        if(result.length() == 0) {
             printf("[BootScene::update] Failed to fetch level\n");
             result = SAMPLE_MAP;
-        }    
+        }
+        printf("[BootScene::update] %s", result.c_str());
         IOCContainer::instance().register_type<Map>(Map::parse(result));
         mGame->goToState(GameState::GamePlay);
     }
