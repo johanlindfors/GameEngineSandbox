@@ -1,15 +1,21 @@
 [submodule "dependencies/thirdparty/angle"]
 	path = dependencies/thirdparty/angle
 	url = https://github.com/coderox/angle.git
+	shallow = true
 [submodule "dependencies/thirdparty/vcpkg"]
 	path = dependencies/thirdparty/vcpkg
 	url = https://github.com/Microsoft/vcpkg.git
+	shallow = true
 [submodule "dependencies/thirdparty/tweeny"]
 	path = dependencies/thirdparty/tweeny
 	url = https://github.com/mobius3/tweeny.git
+	shallow = true
 [submodule "dependencies/thirdparty/glm"]
 	path = dependencies/thirdparty/glm
 	url = https://github.com/g-truc/glm.git
+	shallow = true
 [submodule "dependencies/thirdparty/cpr"]
 	path = dependencies/thirdparty/cpr
 	url = https://github.com/libcpr/cpr.git
+	shallow = true
+	
