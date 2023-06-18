@@ -48,7 +48,7 @@ pipeline.ps1 -uwp -build
 ## Building on Ubuntu 22.04
 Make sure to install the following:
 ```
-sudo apt install libpng-dev pkg-config libglfw3-dev
+sudo apt install libpng-dev pkg-config libglfw3-dev libssl-dev
 ```
 
 Then in the root directory of this repository create a an output directory called build:
