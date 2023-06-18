@@ -1,5 +1,6 @@
 #include "BootScene.hpp"
 #include <memory>
+#include <cpr/cpr.h>
 #include "game/IGameStateCallback.hpp"
 #include "resources/IResourceManager.hpp"
 #include "renderers/Camera.hpp"
