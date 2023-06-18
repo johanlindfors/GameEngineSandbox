@@ -5,7 +5,7 @@
 
 namespace Engine
 {
-    class Sprite;
+    class TiledSprite;
     class IRenderer;
 }
 
@@ -27,6 +27,6 @@ class MoveableObject
         void setFrame(int frame);
 
     protected:
-        std::shared_ptr<Engine::Sprite> mSprite;
+        std::shared_ptr<Engine::TiledSprite> mTiledSprite;
         std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
 };

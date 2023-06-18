@@ -18,7 +18,7 @@ void Player::initialize(int x, int y)
 {
     posX = x;
     posY = y;
-    mSprite->position = { 
+    mTiledSprite->position = { 
         static_cast<float>(x * TILE_SIZE), 
         static_cast<float>(y * TILE_SIZE)
     };

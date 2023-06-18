@@ -1,7 +1,7 @@
 #include "MoveableObject.hpp"
 #include "utilities/IOC.hpp"
 #include "renderers/SpriteRenderer.hpp"
-#include "renderers/Sprite.hpp"
+#include "renderers/TiledSprite.hpp"
 #include "resources/IResourceManager.hpp"
 #include "game/GameDefines.hpp"
 #include "utilities/TweenEngine.hpp"
@@ -17,16 +17,17 @@ MoveableObject::MoveableObject()
 {
     printf("[MoveableObject::constructor]\n");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    mSprite = make_shared<Engine::Sprite>();
-    mSprite->texture = resourceManager->getTexture( TILES );
-    mSprite->size = { TILE_SIZE, TILE_SIZE };
+    mTiledSprite = make_shared<Engine::TiledSprite>();
+    mTiledSprite->texture = resourceManager->getTexture( TILES );
+    mTiledSprite->size = { TILE_SIZE, TILE_SIZE };
+    mTiledSprite->tileSize = { 128, 128 };
 }
 
 void MoveableObject::draw(shared_ptr<IRenderer> renderer)
 {
     auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if(spriteRenderer) {
-        spriteRenderer->drawSprite(mSprite);
+        spriteRenderer->drawSprite(mTiledSprite);
     }
 }
 
@@ -34,11 +35,11 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
 {
     if(deltaX != 0) {
         mTweenEngine->add(
-            mSprite->position.x,
-            mSprite->position.x + (deltaX * TILE_SIZE),
+            mTiledSprite->position.x,
+            mTiledSprite->position.x + (deltaX * TILE_SIZE),
             [&](float value)
             {
-                mSprite->position.x = value;
+                mTiledSprite->position.x = value;
             },  
             150 * 1000, 
             false,
@@ -46,11 +47,11 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
     }
     if(deltaY != 0) {
         mTweenEngine->add(
-            mSprite->position.y,
-            mSprite->position.y + (deltaY * TILE_SIZE),
+            mTiledSprite->position.y,
+            mTiledSprite->position.y + (deltaY * TILE_SIZE),
             [&](float value)
             {
-                mSprite->position.y = value;
+                mTiledSprite->position.y = value;
             },  
             150 * 1000, 
             false,
@@ -60,5 +61,6 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
 
 void MoveableObject::setFrame(int frame) 
 {
-    mSprite->offset = { TILE_SIZE / 280.0f * frame, 0.0f, TILE_SIZE / 280.0f, 1.0f };
+    mTiledSprite->currentTile = frame;
+    mTiledSprite->calculateTileOffset();
 }
