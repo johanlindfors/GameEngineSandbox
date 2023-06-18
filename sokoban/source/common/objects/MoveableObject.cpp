@@ -17,7 +17,7 @@ MoveableObject::MoveableObject()
 {
     printf("[MoveableObject::constructor]\n");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    mTiledSprite = make_shared<Engine::TiledSprite>();
+    mTiledSprite = make_shared<Engine::AnimatedSprite>();
     mTiledSprite->texture = resourceManager->getTexture( TILES );
     mTiledSprite->size = { TILE_SIZE, TILE_SIZE };
     mTiledSprite->tileSize = { 128, 128 };

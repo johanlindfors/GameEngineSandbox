@@ -53,6 +53,7 @@ void GamePlayScene::updateScreenSize(int width, int height)
 void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
 	handleInput();
+	mPlayer->update(timer);
 	mTweenEngine->update(timer);
 }
 
@@ -86,11 +87,6 @@ void GamePlayScene::updateStatus()  {
 
 void GamePlayScene::movePlayer(int deltaX, int deltaY)
 {
-	if(deltaY != 0) {
-		mPlayer->setFrame(deltaY == 1 ? 6 : 4);
-	} else if(deltaX != 0) {
-		mPlayer->setFrame(deltaX == 1 ? 7 : 8);
-	}
 	mPlayer->move(deltaX, deltaY);
 	mPlayer->posX += deltaX;
 	mPlayer->posY += deltaY;

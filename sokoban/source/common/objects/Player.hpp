@@ -20,5 +20,6 @@ class Player : public MoveableObject
         
         void initialize(int x, int y);
         void move(int deltaX, int deltaY);
+        void update(std::shared_ptr<Utilities::IStepTimer> timer);
         int posX, posY;
 };
