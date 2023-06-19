@@ -1,13 +1,9 @@
 #include "renderers/Renderer.hpp"
 #include <string>
 #include "utilities/GLHelper.hpp"
-#include "renderers/Sprite.hpp"
-#include "renderers/Camera.hpp"
-#include "resources/Shader.hpp"
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
 
 Renderer::Renderer(
     shared_ptr<Shader> shader) 

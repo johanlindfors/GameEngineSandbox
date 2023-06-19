@@ -4,7 +4,6 @@
 #include "input/IInputManager.hpp"
 #include "game/IGameStateCallback.hpp"
 #include "game/GameDefines.hpp"
-#include "renderers/Sprite.hpp"
 #include "objects/Map.hpp"
 #include "objects/Player.hpp"
 #include "utilities/TweenEngine.hpp"

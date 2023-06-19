@@ -2,11 +2,6 @@
 #include <memory>
 #include "MoveableObject.hpp"
 
-namespace Engine
-{
-    class IRenderer;
-}
-
 namespace Utilities
 {
     class IStepTimer;

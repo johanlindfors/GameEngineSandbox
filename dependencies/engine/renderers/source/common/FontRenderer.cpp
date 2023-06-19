@@ -3,7 +3,7 @@
 #include <string>
 #include "utilities/MathHelper.hpp"
 #include "utilities/GLHelper.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "filesystem/IFileSystem.hpp"
 #include "utilities/IOC.hpp"
 #include "File.hpp"

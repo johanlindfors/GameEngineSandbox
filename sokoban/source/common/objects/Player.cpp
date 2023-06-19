@@ -1,5 +1,5 @@
 #include "Player.hpp"
-#include "renderers/TiledSprite.hpp"
+#include "sprites/AnimatedSprite.hpp"
 #include "game/GameDefines.hpp"
 
 using namespace std;
@@ -19,7 +19,7 @@ Player::Player()
         AnimationFrame{4, 100*1000},
         AnimationFrame{4, 100*1000},
     };
-    mTiledSprite->animations["idle"] = idle;
+    mSprite->animations["idle"] = idle;
 
     Animation left;
     left.numberOfFrames = 3;
@@ -29,7 +29,7 @@ Player::Player()
         AnimationFrame{9, 100*1000},
         AnimationFrame{10, 100*1000},
     };
-    mTiledSprite->animations["left"] = left;
+    mSprite->animations["left"] = left;
 
     Animation right;
     right.numberOfFrames = 3;
@@ -39,7 +39,7 @@ Player::Player()
         AnimationFrame{12, 100*1000},
         AnimationFrame{13, 100*1000},
     };
-    mTiledSprite->animations["right"] = right;
+    mSprite->animations["right"] = right;
 
     Animation down;
     down.numberOfFrames = 3;
@@ -49,7 +49,7 @@ Player::Player()
         AnimationFrame{14, 100*1000},
         AnimationFrame{15, 100*1000},
     };
-    mTiledSprite->animations["down"] = down;
+    mSprite->animations["down"] = down;
 
     Animation up;
     up.numberOfFrames = 2;
@@ -58,17 +58,17 @@ Player::Player()
         AnimationFrame{6, 100*1000},
         AnimationFrame{11, 100*1000},
     };
-    mTiledSprite->animations["up"] = up;
+    mSprite->animations["up"] = up;
 
 
-    mTiledSprite->play("idle");
+    mSprite->play("idle");
 }
 
 void Player::initialize(int x, int y)
 {
     posX = x;
     posY = y;
-    mTiledSprite->position = { 
+    mSprite->position = {
         static_cast<float>(x * TILE_SIZE), 
         static_cast<float>(y * TILE_SIZE)
     };
@@ -77,22 +77,19 @@ void Player::initialize(int x, int y)
 void Player::move(int deltaX, int deltaY)
 {
     if(deltaY != 0) {
-        mTiledSprite->play(deltaY > 0 ? "up" : "down");
-	// 	mPlayer->setFrame(deltaY == 1 ? 6 : 4);
+        mSprite->play(deltaY > 0 ? "up" : "down");
 	} else if(deltaX != 0) {
-        mTiledSprite->play(deltaX > 0 ? "right" : "left");
-	// 	mPlayer->setFrame(deltaX == 1 ? 7 : 8);
+        mSprite->play(deltaX > 0 ? "right" : "left");
 	}
 
     isMoving = true;
-    //mTiledSprite->resume();
     MoveableObject::move(deltaX, deltaY, [&](){
-        mTiledSprite->isPlaying = false;
+        mSprite->isPlaying = false;
         isMoving = false;
     });
 }
 
 void Player::update(shared_ptr<IStepTimer> timer)
 {
-    mTiledSprite->update(timer);
+    mSprite->update(timer);
 }

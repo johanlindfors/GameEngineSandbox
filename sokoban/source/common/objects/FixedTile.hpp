@@ -17,5 +17,5 @@ class FixedTile
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
 
     private:
-        std::shared_ptr<Engine::TiledSprite> mTiledSprite;
+        std::shared_ptr<Engine::TiledSprite> mSprite;
 };
