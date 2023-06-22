@@ -1,5 +1,7 @@
 #include "filesystem/FileSystem.hpp"
 #include "File.hpp"
+#include "utilities/Config.hpp"
+#include "utilities/IOC.hpp"
 
 #ifdef UWP
 #include <winrt/Windows.Storage.h>
@@ -12,12 +14,7 @@ using namespace Windows::ApplicationModel;
 #include <vector>
 #include <filesystem>
 namespace fs = std::filesystem;
-#elif __APPLE__
-#include <stdio.h>
-#include <unistd.h>
-#include <filesystem>
-namespace fs = std::filesystem;
-#elif __linux__
+#elif defined(PLATFORM_POSIX)
 #include <filesystem>
 namespace fs = std::filesystem;
 #endif
@@ -28,6 +25,7 @@ using namespace Engine;
 string FileSystem::getResourcesDirectory()
 {
 	string path;
+	auto config = Utilities::IOCContainer::instance().resolve<Utilities::Config>();
 #ifdef UWP
 	const auto folder = Package::Current().InstalledLocation();
 	const auto folderPath = folder.Path();
@@ -41,14 +39,13 @@ string FileSystem::getResourcesDirectory()
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_string();
 	path =  std::string(folderPath + "/resources/");
-#elif __APPLE__
+#elif defined(PLATFORM_POSIX)
 	std::string current_working_dir(fs::current_path().generic_string());
-	path = string(current_working_dir + "/");
-#elif __linux__
-	std::string current_working_dir(fs::current_path().generic_string());
-	path = string(current_working_dir + "/resources/");
+	path = string(current_working_dir + "/" + config->executable + "/resources/");
+#else
+	static_assert("Invalid platform configured");
 #endif
-	//printf("=== %s\n", path.c_str());
+	printf("=== %s\n", path.c_str());
     return path;
 }
 

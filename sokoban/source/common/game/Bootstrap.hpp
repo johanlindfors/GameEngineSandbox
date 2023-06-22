@@ -20,6 +20,7 @@ void bootstrap() {
     config->width = SCREEN_WIDTH;
     config->height = SCREEN_HEIGHT;
     config->title = "Sokoban";
+    config->executable = "sokoban";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
     IOCContainer::instance().register_type<Config>(config);
