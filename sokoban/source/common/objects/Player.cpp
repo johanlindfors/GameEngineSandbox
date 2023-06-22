@@ -13,7 +13,6 @@ Player::Player()
     printf("[Player::constructor]\n");
     setFrame(4);
     Animation idle;
-    idle.numberOfFrames = 2;
     idle.loop = true;
     idle.frames = {
         AnimationFrame{4, 100*1000},
@@ -22,7 +21,6 @@ Player::Player()
     mSprite->animations["idle"] = idle;
 
     Animation left;
-    left.numberOfFrames = 3;
     left.loop = true;
     left.frames = {
         AnimationFrame{8, 100*1000}, 
@@ -32,7 +30,6 @@ Player::Player()
     mSprite->animations["left"] = left;
 
     Animation right;
-    right.numberOfFrames = 3;
     right.loop = true;
     right.frames = {
         AnimationFrame{7, 100*1000}, 
@@ -42,7 +39,6 @@ Player::Player()
     mSprite->animations["right"] = right;
 
     Animation down;
-    down.numberOfFrames = 3;
     down.loop = true;
     down.frames = {
         AnimationFrame{4, 100*1000}, 
@@ -52,7 +48,6 @@ Player::Player()
     mSprite->animations["down"] = down;
 
     Animation up;
-    up.numberOfFrames = 2;
     up.loop = true;
     up.frames = {
         AnimationFrame{6, 100*1000},

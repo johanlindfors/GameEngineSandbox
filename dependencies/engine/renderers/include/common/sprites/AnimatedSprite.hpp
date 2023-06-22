@@ -12,7 +12,6 @@ namespace Engine
     struct Animation
     {
         std::array<AnimationFrame,16> frames;
-        unsigned int numberOfFrames;
         bool loop;
     };
 
@@ -47,9 +46,9 @@ namespace Engine
                 elapsedMicroSeconds -= current.frames[currentFrame].durationInMicroSeconds;
                 currentFrame++;
                 if(current.loop) {
-                    currentFrame %= current.numberOfFrames;
+                    currentFrame %= current.frames.size();
                 } else {
-                    if(currentFrame > current.numberOfFrames) {
+                    if(currentFrame > current.frames.size()) {
                         isPlaying = false;
                     }
                 }
