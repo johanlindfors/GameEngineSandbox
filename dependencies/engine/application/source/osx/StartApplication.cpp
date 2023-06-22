@@ -4,6 +4,7 @@
 #include "utilities/IOC.hpp"
 #include "input/IInputManager.hpp"
 #include <memory>
+#include <filesystem>
 
 using namespace std;
 using namespace Engine;
@@ -20,12 +21,12 @@ class Application
             printf("[StartOsxApplication] game created\n");
             auto config = IOCContainer::instance().resolve<Config>();
             printf("[StartOsxApplication] found config\n");
-
             int width, height;
             width = config->width;
             height = config->height;
             printf("[StartOsxApplication] get default size returned\n");
             
+            glfwInitHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
             glfwInit();
             glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);

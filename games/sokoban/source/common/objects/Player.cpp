@@ -63,7 +63,7 @@ Player::Player()
     sprite->animations["up"] = up;
 
     sprite->play("idle");
-    mSprite = sprite;
+    mSprite = static_pointer_cast<Sprite>(sprite);
 }
 
 void Player::initialize(int x, int y)
@@ -87,11 +87,11 @@ void Player::move(int deltaX, int deltaY)
 
     isMoving = true;
     MoveableObject::move(deltaX, deltaY, [&](){
+        auto sprite = static_pointer_cast<AnimatedSprite>(mSprite);    
         sprite->isPlaying = false;
         isMoving = false;
-        mSprite = sprite;
     });
-    mSprite = sprite;
+    //mSprite = static_pointer_cast<Sprite>(sprite);
 }
 
 void Player::update(shared_ptr<IStepTimer> timer)

@@ -11,7 +11,7 @@ namespace Engine
 
     struct Animation
     {
-        std::array<AnimationFrame,16> frames;
+        std::vector<AnimationFrame> frames;
         bool loop;
     };
 
@@ -26,6 +26,8 @@ namespace Engine
         void play(std::string name) {
             currentAnimation = name;
             isPlaying = true;
+            elapsedMicroSeconds = 0; 
+            currentFrame = 0;
         }
         void pause() { isPlaying = false; }
         void resume() { isPlaying = true; }
@@ -54,7 +56,7 @@ namespace Engine
                 }
                 animations[currentAnimation] = current;
                 currentTile = current.frames[currentFrame].tile;
-                printf("[CurrentTile] %u\n", currentTile);
+                printf("[CurrentTile] tile: %u, frame: %u\n", currentTile, currentFrame);
                 calculateTileOffset();
             }
         }
