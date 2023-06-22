@@ -16,8 +16,8 @@ using namespace Utilities;
 
 void Map::initialize(std::vector<int> level)
 {
+    printf("[Map::initialize] Begin\n");
     copy(level.begin(), level.end(), mLevel.begin());
-    printf("[Map::initialize]\n");
     for(int index = 0; index < 100; index++) {
         int x = index % 10;
         int y = index / 10;
@@ -40,6 +40,7 @@ void Map::initialize(std::vector<int> level)
                 break;
         }
     }
+    printf("[Map::initialize] End\n");
 }
 
 void Map::draw(shared_ptr<IRenderer> renderer)

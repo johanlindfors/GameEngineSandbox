@@ -1,6 +1,8 @@
 #include "Player.hpp"
 #include "sprites/AnimatedSprite.hpp"
 #include "game/GameDefines.hpp"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -11,14 +13,19 @@ Player::Player()
     , posY(0)
 {
     printf("[Player::constructor]\n");
-    setFrame(4);
+    
+    auto sprite = make_shared<AnimatedSprite>();
+    sprite->texture = IOCContainer::instance().resolve<IResourceManager>()->getTexture( TILES );
+    sprite->size = { TILE_SIZE, TILE_SIZE };
+    sprite->tileSize = { 128, 128 };
+
     Animation idle;
     idle.loop = true;
     idle.frames = {
-        AnimationFrame{4, 100*1000},
-        AnimationFrame{4, 100*1000},
+        AnimationFrame{4, 500*1000},
+        AnimationFrame{4, 500*1000},
     };
-    mSprite->animations["idle"] = idle;
+    sprite->animations["idle"] = idle;
 
     Animation left;
     left.loop = true;
@@ -27,7 +34,7 @@ Player::Player()
         AnimationFrame{9, 100*1000},
         AnimationFrame{10, 100*1000},
     };
-    mSprite->animations["left"] = left;
+    sprite->animations["left"] = left;
 
     Animation right;
     right.loop = true;
@@ -36,7 +43,7 @@ Player::Player()
         AnimationFrame{12, 100*1000},
         AnimationFrame{13, 100*1000},
     };
-    mSprite->animations["right"] = right;
+    sprite->animations["right"] = right;
 
     Animation down;
     down.loop = true;
@@ -45,7 +52,7 @@ Player::Player()
         AnimationFrame{14, 100*1000},
         AnimationFrame{15, 100*1000},
     };
-    mSprite->animations["down"] = down;
+    sprite->animations["down"] = down;
 
     Animation up;
     up.loop = true;
@@ -53,10 +60,10 @@ Player::Player()
         AnimationFrame{6, 100*1000},
         AnimationFrame{11, 100*1000},
     };
-    mSprite->animations["up"] = up;
+    sprite->animations["up"] = up;
 
-
-    mSprite->play("idle");
+    sprite->play("idle");
+    mSprite = sprite;
 }
 
 void Player::initialize(int x, int y)
@@ -71,20 +78,24 @@ void Player::initialize(int x, int y)
 
 void Player::move(int deltaX, int deltaY)
 {
+    auto sprite = static_pointer_cast<AnimatedSprite>(mSprite);
     if(deltaY != 0) {
-        mSprite->play(deltaY > 0 ? "up" : "down");
+        sprite->play(deltaY > 0 ? "up" : "down");
 	} else if(deltaX != 0) {
-        mSprite->play(deltaX > 0 ? "right" : "left");
+        sprite->play(deltaX > 0 ? "right" : "left");
 	}
 
     isMoving = true;
     MoveableObject::move(deltaX, deltaY, [&](){
-        mSprite->isPlaying = false;
+        sprite->isPlaying = false;
         isMoving = false;
+        mSprite = sprite;
     });
+    mSprite = sprite;
 }
 
 void Player::update(shared_ptr<IStepTimer> timer)
 {
-    mSprite->update(timer);
+    auto sprite = static_pointer_cast<AnimatedSprite>(mSprite);
+    sprite->update(timer);
 }

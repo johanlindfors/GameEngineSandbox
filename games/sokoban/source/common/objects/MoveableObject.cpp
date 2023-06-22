@@ -1,7 +1,7 @@
 #include "MoveableObject.hpp"
 #include "utilities/IOC.hpp"
 #include "renderers/SpriteRenderer.hpp"
-#include "sprites/AnimatedSprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "resources/IResourceManager.hpp"
 #include "game/GameDefines.hpp"
 #include "utilities/TweenEngine.hpp"
@@ -15,10 +15,6 @@ MoveableObject::MoveableObject()
     : isMoving(false)
 {
     printf("[MoveableObject::constructor]\n");
-    mSprite = make_shared<AnimatedSprite>();
-    mSprite->texture = IOCContainer::instance().resolve<IResourceManager>()->getTexture( TILES );
-    mSprite->size = { TILE_SIZE, TILE_SIZE };
-    mSprite->tileSize = { 128, 128 };
 }
 
 void MoveableObject::draw(shared_ptr<IRenderer> renderer)
@@ -59,8 +55,3 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
     }
 }
 
-void MoveableObject::setFrame(int frame) 
-{
-    mSprite->currentTile = frame;
-    mSprite->calculateTileOffset();
-}
