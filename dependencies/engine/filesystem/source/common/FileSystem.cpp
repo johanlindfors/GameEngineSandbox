@@ -41,7 +41,7 @@ string FileSystem::getResourcesDirectory()
 	path =  std::string(folderPath + "/resources/");
 #elif defined(PLATFORM_POSIX)
 	std::string current_working_dir(fs::current_path().generic_string());
-	path = string(current_working_dir + "/" + config->executable + "/resources/");
+	path = string(current_working_dir + "/games/" + config->executable + "/resources/");
 #else
 	static_assert("Invalid platform configured");
 #endif
