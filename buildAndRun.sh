@@ -27,5 +27,5 @@ cd ..
 rm -fr build_sokoban
 mkdir build_sokoban
 cd build_sokoban
-cmake .. -DGAME_TO_BUILD=sokoban
+cmake .. -DGAME_TO_BUILD=sokoban -DUSE_HTTP=true
 cmake --build .
