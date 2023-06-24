@@ -12,7 +12,7 @@ class FixedTile
 {
     public:
         FixedTile(int x, int y, int frame);
-        ~FixedTile() { printf("[FixedTile::destructor]\n"); };;
+        ~FixedTile() = default;
 
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
 

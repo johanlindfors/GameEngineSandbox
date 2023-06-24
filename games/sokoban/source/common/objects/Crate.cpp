@@ -22,16 +22,12 @@ Crate::Crate(int x, int y)
         static_cast<float>(x) * TILE_SIZE, 
         static_cast<float>(y) * TILE_SIZE
     };
+    sprite->setFrame(3);
     mSprite = sprite;
-    setFrame(3);
 }
-
 
 void Crate::setFrame(int frame) 
 {
     auto sprite = static_pointer_cast<TiledSprite>(mSprite);
-    sprite->currentTile = frame;
-    sprite->calculateTileOffset();
-    printf("[Crate::setFrame]\n");
+    sprite->setFrame(frame);
 }
-

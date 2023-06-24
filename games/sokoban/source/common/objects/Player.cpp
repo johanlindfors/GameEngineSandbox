@@ -22,47 +22,48 @@ Player::Player()
     Animation idle;
     idle.loop = true;
     idle.frames = {
-        AnimationFrame{4, 500*1000},
-        AnimationFrame{4, 500*1000},
+        AnimationFrame{4, 50*1000},
+        AnimationFrame{4, 50*1000},
     };
     sprite->animations["idle"] = idle;
 
     Animation left;
     left.loop = true;
     left.frames = {
-        AnimationFrame{8, 100*1000}, 
-        AnimationFrame{9, 100*1000},
-        AnimationFrame{10, 100*1000},
+        AnimationFrame{8, 50*1000},
+        AnimationFrame{9, 50*1000},
+        AnimationFrame{10, 50*1000},
     };
     sprite->animations["left"] = left;
 
     Animation right;
     right.loop = true;
     right.frames = {
-        AnimationFrame{7, 100*1000}, 
-        AnimationFrame{12, 100*1000},
-        AnimationFrame{13, 100*1000},
+        AnimationFrame{7, 50*1000},
+        AnimationFrame{12, 50*1000},
+        AnimationFrame{13, 50*1000},
     };
     sprite->animations["right"] = right;
 
     Animation down;
     down.loop = true;
     down.frames = {
-        AnimationFrame{4, 100*1000}, 
-        AnimationFrame{14, 100*1000},
-        AnimationFrame{15, 100*1000},
+        AnimationFrame{4, 50*1000},
+        AnimationFrame{14, 50*1000},
+        AnimationFrame{15, 50*1000},
     };
     sprite->animations["down"] = down;
 
     Animation up;
     up.loop = true;
     up.frames = {
-        AnimationFrame{6, 100*1000},
-        AnimationFrame{11, 100*1000},
+        AnimationFrame{6, 50*1000},
+        AnimationFrame{11, 50*1000},
     };
     sprite->animations["up"] = up;
 
-    sprite->play("idle");
+//    sprite->play("idle");
+    sprite->setFrame(4);
     mSprite = static_pointer_cast<Sprite>(sprite);
 }
 

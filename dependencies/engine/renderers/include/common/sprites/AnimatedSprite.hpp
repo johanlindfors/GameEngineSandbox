@@ -56,7 +56,7 @@ namespace Engine
                 }
                 animations[currentAnimation] = current;
                 currentTile = current.frames[currentFrame].tile;
-                printf("[CurrentTile] tile: %u, frame: %u\n", currentTile, currentFrame);
+                printf("[CurrentTile] tile: %u, frame: %u, elapsed: %u\n", currentTile, currentFrame, elapsedMicroSeconds);
                 calculateTileOffset();
             }
         }

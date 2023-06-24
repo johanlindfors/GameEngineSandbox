@@ -19,6 +19,11 @@ namespace Engine
 			return texture.height / tileSize.height;
 		}
 
+		void setFrame(int frame) {
+			currentTile = frame;
+			calculateTileOffset();
+		}
+
 		Utilities::Rectangle<float> calculateTileOffset() {
 			Utilities::Size<float> normalizedTileSize = {
 				static_cast<float>(tileSize.width) / texture.width,
