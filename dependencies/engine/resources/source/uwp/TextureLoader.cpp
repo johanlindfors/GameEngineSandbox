@@ -8,7 +8,7 @@
 #include "utilities/IOC.hpp"
 #include "utilities/GLHelper.hpp"
 #include "filesystem/FileSystem.hpp"
-#include "File.hpp"
+#include "filesystem/File.hpp"
 #include "resources/Texture2D.hpp"
 
 using namespace std;

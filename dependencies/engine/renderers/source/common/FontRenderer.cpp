@@ -6,7 +6,7 @@
 #include "sprites/Sprite.hpp"
 #include "filesystem/IFileSystem.hpp"
 #include "utilities/IOC.hpp"
-#include "File.hpp"
+#include "filesystem/File.hpp"
 #include "resources/Shader.hpp"
 
 #include <glm/glm.hpp>
