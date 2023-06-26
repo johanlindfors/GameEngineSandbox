@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 project(snake)
 
-set_property(GLOBAL PROPERTY PLATFORM_RESOURCES_DIRECTORY)
-set_property(GLOBAL PROPERTY COMMON_RESOURCES_DIRECTORY)
-set_property(GLOBAL PROPERTY RESOURCES)
+set_property(GLOBAL PROPERTY PLATFORM_ASSETS_DIRECTORY)
+set_property(GLOBAL PROPERTY COMMON_ASSETS_DIRECTORY)
+set_property(GLOBAL PROPERTY ASSETS)
 
-add_subdirectory(resources)
+add_subdirectory(assets)
 
-get_property(PLATFORM_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_PLATFORM_RESOURCES_DIRECTORY)
-get_property(COMMON_RESOURCES_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_RESOURCES_DIRECTORY)
-get_property(RESOURCES GLOBAL PROPERTY GLOBAL_RESOURCES)
+get_property(PLATFORM_ASSETS_DIRECTORY GLOBAL PROPERTY GLOBAL_PLATFORM_ASSETS_DIRECTORY)
+get_property(COMMON_ASSETS_DIRECTORY GLOBAL PROPERTY GLOBAL_COMMON_ASSETS_DIRECTORY)
+get_property(ASSETS GLOBAL PROPERTY GLOBAL_ASSETS)
 
 set(DEPENDENCIES 
     application
@@ -49,7 +49,7 @@ if(WINDOWS_STORE)
         COPYONLY
     )
 
-    list(APPEND RESOURCES
+    list(APPEND ASSETS
         "${PROJECT_BINARY_DIR}/package.appxManifest"
         "${PROJECT_BINARY_DIR}/TemporaryKey.pfx"
     )
@@ -79,11 +79,11 @@ if(MSVC)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib")
 endif()
 
-build_executable(${PROJECT_NAME} "${DEPENDENCIES}" "${RESOURCES}")
-source_group("resources" ${RESOURCES})
+build_executable(${PROJECT_NAME} "${DEPENDENCIES}" "${ASSETS}")
+source_group("assets" ${ASSETS})
 
 if(WINDOWS_STORE)
-    set_property(SOURCE ${RESOURCES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+    set_property(SOURCE ${ASSETS} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 else()
-    copy_resources()
+    copy_assets()
 endif()

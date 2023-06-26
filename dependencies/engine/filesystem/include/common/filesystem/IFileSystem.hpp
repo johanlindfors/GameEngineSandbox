@@ -8,7 +8,7 @@ namespace Engine {
     class IFileSystem {
     public:
 	    virtual ~IFileSystem() = default;
-	    virtual std::string getResourcesDirectory() = 0;
+	    virtual std::string getAssetsDirectory() = 0;
         virtual std::shared_ptr<File> loadFile(std::string filename, bool writeable) = 0;
     };
 }

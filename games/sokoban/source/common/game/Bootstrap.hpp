@@ -1,13 +1,20 @@
 #pragma once
-#include "utilities/IOC.hpp"
-#include "game/GameStateMachine.hpp"
-#include "utilities/Config.hpp"
-#include "game/GameDefines.hpp"
-#include "renderers/FontRenderer.hpp"
-#include "utilities/TweenEngine.hpp"
+
+// stl
 #include <string>
 #include <vector>
-#include "http/HttpClient.hpp"
+
+// engine
+#include "utilities/IOC.hpp"
+#include "utilities/Config.hpp"
+#include "renderers/FontRenderer.hpp"
+#include "utilities/TweenEngine.hpp"
+#if defined(USE_HTTP)
+    #include "http/HttpClient.hpp"
+#endif
+// game
+#include "game/GameStateMachine.hpp"
+#include "game/GameDefines.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -25,7 +32,9 @@ void bootstrap() {
     config->glMinorVersion = 3;
     IOCContainer::instance().register_type<Config>(config);
 
+#if defined(USE_HTTP)
     IOCContainer::instance().register_type<IHttpClient>(make_shared<CprHttpClient>());
+#endif
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<GameStateMachine>());
     IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());
 }

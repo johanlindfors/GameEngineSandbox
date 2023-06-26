@@ -6,7 +6,9 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
-#include "http/IHttpClient.hpp"
+#if defined(USE_HTTP)
+    #include "http/IHttpClient.hpp"
+#endif
 
 // game
 #include "game/IGameStateCallback.hpp"
@@ -54,6 +56,7 @@ void BootScene::updateScreenSize(int width, int height)
 void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
     if(mInitialized) {
+#if defined(USE_HTTP)
         printf("[BootScene::update] Fetching level from server\n");
 
         auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
@@ -64,6 +67,9 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
             printf("[BootScene::update] Failed to fetch level\n");
             result = HARD_MAP;
         }
+#else
+        string result = HARD_MAP;
+#endif
 
         IOCContainer::instance().register_type<Map>(Map::parse(result));
 

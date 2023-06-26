@@ -4,18 +4,18 @@ import sys
 import os
 
 itemGroup = '''
-<ItemGroup Label="resources_pipeline_output">
-  <_CustomResource Include="..\\..\\..\\@PROJECT_NAME@\\resources\\common\\**\\*">
-    <Link>resources\%(RecursiveDir)%(FileName)%(Extension)</Link>
+<ItemGroup Label="assets_pipeline_output">
+  <_CustomAsset Include="..\\..\\..\\@PROJECT_NAME@\\assets\\common\\**\\*">
+    <Link>assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
     <DeploymentContent>true</DeploymentContent>
-  </_CustomResource>
+  </_CustomAsset>
 </ItemGroup>
 '''
 
 target = '''
-<Target BeforeTargets="AssignTargetPaths" Name="_CollectCustomResources">
-  <Message Text="Adding resource: %(_CustomResource.Identity) -&gt; %(_CustomResource.Link)" />
-  <ItemGroup><None Include="@(_CustomResource)" /></ItemGroup>
+<Target BeforeTargets="AssignTargetPaths" Name="_CollectCustomAssets">
+  <Message Text="Adding asset: %(_CustomAsset.Identity) -&gt; %(_CustomAsset.Link)" />
+  <ItemGroup><None Include="@(_CustomAsset)" /></ItemGroup>
 </Target>
 '''
 

@@ -111,7 +111,7 @@ endfunction()
 
 function(build_executable project_name)
     set(DEPENDENCIES ${ARGV1})
-    set(RESOURCES ${ARGV2})
+    set(ASSETS ${ARGV2})
 
     update_sources()
 
@@ -135,7 +135,7 @@ function(build_executable project_name)
         ${EXECUTABLE_INCLUDE_DIRECTORIES}
     )
 
-    add_executable(${project_name} WIN32 ${COMMON_SOURCES} ${PLATFORM_SOURCES} ${PLATFORM_COMMON_SOURCES} ${RESOURCES})
+    add_executable(${project_name} WIN32 ${COMMON_SOURCES} ${PLATFORM_SOURCES} ${PLATFORM_COMMON_SOURCES} ${ASSETS})
 
     target_link_libraries(${project_name} ${DEPENDENCIES})
     
@@ -143,26 +143,26 @@ function(build_executable project_name)
     set_property(TARGET ${project_name} PROPERTY CXX_STANDARD_REQUIRED ON)
 endfunction()
 
-function (copy_resources)
+function (copy_assets)
     if(MSVC)
-        set(OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/resources")
+        set(OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/assets")
     else()
-        set(OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/resources")
+        set(OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/assets")
     endif()
-    if(EXISTS "${COMMON_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${COMMON_RESOURCES_DIRECTORY}")
-        message(STATUS "Found common resources")
-        add_custom_target(copy_common_resources ALL
+    if(EXISTS "${COMMON_ASSETS_DIRECTORY}" AND IS_DIRECTORY "${COMMON_ASSETS_DIRECTORY}")
+        message(STATUS "Found common assets")
+        add_custom_target(copy_common_assets ALL
             COMMAND ${CMAKE_COMMAND} -E copy_directory 
-            ${COMMON_RESOURCES_DIRECTORY} 
+            ${COMMON_ASSETS_DIRECTORY} 
             "${OUTPUT_DIRECTORY}"
-            COMMENT "Copying common resources to binary directory: ${OUTPUT_DIRECTORY}")
+            COMMENT "Copying common assets to binary directory: ${OUTPUT_DIRECTORY}")
     endif()
-    if(EXISTS "${PLATFORM_RESOURCES_DIRECTORY}" AND IS_DIRECTORY "${PLATFORM_RESOURCES_DIRECTORY}")
-        message(STATUS "Found platform specific resources")
-        add_custom_target(copy_platform_resources ALL
+    if(EXISTS "${PLATFORM_ASSETS_DIRECTORY}" AND IS_DIRECTORY "${PLATFORM_ASSETS_DIRECTORY}")
+        message(STATUS "Found platform specific assets")
+        add_custom_target(copy_platform_assets ALL
             COMMAND ${CMAKE_COMMAND} -E copy_directory 
-            ${PLATFORM_RESOURCES_DIRECTORY} 
+            ${PLATFORM_ASSETS_DIRECTORY} 
             "${OUTPUT_DIRECTORY}"
-            COMMENT "Copying platform specific resources to binary directory: ${OUTPUT_DIRECTORY}")
+            COMMENT "Copying platform specific assets to binary directory: ${OUTPUT_DIRECTORY}")
     endif()
 endfunction()

@@ -22,14 +22,14 @@ namespace fs = std::filesystem;
 using namespace std;
 using namespace Engine;
 
-string FileSystem::getResourcesDirectory()
+string FileSystem::getAssetsDirectory()
 {
 	string path;
 	auto config = Utilities::IOCContainer::instance().resolve<Utilities::Config>();
 #ifdef UWP
 	const auto folder = Package::Current().InstalledLocation();
 	const auto folderPath = folder.Path();
-	path = std::string(folderPath + L"\\resources\\");    
+	path = std::string(folderPath + L"\\assets\\");    
 #elif WIN32
 	const unsigned int bufferSize = 512;
 	vector<char> buffer(bufferSize + 1);
@@ -38,10 +38,10 @@ string FileSystem::getResourcesDirectory()
 	const fs::path p(s);
 	const auto executableDirectory = p.parent_path();
 	const auto folderPath = executableDirectory.generic_string();
-	path =  std::string(folderPath + "/resources/");
+	path =  std::string(folderPath + "/assets/");
 #elif defined(PLATFORM_POSIX)
 	std::string current_working_dir(fs::current_path().generic_string());
-	path = string(current_working_dir + "/games/" + config->executable + "/resources/");
+	path = string(current_working_dir + "/games/" + config->executable + "/assets/");
 #else
 	static_assert("Invalid platform configured");
 #endif
@@ -51,7 +51,7 @@ string FileSystem::getResourcesDirectory()
 
 std::shared_ptr<File> FileSystem::loadFile(std::string filename, bool writeable)
 {
-	const auto directory = getResourcesDirectory();
+	const auto directory = getAssetsDirectory();
 	auto file = std::make_shared<File>();
 	file->open(directory + filename, writeable);
 	return file;

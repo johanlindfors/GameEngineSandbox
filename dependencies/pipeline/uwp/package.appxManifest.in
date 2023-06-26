@@ -10,9 +10,9 @@
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="@CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION@" />
   </Dependencies>
-  <Resources>
-    <Resource Language="x-generate" />
-  </Resources>
+  <Assets>
+    <Asset Language="x-generate" />
+  </Assets>
   <Applications>
     <Application Id="App" Executable="@PROJECT_NAME@.exe" EntryPoint="app">
       <uap:VisualElements DisplayName="@GAME_TITLE@" Description="@GAME_DESCRIPTION@" BackgroundColor="#336699" Square150x150Logo="Logo.png" Square44x44Logo="SmallLogo44x44.png">

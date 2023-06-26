@@ -40,7 +40,7 @@ void ScoreSystem::saveHighScore()
     auto fileSystem = IOCContainer::instance().resolve<IFileSystem>();
     auto saveFile = fileSystem->loadFile("highscore.txt", true);
     if(!saveFile->isOpen()) {
-        auto dataDirectory = fileSystem->getResourcesDirectory();        
+        auto dataDirectory = fileSystem->getAssetsDirectory();        
         saveFile->create(dataDirectory + "highscore.txt");
     }
     auto fileHandle = saveFile->get();
