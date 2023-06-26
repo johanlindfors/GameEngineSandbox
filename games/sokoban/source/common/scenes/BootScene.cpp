@@ -66,10 +66,14 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 
         if(result.length() == 0) {
             printf("[BootScene::update] Failed to fetch level\n");
-            result = SAMPLE_MAP;
+            result = HARD_MAP;
         }
 
         IOCContainer::instance().register_type<Map>(Map::parse(result));
+
+        // IOCContainer::instance().register_type<Map>(Map::parse(EASY_MAP), "easy");
+        // IOCContainer::instance().register_type<Map>(Map::parse(MEDIUM_MAP), "medium");
+        // IOCContainer::instance().register_type<Map>(Map::parse(HARD_MAP), "hard");
         mGame->goToState(GameState::GamePlay);
     }
 }
