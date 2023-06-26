@@ -1,12 +1,16 @@
 #include "GamePlayScene.hpp"
+
+// engine
 #include "utilities/IOC.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "input/IInputManager.hpp"
+#include "utilities/TweenEngine.hpp"
+
+// game
 #include "game/IGameStateCallback.hpp"
 #include "game/GameDefines.hpp"
 #include "objects/Map.hpp"
 #include "objects/Player.hpp"
-#include "utilities/TweenEngine.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -14,9 +18,9 @@ using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mGame(gameCallback)
-	, mInputManager(IOCContainer::instance().resolve<IInputManager>())
-	, mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
-	, mMap(IOCContainer::instance().resolve<Map>())
+	, mInputManager(IOCContainer::resolve_type<IInputManager>())
+	, mTweenEngine(IOCContainer::resolve_type<ITweenEngine>())
+	, mMap(IOCContainer::resolve_type<Map>())
 	, mPlayer(make_unique<Player>())
 	, mCratePushes(0)
 	, mPlayerMoves(0)

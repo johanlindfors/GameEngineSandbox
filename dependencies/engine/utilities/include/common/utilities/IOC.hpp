@@ -9,6 +9,18 @@ namespace Utilities {
     class IOCContainer final : public Singleton<IOCContainer> {
         public:
             template<class T>
+            static std::shared_ptr<T> resolve_type()
+            {
+	            return instance().resolve<T>();
+            }
+
+            template<class T>
+            static std::shared_ptr<T> resolve_type(std::string id)
+            {
+	            return instance().resolve<T>(id);
+            }
+
+            template<class T>
             void register_type(std::shared_ptr<T> t)
             {
 	            const auto id = typeid(T).name();

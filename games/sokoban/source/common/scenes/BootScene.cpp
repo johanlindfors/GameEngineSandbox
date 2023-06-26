@@ -1,22 +1,18 @@
 #include "BootScene.hpp"
-#include <memory>
-#include <cpr/cpr.h>
-#include "game/IGameStateCallback.hpp"
+
+// engine
 #include "resources/IResourceManager.hpp"
 #include "renderers/Camera.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
-#include "game/GameDefines.hpp"
-#include "objects/Map.hpp"
 #include "http/IHttpClient.hpp"
 
-#include <fstream>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <cctype>
+// game
+#include "game/IGameStateCallback.hpp"
+#include "game/GameDefines.hpp"
+#include "objects/Map.hpp"
+
 
 using namespace std;
 using namespace Engine;
