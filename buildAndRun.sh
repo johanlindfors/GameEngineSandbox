@@ -22,7 +22,7 @@ cd build_sample
 cmake .. -DGAME_TO_BUILD=sample
 cmake --build .
 
-# Build sample
+# Build sokoban
 cd ..
 rm -fr build_sokoban
 mkdir build_sokoban
