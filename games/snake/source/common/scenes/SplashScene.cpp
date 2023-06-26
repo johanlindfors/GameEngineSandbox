@@ -4,7 +4,7 @@
 #include "game/IGameStateCallback.hpp"
 #include "resources/IResourceManager.hpp"
 #include "renderers/SpriteRenderer.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "utilities/IStepTimer.hpp"
 #include "utilities/Config.hpp"
 #include "renderers/Camera.hpp"

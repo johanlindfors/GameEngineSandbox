@@ -4,7 +4,7 @@
 #include "input/IInputManager.hpp"
 #include "utilities/ITweenEngine.hpp"
 #include "utilities/MathHelper.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "utilities/IStepTimer.hpp"
 #include "utilities/IOC.hpp"
 #include "resources/IResourceManager.hpp"
@@ -99,10 +99,10 @@ void Bird::flap()
 		velocity.y = 400;
 
 		auto tweenEngine = IOCContainer::instance().resolve<ITweenEngine>();
-		tweenEngine->add(static_cast<int>(mSprite->rotation), [&](int value)
+		tweenEngine->add(mSprite->rotation, 40.0f, [&](float value)
 		{
- 			mSprite->rotation = static_cast<float>(value);
-		}, 40, 100, false);
+ 			mSprite->rotation = value;
+		}, 100, false);
 	}
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "physics/ICollidable.hpp"
 #include "physics/IPhysicsBody.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "game/GameDefines.hpp"
 #include <memory>
 

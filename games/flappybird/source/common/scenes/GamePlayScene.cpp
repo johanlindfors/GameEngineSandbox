@@ -9,7 +9,7 @@
 #include "game/IGameStateCallback.hpp"
 #include "utilities/MathHelper.hpp"
 #include "game/GameDefines.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "objects/ParallaxBackground.hpp"
 #include "utilities/IStepTimer.hpp"
 #include "objects/Pipes.hpp"

@@ -14,6 +14,7 @@ void bootstrap() {
     config->height = 500;
     config->fps = 15;
     config->useFixedTimeStep = true;
+    config->executable = "snake";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
     IOCContainer::instance().register_type<Config>(config);

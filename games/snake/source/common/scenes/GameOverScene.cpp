@@ -3,7 +3,7 @@
 #include "scenes/ISceneManager.hpp"
 #include "input/IInputManager.hpp"
 #include "renderers/SpriteRenderer.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "utilities/IOC.hpp"
 #include "game/IGameStateCallback.hpp"
 

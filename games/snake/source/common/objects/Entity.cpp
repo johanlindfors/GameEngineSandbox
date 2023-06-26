@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 #include "utilities/MathHelper.hpp"
 #include "resources/Texture2D.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "game/GameDefines.hpp"
 
 using namespace std;

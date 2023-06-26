@@ -3,7 +3,7 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "input/IInputManager.hpp"
 #include "utilities/MathHelper.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "game/IGameStateCallback.hpp"
 
 using namespace std;

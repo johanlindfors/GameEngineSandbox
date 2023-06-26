@@ -21,6 +21,7 @@ void bootstrap() {
     config->width = SCREEN_WIDTH;
     config->height = SCREEN_HEIGHT;
     config->title = "Sample 3d Scene";
+    config->executable = "sample";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
     

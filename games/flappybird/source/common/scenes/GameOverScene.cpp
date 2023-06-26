@@ -2,7 +2,7 @@
 #include "scenes/ISceneManager.hpp"
 #include "input/IInputManager.hpp"
 #include "renderers/SpriteRenderer.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "utilities/IOC.hpp"
 #include "game/IGameStateCallback.hpp"
 #include "utilities/ITweenEngine.hpp"
@@ -68,14 +68,14 @@ void GameOverScene::load()
 		44.0f / 512.0f, 44.0f / 512.0f
 	}; // 2, 173, 46, 217
 
-	mTweenEngine->add(static_cast<int>(mGameOverText->size.width),[&](int value)
+	mTweenEngine->add(mGameOverText->size.width, 192.0f,[&](const auto value)
 	{ 
-		mGameOverText->size.width = static_cast<float>(value); 
-	}, 192, 1500, true);
-	mTweenEngine->add(static_cast<int>(mGameOverText->size.height),[&](int value)
+		mGameOverText->size.width = value; 
+	}, 1500, true);
+	mTweenEngine->add(mGameOverText->size.height, 48.0f,[&](const auto value)
 	{ 
-		mGameOverText->size.height = static_cast<float>(value);
-	}, 48, 1500, true);
+		mGameOverText->size.height = value;
+	}, 1500, true);
 }
 
 void GameOverScene::unload() { }

@@ -4,7 +4,7 @@
 #include "objects/Trees.hpp"
 #include "objects/Skyline.hpp"
 #include "objects/Ground.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "game/GameDefines.hpp"
 
 using namespace std;

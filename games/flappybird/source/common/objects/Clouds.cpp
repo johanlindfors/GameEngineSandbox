@@ -1,7 +1,7 @@
 #include "Clouds.hpp"
 #include "utilities/IStepTimer.hpp"
 #include "renderers/SpriteRenderer.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "utilities/IOC.hpp"
 #include "resources/IResourceManager.hpp"
 

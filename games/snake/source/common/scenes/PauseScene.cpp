@@ -2,7 +2,7 @@
 #include "resources/IResourceManager.hpp"
 #include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "renderers/SpriteRenderer.hpp"
 
 using namespace std;
