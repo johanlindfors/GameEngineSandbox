@@ -4,9 +4,7 @@ add_subdirectory(filesystem ${CMAKE_CURRENT_BINARY_DIR}/engine/filesystem)
 
 add_subdirectory(game-loop ${CMAKE_CURRENT_BINARY_DIR}/engine/game-loop)
 
-if(DEFINED USE_HTTP)
-    add_subdirectory(http ${CMAKE_CURRENT_BINARY_DIR}/engine/http)
-endif()
+add_subdirectory(http ${CMAKE_CURRENT_BINARY_DIR}/engine/http)
 
 add_subdirectory(input ${CMAKE_CURRENT_BINARY_DIR}/engine/input)
 

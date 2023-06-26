@@ -1,9 +1,13 @@
 #include "FixedTile.hpp"
+
+// engine
 #include "renderers/SpriteRenderer.hpp"
 #include "sprites/TiledSprite.hpp"
-#include "game/GameDefines.hpp"
 #include "utilities/IOC.hpp"
 #include "resources/IResourceManager.hpp"
+
+// game
+#include "game/GameDefines.hpp"
 
 using namespace std;
 using namespace Engine;

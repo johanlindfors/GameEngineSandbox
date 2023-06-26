@@ -1,5 +1,9 @@
 #pragma once
+
+// stl
 #include <memory>
+
+// game
 #include "MoveableObject.hpp"
 
 namespace Utilities
@@ -11,7 +15,7 @@ class Player : public MoveableObject
 {
     public:
         Player();
-        ~Player() { printf("[Player::destructor]\n"); };
+        ~Player() = default;
         
         void initialize(int x, int y);
         void move(int deltaX, int deltaY);

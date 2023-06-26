@@ -1,7 +1,13 @@
 #pragma once
+
+// stl
 #include <memory>
-#include "IGameStateCallback.hpp"
+
+// engine
 #include "game-loop/IGameLoopCallback.hpp"
+
+// game
+#include "IGameStateCallback.hpp"
 
 namespace Engine {
     class ISceneManager;

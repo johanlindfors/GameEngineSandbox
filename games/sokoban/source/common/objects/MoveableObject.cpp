@@ -1,11 +1,15 @@
 #include "MoveableObject.hpp"
+
+// engine
 #include "utilities/IOC.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "sprites/Sprite.hpp"
 #include "resources/IResourceManager.hpp"
-#include "game/GameDefines.hpp"
 #include "utilities/TweenEngine.hpp"
 #include "utilities/IStepTimer.hpp"
+
+// game
+#include "game/GameDefines.hpp"
 
 using namespace std;
 using namespace Engine;

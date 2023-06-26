@@ -1,4 +1,5 @@
 #include "http/HttpClient.hpp"
+#if defined(USE_HTTP)
 #include <cpr/cpr.h>
 #include <curl/curl.h>
 
@@ -46,3 +47,4 @@ string CurlHttpClient::get(string url)
     }
     return response_string;
 }
+#endif

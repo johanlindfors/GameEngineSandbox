@@ -1,13 +1,17 @@
 #include "GameStateMachine.hpp"
+
+// engine
 #include "utilities/IOC.hpp"
+
+// game
 #include "scenes/BootScene.hpp"
 #include "scenes/GamePlayScene.hpp"
 #include "scenes/GameOverScene.hpp"
 #include "scenes/ISceneManager.hpp"
 
 using namespace std;
-using namespace Utilities;
 using namespace Engine;
+using namespace Utilities;
 
 GameStateMachine::GameStateMachine()
 	: mCurrentState(GameState::Unknown)

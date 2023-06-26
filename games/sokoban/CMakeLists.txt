@@ -19,12 +19,10 @@ set(DEPENDENCIES
     resources
     input
     scenes
+    http
 )
 
 if(USE_HTTP)
-    list(APPEND DEPENDENCIES
-        http
-    )
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_HTTP")
 endif()
 

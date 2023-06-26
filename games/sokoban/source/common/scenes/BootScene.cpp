@@ -6,9 +6,7 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
-#if defined(USE_HTTP)
-    #include "http/IHttpClient.hpp"
-#endif
+#include "http/IHttpClient.hpp"
 
 // game
 #include "game/IGameStateCallback.hpp"
@@ -56,20 +54,22 @@ void BootScene::updateScreenSize(int width, int height)
 void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
     if(mInitialized) {
-#if defined(USE_HTTP)
-        printf("[BootScene::update] Fetching level from server\n");
+        string result;
 
-        auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
-        string url("https://programmeramera.se/pages/sokobants/assets/001.txt");
-        auto result = httpClient->get(url);
+        if(IOCContainer::instance().contains<IHttpClient>()) {
+            printf("[BootScene::update] Fetching level from server\n");
 
-        if(result.length() == 0) {
-            printf("[BootScene::update] Failed to fetch level\n");
+            auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
+            string url("https://programmeramera.se/pages/sokobants/assets/001.txt");
+            auto result = httpClient->get(url);
+
+            if(result.length() == 0) {
+                printf("[BootScene::update] Failed to fetch level\n");
+                result = HARD_MAP;
+            }
+        } else {
             result = HARD_MAP;
         }
-#else
-        string result = HARD_MAP;
-#endif
 
         IOCContainer::instance().register_type<Map>(Map::parse(result));
 

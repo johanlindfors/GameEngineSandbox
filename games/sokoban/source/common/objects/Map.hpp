@@ -1,8 +1,11 @@
 #pragma once
+
+// stl
 #include <vector>
-#include "utilities/MathHelper.hpp"
 #include <functional>
-#include <vector>
+
+// engine
+#include "utilities/MathHelper.hpp"
 
 namespace Engine
 {

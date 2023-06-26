@@ -1,7 +1,8 @@
 #pragma once
+
+// stl
 #include <memory>
 #include <functional>
-#include <cstdio>
 
 namespace Engine
 {
@@ -18,7 +19,7 @@ class MoveableObject
 {
     public:
         MoveableObject();
-        ~MoveableObject() { printf("[MoveableObject::destructor]\n"); };
+        ~MoveableObject() = default;
         void draw(std::shared_ptr<Engine::IRenderer> renderer);
         virtual void move(int deltaX, int deltaY, std::function<void()> onCompleteCallback);
 

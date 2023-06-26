@@ -1,14 +1,20 @@
 #include "Map.hpp"
-#include "renderers/SpriteRenderer.hpp"
-#include "utilities/IOC.hpp"
-#include "resources/IResourceManager.hpp"
-#include "objects/Crate.hpp"
-#include "game/GameDefines.hpp"
-#include "objects/FixedTile.hpp"
+
+//stl
 #include <algorithm>
 #include <functional>
 #include <sstream>
 #include <vector>
+
+// engine
+#include "renderers/SpriteRenderer.hpp"
+#include "utilities/IOC.hpp"
+#include "resources/IResourceManager.hpp"
+
+// game
+#include "objects/Crate.hpp"
+#include "game/GameDefines.hpp"
+#include "objects/FixedTile.hpp"
 
 using namespace std;
 using namespace Engine;
