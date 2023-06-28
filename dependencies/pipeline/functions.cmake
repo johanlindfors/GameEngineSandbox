@@ -29,7 +29,9 @@ macro(initialize_pipeline)
 
     # Enable folders grouping in IDE
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
+    if(USE_HTTP)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_HTTP")
+    endif()
 endmacro()
 
 macro(update_sources)
