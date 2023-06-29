@@ -1,4 +1,9 @@
 #pragma once
+
+// stl
+#include <string>
+
+// engine
 #include "scenes/GameScene.hpp"
 
 class IGameStateCallback;
@@ -25,16 +30,14 @@ public:
     ~GameOverScene() = default;
 
 	// Engine::GameScene
-    void load() override;
-	void unload() override;
-	void updateScreenSize(int width, int height) override;
-	void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+    void load() override { };
+	void unload() override { };
+	void updateScreenSize(int width, int height) override { };
+	void update(std::shared_ptr<Utilities::IStepTimer> timer) override { };
 	void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
 private:
-	void handleInput();
-
-	std::shared_ptr<Engine::Sprite> mGameOverText;
+	std::string mGameOverText;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
 	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
   	std::shared_ptr<Engine::IInputManager> mInputManager;

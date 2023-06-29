@@ -27,6 +27,7 @@ namespace Engine {
 	public:
 		FontRenderer(
 			const std::string& atlasFilename,
+			const std::string& textureFilename,
 			std::shared_ptr<Engine::Shader> shader, 
 			std::shared_ptr<Engine::OrthographicCamera> camera);
 		~FontRenderer() = default;
@@ -41,6 +42,7 @@ namespace Engine {
 		Utilities::Rectangle<float> measureString(const std::string& str);
 
         std::string mAtlasFilename;
+		std::string mTextureFilename;
 		std::shared_ptr<Engine::Sprite> mCharacterSprite;
 		std::map<char, Character> mCharacters;
 		bool mInitialized;

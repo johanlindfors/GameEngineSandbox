@@ -1,40 +1,19 @@
 #include "GameOverScene.hpp"
+#include "renderers/FontRenderer.hpp"
+#include "utilities/IOC.hpp"
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
 GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
+    : mGameOverText("Game Over")
+    , mFontRenderer(IOCContainer::resolve_type<FontRenderer>())
 {
     id = typeid(GameOverScene).name();
 }
 
-void GameOverScene::load()
-{
-
-}
-
-void GameOverScene::unload()
-{
-
-}
-
-void GameOverScene::updateScreenSize(int width, int height)
-{
-
-}
-
-void GameOverScene::update(shared_ptr<IStepTimer> timer)
-{
-
-}
-
 void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 {
-
-}
-
-void GameOverScene::handleInput()
-{
-
+	mFontRenderer->drawString(mGameOverText, Point<float>{200, 200}, 0.5f);
 }

@@ -4,6 +4,7 @@
 #include "resources/IResourceManager.hpp"
 #include "renderers/Camera.hpp"
 #include "renderers/SpriteRenderer.hpp"
+#include "renderers/FontRenderer.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
 #include "http/IHttpClient.hpp"
@@ -39,6 +40,12 @@ void BootScene::load()
     auto renderer = make_shared<SpriteRenderer>( shader, camera );
     renderer->initialize();
     IOCContainer::instance().register_type<IRenderer>(renderer);
+
+	IOCContainer::instance().resolve_type<IResourceManager>()->loadTextures({ "flappyfont.png" });
+
+    auto fontRenderer = make_shared<FontRenderer>("textures/flappyfont.fnt", "flappyfont.png", shader, camera);
+    fontRenderer->initialize();
+	IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
     mInitialized = true;
 }
