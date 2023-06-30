@@ -8,9 +8,14 @@ TweenEngine::TweenEngine()
     : mTweens(vector<shared_ptr<Tween>>())
 { }
 
-void TweenEngine::add(int original, function<void(int)> setter, int target, int durationInMilliseconds, bool bounce)
+void TweenEngine::add(float original, float target, function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce)
 {
-    mTweens.push_back(make_unique<Tween>(original, setter, target, durationInMilliseconds));
+    mTweens.push_back(make_unique<Tween>(original, target, setter, durationInMilliseconds, nullptr));
+}
+
+void TweenEngine::add(float original, float target, function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce, function<void()> onCompleteCallback)
+{
+    mTweens.push_back(make_unique<Tween>(original, target, setter, durationInMilliseconds, onCompleteCallback));
 }
 
 void TweenEngine::update(shared_ptr<IStepTimer> timer)

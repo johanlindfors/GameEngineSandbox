@@ -111,7 +111,9 @@ class Application
 
             // Escape
             pressed = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
-            mInput->addKeyboardEvent(256, pressed);
+            if(pressed) {
+                glfwSetWindowShouldClose(window, 1);
+            }
         }
 
         shared_ptr<IInputManager> mInput;

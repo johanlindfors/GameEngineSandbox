@@ -1,7 +1,7 @@
 #include "renderers/SpriteRenderer.hpp"
 #include <string>
 #include "utilities/GLHelper.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "renderers/Camera.hpp"
 #include "resources/Shader.hpp"
 

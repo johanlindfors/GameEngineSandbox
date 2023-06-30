@@ -1,42 +1,32 @@
 #include "resources/ShaderLoader.hpp"
 #include "filesystem/FileSystem.hpp"
-#include "utilities/GLHelper.hpp"
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include <cstring>
 #include "utilities/IOC.hpp"
-#include "File.hpp"
+#include "filesystem/File.hpp"
 #include "resources/Shader.hpp"
 
 using namespace std;
 using namespace Engine;
-using Utilities::IOCContainer;
+using namespace Utilities;
 
 namespace Engine {
 	class ShaderLoaderImpl 
 	{
 	public:
 		ShaderLoaderImpl()
-			: mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) { }	
+			: mFileSystem(IOCContainer::resolve_type<IFileSystem>()) { }	
 
 		string loadShader(const string& fileName)
 		{
-			const auto file = mFileSystem->loadFile(std::string("shaders/" + fileName), false);
+			const auto file = mFileSystem->loadFile(string("shaders/" + fileName), false);
 		    printf("[ShaderLoaderImpl::LoadShader] Loading shader\n");
-			std::string shader;
-			if(file && file->isOpen()){
-				auto fileHandle = file->get();
-				char buffer[100];
-				while(!feof(fileHandle)) {
-					if(fgets(buffer, 100, fileHandle) != NULL)
-						shader += buffer;
-				}
+			string shader;
+			if(file && file->isOpen()) {
+				shader = file->readAllText();
 			}
 			return shader;
 		}
 	private:
-		std::shared_ptr<IFileSystem> mFileSystem;
+		shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 

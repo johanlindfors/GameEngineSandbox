@@ -10,6 +10,7 @@ namespace Utilities
         int width = 288;
         int height = 505;
         std::string title = "";
+        std::string executable = "";
         unsigned int glMajorVersion = 3;
         unsigned int glMinorVersion = 3;
     };

@@ -3,10 +3,10 @@
 #include <string>
 #include "utilities/MathHelper.hpp"
 #include "utilities/GLHelper.hpp"
-#include "renderers/Sprite.hpp"
+#include "sprites/Sprite.hpp"
 #include "filesystem/IFileSystem.hpp"
 #include "utilities/IOC.hpp"
-#include "File.hpp"
+#include "filesystem/File.hpp"
 #include "resources/Shader.hpp"
 
 #include <glm/glm.hpp>
@@ -26,10 +26,12 @@ using namespace Engine;
 using namespace Utilities;
 
 FontRenderer::FontRenderer(const string& atlasFilename,
-				std::shared_ptr<Engine::Shader> shader, 
-				std::shared_ptr<Engine::OrthographicCamera> camera)
+				const string& textureFilename,
+				shared_ptr<Shader> shader, 
+				shared_ptr<OrthographicCamera> camera)
 	: SpriteRenderer::SpriteRenderer(shader, camera)
 	, mAtlasFilename(atlasFilename)
+	, mTextureFilename(textureFilename)
 	, mCharacterSprite(make_shared<Sprite>())
 	, mInitialized(false)
 { }
@@ -52,18 +54,18 @@ void FontRenderer::initialize() {
 		}
     }
 	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-	auto atlasTexture = resourceManager->getTexture("atlas.png");
+	auto atlasTexture = resourceManager->getTexture(mTextureFilename);
 	mCharacterSprite->texture = atlasTexture;
 	mInitialized = true;
 }
 
-void FontRenderer::drawString(const string& str, Utilities::Point<float> centerPosition, float scale)
+void FontRenderer::drawString(const string& str, Point<float> centerPosition, float scale)
 {
 	auto dimensions = measureString(str);
 	auto x = centerPosition.x - dimensions.size.width/2 * scale;
 	auto y = centerPosition.y - dimensions.size.height/2 * scale;
 	for(const auto& character : str) {
-		drawCharacter(character, Utilities::Rectangle<float>(
+		drawCharacter(character, Rectangle<float>(
 			x, 
 			y, 
 			mCharacters[character].width * scale,
@@ -72,20 +74,22 @@ void FontRenderer::drawString(const string& str, Utilities::Point<float> centerP
 	}
 }
 
-Utilities::Rectangle<float> FontRenderer::measureString(const string& str) 
+Rectangle<float> FontRenderer::measureString(const string& str) 
 {
-	auto dimensions = Utilities::Rectangle<float>({ 0.0f, 0.0f, 0.0f, 63.0f });
+	auto dimensions = Rectangle<float>({ 0.0f, 0.0f, 0.0f, 63.0f });
 	for(const auto& character : str) {
 		dimensions.size.width += mCharacters[character].xAdvance;
 	}
 	return dimensions;
 }
 
-void FontRenderer::drawCharacter(char character, Utilities::Rectangle<float> rectangle)
+void FontRenderer::drawCharacter(char character, Rectangle<float> rectangle)
 {
-	Utilities::Rectangle<float> spriteOffset(
-		mCharacters[character].xOffset / 512.0f, mCharacters[character].yOffset / 512.0f,
-		mCharacters[character].width / 512.0f, mCharacters[character].height / 512.0f
+	const auto textureWidth = mCharacterSprite->texture.width;
+	const auto textureHeight = mCharacterSprite->texture.height;
+	Rectangle<float> spriteOffset(
+		mCharacters[character].xOffset / textureWidth, mCharacters[character].yOffset / textureHeight,
+		mCharacters[character].width / textureWidth, mCharacters[character].height / textureHeight
 	);
 	mCharacterSprite->offset = spriteOffset;
 	mCharacterSprite->size = rectangle.size;
@@ -99,7 +103,7 @@ void FontRenderer::addCharacter(int id, int x, int y, int width, int height, int
 	character.uVOffset = offset;
 	character.xAdvance = xadvance;
 	character.xOffset = static_cast<float>(x);
-	character.yOffset = (512.0f - (y + height));
+	character.yOffset = (mCharacterSprite->texture.height - (y + height));
 	character.width = static_cast<float>(width);
 	character.height = static_cast<float>(height);
 

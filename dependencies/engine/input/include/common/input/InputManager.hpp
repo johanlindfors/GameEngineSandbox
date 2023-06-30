@@ -8,7 +8,7 @@ namespace Engine
     class InputManager : public IInputManager
     {
     public:
-        InputManager() {}
+        InputManager() = default;
         void addKeyboardEvent(int keyCode, bool isPressed) override;
         bool isKeyDown(int keyCode) override;
         void addMouseEvent(MouseButton button, MouseButtonState state, int x, int y) override;

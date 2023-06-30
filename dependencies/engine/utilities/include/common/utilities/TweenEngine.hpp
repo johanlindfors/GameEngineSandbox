@@ -10,7 +10,8 @@ namespace Utilities
     {
         public:
             TweenEngine();
-            void add(int original, std::function<void(int)> setter, int target, int durationInMilliseconds, bool bounce);
+            void add(float original, float target, std::function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce);
+            void add(float original, float target, std::function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce, std::function<void()> onCompleteCallback);
             void update(std::shared_ptr<Utilities::IStepTimer> timer);
             void clear();
         private:

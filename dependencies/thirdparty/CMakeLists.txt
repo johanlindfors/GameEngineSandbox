@@ -24,3 +24,7 @@ if (${GAME_TO_BUILD} STREQUAL flappybird)
 endif()
 
 add_subdirectory(glm ${CMAKE_CURRENT_BINARY_DIR}/glm)
+
+if(DEFINED USE_HTTP)
+    add_subdirectory(cpr ${CMAKE_CURRENT_BINARY_DIR}/cpr)
+endif()

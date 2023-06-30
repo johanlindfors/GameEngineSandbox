@@ -11,7 +11,13 @@ namespace Utilities
 		public:
 			bool isComplete;
 
-			Tween(float original, std::function<void(float)> setter, float target, float durationInMilliseconds);
+			Tween(
+				float original, 
+				float target, 
+				std::function<void(float)> setter, 
+				unsigned int durationInMilliseconds, 
+				std::function<void()> onCompleteCallback
+			);
 			void update(std::shared_ptr<Utilities::IStepTimer> timer);
 
 			static bool isTweenCompleted(std::shared_ptr<Tween> tween)
@@ -24,10 +30,11 @@ namespace Utilities
 			}
 			
 		private:
-			float duration;
-			float elapsed;
+			unsigned int duration;
+			unsigned int elapsed;
 			float targetValue;
 			float originalValue;
 			std::function<void(float)> tweenFunc;
+			std::function<void()> onCompleteCallback;
     };
 }
