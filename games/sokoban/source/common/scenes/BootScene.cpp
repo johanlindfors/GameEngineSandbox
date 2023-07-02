@@ -67,8 +67,8 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
             printf("[BootScene::update] Fetching level from server\n");
 
             auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
-            string url("https://programmeramera.se/pages/sokobants/assets/001.txt");
-            auto result = httpClient->get(url);
+            string url("https://programmeramera.se/pages/sokobants/assets/003.txt");
+            result = httpClient->get(url);
 
             if(result.length() == 0) {
                 printf("[BootScene::update] Failed to fetch level\n");
