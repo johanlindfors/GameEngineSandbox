@@ -2,9 +2,10 @@
 
 // engine
 #include "utilities/IOC.hpp"
-#include "renderers/SpriteRenderer.hpp"
-#include "input/IInputManager.hpp"
 #include "utilities/TweenEngine.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "renderers/FontRenderer.hpp"
+#include "input/IInputManager.hpp"
 
 // game
 #include "game/IGameStateCallback.hpp"
@@ -20,6 +21,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mGame(gameCallback)
 	, mInputManager(IOCContainer::resolve_type<IInputManager>())
 	, mTweenEngine(IOCContainer::resolve_type<ITweenEngine>())
+	, mFontRenderer(IOCContainer::resolve_type<FontRenderer>())
 	, mMap(IOCContainer::resolve_type<Map>())
 	, mPlayer(make_unique<Player>())
 	, mCratePushes(0)
@@ -64,6 +66,8 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
 	mMap->draw(renderer);
 	mPlayer->draw(renderer);
+	mFontRenderer->drawString(to_string(mPlayerMoves), { 16, 400 - 24 }, 1.0f);
+	mFontRenderer->drawString(to_string(mCratePushes), { 400 - 16, 400 - 24 }, 1.0f);
 }
 
 void GamePlayScene::move(int deltaX, int deltaY) 

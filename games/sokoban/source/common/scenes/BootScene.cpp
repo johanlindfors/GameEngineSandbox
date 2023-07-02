@@ -43,7 +43,7 @@ void BootScene::load()
 
 	IOCContainer::instance().resolve_type<IResourceManager>()->loadTextures({ FONT });
 
-    auto fontRenderer = make_shared<FontRenderer>("textures/vga_16x16.fnt", FONT, shader, camera);
+    auto fontRenderer = make_shared<FontRenderer>("fonts/vga_16x32.fnt", FONT, shader, camera);
     fontRenderer->initialize();
 	IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
