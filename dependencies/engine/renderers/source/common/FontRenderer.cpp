@@ -38,6 +38,11 @@ FontRenderer::FontRenderer(const string& atlasFilename,
 
 void FontRenderer::initialize() {
 	SpriteRenderer::initialize();
+
+	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+	auto atlasTexture = resourceManager->getTexture(mTextureFilename);
+	mCharacterSprite->texture = atlasTexture;
+
 	auto filesystem = IOCContainer::instance().resolve<IFileSystem>();
 	auto file = filesystem->loadFile(mAtlasFilename, false);
 	if(file->isOpen()) {
@@ -53,9 +58,6 @@ void FontRenderer::initialize() {
 			}
 		}
     }
-	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-	auto atlasTexture = resourceManager->getTexture(mTextureFilename);
-	mCharacterSprite->texture = atlasTexture;
 	mInitialized = true;
 }
 
@@ -76,9 +78,12 @@ void FontRenderer::drawString(const string& str, Point<float> centerPosition, fl
 
 Rectangle<float> FontRenderer::measureString(const string& str) 
 {
-	auto dimensions = Rectangle<float>({ 0.0f, 0.0f, 0.0f, 63.0f });
+	auto dimensions = Rectangle<float>({ 0.0f, 0.0f, 0.0f, 0.0f });
 	for(const auto& character : str) {
 		dimensions.size.width += mCharacters[character].xAdvance;
+		if(mCharacters[character].height > dimensions.size.height){
+			dimensions.size.height = mCharacters[character].height;
+		}
 	}
 	return dimensions;
 }
@@ -104,6 +109,7 @@ void FontRenderer::addCharacter(int id, int x, int y, int width, int height, int
 	character.xAdvance = xadvance;
 	character.xOffset = static_cast<float>(x);
 	character.yOffset = (mCharacterSprite->texture.height - (y + height));
+//	character.yOffset = static_cast<float>(y);
 	character.width = static_cast<float>(width);
 	character.height = static_cast<float>(height);
 

@@ -15,5 +15,5 @@ GameOverScene::GameOverScene(IGameStateCallback* gameCallback)
 
 void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 {
-	mFontRenderer->drawString(mGameOverText, Point<float>{200, 200}, 0.5f);
+	mFontRenderer->drawString(mGameOverText, Point<float>{200, 200}, 2.0f);
 }
