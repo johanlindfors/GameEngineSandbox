@@ -10,7 +10,7 @@
 #define CRATE 3
 #define PLAYER 4
 #define TILES "tiles3.png"
-#define FONT "vga_bold_16x32.png"
+#define FONT "vga_bold_16x16.png"
 
 #define SAMPLE_MAP "\
 ##########\r\n\
