@@ -66,8 +66,8 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
 	mMap->draw(renderer);
 	mPlayer->draw(renderer);
-	mFontRenderer->drawString(to_string(mPlayerMoves), { 16, 400 - 24 }, 1.0f);
-	mFontRenderer->drawString(to_string(mCratePushes), { 400 - 16, 400 - 24 }, 1.0f);
+	mFontRenderer->drawString(to_string(mPlayerMoves), FontRenderer::Alignment::Left, { 16, 400 - 24 }, 1.0f);
+	mFontRenderer->drawString(to_string(mCratePushes), FontRenderer::Alignment::Right, { 400 - 16, 400 - 24 }, 1.0f);
 }
 
 void GamePlayScene::move(int deltaX, int deltaY) 

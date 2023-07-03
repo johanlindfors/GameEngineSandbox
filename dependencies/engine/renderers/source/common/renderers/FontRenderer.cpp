@@ -61,11 +61,29 @@ void FontRenderer::initialize() {
 	mInitialized = true;
 }
 
-void FontRenderer::drawString(const string& str, Point<float> centerPosition, float scale)
+void FontRenderer::drawString(const string& str, Alignment alignment, Point<float> position, float scale)
 {
 	auto dimensions = measureString(str);
-	auto x = centerPosition.x - dimensions.size.width/2 * scale;
-	auto y = centerPosition.y - dimensions.size.height/2 * scale;
+	float x, y;
+	y = position.y - dimensions.size.height/2 * scale;
+		
+	switch (alignment)
+	{
+	case Alignment::Center:
+		x = position.x - dimensions.size.width/2 * scale;
+		break;
+
+	case Alignment::Left:
+		x = position.x;
+		break;
+	
+	case Alignment::Right:
+		x = position.x - dimensions.size.width * scale;
+		break;
+
+	default:
+		break;
+	}
 	for(const auto& character : str) {
 		drawCharacter(character, Rectangle<float>(
 			x, 

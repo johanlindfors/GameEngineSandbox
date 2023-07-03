@@ -122,7 +122,7 @@ void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 			}
 			spriteRenderer->drawSprite(mMedal);
 		}
-        mFontRenderer->drawString(to_string(score), Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 68}, 0.3f);
-        mFontRenderer->drawString(to_string(mScoreSystem->getHighScore()), Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 18}, 0.3f);
+        mFontRenderer->drawString(to_string(score), FontRenderer::Alignment::Center, Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 68}, 0.3f);
+        mFontRenderer->drawString(to_string(mScoreSystem->getHighScore()), FontRenderer::Alignment::Center, Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 18}, 0.3f);
 	}
 }
