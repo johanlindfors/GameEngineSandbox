@@ -10,9 +10,15 @@
 #define SPOT 2
 #define CRATE 3
 #define PLAYER 4
-#define TILES "tiles3.png"
 #define FONT "vga_bold_16x16.png"
 #define LOADING_PAUSE 150ms
+#define FONT "vga_16x16.png"
+#define IS_ANIMATED true
+#if IS_ANIMATED == true
+#define TILES "tiles3.png"
+#else
+#define TILES "tiles.png"
+#endif
 
 #define SAMPLE_MAP "\
 ##########\r\n\
