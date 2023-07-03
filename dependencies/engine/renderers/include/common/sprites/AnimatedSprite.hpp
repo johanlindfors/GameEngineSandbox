@@ -23,42 +23,10 @@ namespace Engine
         unsigned int currentFrame;
         unsigned int elapsedMicroSeconds;
 
-        void play(std::string name) {
-            currentAnimation = name;
-            isPlaying = true;
-            elapsedMicroSeconds = 0; 
-            currentFrame = 0;
-        }
-        void pause() { isPlaying = false; }
-        void resume() { isPlaying = true; }
-        void reset() {
-            elapsedMicroSeconds = 0; 
-            currentFrame = 0;
-        }
-
-        void update(std::shared_ptr<Utilities::IStepTimer> timer) {
-            if(isPlaying == false)
-                return;
-
-            auto delta = timer->getDeltaMicroSeconds();
-            elapsedMicroSeconds += delta;
-            auto current = animations[currentAnimation];
-            if(elapsedMicroSeconds >= current.frames[currentFrame].durationInMicroSeconds) {
-                // next frame in animation
-                elapsedMicroSeconds -= current.frames[currentFrame].durationInMicroSeconds;
-                currentFrame++;
-                if(current.loop) {
-                    currentFrame %= current.frames.size();
-                } else {
-                    if(currentFrame > current.frames.size()) {
-                        isPlaying = false;
-                    }
-                }
-                animations[currentAnimation] = current;
-                currentTile = current.frames[currentFrame].tile;
-                printf("[CurrentTile] tile: %u, frame: %u, elapsed: %u\n", currentTile, currentFrame, elapsedMicroSeconds);
-                calculateTileOffset();
-            }
-        }
+        void play(std::string name);
+        void pause();
+        void resume();
+        void reset();
+        void update(std::shared_ptr<Utilities::IStepTimer> timer);
     };
 }

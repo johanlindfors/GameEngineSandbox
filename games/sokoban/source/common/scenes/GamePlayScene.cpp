@@ -88,17 +88,12 @@ void GamePlayScene::move(int deltaX, int deltaY)
 	}
 }
 
-void GamePlayScene::updateStatus()  {
-    printf("%d / %d\n", mPlayerMoves, mCratePushes);
-}
-
 void GamePlayScene::movePlayer(int deltaX, int deltaY)
 {
 	mPlayer->move(deltaX, deltaY);
 	mPlayer->posX += deltaX;
 	mPlayer->posY += deltaY;
 	mPlayerMoves++;
-	updateStatus();
 }
 
 void GamePlayScene::handleInput()
