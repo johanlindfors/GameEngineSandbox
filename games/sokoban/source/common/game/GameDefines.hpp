@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 400
@@ -11,6 +12,7 @@
 #define PLAYER 4
 #define TILES "tiles3.png"
 #define FONT "vga_bold_16x16.png"
+#define LOADING_PAUSE 150ms
 
 #define SAMPLE_MAP "\
 ##########\r\n\
