@@ -85,7 +85,7 @@ void GameOverScene::updateScreenSize(int width, int height) { }
 void GameOverScene::handleInput() 
 { 
 	auto const mouseState = mInputManager->getMouseState();
-	if(mouseState.state == MouseButtonState::Pressed) {
+	if(mouseState.state == ButtonState::Pressed) {
 		Utilities::Point<int> position = { mouseState.position.x, 505 - mouseState.position.y };
 		if(position.x > 92 && 
 		   position.x < 92 + 104 &&

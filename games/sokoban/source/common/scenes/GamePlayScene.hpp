@@ -41,6 +41,7 @@ private:
 
 	int mCratePushes;
 	int mPlayerMoves;
+	bool mKeyWasPressed;
 	std::shared_ptr<Map> mMap;
 	std::unique_ptr<Player> mPlayer;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;

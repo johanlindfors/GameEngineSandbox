@@ -133,7 +133,7 @@ void GamePlayScene::generatePipes()
 
 void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
-	auto const mousePressed = mInputManager->getMouseState().state == MouseButtonState::Pressed;
+	auto const mousePressed = mInputManager->getMouseState().state == ButtonState::Pressed;
 	auto const spacePressed = mInputManager->isKeyDown(32);
 
 	switch(mGame->getCurrentState()) {

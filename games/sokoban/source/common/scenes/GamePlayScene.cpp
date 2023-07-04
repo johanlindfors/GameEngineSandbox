@@ -26,6 +26,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mPlayer(make_unique<Player>())
 	, mCratePushes(0)
 	, mPlayerMoves(0)
+	, mKeyWasPressed(false)
 {
 	id = typeid(GamePlayScene).name();
 }
@@ -72,6 +73,8 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 
 void GamePlayScene::move(int deltaX, int deltaY) 
 {
+	mKeyWasPressed = true;
+
 	if(mMap->isWalkable(mPlayer->posX + deltaX, mPlayer->posY + deltaY)) {
 		movePlayer(deltaX, deltaY);
 	}
@@ -101,16 +104,20 @@ void GamePlayScene::handleInput()
 	if(mPlayer->isMoving) {
 		return;
 	}
+
 	if (mInputManager->isKeyDown(37)) {
-		move(-1, 0);
-	}
-	if (mInputManager->isKeyDown(39)) {
-		move(1, 0);
-	}
-	if (mInputManager->isKeyDown(40)) {
-		move(0, -1);
-	}
-	if (mInputManager->isKeyDown(38)) {
-		move(0, 1);
+		if(!mKeyWasPressed)
+			move(-1, 0);
+	} else if (mInputManager->isKeyDown(39)) {
+		if(!mKeyWasPressed)
+			move(1, 0);
+	} else if (mInputManager->isKeyDown(40)) {
+		if(!mKeyWasPressed)
+			move(0, -1);
+	} else if (mInputManager->isKeyDown(38)) {
+		if(!mKeyWasPressed)
+			move(0, 1);
+	} else {
+		mKeyWasPressed = false;
 	}
 }

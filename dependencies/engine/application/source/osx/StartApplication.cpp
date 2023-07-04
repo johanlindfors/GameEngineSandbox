@@ -89,7 +89,7 @@ class Application
                     double xpos, ypos;
                     glfwGetCursorPos(window, &xpos, &ypos);
                     auto input = IOCContainer::instance().resolve<IInputManager>();
-                    input->addMouseEvent(MouseButton::Left, MouseButtonState::Pressed, xpos, ypos);
+                    input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, xpos, ypos);
                 }
             });
 

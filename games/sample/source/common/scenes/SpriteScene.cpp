@@ -66,7 +66,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
 {
     auto const mouseState = mInputManager->getMouseState();
     mInputManager->update();
-	if(mouseState.state == MouseButtonState::Pressed) {
+	if(mouseState.state == ButtonState::Pressed) {
         auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
         sceneManager->removeScene(typeid(SpriteScene));
         sceneManager->addScene(make_shared<ModelScene>());
