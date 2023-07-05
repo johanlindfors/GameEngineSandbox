@@ -2,9 +2,10 @@
 
 // engine
 #include "utilities/IOC.hpp"
-#include "renderers/SpriteRenderer.hpp"
-#include "input/IInputManager.hpp"
 #include "utilities/TweenEngine.hpp"
+#include "renderers/SpriteRenderer.hpp"
+#include "renderers/FontRenderer.hpp"
+#include "input/IInputManager.hpp"
 
 // game
 #include "game/IGameStateCallback.hpp"
@@ -20,10 +21,12 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	: mGame(gameCallback)
 	, mInputManager(IOCContainer::resolve_type<IInputManager>())
 	, mTweenEngine(IOCContainer::resolve_type<ITweenEngine>())
+	, mFontRenderer(IOCContainer::resolve_type<FontRenderer>())
 	, mMap(IOCContainer::resolve_type<Map>())
 	, mPlayer(make_unique<Player>())
 	, mCratePushes(0)
 	, mPlayerMoves(0)
+	, mKeyWasPressed(false)
 {
 	id = typeid(GamePlayScene).name();
 }
@@ -64,10 +67,14 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
 	mMap->draw(renderer);
 	mPlayer->draw(renderer);
+	mFontRenderer->drawString(to_string(mPlayerMoves), FontRenderer::Alignment::Left, { 12, 400 - 20 }, 1.0f);
+	mFontRenderer->drawString(to_string(mCratePushes), FontRenderer::Alignment::Right, { 400 - 12, 400 - 20 }, 1.0f);
 }
 
 void GamePlayScene::move(int deltaX, int deltaY) 
 {
+	mKeyWasPressed = true;
+
 	if(mMap->isWalkable(mPlayer->posX + deltaX, mPlayer->posY + deltaY)) {
 		movePlayer(deltaX, deltaY);
 	}
@@ -84,17 +91,12 @@ void GamePlayScene::move(int deltaX, int deltaY)
 	}
 }
 
-void GamePlayScene::updateStatus()  {
-    printf("%d / %d\n", mPlayerMoves, mCratePushes);
-}
-
 void GamePlayScene::movePlayer(int deltaX, int deltaY)
 {
 	mPlayer->move(deltaX, deltaY);
 	mPlayer->posX += deltaX;
 	mPlayer->posY += deltaY;
 	mPlayerMoves++;
-	updateStatus();
 }
 
 void GamePlayScene::handleInput()
@@ -102,16 +104,20 @@ void GamePlayScene::handleInput()
 	if(mPlayer->isMoving) {
 		return;
 	}
+
 	if (mInputManager->isKeyDown(37)) {
-		move(-1, 0);
-	}
-	if (mInputManager->isKeyDown(39)) {
-		move(1, 0);
-	}
-	if (mInputManager->isKeyDown(40)) {
-		move(0, -1);
-	}
-	if (mInputManager->isKeyDown(38)) {
-		move(0, 1);
+		if(!mKeyWasPressed)
+			move(-1, 0);
+	} else if (mInputManager->isKeyDown(39)) {
+		if(!mKeyWasPressed)
+			move(1, 0);
+	} else if (mInputManager->isKeyDown(40)) {
+		if(!mKeyWasPressed)
+			move(0, -1);
+	} else if (mInputManager->isKeyDown(38)) {
+		if(!mKeyWasPressed)
+			move(0, 1);
+	} else {
+		mKeyWasPressed = false;
 	}
 }

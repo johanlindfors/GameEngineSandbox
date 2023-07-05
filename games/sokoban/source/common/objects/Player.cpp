@@ -18,10 +18,8 @@ Player::Player()
 {
     printf("[Player::constructor]\n");
     
+#if (IS_ANIMATED == true)    
     auto sprite = make_shared<AnimatedSprite>();
-    sprite->texture = IOCContainer::instance().resolve<IResourceManager>()->getTexture( TILES );
-    sprite->size = { TILE_SIZE, TILE_SIZE };
-    sprite->tileSize = { 128, 128 };
 
     Animation idle;
     idle.loop = true;
@@ -65,8 +63,12 @@ Player::Player()
         AnimationFrame{11, 50*1000},
     };
     sprite->animations["up"] = up;
-
-//    sprite->play("idle");
+#else
+    auto sprite = make_shared<TiledSprite>();
+#endif
+    sprite->texture = IOCContainer::instance().resolve<IResourceManager>()->getTexture( TILES );
+    sprite->size = { TILE_SIZE, TILE_SIZE };
+    sprite->tileSize = { 128, 128 };
     sprite->setFrame(4);
     mSprite = static_pointer_cast<Sprite>(sprite);
 }
@@ -83,24 +85,28 @@ void Player::initialize(int x, int y)
 
 void Player::move(int deltaX, int deltaY)
 {
+#if IS_ANIMATED == true
     auto sprite = static_pointer_cast<AnimatedSprite>(mSprite);
     if(deltaY != 0) {
         sprite->play(deltaY > 0 ? "up" : "down");
 	} else if(deltaX != 0) {
         sprite->play(deltaX > 0 ? "right" : "left");
 	}
-
+#endif
     isMoving = true;
     MoveableObject::move(deltaX, deltaY, [&](){
+#if IS_ANIMATED == true
         auto sprite = static_pointer_cast<AnimatedSprite>(mSprite);    
         sprite->isPlaying = false;
+#endif
         isMoving = false;
     });
-    //mSprite = static_pointer_cast<Sprite>(sprite);
 }
 
 void Player::update(shared_ptr<IStepTimer> timer)
 {
+#if IS_ANIMATED == true
     auto sprite = static_pointer_cast<AnimatedSprite>(mSprite);
     sprite->update(timer);
+#endif
 }

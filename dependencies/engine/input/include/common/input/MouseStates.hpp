@@ -3,7 +3,7 @@
 
 namespace Engine
 {
-    enum MouseButtonState {
+    enum ButtonState {
         None,
         Pressed,
         Released,
@@ -18,13 +18,13 @@ namespace Engine
     
     struct MouseState {
         MouseButton button;
-        MouseButtonState state;
+        ButtonState state;
         Utilities::Point<int> position;
 
         MouseState() 
             : position{0,0}
             , button(MouseButton::Left)
-            , state(MouseButtonState::None)
+            , state(ButtonState::None)
             { }
     };
 }

@@ -208,7 +208,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		if (input) {
 			auto xpos = GET_X_LPARAM(lParam);
 			auto ypos = GET_Y_LPARAM(lParam);
-			input->addMouseEvent(MouseButton::Left, MouseButtonState::Pressed , xpos, ypos);
+			input->addMouseEvent(MouseButton::Left, ButtonState::Pressed , xpos, ypos);
 		}
 		break;
 	default:

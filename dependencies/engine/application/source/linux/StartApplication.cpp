@@ -64,20 +64,54 @@ class Application
                     double xpos, ypos;
                     glfwGetCursorPos(window, &xpos, &ypos);
                     auto input = IOCContainer::instance().resolve<IInputManager>();
-                    input->addMouseEvent(MouseButton::Left, MouseButtonState::Pressed, xpos, ypos);
+                    input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, xpos, ypos);
+                }
+            });
+
+            glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+            {
+                auto input = IOCContainer::instance().resolve<IInputManager>();
+                ButtonState state(ButtonState::None);
+                switch (action) {
+                    case GLFW_PRESS:
+                        state = ButtonState::Pressed;
+                        break;
+                    case GLFW_REPEAT:
+                        state = ButtonState::Repeat;
+                        break;
+                    case GLFW_RELEASE:
+                        state = ButtonState::Released;
+                        break;
+                    default:
+                        break;
+                }
+                switch(key) {
+                    case GLFW_KEY_LEFT:
+                        input->addKeyboardEvent(0x25, state);
+                        break;
+                    case GLFW_KEY_RIGHT:
+                        input->addKeyboardEvent(0x27, state);
+                        break;
+                    case GLFW_KEY_UP:
+                        input->addKeyboardEvent(0x26, state);
+                        break;
+                    case GLFW_KEY_DOWN:
+                        input->addKeyboardEvent(0x28, state);
+                        break;
+                    case GLFW_KEY_SPACE:
+                        input->addKeyboardEvent(0x20, state);
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        glfwSetWindowShouldClose(window, 1);
+                        break;
+                    default:
+                        break;
                 }
             });
 
             while (!glfwWindowShouldClose(window)) {
                 glfwPollEvents();
                 glClear(GL_COLOR_BUFFER_BIT);
-
-                if(game) {
-                    if(!mInput) {
-                        mInput = game->getInput();
-                    }
-                    inputHandler(window);
-                }
 
                 game->tick();
                 glfwSwapBuffers(window);
@@ -87,35 +121,6 @@ class Application
         }
 
     private:
-        void inputHandler(GLFWwindow* window) 
-        {
-            // Check left
-            bool pressed = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
-            mInput->addKeyboardEvent(0x25, pressed);
-
-            // Check right
-            pressed = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
-            mInput->addKeyboardEvent(0x27, pressed);
-            
-            // Check up
-            pressed = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
-            mInput->addKeyboardEvent(0x26, pressed);
-
-            // Check down
-            pressed = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
-            mInput->addKeyboardEvent(0x28, pressed);
-
-            // Space
-            pressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
-            mInput->addKeyboardEvent(32, pressed);
-
-            // Escape
-            pressed = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
-            if(pressed) {
-                glfwSetWindowShouldClose(window, 1);
-            }
-        }
-
         shared_ptr<IInputManager> mInput;
 };
 

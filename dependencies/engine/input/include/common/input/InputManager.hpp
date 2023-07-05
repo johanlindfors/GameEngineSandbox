@@ -9,14 +9,14 @@ namespace Engine
     {
     public:
         InputManager() = default;
-        void addKeyboardEvent(int keyCode, bool isPressed) override;
+        void addKeyboardEvent(int keyCode, ButtonState state) override;
         bool isKeyDown(int keyCode) override;
-        void addMouseEvent(MouseButton button, MouseButtonState state, int x, int y) override;
+        void addMouseEvent(MouseButton button, ButtonState state, int x, int y) override;
         MouseState getMouseState() override;
         void update() override;
 
     private:
-        std::array<bool, 256> mKeyboard = {};
+        std::array<ButtonState, 256> mKeyboard = {};
         std::queue<MouseState> mMouseStates = {};
     };
 }

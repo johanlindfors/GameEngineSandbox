@@ -2,6 +2,7 @@
 #include "resources/TextureLoader.hpp"
 #include "utilities/GLHelper.hpp"
 #include "png.h"
+#include <jpeglib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -137,6 +138,117 @@ namespace Engine {
 			return true;
 		}
 
+		static bool loadJpgImage(shared_ptr<File> file, int &outWidth, int &outHeight, GLubyte **outData) {
+			unsigned char a, r, g, b;
+			int width, height;
+			struct jpeg_decompress_struct info;
+			struct jpeg_error_mgr jerr;
+
+			info.err = jpeg_std_error(&jerr); //tell the jpeg decompression handler to send the errors to err
+			jpeg_create_decompress(&info); //sets info to all the default stuff
+
+			FILE * fp;        /* source file */
+			JSAMPARRAY pJpegBuffer;       /* Output row buffer */
+			int row_stride;       /* physical row width in output buffer */
+
+			if(file->isOpen()) {
+				fp = file->get();
+			} else {
+				return false;
+			}
+
+			jpeg_stdio_src(&info, fp); //tell the jpeg lib the file we’er reading
+
+			jpeg_read_header(&info, TRUE); //tell it to start reading it
+
+			// //if it wants to be read fast or not
+			// if(Fast)
+			// {
+			// info.do_fancy_upsampling = FALSE;
+			// }
+
+			jpeg_start_decompress(&info); //decompress the file
+
+			//set the x and y
+			outWidth = info.output_width;
+			outHeight = info.output_height;
+			auto channels = info.num_components;
+
+			auto type = GL_RGB;
+
+			if(channels == 4)
+			{
+				type = GL_RGBA;
+			}
+
+			auto bpp = channels * 8;
+
+			auto size = outWidth * outHeight * 3;
+
+			//read turn the uncompressed data into something ogl can read
+			auto p1 = new GLubyte[size]; //setup data for the data its going to be handling
+
+			//char* p1 = outData;
+			GLubyte** p2 = &p1;
+			outData = &p1;
+			int numlines = 0;
+
+			while(info.output_scanline < info.output_height)
+			{
+				numlines = jpeg_read_scanlines(&info, p2, 1);
+				*p2 += numlines * 3 * info.output_width;
+			}
+
+			jpeg_finish_decompress(&info); //finish decompressing this file
+
+			fclose(fp); //close the file
+			// cinfo.err = jpeg_std_error(&jerr);
+			// jpeg_create_decompress(&cinfo);
+			// jpeg_stdio_src(&cinfo, infile);
+			// (void) jpeg_read_header(&cinfo, TRUE);
+			// (void) jpeg_start_decompress(&cinfo);
+			// width = cinfo.output_width;
+			// height = cinfo.output_height;
+
+			// unsigned char * pDummy = new unsigned char [width*height*4];
+			// unsigned char * pTest = pDummy;
+			// if (!pDummy) {
+			// 	printf("NO MEM FOR JPEG CONVERT!\n");
+			// 	return false;
+			// }
+			// row_stride = width * cinfo.output_components;
+			// pJpegBuffer = (*cinfo.mem->alloc_sarray)
+			// 	((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
+
+			// while (cinfo.output_scanline < cinfo.output_height) {
+			// 	(void) jpeg_read_scanlines(&cinfo, pJpegBuffer, 1);
+			// 	for (int x = 0; x < width; x++) {
+			// 		a = 0; // alpha value is not supported on jpg
+			// 		r = pJpegBuffer[0][cinfo.output_components * x];
+			// 		if (cinfo.output_components > 2) {
+			// 			g = pJpegBuffer[0][cinfo.output_components * x + 1];
+			// 			b = pJpegBuffer[0][cinfo.output_components * x + 2];
+			// 		} else {
+			// 			g = r;
+			// 			b = r;
+			// 		}
+			// 		*(pDummy++) = b;
+			// 		*(pDummy++) = g;
+			// 		*(pDummy++) = r;
+			// 		*(pDummy++) = a;
+			// 	}
+			// }
+			// fclose(infile);
+			// (void) jpeg_finish_decompress(&cinfo);
+			// jpeg_destroy_decompress(&cinfo);
+
+			//outData = (GLubyte**)pTest; 
+			// outHeight = height;
+			// outWidth = width;
+
+			return true;
+		}
+
 	public:
 		TextureLoaderImpl()
 			: mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) { }	
@@ -145,11 +257,16 @@ namespace Engine {
 		{
 			if (texture.name != EMPTY_TEXTURE_NAME) {
 				const auto file = mFileSystem->loadFile(std::string("textures/" + texture.name), false);
-				if(file){
+				if(file) {
 					int width, height;
 					auto hasAlpha = false;
 					GLubyte *textureImage;
-					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
+					auto success = false;
+					if(texture.name.substr(texture.name.find_last_of(".") + 1) == "jpg") {
+						success = loadJpgImage(file, width, height, &textureImage);
+					} else { 
+						success = loadPngImage(file, width, height, hasAlpha, &textureImage);
+					}
 					if (!success) {
 						std::cout << "Unable to load png file: " << std::endl;
 						texture.name = "";

@@ -133,7 +133,7 @@ void GamePlayScene::generatePipes()
 
 void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
-	auto const mousePressed = mInputManager->getMouseState().state == MouseButtonState::Pressed;
+	auto const mousePressed = mInputManager->getMouseState().state == ButtonState::Pressed;
 	auto const spacePressed = mInputManager->isKeyDown(32);
 
 	switch(mGame->getCurrentState()) {
@@ -224,6 +224,6 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 	if(mGame->getCurrentState() == GameState::GamePlay) {
 		float x = mScreenSizeX / 2.0f;
 		float y = mScreenSizeY / 2.0f + 220.0f;
-		mFontRenderer->drawString(to_string(mScore), Point<float>{x,y}, 0.4f);
+		mFontRenderer->drawString(to_string(mScore), FontRenderer::Alignment::Center, Point<float>{x,y}, 0.4f);
 	}
 }

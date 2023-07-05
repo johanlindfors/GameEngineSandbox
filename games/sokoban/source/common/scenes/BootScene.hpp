@@ -1,5 +1,7 @@
 #pragma once
 #include "scenes/GameScene.hpp"
+#include <functional>
+#include <queue>
 
 class IGameStateCallback;
 
@@ -17,4 +19,7 @@ public:
 private:
     bool mInitialized;
     IGameStateCallback* mGame;
+    std::queue<std::function<void()> > mLoadingTasks;
+    uint mLoadedTasks;
+    uint mTotalTasks;
 };

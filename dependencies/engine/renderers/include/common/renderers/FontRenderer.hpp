@@ -32,8 +32,14 @@ namespace Engine {
 			std::shared_ptr<Engine::OrthographicCamera> camera);
 		~FontRenderer() = default;
 
+		enum class Alignment {
+			Center,
+			Left,
+			Right
+		};
+
 		void initialize();
-		void drawString(const std::string& str, Utilities::Point<float> centerPosition, float scale);
+		void drawString(const std::string& str, Alignment alignment, Utilities::Point<float> position, float scale);
 
 	private:
 		void addCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset);
