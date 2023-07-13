@@ -45,7 +45,7 @@ pipeline.ps1 -win32 -build -toolchainFile:[path to explicit toolchain file for v
 pipeline.ps1 -uwp -build
 ```
 
-## Building on Ubuntu 22.04
+## Building on Ubuntu 22.04 or MacOS
 Make sure to install the following:
 ```
 sudo apt install libpng-dev pkg-config libglfw3-dev libssl-dev
@@ -61,7 +61,33 @@ Generate all the files needed to build the application, build and run:
 ```
 cmake ..
 cmake --build .
-./snake/snake
+./games/sokoban/sokoban
 ```
+
+There are three small games that can be build by passing the name as an argument to CMake such as:
+
+```
+cmake .. -DGAME_TO_BUILD=snake
+```
+or
+```
+cmake .. -DGAME_TO_BUILD=flappybird
+```
+or
+```
+cmake .. -DGAME_TO_BUILD=sokoban
+```
+
+There is also a simple sample that demonstrates the 3D capabilities with a ModelRenderer
+```
+cmake .. -DGAME_TO_BUILD=sample
+```
+
+Here are some screenshots of the current state of the applications/games:
+<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/snake_screenshot.png?raw=true" height="200"/>
+<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/flappybird_screenshot.png?raw=true" height="200"/>
+<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/sokoban_screenshot.png?raw=true" height="200"/>
+<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/sample_screenshot1.png?raw=true" height="200"/>
+<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/sample_screenshot2.png?raw=true" height="200"/>
 
 Game on!
