@@ -84,10 +84,11 @@ cmake .. -DGAME_TO_BUILD=sample
 ```
 
 Here are some screenshots of the current state of the applications/games:
-<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/snake_screenshot.png?raw=true" height="200"/>
-<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/flappybird_screenshot.png?raw=true" height="200"/>
-<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/sokoban_screenshot.png?raw=true" height="200"/>
-<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/sample_screenshot1.png?raw=true" height="200"/>
-<img src="http://github.com/johanlindfors/GameEngineSandbox/docs/sample_screenshot2.png?raw=true" height="200"/>
+<img src="https://raw.githubusercontent.com/johanlindfors/GameEngineSandbox/main/docs/flappybird_screenshot.png" height="200"/>
+<img src="https://raw.githubusercontent.com/johanlindfors/GameEngineSandbox/main/docs/snake_screenshot.png" height="200"/>
+<img src="https://raw.githubusercontent.com/johanlindfors/GameEngineSandbox/main/docs/flappybird_screenshot.png" height="200"/>
+<img src="https://raw.githubusercontent.com/johanlindfors/GameEngineSandbox/main/docs/sokoban_screenshot.png" height="200"/>
+<img src="https://raw.githubusercontent.com/johanlindfors/GameEngineSandbox/main/docs/sample_screenshot1.png" height="200"/>
+<img src="https://raw.githubusercontent.com/johanlindfors/GameEngineSandbox/main/docs/sample_screenshot2.png" height="200"/>
 
 Game on!
