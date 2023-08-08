@@ -7,7 +7,15 @@ struct direction_component {
 	int y;
 };
 
+struct static_component { };
+
 struct input_component { };
+
+struct spawn_component { };
+
+struct cleanup_component { 
+	int counter;
+};
 
 struct position_component {
 	int x;

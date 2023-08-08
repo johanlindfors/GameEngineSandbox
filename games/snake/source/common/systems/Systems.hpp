@@ -6,14 +6,91 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "input/IInputManager.hpp"
 #include "game/GameDefines.hpp"
+#include "resources/IResourceManager.hpp"
 
 struct transform_system {
     void update(entt::registry& reg) {
-        auto view = reg.view<position_component, direction_component>();
+        auto view = reg.view<position_component, direction_component>(entt::exclude<static_component>);
         view.each([](auto &p, auto& d) { 
             p.x = (p.x + d.x + SCREEN_SIZE) % SCREEN_SIZE;
             p.y = (p.y + d.y + SCREEN_SIZE) % SCREEN_SIZE;
         });
+    }
+};
+
+struct scoring_system {
+    bool update(entt::registry& reg) {
+        auto snakeHead = reg.view<position_component, spawn_component>().front();
+        auto snakeHeadPosition = reg.get<position_component>(snakeHead);
+
+        auto apples = reg.view<position_component, static_component>(entt::exclude<direction_component>);
+        for (const auto apple : apples)
+        {
+            auto applePosition = apples.get<position_component>(apple);
+            if(applePosition.x == snakeHeadPosition.x && applePosition.y == snakeHeadPosition.y) {
+                reg.destroy(apple);
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+struct collision_system {
+    bool update(entt::registry& reg) {
+        auto snakeHead = reg.view<position_component, spawn_component>().front();
+        auto snakeHeadPosition = reg.get<position_component>(snakeHead);
+
+        auto body = reg.view<position_component, static_component>();
+        for (const auto bodyPart : body) {
+            auto position = body.get<position_component>(bodyPart);
+            if(position.x == snakeHeadPosition.x && position.y == snakeHeadPosition.y) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+
+struct spawn_system {
+    void update(entt::registry& reg, std::shared_ptr<Engine::IResourceManager> resourceManager)
+    {
+        auto view = reg.view<position_component, direction_component, spawn_component>();
+        view.each([&reg, &resourceManager](auto& p, auto& d) {
+            auto bodyPart = reg.create();
+            reg.emplace<position_component>(bodyPart, p.x, p.y);
+            reg.emplace<direction_component>(bodyPart, d.x, d.y);
+            reg.emplace<static_component>(bodyPart);
+	        reg.emplace<sprite_component>(bodyPart, resourceManager->getTexture("snake.png"), 0.0f, 0.0f);
+        });
+    }
+};
+
+struct cleanup_system {
+    void update(entt::registry& reg) {
+        auto view = reg.view<position_component, direction_component, cleanup_component>();
+        for(auto entity: view) {
+            auto &cleanup = view.get<cleanup_component>(entity);
+            if(cleanup.counter > 0) {
+                cleanup.counter--;
+            } else {
+                auto& position = view.get<position_component>(entity);
+                auto& direction = view.get<direction_component>(entity);
+                
+                auto bodyPartsView = reg.view<position_component, direction_component>(entt::exclude<cleanup_component>);
+                for(auto bodyPart: bodyPartsView) {
+                    auto [bpPosition, bpDirection] = bodyPartsView.get<position_component, direction_component>(bodyPart);
+                    if(bpPosition.x == position.x 
+                    && bpPosition.y == position.y) {
+                        direction.x = bpDirection.x;
+                        direction.y = bpDirection.y;
+                        reg.destroy(bodyPart);
+                        return;
+                    }
+                }
+            }
+        }
     }
 };
 
