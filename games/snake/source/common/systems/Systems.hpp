@@ -97,14 +97,19 @@ struct cleanup_system {
 struct sprite_system 
 {
 	int mScreenWidth;
+    int mScreenHeight;
 	std::shared_ptr<Engine::Sprite> mSprite;
+
+    sprite_system()
+        : mSprite(std::make_shared<Engine::Sprite>())
+    { }
 
     void update(entt::registry& reg)
     {
         auto view = reg.view<sprite_component, position_component>();
         view.each([&](auto &s, auto &p){
             s.position.x = static_cast<float>(p.x * mScreenWidth / SCREEN_SIZE);
-            s.position.y = static_cast<float>(p.y * mScreenWidth / SCREEN_SIZE);
+            s.position.y = static_cast<float>(p.y * mScreenHeight / SCREEN_SIZE);
         });
     }
 

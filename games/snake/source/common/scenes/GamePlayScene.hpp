@@ -3,9 +3,6 @@
 #include "systems/Systems.hpp"
 
 class IGameStateCallback;
-class Apple;
-class Snake;
-class PointCollider;
 
 namespace Engine 
 {

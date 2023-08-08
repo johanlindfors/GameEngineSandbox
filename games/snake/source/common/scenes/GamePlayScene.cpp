@@ -36,9 +36,7 @@ void GamePlayScene::load()
 	mResourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
-	mSpriteSystem->mSprite = make_shared<Engine::Sprite>();
-
-	for(int i = 0; i < 5; i++) {
+	for(int i = 0; i < NUMBER_OF_APPLES; i++) {
 		spawnApple();
 	}
 
@@ -102,6 +100,7 @@ void GamePlayScene::updateScreenSize(int width, int height)
 	mScreenSizeY = height;
 
 	mSpriteSystem->mScreenWidth = mScreenSizeX;
+	mSpriteSystem->mScreenHeight = mScreenSizeY;
 	mSpriteSystem->mSprite->size = { 
         static_cast<float>(mScreenSizeX / SCREEN_SIZE - 1),
         static_cast<float>(mScreenSizeY / SCREEN_SIZE - 1)
@@ -118,12 +117,9 @@ void GamePlayScene::update(shared_ptr<IStepTimer> /*timer*/)
 		mTransformSystem->update(mRegistry);
 		if(mScoringSystem->update(mRegistry)) {
 			spawnApple();
-			auto entity = mRegistry.view<cleanup_component, direction_component>().front();
-			auto& cleanup = mRegistry.get<cleanup_component>(entity);
-			cleanup.counter++;
-			auto& direction = mRegistry.get<direction_component>(entity);
-			direction.x = 0;
-			direction.y = 0;
+			auto entity = mRegistry.view<cleanup_component>().front();
+			mRegistry.replace<cleanup_component>(entity, 1);
+			mRegistry.replace<direction_component>(entity, 0, 0);
 		}
 		mCleanupSystem->update(mRegistry);
 		if(mCollisionSystem->update(mRegistry)) {
