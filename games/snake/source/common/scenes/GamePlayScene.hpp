@@ -1,5 +1,6 @@
 #pragma once
 #include "scenes/GameScene.hpp"
+#include "systems/Systems.hpp"
 
 class IGameStateCallback;
 class Apple;
@@ -35,4 +36,9 @@ private:
 	int mScreenSizeY;
 	IGameStateCallback* mGame;
 	bool mSpacePressedBefore;
+
+	entt::registry mRegistry;
+	std::unique_ptr<sprite_system> mSpriteSystem;
+	std::unique_ptr<movement_system> mMovementSystem;
+	std::unique_ptr<transform_system> mTransformSystem;
 };

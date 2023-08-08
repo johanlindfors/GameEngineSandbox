@@ -19,3 +19,6 @@
 	url = https://github.com/libcpr/cpr.git
 	shallow = true
 	
+[submodule "dependencies/thirdparty/entt"]
+	path = dependencies/thirdparty/entt
+	url = git@github.com:skypjack/entt.git

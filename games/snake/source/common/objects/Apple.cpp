@@ -38,8 +38,8 @@ void Apple::reset(std::shared_ptr<Snake> snake, std::shared_ptr<PointCollider> c
         auto const x = std::rand() % SCREEN_SIZE;
         auto const y = std::rand() % SCREEN_SIZE;
         newPosition = Point<int>{x, y};
-        for(auto const& snakeBody: snake->mTrail) {
-            if(collider->collides(newPosition, snakeBody)) {
+        for(auto const& snakeBody: snake->mBody) {
+            if(collider->collides(newPosition, snakeBody.position)) {
                 collide = true;
             }
         }

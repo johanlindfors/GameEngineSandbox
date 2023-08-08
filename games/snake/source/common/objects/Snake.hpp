@@ -9,6 +9,15 @@ namespace Engine
 	class SpriteRenderer;
 }
 
+struct BodyPart {
+	Utilities::Point<int> position;
+	Utilities::Point<int> direction;
+};
+
+class Tail {
+
+};
+
 class IGameStateCallback;
 class Apple;
 
@@ -20,10 +29,14 @@ public:
 	void handleInput(std::shared_ptr<Engine::IInputManager> input);
 	void draw(std::shared_ptr<Engine::SpriteRenderer> renderer);
 	void increaseLength();
+	Utilities::Point<int> getHeadPosition() { return mHead.position; }
 
 private:
-	int mTail;
-	std::list<Utilities::Point<int>> mTrail;
+	BodyPart mHead;
+	std::list<BodyPart> mBody;
+	BodyPart mTail;
+	int mBodyLength;
+
 	void reset();
 
 	friend class Apple;
