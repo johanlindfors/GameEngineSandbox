@@ -16,10 +16,11 @@
 struct transform_system {
     void update(entt::registry& reg) {
         auto view = reg.view<position_component, direction_component>(entt::exclude<static_component>);
-        view.each([](auto &p, auto& d) { 
-            p.x = (p.x + d.x + SCREEN_SIZE) % SCREEN_SIZE;
-            p.y = (p.y + d.y + SCREEN_SIZE) % SCREEN_SIZE;
-        });
+        for(auto entity : view) {
+            auto [position, direction] = view.get(entity);
+            position.x = (position.x + direction.x + SCREEN_SIZE) % SCREEN_SIZE;
+            position.y = (position.y + direction.y + SCREEN_SIZE) % SCREEN_SIZE;
+        };
     }
 };
 
@@ -28,12 +29,11 @@ struct scoring_system {
         auto snakeHead = reg.view<position_component, spawn_component>().front();
         auto snakeHeadPosition = reg.get<position_component>(snakeHead);
 
-        auto apples = reg.view<position_component, static_component>(entt::exclude<direction_component>);
-        for (const auto apple : apples)
-        {
-            auto applePosition = apples.get<position_component>(apple);
-            if(applePosition.x == snakeHeadPosition.x && applePosition.y == snakeHeadPosition.y) {
-                reg.destroy(apple);
+        auto view = reg.view<position_component, static_component>(entt::exclude<direction_component>);
+        for (auto entity : view) {
+            auto position = view.get<position_component>(entity);
+            if(position.x == snakeHeadPosition.x && position.y == snakeHeadPosition.y) {
+                reg.destroy(entity);
                 return true;
             }
         }
@@ -46,9 +46,9 @@ struct collision_system {
         auto snakeHead = reg.view<position_component, spawn_component>().front();
         auto snakeHeadPosition = reg.get<position_component>(snakeHead);
 
-        auto body = reg.view<position_component, static_component>();
-        for (const auto bodyPart : body) {
-            auto position = body.get<position_component>(bodyPart);
+        auto view = reg.view<position_component, static_component>();
+        for (auto entity : view) {
+            auto position = view.get<position_component>(entity);
             if(position.x == snakeHeadPosition.x && position.y == snakeHeadPosition.y) {
                 return true;
             }
@@ -59,40 +59,41 @@ struct collision_system {
 
 
 struct spawn_system {
-    void update(entt::registry& reg, std::shared_ptr<Engine::IResourceManager> resourceManager)
-    {
+    void update(entt::registry& reg, std::shared_ptr<Engine::IResourceManager> resourceManager) {
         auto view = reg.view<position_component, direction_component, spawn_component>();
-        view.each([&reg, &resourceManager](auto& p, auto& d) {
+        for(auto entity : view) {
+            auto [position, direction] = view.get<position_component, direction_component>(entity);
             auto bodyPart = reg.create();
-            reg.emplace<position_component>(bodyPart, p.x, p.y);
-            reg.emplace<direction_component>(bodyPart, d.x, d.y);
+            reg.emplace<position_component>(bodyPart, position);
+            reg.emplace<direction_component>(bodyPart, direction);
             reg.emplace<static_component>(bodyPart);
 	        reg.emplace<sprite_component>(bodyPart, resourceManager->getTexture("snake.png"), 0.0f, 0.0f);
-        });
+        };
     }
 };
 
 struct cleanup_system {
+    int mCounter;
+
+    cleanup_system() : mCounter(INITIAL_TAIL) { }
+
     void update(entt::registry& reg) {
-        auto view = reg.view<position_component, direction_component, cleanup_component>();
-        for(auto entity: view) {
-            auto &cleanup = view.get<cleanup_component>(entity);
-            if(cleanup.counter > 0) {
-                cleanup.counter--;
-            } else {
-                auto& position = view.get<position_component>(entity);
-                auto& direction = view.get<direction_component>(entity);
-                
-                auto bodyPartsView = reg.view<position_component, direction_component>(entt::exclude<cleanup_component>);
-                for(auto bodyPart: bodyPartsView) {
-                    auto [bpPosition, bpDirection] = bodyPartsView.get<position_component, direction_component>(bodyPart);
-                    if(bpPosition.x == position.x 
-                    && bpPosition.y == position.y) {
-                        direction.x = bpDirection.x;
-                        direction.y = bpDirection.y;
-                        reg.destroy(bodyPart);
-                        return;
-                    }
+        auto entity = reg.view<position_component, direction_component, cleanup_component>().front();
+        auto& counter = reg.get<cleanup_component>(entity);
+        if(counter.counter > 0) {
+            counter.counter--;
+        } else {
+            auto [position, direction] = reg.get<position_component, direction_component>(entity);
+            
+            auto bodyPartsView = reg.view<position_component, direction_component>(entt::exclude<cleanup_component>);
+            for(auto bodyPart: bodyPartsView) {
+                auto [bpPosition, bpDirection] = bodyPartsView.get<position_component, direction_component>(bodyPart);
+                if(bpPosition.x == position.x 
+                && bpPosition.y == position.y) {
+                    direction.x = bpDirection.x;
+                    direction.y = bpDirection.y;
+                    reg.destroy(bodyPart);
+                    return;
                 }
             }
         }
@@ -112,10 +113,11 @@ struct sprite_system
     void update(entt::registry& reg)
     {
         auto view = reg.view<sprite_component, position_component>();
-        view.each([&](auto &s, auto &p){
-            s.position.x = static_cast<float>(p.x * mScreenWidth / SCREEN_SIZE);
-            s.position.y = static_cast<float>(p.y * mScreenHeight / SCREEN_SIZE);
-        });
+        for(auto entity : view) {
+            auto [sprite, position] = view.get(entity);
+            sprite.position.x = static_cast<float>(position.x * mScreenWidth / SCREEN_SIZE);
+            sprite.position.y = static_cast<float>(position.y * mScreenHeight / SCREEN_SIZE);
+        };
     }
 
     void render(entt::registry& reg, std::shared_ptr<Engine::IRenderer> renderer)
@@ -123,38 +125,38 @@ struct sprite_system
         auto spriteRenderer = std::static_pointer_cast<Engine::SpriteRenderer>(renderer);
 
         auto view = reg.view<sprite_component>();
-        view.each([&, spriteRenderer](auto &s){
-            mSprite->texture = s.texture;
-            spriteRenderer->drawSprite(mSprite, s.position); 
-        });
+        for(auto entity : view) {
+            auto sprite = view.get<sprite_component>(entity);
+            mSprite->texture = sprite.texture;
+            spriteRenderer->drawSprite(mSprite, sprite.position); 
+        };
     }
 };
 
 struct movement_system 
 {
     void update(entt::registry& reg, std::shared_ptr<Engine::IInputManager> input) {
-        auto view = reg.view<direction_component, input_component>();
-        view.each([&input](auto &d){
-            if (d.x == 0) {
-                if (input->isKeyDown(37)) {
-                    d.x = -1;
-                    d.y = 0;
-                }
-                if (input->isKeyDown(39)) {
-                    d.x = 1;
-                    d.y = 0;
-                }
+        auto entity = reg.view<direction_component, input_component>().front();
+        auto& direction = reg.get<direction_component>(entity);
+        if (direction.x == 0) {
+            if (input->isKeyDown(37)) {
+                direction.x = -1;
+                direction.y = 0;
             }
-            if (d.y == 0) {
-                if (input->isKeyDown(40)) {
-                    d.x = 0;
-                    d.y = -1;
-                }
-                if (input->isKeyDown(38)) {
-                    d.x = 0;
-                    d.y = 1;
-                }
+            if (input->isKeyDown(39)) {
+                direction.x = 1;
+                direction.y = 0;
             }
-        });
+        }
+        if (direction.y == 0) {
+            if (input->isKeyDown(40)) {
+                direction.x = 0;
+                direction.y = -1;
+            }
+            if (input->isKeyDown(38)) {
+                direction.x = 0;
+                direction.y = 1;
+            }
+        }
     }
 };
