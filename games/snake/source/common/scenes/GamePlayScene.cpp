@@ -8,7 +8,7 @@
 #include "game/GameDefines.hpp"
 #include "sprites/Sprite.hpp"
 
-#include "components/Components.hpp"
+#include "game/Components.hpp"
 #include <random>
 
 using namespace std;

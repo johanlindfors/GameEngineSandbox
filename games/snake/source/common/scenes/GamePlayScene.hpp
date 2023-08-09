@@ -1,6 +1,6 @@
 #pragma once
 #include "scenes/GameScene.hpp"
-#include "systems/Systems.hpp"
+#include "game/Systems.hpp"
 
 class IGameStateCallback;
 

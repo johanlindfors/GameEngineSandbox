@@ -1,12 +1,17 @@
 #pragma once
+// thirdparty
 #include <memory>
 #include <entt/entity/registry.hpp>
-#include "sprites/Sprite.hpp"
-#include "components/Components.hpp"
-#include "renderers/SpriteRenderer.hpp"
+
+// engine
 #include "input/IInputManager.hpp"
-#include "game/GameDefines.hpp"
+#include "sprites/Sprite.hpp"
+#include "renderers/SpriteRenderer.hpp"
 #include "resources/IResourceManager.hpp"
+
+// game
+#include "game/Components.hpp"
+#include "game/GameDefines.hpp"
 
 struct transform_system {
     void update(entt::registry& reg) {
