@@ -71,7 +71,7 @@ struct SpawnSystem {
     SpawnSystem() 
     : mGen(mRandomDevice())
     , mDistribution(0, SCREEN_SIZE -1)
-    , mResourceManager(Utilities::IOCContainer::instance().resolve<Engine::IResourceManager>())
+    , mResourceManager(Utilities::IOCContainer::resolve_type<Engine::IResourceManager>())
     { }
 
     void initialize(entt::registry& reg)

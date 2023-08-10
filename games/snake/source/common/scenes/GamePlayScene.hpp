@@ -40,4 +40,6 @@ private:
 	std::unique_ptr<CleanupSystem> mCleanupSystem;
 	std::unique_ptr<ScoringSystem> mScoringSystem;
 	std::unique_ptr<CollisionSystem> mCollisionSystem;
+	double mElapsedMicroSeconds;
+	double mTargetMicroSeconds;
 };

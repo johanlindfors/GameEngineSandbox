@@ -7,6 +7,7 @@
 #include "input/IInputManager.hpp"
 #include "utilities/MathHelper.hpp"
 #include "sprites/Sprite.hpp"
+#include "utilities/StepTimer.hpp"
 
 // game
 #include "game/IGameStateCallback.hpp"
@@ -26,13 +27,15 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 	, mCollisionSystem(make_unique<CollisionSystem>())
 	, mGame(gameCallback)
 	, mSpacePressedBefore(false)
+	, mTargetMicroSeconds(1000000/FRAMES_PER_SECOND)
+	, mElapsedMicroSeconds(0)
 {
 	id = typeid(GamePlayScene).name();
 }
 
 void GamePlayScene::load()
 {
-	mInputManager = IOCContainer::instance().resolve<IInputManager>();
+	mInputManager = IOCContainer::resolve_type<IInputManager>();
 
 	mSpawnSystem->initialize(mRegistry);
 }
@@ -54,23 +57,28 @@ void GamePlayScene::updateScreenSize(int width, int height)
 	mSpriteSystem->updateScreenSize(width, height);
 }
 
-void GamePlayScene::update(shared_ptr<IStepTimer> /*timer*/)
+void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
 	auto const spacePressed = mInputManager->isKeyDown(32);
 	if (mGame->getCurrentState() == GameState::GamePlay) {
-
 		mMovementSystem->update(mRegistry, mInputManager);
-		mSpawnSystem->update(mRegistry);
-		mTransformSystem->update(mRegistry);
-		if(mScoringSystem->update(mRegistry)) {
-			mSpawnSystem->spawnApple(mRegistry);
-			mCleanupSystem->resetCounter(mRegistry, 1);
+		
+		mElapsedMicroSeconds += timer->getDeltaMicroSeconds();;
+		if (mElapsedMicroSeconds >= mTargetMicroSeconds) {
+			mElapsedMicroSeconds -= mTargetMicroSeconds;
+			
+			mSpawnSystem->update(mRegistry);
+			mTransformSystem->update(mRegistry);
+			if (mScoringSystem->update(mRegistry)) {
+				mSpawnSystem->spawnApple(mRegistry);
+				mCleanupSystem->resetCounter(mRegistry, 1);
+			}
+			mCleanupSystem->update(mRegistry);
+			if (mCollisionSystem->update(mRegistry)) {
+				mGame->goToState(GameState::GameOver);
+			}
+			mSpriteSystem->update(mRegistry);
 		}
-		mCleanupSystem->update(mRegistry);
-		if(mCollisionSystem->update(mRegistry)) {
-			mGame->goToState(GameState::GameOver);
-		}
-		mSpriteSystem->update(mRegistry);
 
 		if (spacePressed && !mSpacePressedBefore)
 		{
