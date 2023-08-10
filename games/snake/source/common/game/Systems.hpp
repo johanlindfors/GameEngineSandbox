@@ -110,8 +110,7 @@ struct sprite_system
         : mSprite(std::make_shared<Engine::Sprite>())
     { }
 
-    void update(entt::registry& reg)
-    {
+    void update(entt::registry& reg) {
         auto view = reg.view<sprite_component, position_component>();
         for(auto entity : view) {
             auto [sprite, position] = view.get(entity);
@@ -120,8 +119,7 @@ struct sprite_system
         };
     }
 
-    void render(entt::registry& reg, std::shared_ptr<Engine::IRenderer> renderer)
-    {
+    void render(entt::registry& reg, std::shared_ptr<Engine::IRenderer> renderer) {
         auto spriteRenderer = std::static_pointer_cast<Engine::SpriteRenderer>(renderer);
 
         auto view = reg.view<sprite_component>();
