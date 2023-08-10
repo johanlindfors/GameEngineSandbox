@@ -2,27 +2,27 @@
 #include "resources/Texture2D.hpp"
 #include "utilities/MathHelper.hpp"
 
-struct direction_component {
+struct DirectionComponent {
     int x;
 	int y;
 };
 
-struct static_component { };
+struct StaticComponent { };
 
-struct input_component { };
+struct InputComponent { };
 
-struct spawn_component { };
+struct SpawnComponent { };
 
-struct cleanup_component { 
+struct CleanupComponent { 
 	int counter;
 };
 
-struct position_component {
+struct PositionComponent {
 	int x;
 	int y;
 };
 
-struct sprite_component {
+struct SpriteComponent {
 	Engine::Texture2D texture;
 	Utilities::Point<float> position;
 };

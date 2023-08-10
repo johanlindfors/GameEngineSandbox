@@ -1,30 +1,29 @@
 #include "GamePlayScene.hpp"
+
+// engine
 #include "resources/IResourceManager.hpp"
 #include "utilities/IOC.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "input/IInputManager.hpp"
-#include "game/IGameStateCallback.hpp"
 #include "utilities/MathHelper.hpp"
-#include "game/GameDefines.hpp"
 #include "sprites/Sprite.hpp"
 
-#include "game/Components.hpp"
-#include <random>
+// game
+#include "game/IGameStateCallback.hpp"
+#include "game/GameDefines.hpp"
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mSpriteSystem(make_unique<sprite_system>())
-	, mTransformSystem(make_unique<transform_system>())
-	, mMovementSystem(make_unique<movement_system>())
-	, mSpawnSystem(make_unique<spawn_system>())
-	, mCleanupSystem(make_unique<cleanup_system>())
-	, mScoringSystem(make_unique<scoring_system>())
-	, mCollisionSystem(make_unique<collision_system>())
-	, mScreenSizeX(0)
-	, mScreenSizeY(0)
+	: mSpriteSystem(make_unique<SpriteSystem>())
+	, mTransformSystem(make_unique<TransformSystem>())
+	, mMovementSystem(make_unique<MovementSystem>())
+	, mSpawnSystem(make_unique<SpawnSystem>())
+	, mCleanupSystem(make_unique<CleanupSystem>())
+	, mScoringSystem(make_unique<ScoringSystem>())
+	, mCollisionSystem(make_unique<CollisionSystem>())
 	, mGame(gameCallback)
 	, mSpacePressedBefore(false)
 {
@@ -33,53 +32,9 @@ GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
 
 void GamePlayScene::load()
 {
-	mResourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
-	for(int i = 0; i < NUMBER_OF_APPLES; i++) {
-		spawnApple();
-	}
-
-	auto snakeHead = mRegistry.create();
-	mRegistry.emplace<position_component>(snakeHead, 10, 10);
-	mRegistry.emplace<direction_component>(snakeHead, 0, 1);
-	mRegistry.emplace<sprite_component>(snakeHead, mResourceManager->getTexture("snake.png"), 0.0f, 0.0f);
-	mRegistry.emplace<input_component>(snakeHead);
-	mRegistry.emplace<spawn_component>(snakeHead);
-
-	auto snakeTail = mRegistry.create();
-	mRegistry.emplace<position_component>(snakeTail, 10, 10);
-	mRegistry.emplace<direction_component>(snakeTail, 0, 0);
-	mRegistry.emplace<cleanup_component>(snakeTail, INITIAL_TAIL);
-}
-
-void GamePlayScene::spawnApple() 
-{
-	std::random_device rd; // obtain a random number from hardware
-    std::mt19937 gen(rd()); // seed the generator
-    std::uniform_int_distribution<> distr(0, SCREEN_SIZE - 1);
-
-    Point<int> newPosition{0, 0};
-	bool collided;
-	do {
-		collided = false;
-		newPosition.x = distr(gen);
-		newPosition.y = distr(gen);
-
-		auto objects = mRegistry.view<position_component, static_component>();
-		for(const auto& object : objects) {
-			const auto& position = objects.get<position_component>(object);
-			if(newPosition.x == position.x && newPosition.y == position.y) {
-				collided = true;
-				break;
-			}
-		}
-	} while (collided);
-
-	auto apple = mRegistry.create();
-	mRegistry.emplace<position_component>(apple, newPosition.x, newPosition.y);
-	mRegistry.emplace<static_component>(apple);
-	mRegistry.emplace<sprite_component>(apple, mResourceManager->getTexture("apple.png"), 0.0f, 0.0f);
+	mSpawnSystem->initialize(mRegistry);
 }
 
 void GamePlayScene::unload()
@@ -96,15 +51,7 @@ void GamePlayScene::unload()
 
 void GamePlayScene::updateScreenSize(int width, int height)
 {
-	mScreenSizeX = width;
-	mScreenSizeY = height;
-
-	mSpriteSystem->mScreenWidth = mScreenSizeX;
-	mSpriteSystem->mScreenHeight = mScreenSizeY;
-	mSpriteSystem->mSprite->size = { 
-        static_cast<float>(mScreenSizeX / SCREEN_SIZE - 1),
-        static_cast<float>(mScreenSizeY / SCREEN_SIZE - 1)
-    };
+	mSpriteSystem->updateScreenSize(width, height);
 }
 
 void GamePlayScene::update(shared_ptr<IStepTimer> /*timer*/)
@@ -113,13 +60,11 @@ void GamePlayScene::update(shared_ptr<IStepTimer> /*timer*/)
 	if (mGame->getCurrentState() == GameState::GamePlay) {
 
 		mMovementSystem->update(mRegistry, mInputManager);
-		mSpawnSystem->update(mRegistry, mResourceManager);
+		mSpawnSystem->update(mRegistry);
 		mTransformSystem->update(mRegistry);
 		if(mScoringSystem->update(mRegistry)) {
-			spawnApple();
-			auto entity = mRegistry.view<cleanup_component>().front();
-			mRegistry.replace<cleanup_component>(entity, 1);
-			mRegistry.replace<direction_component>(entity, 0, 0);
+			mSpawnSystem->spawnApple(mRegistry);
+			mCleanupSystem->resetCounter(mRegistry, 1);
 		}
 		mCleanupSystem->update(mRegistry);
 		if(mCollisionSystem->update(mRegistry)) {
