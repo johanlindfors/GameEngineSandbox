@@ -1,3 +1,4 @@
+sudo apt-get update
 sudo apt install libpng-dev pkg-config libglfw3-dev libssl-dev libjpeg-dev
 # Build flappybird
 rm -fr build

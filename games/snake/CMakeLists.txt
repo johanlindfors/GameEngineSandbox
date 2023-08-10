@@ -63,6 +63,7 @@ if(LINUX)
     list(APPEND DEPENDENCIES 
         GLESv2
         ${GLFW_LIBRARIES}
+        EnTT::EnTT
     )
 endif()
 

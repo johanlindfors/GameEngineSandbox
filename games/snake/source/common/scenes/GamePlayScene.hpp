@@ -1,15 +1,14 @@
 #pragma once
 #include "scenes/GameScene.hpp"
+#include "game/Systems.hpp"
 
 class IGameStateCallback;
-class Apple;
-class Snake;
-class PointCollider;
 
 namespace Engine 
 {
 	class IRenderer;
 	class IInputManager;
+	class IResourceManager;
 }
 
 class GamePlayScene : public Engine::GameScene 
@@ -26,13 +25,21 @@ public:
 	void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
 private:
-	std::shared_ptr<Apple> mApple;
-	std::shared_ptr<Snake> mSnake;
-	std::shared_ptr<PointCollider> mCollider;
+	void spawnApple();
 
 	std::shared_ptr<Engine::IInputManager> mInputManager;
+	std::shared_ptr<Engine::IResourceManager> mResourceManager;
 	int mScreenSizeX;
 	int mScreenSizeY;
 	IGameStateCallback* mGame;
 	bool mSpacePressedBefore;
+
+	entt::registry mRegistry;
+	std::unique_ptr<sprite_system> mSpriteSystem;
+	std::unique_ptr<movement_system> mMovementSystem;
+	std::unique_ptr<transform_system> mTransformSystem;
+	std::unique_ptr<spawn_system> mSpawnSystem;
+	std::unique_ptr<cleanup_system> mCleanupSystem;
+	std::unique_ptr<scoring_system> mScoringSystem;
+	std::unique_ptr<collision_system> mCollisionSystem;
 };
