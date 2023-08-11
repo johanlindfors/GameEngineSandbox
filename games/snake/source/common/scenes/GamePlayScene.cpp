@@ -66,7 +66,7 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 		mElapsedMicroSeconds += timer->getDeltaMicroSeconds();;
 		if (mElapsedMicroSeconds >= mTargetMicroSeconds) {
 			mElapsedMicroSeconds -= mTargetMicroSeconds;
-			
+
 			mSpawnSystem->update(mRegistry);
 			mTransformSystem->update(mRegistry);
 			if (mScoringSystem->update(mRegistry)) {
