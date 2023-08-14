@@ -23,10 +23,8 @@ if (${GAME_TO_BUILD} STREQUAL flappybird)
     add_subdirectory(tweeny ${CMAKE_CURRENT_BINARY_DIR}/tweeny)
 endif()
 
-if (${GAME_TO_BUILD} STREQUAL snake)
-    message(STATUS "Adding the entt library to game")
-    add_subdirectory(entt ${CMAKE_CURRENT_BINARY_DIR}/entt)
-endif()
+message(STATUS "Adding the entt library to game")
+add_subdirectory(entt ${CMAKE_CURRENT_BINARY_DIR}/entt)
 
 add_subdirectory(glm ${CMAKE_CURRENT_BINARY_DIR}/glm)
 
