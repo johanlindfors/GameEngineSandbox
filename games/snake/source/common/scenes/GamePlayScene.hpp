@@ -1,5 +1,8 @@
 #pragma once
+// engine
 #include "scenes/GameScene.hpp"
+
+// game
 #include "game/Systems.hpp"
 
 class IGameStateCallback;
@@ -25,21 +28,18 @@ public:
 	void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
 private:
-	void spawnApple();
-
 	std::shared_ptr<Engine::IInputManager> mInputManager;
-	std::shared_ptr<Engine::IResourceManager> mResourceManager;
-	int mScreenSizeX;
-	int mScreenSizeY;
 	IGameStateCallback* mGame;
 	bool mSpacePressedBefore;
 
 	entt::registry mRegistry;
-	std::unique_ptr<sprite_system> mSpriteSystem;
-	std::unique_ptr<movement_system> mMovementSystem;
-	std::unique_ptr<transform_system> mTransformSystem;
-	std::unique_ptr<spawn_system> mSpawnSystem;
-	std::unique_ptr<cleanup_system> mCleanupSystem;
-	std::unique_ptr<scoring_system> mScoringSystem;
-	std::unique_ptr<collision_system> mCollisionSystem;
+	std::unique_ptr<SpriteSystem> mSpriteSystem;
+	std::unique_ptr<MovementSystem> mMovementSystem;
+	std::unique_ptr<TransformSystem> mTransformSystem;
+	std::unique_ptr<SpawnSystem> mSpawnSystem;
+	std::unique_ptr<CleanupSystem> mCleanupSystem;
+	std::unique_ptr<ScoringSystem> mScoringSystem;
+	std::unique_ptr<CollisionSystem> mCollisionSystem;
+	double mElapsedMicroSeconds;
+	double mTargetMicroSeconds;
 };

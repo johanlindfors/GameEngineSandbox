@@ -13,7 +13,7 @@ void bootstrap() {
     config->width = 500;
     config->height = 500;
     config->fps = 15;
-    config->useFixedTimeStep = true;
+    config->useFixedTimeStep = false;
     config->executable = "snake";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
