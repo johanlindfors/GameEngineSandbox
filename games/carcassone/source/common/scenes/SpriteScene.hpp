@@ -2,6 +2,8 @@
 #include <memory>
 #include <vector>
 #include "scenes/GameScene.hpp"
+#include "game/Components.hpp"
+#include "game/Systems.hpp"
 
 class IGameStateCallback;
 namespace Engine
@@ -21,7 +23,9 @@ namespace Sample
     class SpriteScene : public Engine::GameScene 
     {
         public:
-            SpriteScene() { id = typeid(SpriteScene).name(); }
+            SpriteScene() 
+                : mSpriteSystem(std::make_unique<SpriteSystem>())
+	        { id = typeid(SpriteScene).name(); }
             
             // Engine::GameScene
             void load() override;
@@ -34,5 +38,8 @@ namespace Sample
             std::shared_ptr<Engine::SpriteRenderer> mRenderer;
             std::shared_ptr<Engine::TiledSprite> mSprite;
             std::shared_ptr<Engine::IInputManager> mInputManager;
+
+            entt::registry mRegistry;
+            std::unique_ptr<SpriteSystem> mSpriteSystem;
     };
 }
