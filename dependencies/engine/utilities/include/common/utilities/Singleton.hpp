@@ -2,16 +2,17 @@
 
 namespace Utilities
 {
-    template<typename T>
-    class Singleton {
+    template <typename T>
+    class Singleton
+    {
     public:
-        static T& instance()
-        {        
+        static T &instance()
+        {
             static T instance{};
             return instance;
         }
-        Singleton(const Singleton&) = delete;
-        Singleton& operator= (const Singleton) = delete;
+        Singleton(const Singleton &) = delete;
+        Singleton &operator=(const Singleton) = delete;
 
     protected:
         Singleton() {}

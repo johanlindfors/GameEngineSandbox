@@ -6,7 +6,8 @@ using namespace Utilities;
 
 TweenEngine::TweenEngine()
     : mTweens(vector<shared_ptr<Tween>>())
-{ }
+{
+}
 
 void TweenEngine::add(float original, float target, function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce)
 {
@@ -20,11 +21,12 @@ void TweenEngine::add(float original, float target, function<void(float)> setter
 
 void TweenEngine::update(shared_ptr<IStepTimer> timer)
 {
-    for(auto tween : mTweens) {
+    for (auto tween : mTweens)
+    {
         tween->update(timer);
     }
     mTweens.erase(remove_if(mTweens.begin(), mTweens.end(), Tween::isTweenCompleted),
-        mTweens.end());
+                  mTweens.end());
 }
 
 void TweenEngine::clear()
