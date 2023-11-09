@@ -10,17 +10,17 @@
 
 namespace Engine
 {
-    struct GLPage : winrt::Windows::UI::Xaml::Controls::PageT<GLPage> 
-    {
-        explicit GLPage(std::shared_ptr<OpenGLES> openGLES);
+	struct GLPage : winrt::Windows::UI::Xaml::Controls::PageT<GLPage>
+	{
+		explicit GLPage(std::shared_ptr<OpenGLES> openGLES);
 
 		// Event handlers
-		void HandleKeyDown(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const& args) const;
-		void HandleKeyUp(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const& args) const;
+		void HandleKeyDown(winrt::Windows::Foundation::IInspectable const &sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const &args) const;
+		void HandleKeyUp(winrt::Windows::Foundation::IInspectable const &sender, winrt::Windows::UI::Xaml::Input::KeyRoutedEventArgs const &args) const;
 
 	private:
-		void OnPageLoaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e); 
-		void RenderLoop(winrt::Windows::Foundation::IAsyncAction const& action);
+		void OnPageLoaded(winrt::Windows::Foundation::IInspectable const &sender, winrt::Windows::UI::Xaml::RoutedEventArgs const &e);
+		void RenderLoop(winrt::Windows::Foundation::IAsyncAction const &action);
 		void RecreateRenderer();
 
 		std::shared_ptr<OpenGLES> mOpenGLES;
@@ -29,5 +29,5 @@ namespace Engine
 
 		winrt::Windows::UI::Xaml::Controls::Grid mContentRoot;
 		winrt::Windows::UI::Xaml::Controls::SwapChainPanel mSwapChainPanel;
-    };
+	};
 }

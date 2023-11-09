@@ -12,26 +12,29 @@
 using namespace Engine;
 using namespace Utilities;
 
-namespace {
+namespace
+{
 	std::unique_ptr<GameLoop> g_gameLoop;
 };
 
 // Global Variables:
 HINSTANCE hInst; // current instance
-HDC hDC;         // Private GDI Device Context
+HDC hDC;		 // Private GDI Device Context
 
 // Forward declarations of functions included in this code module:
 ATOM MyRegisterClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-void startApplication() {
+void startApplication()
+{
 	const HINSTANCE hInstance = GetModuleHandle(nullptr);
 	MyRegisterClass(hInstance);
 
 	// Perform application initialization:
 	g_gameLoop = std::make_unique<GameLoop>();
-	if (!InitInstance(hInstance)) {
+	if (!InitInstance(hInstance))
+	{
 		return;
 	}
 	const auto config = IOCContainer::instance().resolve<Config>();
@@ -39,18 +42,22 @@ void startApplication() {
 	int width, height;
 	width = config->width;
 	height = config->height;
-	if (width == 0 || height == 0) {
+	if (width == 0 || height == 0)
+	{
 		g_gameLoop->getDefaultSize(width, height);
 	}
 	g_gameLoop->updateWindowSize(width, height);
 
 	MSG msg = {};
-	while (WM_QUIT != msg.message) {
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+	while (WM_QUIT != msg.message)
+	{
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else {
+		else
+		{
 			g_gameLoop->tick();
 			SwapBuffers(hDC);
 		}
@@ -59,7 +66,8 @@ void startApplication() {
 	g_gameLoop.reset();
 }
 
-ATOM MyRegisterClass(HINSTANCE hInstance) {
+ATOM MyRegisterClass(HINSTANCE hInstance)
+{
 	WNDCLASSEXW wcex;
 	wcex.cbSize = sizeof(WNDCLASSEX);
 
@@ -78,82 +86,89 @@ ATOM MyRegisterClass(HINSTANCE hInstance) {
 	return RegisterClassExW(&wcex);
 }
 
-BOOL InitInstance(HINSTANCE hInstance) {
+BOOL InitInstance(HINSTANCE hInstance)
+{
 	hInst = hInstance; // Store instance handle in our global variable
 
 	const auto config = IOCContainer::instance().resolve<Config>();
 	int width, height;
 	width = config->width;
 	height = config->height;
-	if (width == 0 || height == 0) {
+	if (width == 0 || height == 0)
+	{
 		g_gameLoop->getDefaultSize(width, height);
 	}
-	RECT rc = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-	
+	RECT rc = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
+
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	const HWND hWnd = CreateWindowEx(
 		0, "GAME_ENGINE_SANDBOX", config->title.c_str(),
 		WS_OVERLAPPEDWINDOW, 0, 0,
-		rc.right - rc.left, rc.bottom - rc.top, 
+		rc.right - rc.left, rc.bottom - rc.top,
 		nullptr, nullptr, hInstance, nullptr);
 
-	if (!hWnd) {
+	if (!hWnd)
+	{
 		return FALSE;
 	}
 
 	auto gameLoop = g_gameLoop.get();
 	SetWindowLongPtr(hWnd, GWLP_USERDATA,
-		reinterpret_cast<LONG_PTR>(gameLoop));
+					 reinterpret_cast<LONG_PTR>(gameLoop));
 
 	static PIXELFORMATDESCRIPTOR
 		pfd = // pfd Tells Windows How We Want Things To Be
-	{
-		sizeof(PIXELFORMATDESCRIPTOR), // Size Of This Pixel Format Descriptor
-		1,                             // Version Number
-		PFD_DRAW_TO_WINDOW |           // Format Must Support Window
-		PFD_SUPPORT_OPENGL |		   // Format Must Support OpenGL
-		PFD_DOUBLEBUFFER,              // Must Support Double Buffering
-		PFD_TYPE_RGBA,                 // Request An RGBA Format
-		static_cast<BYTE>(16),         // Select Our Color Depth
-		0,
-		0,
-		0,
-		0,
-		0,
-		0, // Color Bits Ignored
-		0, // No Alpha Buffer
-		0, // Shift Bit Ignored
-		0, // No Accumulation Buffer
-		0,
-		0,
-		0,
-		0,              // Accumulation Bits Ignored
-		16,             // 16Bit Z-Buffer (Depth Buffer)
-		8,              // No Stencil Buffer
-		0,              // No Auxiliary Buffer
-		PFD_MAIN_PLANE, // Main Drawing Layer
-		0,              // Reserved
-		0,
-		0,
-		0 // Layer Masks Ignored
-	};
+		{
+			sizeof(PIXELFORMATDESCRIPTOR), // Size Of This Pixel Format Descriptor
+			1,							   // Version Number
+			PFD_DRAW_TO_WINDOW |		   // Format Must Support Window
+				PFD_SUPPORT_OPENGL |	   // Format Must Support OpenGL
+				PFD_DOUBLEBUFFER,		   // Must Support Double Buffering
+			PFD_TYPE_RGBA,				   // Request An RGBA Format
+			static_cast<BYTE>(16),		   // Select Our Color Depth
+			0,
+			0,
+			0,
+			0,
+			0,
+			0, // Color Bits Ignored
+			0, // No Alpha Buffer
+			0, // Shift Bit Ignored
+			0, // No Accumulation Buffer
+			0,
+			0,
+			0,
+			0,				// Accumulation Bits Ignored
+			16,				// 16Bit Z-Buffer (Depth Buffer)
+			8,				// No Stencil Buffer
+			0,				// No Auxiliary Buffer
+			PFD_MAIN_PLANE, // Main Drawing Layer
+			0,				// Reserved
+			0,
+			0,
+			0 // Layer Masks Ignored
+		};
 
 	hDC = GetDC(hWnd);
-	if (!hDC) {
+	if (!hDC)
+	{
 		return false;
 	}
 
 	const auto pixelFormat = ChoosePixelFormat(hDC, &pfd);
-	if (!SetPixelFormat(hDC, pixelFormat, &pfd)) {
+	if (!SetPixelFormat(hDC, pixelFormat, &pfd))
+	{
 		return false;
 	}
 
 	const auto hRC = wglCreateContext(hDC);
-	if (!hRC) {
+	if (!hRC)
+	{
 		return false;
 	}
 
-	if (!wglMakeCurrent(hDC, hRC)) {
+	if (!wglMakeCurrent(hDC, hRC))
+	{
 		return false;
 	}
 
@@ -163,25 +178,29 @@ BOOL InitInstance(HINSTANCE hInstance) {
 
 	ShowWindow(hWnd, 5);
 	UpdateWindow(hWnd);
-	if (glewInit() != GLEW_OK) { // Enable GLEW
+	if (glewInit() != GLEW_OK)
+	{ // Enable GLEW
 		return false;
 	}
 
 	return TRUE;
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	const auto gameParam = GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	auto game = reinterpret_cast<Engine::GameLoop *>(gameParam);
 	std::shared_ptr<IInputManager> input;
-	if(game){
+	if (game)
+	{
 		input = game->getInput();
 	}
 
-	switch (message) {
+	switch (message)
+	{
 	case WM_SIZE:
-		if (game) {
+		if (game)
+		{
 			game->updateWindowSize(LOWORD(lParam), HIWORD(lParam));
 			g_gameLoop->tick();
 			SwapBuffers(hDC);
@@ -191,24 +210,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		break;
 	case WM_KEYDOWN:
-		if(input){
+		if (input)
+		{
 			input->addKeyboardEvent(static_cast<unsigned int>(wParam), true);
 		}
 		break;
 	case WM_KEYUP:
-		if(wParam == VK_ESCAPE) {
+		if (wParam == VK_ESCAPE)
+		{
 			PostQuitMessage(0);
 			break;
 		}
-		if(input){
+		if (input)
+		{
 			input->addKeyboardEvent(static_cast<unsigned int>(wParam), false);
 		}
 		break;
 	case WM_LBUTTONDOWN:
-		if (input) {
+		if (input)
+		{
 			auto xpos = GET_X_LPARAM(lParam);
 			auto ypos = GET_Y_LPARAM(lParam);
-			input->addMouseEvent(MouseButton::Left, ButtonState::Pressed , xpos, ypos);
+			input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, xpos, ypos);
 		}
 		break;
 	default:
