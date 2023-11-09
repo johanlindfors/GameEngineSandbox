@@ -17,8 +17,9 @@ void PhysicsEngine::update(shared_ptr<IStepTimer> timer)
 {
 	for (auto body : mBodies)
 	{
-		if(!body->isAlive) continue;
-		
+		if (!body->isAlive)
+			continue;
+
 		auto velocity = body->velocity;
 		if (body->allowGravity)
 		{
@@ -28,5 +29,5 @@ void PhysicsEngine::update(shared_ptr<IStepTimer> timer)
 		body->position.x += (velocity.x * timer->getElapsedMilliSeconds() / 1000.0f);
 		body->position.y += (velocity.y * timer->getElapsedMilliSeconds() / 1000.0f);
 		body->velocity = velocity;
-	}	
+	}
 }
