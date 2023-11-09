@@ -9,15 +9,15 @@ using namespace Engine;
 using namespace Utilities;
 
 ModelRenderer::ModelRenderer(
-    shared_ptr<Shader> shader, 
+    shared_ptr<Shader> shader,
     shared_ptr<Camera> camera)
-    : Renderer::Renderer( shader )
-    , mCamera( camera )
-    { } 
+    : Renderer::Renderer(shader), mCamera(camera)
+{
+}
 
 ModelRenderer::~ModelRenderer()
 {
-	mShader.reset();
+    mShader.reset();
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
@@ -30,24 +30,23 @@ void ModelRenderer::initialize()
 
 void ModelRenderer::updateWindowSize(int width, int height)
 {
-	printf("[ModelRenderer::updateWindowSize]\n");
+    printf("[ModelRenderer::updateWindowSize]\n");
     GlViewport(0, 0, width, height);
 }
 
 void ModelRenderer::clear()
 {
     Renderer::clear();
-	GlClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    GlClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     GlEnable(GL_DEPTH_TEST);
 }
 
 void ModelRenderer::clear(float r, float g, float b, float a)
 {
-    Renderer::clear( r, g, b, a );
-	GlClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    Renderer::clear(r, g, b, a);
+    GlClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     GlEnable(GL_DEPTH_TEST);
 }
-
 
 void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
 {
@@ -71,7 +70,7 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
 
     glBindTexture(GL_TEXTURE_2D, model->getTexture().textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
     // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // set texture filtering parameters
     glEnable(GL_BLEND);
@@ -79,7 +78,7 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
 
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-    //glFrontFace(GL_CCW);
+    // glFrontFace(GL_CCW);
 
     // glDisable(GL_DEPTH_TEST);
     // render

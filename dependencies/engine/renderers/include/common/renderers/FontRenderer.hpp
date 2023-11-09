@@ -7,9 +7,11 @@
 #include "utilities/ILazyInitialized.hpp"
 #include "SpriteRenderer.hpp"
 
-namespace Engine {
+namespace Engine
+{
 
-	struct Character {
+	struct Character
+	{
 		int characterCode;
 		int uVOffset;
 		float xOffset;
@@ -22,32 +24,34 @@ namespace Engine {
 	class Shader;
 	struct Sprite;
 
-	class FontRenderer 
-		: public SpriteRenderer {
+	class FontRenderer
+		: public SpriteRenderer
+	{
 	public:
 		FontRenderer(
-			const std::string& atlasFilename,
-			const std::string& textureFilename,
-			std::shared_ptr<Engine::Shader> shader, 
+			const std::string &atlasFilename,
+			const std::string &textureFilename,
+			std::shared_ptr<Engine::Shader> shader,
 			std::shared_ptr<Engine::OrthographicCamera> camera);
 		~FontRenderer() = default;
 
-		enum class Alignment {
+		enum class Alignment
+		{
 			Center,
 			Left,
 			Right
 		};
 
 		void initialize();
-		void drawString(const std::string& str, Alignment alignment, Utilities::Point<float> position, float scale);
+		void drawString(const std::string &str, Alignment alignment, Utilities::Point<float> position, float scale);
 
 	private:
 		void addCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset);
 		void drawCharacter(char character, Utilities::Rectangle<float> rectangle);
 
-		Utilities::Rectangle<float> measureString(const std::string& str);
+		Utilities::Rectangle<float> measureString(const std::string &str);
 
-        std::string mAtlasFilename;
+		std::string mAtlasFilename;
 		std::string mTextureFilename;
 		std::shared_ptr<Engine::Sprite> mCharacterSprite;
 		std::map<char, Character> mCharacters;
