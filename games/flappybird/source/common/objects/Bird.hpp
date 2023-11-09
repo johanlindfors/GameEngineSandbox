@@ -9,7 +9,7 @@
 
 namespace Utilities
 {
-	class IStepTimer;	
+	class IStepTimer;
 }
 
 namespace Engine
@@ -21,7 +21,8 @@ namespace Engine
 
 class IGameStateCallback;
 
-class Bird : public Engine::IPhysicsBody {
+class Bird : public Engine::IPhysicsBody
+{
 public:
 	Bird(Utilities::Point<float> position);
 	void update(std::shared_ptr<Utilities::IStepTimer> timer);
@@ -33,7 +34,7 @@ public:
 	bool isKilled;
 	void collideWithPipe();
 	void reset();
-	
+
 private:
 	int mCounter;
 	int mAnimationCounter;
