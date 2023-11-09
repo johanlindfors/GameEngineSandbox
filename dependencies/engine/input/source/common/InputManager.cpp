@@ -4,14 +4,15 @@
 
 using namespace Engine;
 
-void InputManager::addKeyboardEvent(int keyCode, ButtonState state) 
+void InputManager::addKeyboardEvent(int keyCode, ButtonState state)
 {
-	if(keyCode >=0 && keyCode < 256){
+    if (keyCode >= 0 && keyCode < 256)
+    {
         mKeyboard[keyCode] = state;
     }
 }
 
-void InputManager::addMouseEvent(MouseButton button, ButtonState state, int x, int y) 
+void InputManager::addMouseEvent(MouseButton button, ButtonState state, int x, int y)
 {
     MouseState newState;
     newState.button = button;
@@ -19,30 +20,35 @@ void InputManager::addMouseEvent(MouseButton button, ButtonState state, int x, i
     newState.position = Utilities::Point<int>{x, y};
     mMouseStates.push(newState);
 }
-    
+
 bool InputManager::isKeyDown(int keyCode)
 {
-    if(keyCode >=0 && keyCode < 256){
+    if (keyCode >= 0 && keyCode < 256)
+    {
         return mKeyboard[keyCode] == ButtonState::Pressed;
-               mKeyboard[keyCode] == ButtonState::Repeat;
+        mKeyboard[keyCode] == ButtonState::Repeat;
     }
     return false;
 }
 
-MouseState InputManager::getMouseState() 
+MouseState InputManager::getMouseState()
 {
     MouseState result;
-    if(mMouseStates.empty()) {
+    if (mMouseStates.empty())
+    {
         result.state = ButtonState::None;
-    } else {
-        result = mMouseStates.front();        
+    }
+    else
+    {
+        result = mMouseStates.front();
     }
     return result;
 }
 
-void InputManager::update() 
+void InputManager::update()
 {
-    if(!mMouseStates.empty()) {
+    if (!mMouseStates.empty())
+    {
         mMouseStates.pop();
     }
 }
