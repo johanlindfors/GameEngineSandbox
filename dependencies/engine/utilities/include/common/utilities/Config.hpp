@@ -3,7 +3,7 @@
 
 namespace Utilities
 {
-    struct Config 
+    struct Config
     {
         int fps = 60;
         bool useFixedTimeStep = false;
