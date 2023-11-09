@@ -4,7 +4,7 @@
 
 namespace Utilities
 {
-	class IStepTimer;	
+	class IStepTimer;
 }
 
 namespace Engine
@@ -13,13 +13,14 @@ namespace Engine
 	struct Sprite;
 }
 
-class Clouds {
+class Clouds
+{
 public:
 	Clouds(Utilities::Point<float> position, Utilities::Vector2 velocity);
 	void update(std::shared_ptr<Utilities::IStepTimer> timer);
 	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 	void initializeSprite();
-	
+
 private:
 	std::shared_ptr<Engine::Sprite> mClouds;
 	std::shared_ptr<Engine::Sprite> mCloudsBackground;

@@ -17,7 +17,8 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void bootstrap() {
+void bootstrap()
+{
     auto config = make_shared<Config>();
     config->fps = 60;
     config->useFixedTimeStep = true;
@@ -32,7 +33,7 @@ void bootstrap() {
     IOCContainer::instance().register_type<IPhysicsEngine>(make_shared<PhysicsEngine>());
     IOCContainer::instance().register_type<IObjectCollider>(make_shared<ObjectCollider>());
     IOCContainer::instance().register_type<ITweenEngine>(make_shared<TweenEngine>());
-        
+
     auto scoreSystem = make_shared<ScoreSystem>();
     IOCContainer::instance().register_type<ScoreSystem>(scoreSystem);
 

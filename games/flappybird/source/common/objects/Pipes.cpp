@@ -12,16 +12,13 @@ using namespace Engine;
 using namespace Utilities;
 
 Pipes::Pipes(Point<float> position)
-	: topPipe(make_shared<Pipe>(position))
-	, bottomPipe(make_shared<Pipe>(position))
-	, topPipeSprite(make_shared<Sprite>())
-	, bottomPipeSprite(make_shared<Sprite>())
+	: topPipe(make_shared<Pipe>(position)), bottomPipe(make_shared<Pipe>(position)), topPipeSprite(make_shared<Sprite>()), bottomPipeSprite(make_shared<Sprite>())
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-	, topPipeDebugSprite(make_shared<Sprite>())
-	, bottomPipeDebugSprite(make_shared<Sprite>())
+	  ,
+	  topPipeDebugSprite(make_shared<Sprite>()), bottomPipeDebugSprite(make_shared<Sprite>())
 #endif
-	, isAlive(true)
-	, hasScored(false)
+	  ,
+	  isAlive(true), hasScored(false)
 {
 	reset(position);
 
@@ -39,22 +36,18 @@ Pipes::Pipes(Point<float> position)
 	topPipeSprite->size.width = topPipe->size.width;
 	topPipe->offset = {
 		402.0f / 512.0f, (512.0f - 430.0f) / 512.0f,
-		52.0f / 512.0f, 25.0f / 512.0f
-	}; // 402, 405, 454, 430
+		52.0f / 512.0f, 25.0f / 512.0f}; // 402, 405, 454, 430
 	topPipeSprite->offset = {
 		402.0f / 512.0f, (512.0f - 120.0f) / 512.0f,
-		52.0f / 512.0f, 10.0f / 512.0f
-	}; // 402, 110, 454, 120
-	
+		52.0f / 512.0f, 10.0f / 512.0f}; // 402, 110, 454, 120
+
 	bottomPipeSprite->size.width = topPipe->size.width;
 	bottomPipe->offset = {
 		458.0f / 512.0f, (512.0f - 135.0f) / 512.0f,
-		52.0f / 512.0f, 25.0f / 512.0f
-	}; // 458, 110, 510, 135
+		52.0f / 512.0f, 25.0f / 512.0f}; // 458, 110, 510, 135
 	bottomPipeSprite->offset = {
 		402.0f / 512.0f, (512.0f - 120.0f) / 512.0f,
-		52.0f / 512.0f, 10.0f / 512.0f
-	}; // 402, 110, 454, 120
+		52.0f / 512.0f, 10.0f / 512.0f}; // 402, 110, 454, 120
 }
 
 void Pipes::reset(Point<float> position)
@@ -77,28 +70,28 @@ void Pipes::reset(Point<float> position)
 
 void Pipes::update(shared_ptr<IStepTimer> timer)
 {
-	if(isAlive) {
+	if (isAlive)
+	{
 		Vector2 delta = Vector2{(SCROLL_SPEED * static_cast<float>(timer->getElapsedMilliSeconds())), 0};
 		topPipe->position = topPipe->position + delta;
 		topPipeSprite->position = topPipeSprite->position + delta;
 		bottomPipe->position = bottomPipe->position + delta;
 		bottomPipeSprite->position = bottomPipeSprite->position + delta;
-		if(topPipe->position.x <= -54) {
+		if (topPipe->position.x <= -54)
+		{
 			isAlive = false;
 		}
 		Utilities::Rectangle topAABB(
 			topPipe->position.x,
 			topPipe->position.y,
 			topPipe->size.width,
-			topPipe->size.height + topPipeSprite->size.height
-		);
-	
+			topPipe->size.height + topPipeSprite->size.height);
+
 		Utilities::Rectangle bottomAABB(
 			bottomPipe->position.x,
 			bottomPipe->position.y - bottomPipeSprite->size.height,
 			bottomPipe->size.width,
-			bottomPipe->size.height + bottomPipeSprite->size.height
-		);
+			bottomPipe->size.height + bottomPipeSprite->size.height);
 
 		topPipe->AABB = topAABB;
 		bottomPipe->AABB = bottomAABB;
@@ -107,15 +100,13 @@ void Pipes::update(shared_ptr<IStepTimer> timer)
 		bottomPipeDebugSprite->size = bottomAABB.size;
 		bottomPipeDebugSprite->offset = {
 			1.0f / 512.0f, (512.0f - 371.0f) / 512.0f,
-			1.0f / 512.0f, 1.0f / 512.0f
-		}; // 1, 364, 8, 371
+			1.0f / 512.0f, 1.0f / 512.0f}; // 1, 364, 8, 371
 
 		topPipeDebugSprite->position = Point<float>{topAABB.position.x, topAABB.position.y};
 		topPipeDebugSprite->size = topAABB.size;
 		topPipeDebugSprite->offset = {
 			1.0f / 512.0f, (512.0f - 371.0f) / 512.0f,
-			1.0f / 512.0f, 1.0f / 512.0f
-		}; // 1, 364, 8, 371
+			1.0f / 512.0f, 1.0f / 512.0f}; // 1, 364, 8, 371
 #endif
 	}
 }
@@ -123,10 +114,11 @@ void Pipes::update(shared_ptr<IStepTimer> timer)
 void Pipes::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
-	if(spriteRenderer && isAlive) {
+	if (spriteRenderer && isAlive)
+	{
 		spriteRenderer->drawSprite(topPipe, Point<float>{topPipe->position.x, topPipe->position.y});
 		spriteRenderer->drawSprite(topPipeSprite, topPipeSprite->position);
-		
+
 		spriteRenderer->drawSprite(bottomPipe, Point<float>{bottomPipe->position.x, bottomPipe->position.y});
 		spriteRenderer->drawSprite(bottomPipeSprite, bottomPipeSprite->position);
 
