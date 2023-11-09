@@ -10,17 +10,18 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-shared_ptr<Model> ModelLoader::loadModel(const std::string& fileName)
+shared_ptr<Model> ModelLoader::loadModel(const std::string &fileName)
 {
     // auto result = make_shared<Model>(nullptr, nullptr);
     // return result;
     auto fileSystem = IOCContainer::instance().resolve<IFileSystem>();
-    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();	
+    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     std::vector<VertexPositionNormalTexture> vertices;
     const auto file = fileSystem->loadFile(std::string("models/" + fileName), false);
     Texture2D modelTexture;
     printf("[ModelLoader::loadModel] Loading model\n");
-    if(file && file->isOpen()){
+    if (file && file->isOpen())
+    {
         auto fileHandle = file->get();
         char buffer[100];
         // read header
@@ -38,16 +39,17 @@ shared_ptr<Model> ModelLoader::loadModel(const std::string& fileName)
         int vertexElements;
         fscanf(fileHandle, "%d\n", &vertexElements);
         printf("Elements in vertex: %d\n", vertexElements);
-        while(!feof(fileHandle)) {
+        while (!feof(fileHandle))
+        {
             std::vector<float> value(vertexElements);
-            for( int i = 0 ; i < vertexElements; i++ ) {
+            for (int i = 0; i < vertexElements; i++)
+            {
                 fscanf(fileHandle, "%f,", &value[i]);
             }
             vertices.emplace_back(
                 Vector3{value[0], value[1], value[2]},
                 Vector3{value[3], value[4], value[5]},
-                Vector2{value[6], value[7]}
-            );
+                Vector2{value[6], value[7]});
         }
     }
     return make_shared<Model>(vertices, modelTexture);

@@ -12,10 +12,7 @@ using namespace std;
 using namespace Engine;
 
 ResourceManager::ResourceManager()
-	: mInitialized(false)
-	, mTextureLoader(make_unique<TextureLoader>())
-	, mShaderLoader(make_unique<ShaderLoader>())
-	, mModelLoader(make_unique<ModelLoader>()) { }
+	: mInitialized(false), mTextureLoader(make_unique<TextureLoader>()), mShaderLoader(make_unique<ShaderLoader>()), mModelLoader(make_unique<ModelLoader>()) {}
 
 ResourceManager::~ResourceManager()
 {
@@ -24,14 +21,15 @@ ResourceManager::~ResourceManager()
 	mModelLoader.reset();
 }
 
-Texture2D ResourceManager::createEmptyTexture() {
+Texture2D ResourceManager::createEmptyTexture()
+{
 	Texture2D texture;
 	texture.textureIndex = generateTexture();
 	texture.width = 1;
 	texture.height = 1;
 	texture.name = EMPTY_TEXTURE_NAME;
 
-	const auto pixels = new GLubyte[4]{ 255, 0, 255 , 255 };
+	const auto pixels = new GLubyte[4]{255, 0, 255, 255};
 	setTexturePixels(texture.textureIndex, texture.width, texture.height, true, pixels);
 	delete[] pixels;
 
@@ -41,14 +39,16 @@ Texture2D ResourceManager::createEmptyTexture() {
 void ResourceManager::loadTextures(vector<string> fileNames)
 {
 	printf("[ResourceManager::loadTextures]\n");
-	if (!mInitialized) {
+	if (!mInitialized)
+	{
 		const auto emptyTexture = createEmptyTexture();
 		mTextures[emptyTexture.name] = emptyTexture;
 	}
-	
-	for (auto const& filename : fileNames)
+
+	for (auto const &filename : fileNames)
 	{
-		if(mTextures.find(filename) == mTextures.end()) {
+		if (mTextures.find(filename) == mTextures.end())
+		{
 			Texture2D texture;
 			texture.name = filename;
 			texture.textureIndex = generateTexture();
@@ -56,9 +56,10 @@ void ResourceManager::loadTextures(vector<string> fileNames)
 		}
 	}
 
-	for (auto& texture : mTextures)
+	for (auto &texture : mTextures)
 	{
-		if (!texture.second.isLoaded) {
+		if (!texture.second.isLoaded)
+		{
 			mTextureLoader->loadTexture(texture.second);
 			texture.second.isLoaded = true;
 		}
@@ -69,18 +70,21 @@ void ResourceManager::loadTextures(vector<string> fileNames)
 
 Texture2D ResourceManager::getTexture(string fileName) const
 {
-	if (mTextures.count(fileName) == 1) {
+	if (mTextures.count(fileName) == 1)
+	{
 		auto texture = mTextures.at(fileName);
-		if (texture.name == fileName) {
+		if (texture.name == fileName)
+		{
 			return texture;
 		}
 	}
 	return mTextures.at(EMPTY_TEXTURE_NAME);
 }
 
-void ResourceManager::loadShader(const string& name, const string& vsFileName, const string& fsFileName)
+void ResourceManager::loadShader(const string &name, const string &vsFileName, const string &fsFileName)
 {
-	if(mShaders.find(name) == mShaders.end()) {
+	if (mShaders.find(name) == mShaders.end())
+	{
 		printf("[ResourceManager::loadShader] Loading shader\n");
 		const auto vs = mShaderLoader->loadShader(vsFileName);
 		const auto fs = mShaderLoader->loadShader(fsFileName);
@@ -91,21 +95,22 @@ void ResourceManager::loadShader(const string& name, const string& vsFileName, c
 	}
 }
 
-shared_ptr<Shader> ResourceManager::getShader(const string& name) const
+shared_ptr<Shader> ResourceManager::getShader(const string &name) const
 {
 	return mShaders.at(name);
 }
 
-void ResourceManager::loadModel(const string& fileName)
+void ResourceManager::loadModel(const string &fileName)
 {
-	if(mModels.find(fileName) == mModels.end()) {
+	if (mModels.find(fileName) == mModels.end())
+	{
 
 		const auto model = mModelLoader->loadModel(fileName);
 		mModels[fileName] = model;
 	}
 }
 
-shared_ptr<Model> ResourceManager::getModel(const string& name) const
+shared_ptr<Model> ResourceManager::getModel(const string &name) const
 {
 	return mModels.at(name);
 }

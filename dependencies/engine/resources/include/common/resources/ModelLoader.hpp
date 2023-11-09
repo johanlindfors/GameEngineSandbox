@@ -2,14 +2,16 @@
 #include <memory>
 #include <string>
 
-namespace Engine {
+namespace Engine
+{
 	class Model;
 
-	class ModelLoader {
+	class ModelLoader
+	{
 	public:
 		ModelLoader() = default;
 		~ModelLoader() = default;
 
-		std::shared_ptr<Engine::Model> loadModel(const std::string& fileName);
+		std::shared_ptr<Engine::Model> loadModel(const std::string &fileName);
 	};
 }
