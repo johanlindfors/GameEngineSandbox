@@ -2,16 +2,18 @@
 #include <memory>
 #include <string>
 
-namespace Engine {
+namespace Engine
+{
 	class ShaderLoaderImpl;
 	class Shader;
 
-	class ShaderLoader {
+	class ShaderLoader
+	{
 	public:
 		ShaderLoader();
 		~ShaderLoader();
 
-		std::string loadShader(const std::string& fileName);
+		std::string loadShader(const std::string &fileName);
 
 	private:
 		std::unique_ptr<ShaderLoaderImpl> mImpl;

@@ -20,11 +20,13 @@ using namespace Windows::Graphics::Imaging;
 using namespace Engine;
 using namespace Utilities;
 
-namespace Engine {
+namespace Engine
+{
 	class TextureLoaderImpl
 	{
 	private:
-		static IAsyncOperation<PixelDataProvider> GetPixelDataFromImageAsync(std::shared_ptr<File> file, int& width, int& height) {
+		static IAsyncOperation<PixelDataProvider> GetPixelDataFromImageAsync(std::shared_ptr<File> file, int &width, int &height)
+		{
 			const auto stream = co_await file->Get().OpenAsync(FileAccessMode::Read);
 			const auto decoder = co_await BitmapDecoder::CreateAsync(stream);
 			const auto bitmap = co_await decoder.GetSoftwareBitmapAsync();
@@ -34,7 +36,8 @@ namespace Engine {
 			co_return pixelData;
 		}
 
-		static vector<GLubyte> GetPixelsFromPixelDataProvider(const PixelDataProvider& pixelDataProvider) {
+		static vector<GLubyte> GetPixelsFromPixelDataProvider(const PixelDataProvider &pixelDataProvider)
+		{
 			auto dpPixels = pixelDataProvider.DetachPixelData();
 			std::vector<GLubyte> vPixels(dpPixels.begin(), dpPixels.end());
 			return vPixels;
@@ -42,15 +45,17 @@ namespace Engine {
 
 	public:
 		TextureLoaderImpl()
-			: mDispatcher(IOCContainer::instance().resolve<IDispatcherWrapper>())
-			, mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) 
-		{ }	
-
-		void LoadTexture(Texture2D& texture) 
+			: mDispatcher(IOCContainer::instance().resolve<IDispatcherWrapper>()), mFileSystem(IOCContainer::instance().resolve<IFileSystem>())
 		{
-			if (texture.Name != EMPTY_TEXTURE_NAME) {
+		}
+
+		void LoadTexture(Texture2D &texture)
+		{
+			if (texture.Name != EMPTY_TEXTURE_NAME)
+			{
 				const auto file = mFileSystem->LoadFile(std::string(L"\\textures\\" + texture.Name));
-				if (file) {
+				if (file)
+				{
 					int width, height;
 					const auto pixelData = GetPixelDataFromImageAsync(file, width, height).get();
 
@@ -58,7 +63,8 @@ namespace Engine {
 					texture.Height = height;
 
 					auto dpPixels = GetPixelsFromPixelDataProvider(pixelData);
-					mDispatcher->ScheduleOnGameThread([&, dpPixels, texture]() {
+					mDispatcher->ScheduleOnGameThread([&, dpPixels, texture]()
+													  {
 						const auto size = dpPixels.size();
 						const auto textureWidth = texture.Width * 4;
 						const auto textureHeight = texture.Height;
@@ -73,10 +79,10 @@ namespace Engine {
 						}
 						bool hasAlpha = true;
 						SetTexturePixels(texture.TextureIndex, texture.Width, texture.Height, hasAlpha, pixels);
-						free(pixels);
-					});
+						free(pixels); });
 				}
-				else {
+				else
+				{
 					DeleteTexture(texture.TextureIndex);
 					texture.TextureIndex = 0;
 					texture.Width = 0;
@@ -93,14 +99,14 @@ namespace Engine {
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(std::make_unique<TextureLoaderImpl>()) { }
+	: mImpl(std::make_unique<TextureLoaderImpl>()) {}
 
 TextureLoader::~TextureLoader()
 {
 	mImpl.reset(nullptr);
 }
 
-void TextureLoader::LoadTexture(Texture2D& texture)
+void TextureLoader::LoadTexture(Texture2D &texture)
 {
 	mImpl->LoadTexture(texture);
 }
