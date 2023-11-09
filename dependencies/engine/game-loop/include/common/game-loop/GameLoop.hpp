@@ -7,7 +7,7 @@ namespace Utilities
 	struct Config;
 }
 
-namespace Engine 
+namespace Engine
 {
 	class IRenderer;
 	class IInputManager;
@@ -16,7 +16,8 @@ namespace Engine
 	class IResourceManager;
 	class IFileSystem;
 
-	class GameLoop {
+	class GameLoop
+	{
 	public:
 		GameLoop();
 		~GameLoop();

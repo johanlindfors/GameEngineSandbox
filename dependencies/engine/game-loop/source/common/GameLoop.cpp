@@ -13,30 +13,34 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-GameLoop::GameLoop() 
-	: mIsInitialized(false) { }
+GameLoop::GameLoop()
+	: mIsInitialized(false) {}
 
-void GameLoop::initialize(shared_ptr<Config> config) {
+void GameLoop::initialize(shared_ptr<Config> config)
+{
 	mTimer = make_shared<StepTimer>();
 	mTimer->setFixedTimeStep(config->useFixedTimeStep);
-	mTimer->setTargetElapsedSeconds(1.0f/config->fps);
+	mTimer->setTargetElapsedSeconds(1.0f / config->fps);
 
-    printf("[GameLoop::initialize] Timer initialized\n");
+	printf("[GameLoop::initialize] Timer initialized\n");
 
 	// Ordering is important
-	if(!IOCContainer::instance().contains<FileSystem>()){
+	if (!IOCContainer::instance().contains<FileSystem>())
+	{
 		mFileSystem = make_shared<FileSystem>();
 		IOCContainer::instance().register_type<IFileSystem>(mFileSystem);
 		printf("[GameLoop::initialize] FileSystem registered\n");
 	}
-	
-	if(!IOCContainer::instance().contains<IResourceManager>()){
+
+	if (!IOCContainer::instance().contains<IResourceManager>())
+	{
 		mResourceManager = make_shared<ResourceManager>();
 		IOCContainer::instance().register_type<IResourceManager>(mResourceManager);
 		printf("[GameLoop::initialize] ResourceManager registered\n");
 	}
 
-	if(IOCContainer::instance().contains<IRenderer>()){
+	if (IOCContainer::instance().contains<IRenderer>())
+	{
 		mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		mRenderer->initialize();
 		printf("[GameLoop::initialize] Renderer initalized\n");
@@ -60,26 +64,29 @@ void GameLoop::initialize(shared_ptr<Config> config) {
 	mIsInitialized = true;
 }
 
-GameLoop::~GameLoop() {
+GameLoop::~GameLoop()
+{
 	printf("[GameLoop::~GameLoop]\n");
 	mTimer.reset();
 
 	mSceneManager.reset();
 	mInputManager.reset();
-	if(mResourceManager.get())
+	if (mResourceManager.get())
 		mResourceManager.reset();
-	if(mFileSystem.get())
+	if (mFileSystem.get())
 		mFileSystem.reset();
 }
 
-void GameLoop::tick() {
+void GameLoop::tick()
+{
 	if (!mIsInitialized)
 		return;
 	mTimer->tick(
 		[&]() { /* process input*/ },
-		[&]() { update(); },
-		[&]() { render(); }
-	);
+		[&]()
+		{ update(); },
+		[&]()
+		{ render(); });
 }
 
 void GameLoop::updateWindowSize(int width, int height)
@@ -87,12 +94,15 @@ void GameLoop::updateWindowSize(int width, int height)
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
-	if(!mRenderer) {
-		if(IOCContainer::instance().contains<IRenderer>()){
+	if (!mRenderer)
+	{
+		if (IOCContainer::instance().contains<IRenderer>())
+		{
 			mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		}
 	}
-	if(mRenderer) {
+	if (mRenderer)
+	{
 		mRenderer->updateWindowSize(width, height);
 	}
 	mSceneManager->updateScreenSize(width, height);
@@ -111,20 +121,24 @@ void GameLoop::update() const
 		return;
 
 	// TODO: Add your game logic here.
-	mGameLoopCallback->update(mTimer);	
+	mGameLoopCallback->update(mTimer);
 	mSceneManager->update(mTimer);
 	mInputManager->update();
 }
 
-void GameLoop::render() {
+void GameLoop::render()
+{
 	if (!mIsInitialized)
 		return;
 	// Don't try to render anything before the first Update.
-	if (mTimer->getFrameCount() == 0) {
+	if (mTimer->getFrameCount() == 0)
+	{
 		return;
 	}
-	if(!mRenderer) {
-		if(IOCContainer::instance().contains<IRenderer>()){
+	if (!mRenderer)
+	{
+		if (IOCContainer::instance().contains<IRenderer>())
+		{
 			mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		}
 	}
@@ -134,7 +148,8 @@ void GameLoop::render() {
 
 void GameLoop::clear() const
 {
-	if(mRenderer) {
+	if (mRenderer)
+	{
 		mRenderer->clear();
 	}
 }
