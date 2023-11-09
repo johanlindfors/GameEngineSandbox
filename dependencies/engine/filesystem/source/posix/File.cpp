@@ -14,31 +14,37 @@ void File::open(string filename, bool writeable)
     mFilename = filename;
     std::cout << "[File::Open] Opening file '" << mFilename << "'!" << endl;
     mFileHandle = fopen(mFilename.c_str(), writeable ? "wb" : "rb");
-    if(!mFileHandle) {
+    if (!mFileHandle)
+    {
         std::cout << "Failed to open file!" << endl;
     }
 }
 
-void File::create(string filename) 
+void File::create(string filename)
 {
     mFilename = filename;
     std::cout << "[File::Create] Creating file '" << mFilename << "'!" << endl;
     mFileHandle = fopen(mFilename.c_str(), "wb");
-    if(!mFileHandle) {
+    if (!mFileHandle)
+    {
         std::cout << "Failed to create file!" << endl;
     }
 }
 
-void File::close() {
-    if(mFileHandle)  {
-	    const auto err = fclose(mFileHandle);
-        if(err != 0) {
+void File::close()
+{
+    if (mFileHandle)
+    {
+        const auto err = fclose(mFileHandle);
+        if (err != 0)
+        {
             mFileHandle = nullptr;
         }
     }
 }
 
-string File::readAllText() {
+string File::readAllText()
+{
     ifstream fileStream;
     fileStream.open(mFilename);
     stringstream buffer;
