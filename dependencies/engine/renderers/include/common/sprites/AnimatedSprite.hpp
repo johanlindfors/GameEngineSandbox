@@ -15,7 +15,7 @@ namespace Engine
         bool loop;
     };
 
-    struct AnimatedSprite : public TiledSprite 
+    struct AnimatedSprite : public TiledSprite
     {
         std::map<std::string, Animation> animations;
         std::string currentAnimation;

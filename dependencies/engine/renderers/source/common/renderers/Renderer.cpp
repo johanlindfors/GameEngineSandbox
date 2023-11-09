@@ -6,13 +6,13 @@ using namespace std;
 using namespace Engine;
 
 Renderer::Renderer(
-    shared_ptr<Shader> shader) 
-    : mShader(shader) { } 
+    shared_ptr<Shader> shader)
+    : mShader(shader) {}
 
 Renderer::~Renderer()
 {
     printf("[Renderer::~Renderer]\n");
-	mShader.reset();
+    mShader.reset();
 }
 
 void Renderer::initialize()
@@ -22,7 +22,7 @@ void Renderer::initialize()
 
 void Renderer::updateWindowSize(int width, int height)
 {
-	printf("[Renderer::updateWindowSize]\n");
+    printf("[Renderer::updateWindowSize]\n");
     GlViewport(0, 0, width, height);
 }
 
@@ -33,5 +33,5 @@ void Renderer::clear()
 
 void Renderer::clear(float r, float g, float b, float a)
 {
-	GlClearColor(r, g, b, a);
+    GlClearColor(r, g, b, a);
 }

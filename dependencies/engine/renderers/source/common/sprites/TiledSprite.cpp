@@ -2,7 +2,7 @@
 
 using namespace Utilities;
 
-namespace Engine 
+namespace Engine
 {
     unsigned int TiledSprite::getCols()
     {
@@ -24,14 +24,12 @@ namespace Engine
     {
         Size<float> normalizedTileSize = {
             static_cast<float>(tileSize.width) / texture.width,
-            static_cast<float>(tileSize.height) / texture.height
-        };
+            static_cast<float>(tileSize.height) / texture.height};
         offset = {
             static_cast<float>(currentTile % getCols() * normalizedTileSize.width),
             1.0f - static_cast<float>(static_cast<int>(currentTile / getCols() + 1) * normalizedTileSize.height),
             normalizedTileSize.width,
-            normalizedTileSize.height
-        };
+            normalizedTileSize.height};
         return offset;
     }
 }
