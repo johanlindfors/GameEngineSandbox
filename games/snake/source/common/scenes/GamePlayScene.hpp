@@ -7,21 +7,21 @@
 
 class IGameStateCallback;
 
-namespace Engine 
+namespace Engine
 {
 	class IRenderer;
 	class IInputManager;
 	class IResourceManager;
 }
 
-class GamePlayScene : public Engine::GameScene 
+class GamePlayScene : public Engine::GameScene
 {
 public:
-    GamePlayScene(IGameStateCallback* gameCallback);
-    ~GamePlayScene() = default;
+	GamePlayScene(IGameStateCallback *gameCallback);
+	~GamePlayScene() = default;
 
 	// Engine::GameScene
-    void load() override;
+	void load() override;
 	void unload() override;
 	void updateScreenSize(int width, int height) override;
 	void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
@@ -29,7 +29,7 @@ public:
 
 private:
 	std::shared_ptr<Engine::IInputManager> mInputManager;
-	IGameStateCallback* mGame;
+	IGameStateCallback *mGame;
 	bool mSpacePressedBefore;
 
 	entt::registry mRegistry;
