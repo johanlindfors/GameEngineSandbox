@@ -12,12 +12,12 @@ namespace Engine
 
 class FixedTile
 {
-    public:
-        FixedTile(int x, int y, int frame);
-        ~FixedTile() = default;
+public:
+    FixedTile(int x, int y, int frame);
+    ~FixedTile() = default;
 
-        void draw(std::shared_ptr<Engine::IRenderer> renderer);
+    void draw(std::shared_ptr<Engine::IRenderer> renderer);
 
-    private:
-        std::shared_ptr<Engine::TiledSprite> mSprite;
+private:
+    std::shared_ptr<Engine::TiledSprite> mSprite;
 };

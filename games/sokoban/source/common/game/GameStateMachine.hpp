@@ -9,11 +9,13 @@
 // game
 #include "IGameStateCallback.hpp"
 
-namespace Engine {
+namespace Engine
+{
     class ISceneManager;
 }
 
-namespace Utilities {
+namespace Utilities
+{
     class IStepTimer;
 }
 
@@ -28,7 +30,7 @@ public:
 
     // Engine::IGameStateCallback
     void goToState(GameState gameState) override;
-	GameState getCurrentState() override { return mCurrentState; }
+    GameState getCurrentState() override { return mCurrentState; }
 
 private:
     void handleUnknownState();
@@ -36,7 +38,7 @@ private:
     void handleGamePlayState();
     void handleGameOverState();
 
-	std::shared_ptr<Engine::ISceneManager> mSceneManager;
-	GameState mCurrentState;
+    std::shared_ptr<Engine::ISceneManager> mSceneManager;
+    GameState mCurrentState;
     GameState mNextState;
 };
