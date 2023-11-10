@@ -18,9 +18,9 @@ namespace Utilities
 
 class Crate : public MoveableObject
 {
-    public:
-        Crate(int x, int y);
-        ~Crate() = default;
-        void setFrame(int frame);
-        int index;
+public:
+    Crate(int x, int y);
+    ~Crate() = default;
+    void setFrame(int frame);
+    int index;
 };

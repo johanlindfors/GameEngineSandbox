@@ -14,8 +14,7 @@ using namespace Engine;
 using namespace Utilities;
 
 GameStateMachine::GameStateMachine()
-	: mCurrentState(GameState::Unknown)
-	, mNextState(GameState::Unknown) { }
+	: mCurrentState(GameState::Unknown), mNextState(GameState::Unknown) {}
 
 void GameStateMachine::initialize()
 {
@@ -24,7 +23,7 @@ void GameStateMachine::initialize()
 
 void GameStateMachine::handleUnknownState()
 {
-	if(mCurrentState == GameState::Unknown)
+	if (mCurrentState == GameState::Unknown)
 	{
 		mNextState = GameState::Boot;
 	}
@@ -32,7 +31,7 @@ void GameStateMachine::handleUnknownState()
 
 void GameStateMachine::handleBootState()
 {
-	if(mCurrentState == GameState::Unknown)
+	if (mCurrentState == GameState::Unknown)
 	{
 		mSceneManager->addScene(make_shared<BootScene>(this));
 	}
@@ -43,19 +42,20 @@ void GameStateMachine::handleGamePlayState()
 {
 	switch (mCurrentState)
 	{
-		case GameState::Boot:
-			mSceneManager->removeScene(typeid(BootScene));
-			mSceneManager->addScene(make_shared<GamePlayScene>(this));
-			break;
-		default:
-			break;
+	case GameState::Boot:
+		mSceneManager->removeScene(typeid(BootScene));
+		mSceneManager->addScene(make_shared<GamePlayScene>(this));
+		break;
+	default:
+		break;
 	}
 	mCurrentState = GameState::GamePlay;
 }
 
 void GameStateMachine::handleGameOverState()
 {
-	if (mCurrentState == GameState::GamePlay) {
+	if (mCurrentState == GameState::GamePlay)
+	{
 		mSceneManager->removeScene(typeid(GamePlayScene));
 		mSceneManager->addScene(make_shared<GameOverScene>(this));
 	}

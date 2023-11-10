@@ -8,7 +8,7 @@ class IGameStateCallback;
 class BootScene : public Engine::GameScene
 {
 public:
-    BootScene(IGameStateCallback* gameCallback);
+    BootScene(IGameStateCallback *gameCallback);
     ~BootScene() = default;
     void load() override;
     void unload() override;
@@ -18,8 +18,8 @@ public:
 
 private:
     bool mInitialized;
-    IGameStateCallback* mGame;
-    std::queue<std::function<void()> > mLoadingTasks;
+    IGameStateCallback *mGame;
+    std::queue<std::function<void()>> mLoadingTasks;
     uint mLoadedTasks;
     uint mTotalTasks;
 };
