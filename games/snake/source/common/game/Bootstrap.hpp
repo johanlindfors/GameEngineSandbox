@@ -8,7 +8,8 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void bootstrap() {
+void bootstrap()
+{
     auto config = make_shared<Config>();
     config->width = 500;
     config->height = 500;

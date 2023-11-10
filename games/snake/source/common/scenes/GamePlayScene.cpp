@@ -17,18 +17,8 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-GamePlayScene::GamePlayScene(IGameStateCallback* gameCallback)
-	: mSpriteSystem(make_unique<SpriteSystem>())
-	, mTransformSystem(make_unique<TransformSystem>())
-	, mMovementSystem(make_unique<MovementSystem>())
-	, mSpawnSystem(make_unique<SpawnSystem>())
-	, mCleanupSystem(make_unique<CleanupSystem>())
-	, mScoringSystem(make_unique<ScoringSystem>())
-	, mCollisionSystem(make_unique<CollisionSystem>())
-	, mGame(gameCallback)
-	, mSpacePressedBefore(false)
-	, mTargetMicroSeconds(1000000/FRAMES_PER_SECOND)
-	, mElapsedMicroSeconds(0)
+GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
+	: mSpriteSystem(make_unique<SpriteSystem>()), mTransformSystem(make_unique<TransformSystem>()), mMovementSystem(make_unique<MovementSystem>()), mSpawnSystem(make_unique<SpawnSystem>()), mCleanupSystem(make_unique<CleanupSystem>()), mScoringSystem(make_unique<ScoringSystem>()), mCollisionSystem(make_unique<CollisionSystem>()), mGame(gameCallback), mSpacePressedBefore(false), mTargetMicroSeconds(1000000 / FRAMES_PER_SECOND), mElapsedMicroSeconds(0)
 {
 	id = typeid(GamePlayScene).name();
 }
@@ -60,21 +50,26 @@ void GamePlayScene::updateScreenSize(int width, int height)
 void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
 	auto const spacePressed = mInputManager->isKeyDown(32);
-	if (mGame->getCurrentState() == GameState::GamePlay) {
+	if (mGame->getCurrentState() == GameState::GamePlay)
+	{
 		mMovementSystem->update(mRegistry, mInputManager);
-		
-		mElapsedMicroSeconds += timer->getDeltaMicroSeconds();;
-		if (mElapsedMicroSeconds >= mTargetMicroSeconds) {
+
+		mElapsedMicroSeconds += timer->getDeltaMicroSeconds();
+		;
+		if (mElapsedMicroSeconds >= mTargetMicroSeconds)
+		{
 			mElapsedMicroSeconds -= mTargetMicroSeconds;
 
 			mSpawnSystem->update(mRegistry);
 			mTransformSystem->update(mRegistry);
-			if (mScoringSystem->update(mRegistry)) {
+			if (mScoringSystem->update(mRegistry))
+			{
 				mSpawnSystem->spawnApple(mRegistry);
 				mCleanupSystem->resetCounter(mRegistry, 1);
 			}
 			mCleanupSystem->update(mRegistry);
-			if (mCollisionSystem->update(mRegistry)) {
+			if (mCollisionSystem->update(mRegistry))
+			{
 				mGame->goToState(GameState::GameOver);
 			}
 			mSpriteSystem->update(mRegistry);
@@ -85,7 +80,8 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 			mGame->goToState(GameState::Pause);
 		}
 	}
-	else {
+	else
+	{
 		if (spacePressed && !mSpacePressedBefore)
 		{
 			mGame->goToState(GameState::GamePlay);
