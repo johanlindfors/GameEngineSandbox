@@ -19,33 +19,36 @@ using namespace Engine;
 using namespace Utilities;
 using namespace Sample;
 
-void SpriteScene::load() 
+void SpriteScene::load()
 {
     printf("[SpriteScene::load]\n");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    
-    if(IOCContainer::instance().contains<SpriteRenderer>()) {
+
+    if (IOCContainer::instance().contains<SpriteRenderer>())
+    {
         mRenderer = IOCContainer::instance().resolve<SpriteRenderer>();
-    } else {
-        resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
-        resourceManager->loadTextures({ "truesec.png" });
-        
+    }
+    else
+    {
+        resourceManager->loadShader("simple", "simple.vs", "simple.fs");
+        resourceManager->loadTextures({"truesec.png"});
+
         auto config = IOCContainer::instance().resolve<Utilities::Config>();
-        auto camera = make_shared<Engine::OrthographicCamera>( 0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f );
-        auto shader = resourceManager->getShader( "simple" );
-        mRenderer = make_shared<SpriteRenderer>( shader, camera );
+        auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
+        auto shader = resourceManager->getShader("simple");
+        mRenderer = make_shared<SpriteRenderer>(shader, camera);
         mRenderer->initialize();
         IOCContainer::instance().register_type<SpriteRenderer>(mRenderer);
     }
 
     mSprite = make_shared<Sprite>();
-    mSprite->texture = resourceManager->getTexture( "truesec.png" );
-    mSprite->size = { 256.0f, 256.0f };
+    mSprite->texture = resourceManager->getTexture("truesec.png");
+    mSprite->size = {256.0f, 256.0f};
 
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 }
 
-void SpriteScene::unload() 
+void SpriteScene::unload()
 {
     printf("[SpriteScene::unload]\n");
     mRenderer.reset();
@@ -53,24 +56,24 @@ void SpriteScene::unload()
 }
 
 void SpriteScene::updateScreenSize(int width, int height)
-{ 
+{
     printf("[SpriteScene::updateScreenSize]\n");
-    mSprite->position = { 
-        static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f), 
-        static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)
-    };
-    mRenderer->updateWindowSize( width, height );
+    mSprite->position = {
+        static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f),
+        static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)};
+    mRenderer->updateWindowSize(width, height);
 }
 
 void SpriteScene::update(shared_ptr<IStepTimer> timer)
 {
     auto const mouseState = mInputManager->getMouseState();
     mInputManager->update();
-	if(mouseState.state == ButtonState::Pressed) {
+    if (mouseState.state == ButtonState::Pressed)
+    {
         auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
         sceneManager->removeScene(typeid(SpriteScene));
         sceneManager->addScene(make_shared<ModelScene>());
-	}
+    }
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
@@ -79,5 +82,5 @@ void SpriteScene::draw(shared_ptr<IRenderer> renderer)
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
 
-    mRenderer->drawSprite( mSprite );
+    mRenderer->drawSprite(mSprite);
 }

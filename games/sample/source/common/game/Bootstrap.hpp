@@ -14,7 +14,8 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void bootstrap() {
+void bootstrap()
+{
     auto config = make_shared<Config>();
     config->fps = FRAMES_PER_SECOND;
     config->useFixedTimeStep = false;
@@ -24,9 +25,9 @@ void bootstrap() {
     config->executable = "sample";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
-    
+
     IOCContainer::instance().register_type<Config>(config);
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<Sample::Game>());
-    
-    //IOCContainer::instance().register_type<IRenderer>(make_shared<Engine::SimpleRenderer>());
+
+    // IOCContainer::instance().register_type<IRenderer>(make_shared<Engine::SimpleRenderer>());
 }
