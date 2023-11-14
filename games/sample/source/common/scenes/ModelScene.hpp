@@ -16,25 +16,25 @@ namespace Utilities
     class IStepTimer;
 }
 
-namespace Sample 
+namespace Sample
 {
-    class ModelScene : public Engine::GameScene 
+    class ModelScene : public Engine::GameScene
     {
-        public:
-            ModelScene() { id = typeid(ModelScene).name(); }
+    public:
+        ModelScene() { id = typeid(ModelScene).name(); }
 
-            // Engine::GameScene
-            void load() override;
-            void unload() override;
-            void updateScreenSize(int width, int height) override;
-            void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
-            void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
+        // Engine::GameScene
+        void load() override;
+        void unload() override;
+        void updateScreenSize(int width, int height) override;
+        void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+        void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
-        private:
-            std::shared_ptr<Engine::ModelRenderer> mRenderer;
-            std::vector<std::shared_ptr<Engine::Model> > mModels;
-            float angle;
-            std::shared_ptr<Engine::IInputManager> mInputManager;
-            bool mAnimate;
+    private:
+        std::shared_ptr<Engine::ModelRenderer> mRenderer;
+        std::vector<std::shared_ptr<Engine::Model>> mModels;
+        float angle;
+        std::shared_ptr<Engine::IInputManager> mInputManager;
+        bool mAnimate;
     };
 }

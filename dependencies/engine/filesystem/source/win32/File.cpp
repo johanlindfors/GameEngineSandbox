@@ -11,32 +11,38 @@ using namespace Utilities;
 void File::open(string filename, bool writeable)
 {
     auto wFilename = s2ws(filename);
-	const auto err = _wfopen_s(&mFileHandle, wFilename.c_str(), writeable ? L"wb" : L"rb");
-    if ( err != 0) {
+    const auto err = _wfopen_s(&mFileHandle, wFilename.c_str(), writeable ? L"wb" : L"rb");
+    if (err != 0)
+    {
         mFileHandle = nullptr;
     }
 }
 
-void File::create(string filename) 
+void File::create(string filename)
 {
     auto wFilename = s2ws(filename);
     std::cout << "[File::Create] Creating file '" << filename << "'!" << endl;
     _wfopen_s(&mFileHandle, wFilename.c_str(), L"wb");
-    if(!mFileHandle) {
+    if (!mFileHandle)
+    {
         std::cout << "Failed to create file!" << endl;
     }
 }
 
-void File::close() {
-    if(mFileHandle)  {
-	    const auto err = fclose(mFileHandle);
-        if(err != 0) {
+void File::close()
+{
+    if (mFileHandle)
+    {
+        const auto err = fclose(mFileHandle);
+        if (err != 0)
+        {
             mFileHandle = nullptr;
         }
     }
 }
 
-string File::readAllText() {
+string File::readAllText()
+{
     ifstream fileStream;
     fileStream.open(mFilename);
     stringstream buffer;

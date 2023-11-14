@@ -11,65 +11,63 @@ using namespace Utilities;
 
 class Application
 {
-    public:
-        void start() 
-        {
-            GLFWwindow* window;
-            
-            auto game = std::make_unique<GameLoop>();
-            printf("[StartLinuxApplication] game created\n");
-            auto config = IOCContainer::instance().resolve<Config>();
-            printf("[StartLinuxApplication] found config\n");
+public:
+    void start()
+    {
+        GLFWwindow *window;
 
-            int width, height;
-            width = config->width;
-            height = config->height;
-            printf("[StartLinuxApplication] get default size returned\n");
-            
-            glfwInit();
-            //glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->glMinorVersion);
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            window = glfwCreateWindow(width, height, config->title.c_str(), NULL, NULL);
-            glfwMakeContextCurrent(window);
-            glfwSwapInterval(0);
+        auto game = std::make_unique<GameLoop>();
+        printf("[StartLinuxApplication] game created\n");
+        auto config = IOCContainer::instance().resolve<Config>();
+        printf("[StartLinuxApplication] found config\n");
 
-            printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
-            printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
-            printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
+        int width, height;
+        width = config->width;
+        height = config->height;
+        printf("[StartLinuxApplication] get default size returned\n");
 
-            game->initialize(config);
-            printf("[StartLinuxApplication] initialized\n");
+        glfwInit();
+        // glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->glMinorVersion);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        window = glfwCreateWindow(width, height, config->title.c_str(), NULL, NULL);
+        glfwMakeContextCurrent(window);
+        glfwSwapInterval(0);
 
-            game->updateWindowSize(width, height);
-            printf("[StartLinuxApplication] Windows size updated\n");
+        printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
+        printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
+        printf("GL_SHADING_LANGUAGE_VERSION : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-            printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
-            printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
-            printf("GL_SHADING_LANGUAGE_VERSION : %s\n",glGetString(GL_SHADING_LANGUAGE_VERSION));
+        game->initialize(config);
+        printf("[StartLinuxApplication] initialized\n");
 
-            glfwSetWindowUserPointer(window, game.get());
-            glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
-            {
+        game->updateWindowSize(width, height);
+        printf("[StartLinuxApplication] Windows size updated\n");
+
+        printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
+        printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
+        printf("GL_SHADING_LANGUAGE_VERSION : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+        glfwSetWindowUserPointer(window, game.get());
+        glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height)
+                                  {
                 auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
                 game->updateWindowSize(width, height);
-                glViewport(0,0,width, height);
-            });
+                glViewport(0,0,width, height); });
 
-            glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
-            {
+        glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods)
+                                   {
                 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
                     double xpos, ypos;
                     glfwGetCursorPos(window, &xpos, &ypos);
                     auto input = IOCContainer::instance().resolve<IInputManager>();
                     input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, xpos, ypos);
-                }
-            });
+                } });
 
-            glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-            {
+        glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
+                           {
                 auto input = IOCContainer::instance().resolve<IInputManager>();
                 ButtonState state(ButtonState::None);
                 switch (action) {
@@ -106,25 +104,26 @@ class Application
                         break;
                     default:
                         break;
-                }
-            });
+                } });
 
-            while (!glfwWindowShouldClose(window)) {
-                glfwPollEvents();
-                glClear(GL_COLOR_BUFFER_BIT);
+        while (!glfwWindowShouldClose(window))
+        {
+            glfwPollEvents();
+            glClear(GL_COLOR_BUFFER_BIT);
 
-                game->tick();
-                glfwSwapBuffers(window);
-            }
-            game.reset();
-            glfwTerminate();
+            game->tick();
+            glfwSwapBuffers(window);
         }
+        game.reset();
+        glfwTerminate();
+    }
 
-    private:
-        shared_ptr<IInputManager> mInput;
+private:
+    shared_ptr<IInputManager> mInput;
 };
 
-void startApplication(int argc, char **argv) {
+void startApplication(int argc, char **argv)
+{
     Application application;
     application.start();
 }

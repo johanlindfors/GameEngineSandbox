@@ -4,22 +4,25 @@
 using namespace Engine;
 
 SpriteShader *SpriteShader::loadShader(
-        const std::string &vertexSource,
-        const std::string &fragmentSource) {
+    const std::string &vertexSource,
+    const std::string &fragmentSource)
+{
     SpriteShader *shader = nullptr;
 
     GLuint program = ShaderBase::loadShader(
-        vertexSource, 
+        vertexSource,
         fragmentSource);
-    if (program > 0) {
+    if (program > 0)
+    {
         shader = new SpriteShader(
-                program,
-                0,
-                1);
+            program,
+            0,
+            1);
     }
     return shader;
 }
 
-void SpriteShader::setMvpMatrix(const std::string &name, float *mvpMatrix) const {
+void SpriteShader::setMvpMatrix(const std::string &name, float *mvpMatrix) const
+{
     glUniformMatrix4fv(GlGetUniformLocation(mProgram, name.c_str()), 1, false, mvpMatrix);
 }

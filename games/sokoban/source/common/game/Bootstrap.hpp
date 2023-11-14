@@ -10,7 +10,7 @@
 #include "renderers/FontRenderer.hpp"
 #include "utilities/TweenEngine.hpp"
 #if defined(USE_HTTP)
-    #include "http/HttpClient.hpp"
+#include "http/HttpClient.hpp"
 #endif
 // game
 #include "game/GameStateMachine.hpp"
@@ -20,7 +20,8 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-void bootstrap() {
+void bootstrap()
+{
     auto config = make_shared<Config>();
     config->fps = FRAMES_PER_SECOND;
     config->useFixedTimeStep = false;

@@ -17,14 +17,14 @@ namespace Utilities
 	class IStepTimer;
 }
 
-class SplashScene : public Engine::GameScene 
+class SplashScene : public Engine::GameScene
 {
 public:
-    SplashScene(IGameStateCallback* gameCallback);
-    ~SplashScene();
+	SplashScene(IGameStateCallback *gameCallback);
+	~SplashScene();
 
 	// Engine::GameScene
-    void load() override;
+	void load() override;
 	void unload() override;
 	void updateScreenSize(int width, int height) override;
 	void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
@@ -38,5 +38,5 @@ private:
 	std::queue<std::string> mResourcesToLoad;
 	std::shared_ptr<Engine::IResourceManager> mResourceManager;
 
-	IGameStateCallback* mGame;
+	IGameStateCallback *mGame;
 };

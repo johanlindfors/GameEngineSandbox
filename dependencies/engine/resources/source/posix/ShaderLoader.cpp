@@ -8,37 +8,40 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-namespace Engine {
-	class ShaderLoaderImpl 
+namespace Engine
+{
+	class ShaderLoaderImpl
 	{
 	public:
 		ShaderLoaderImpl()
-			: mFileSystem(IOCContainer::resolve_type<IFileSystem>()) { }	
+			: mFileSystem(IOCContainer::resolve_type<IFileSystem>()) {}
 
-		string loadShader(const string& fileName)
+		string loadShader(const string &fileName)
 		{
 			const auto file = mFileSystem->loadFile(string("shaders/" + fileName), false);
-		    printf("[ShaderLoaderImpl::LoadShader] Loading shader\n");
+			printf("[ShaderLoaderImpl::LoadShader] Loading shader\n");
 			string shader;
-			if(file && file->isOpen()) {
+			if (file && file->isOpen())
+			{
 				shader = file->readAllText();
 			}
 			return shader;
 		}
+
 	private:
 		shared_ptr<IFileSystem> mFileSystem;
 	};
 }
 
 ShaderLoader::ShaderLoader()
-	: mImpl(std::make_unique<ShaderLoaderImpl>()) { }
+	: mImpl(std::make_unique<ShaderLoaderImpl>()) {}
 
 ShaderLoader::~ShaderLoader()
 {
 	mImpl.reset(nullptr);
 }
 
-string ShaderLoader::loadShader(const string& fileName)
-{		
+string ShaderLoader::loadShader(const string &fileName)
+{
 	return mImpl->loadShader(fileName);
 }

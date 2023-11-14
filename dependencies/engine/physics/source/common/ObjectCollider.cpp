@@ -11,21 +11,22 @@ bool ObjectCollider::intersects(Circle circle, Utilities::Rectangle<float> rect)
 
 	// which edge is closest?
 	if (circle.position.x < rect.position.x)
-		testX = rect.position.x;      						// test left edge
+		testX = rect.position.x; // test left edge
 	else if (circle.position.x > rect.position.x + rect.size.width)
-		testX = rect.position.x + rect.size.width;   // right edge
+		testX = rect.position.x + rect.size.width; // right edge
 	if (circle.position.y < rect.position.y)
-		testY = rect.position.y;      						// top edge
+		testY = rect.position.y; // top edge
 	else if (circle.position.y > rect.position.y + rect.size.height)
 		testY = rect.position.y + rect.size.height; // bottom edge
 
 	// get distance from closest edges
 	float distX = circle.position.x - testX;
 	float distY = circle.position.y - testY;
-	float distance = static_cast<float>(sqrt( (distX*distX) + (distY*distY) ));
+	float distance = static_cast<float>(sqrt((distX * distX) + (distY * distY)));
 
 	// if the distance is less than the radius, collision!
-	if (distance <= circle.radius) {
+	if (distance <= circle.radius)
+	{
 		return true;
 	}
 	return false;

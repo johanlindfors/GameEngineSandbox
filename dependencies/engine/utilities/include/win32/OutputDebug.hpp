@@ -40,8 +40,8 @@ SOFTWARE.
 
 #define Trace(Format, ...) NOOP
 #define Debug(Format, ...) NOOP
-#define  Info(Format, ...) NOOP
-#define  Warn(Format, ...) NOOP 
+#define Info(Format, ...) NOOP
+#define Warn(Format, ...) NOOP
 #define Error(Format, ...) NOOP
 #define Fatal(Format, ...) NOOP
 
@@ -80,9 +80,15 @@ SOFTWARE.
 
 ////////////////////////////////////////////////////////////////////////////////
 
-enum class OutputDebugLevel 
+enum class OutputDebugLevel
 {
-	Message, Trace, Debug, Info, Warn, Error, Fatal
+	Message,
+	Trace,
+	Debug,
+	Info,
+	Warn,
+	Error,
+	Fatal
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -93,14 +99,14 @@ static const OutputDebugLevel _OUTPUT_DEBUG_LEVEL = OutputDebugLevel::Trace;
 
 #define Trace(Format, ...) OutputDebug(OutputDebugLevel::Trace, Format, __VA_ARGS__)
 #define Debug(Format, ...) OutputDebug(OutputDebugLevel::Debug, Format, __VA_ARGS__)
-#define  Info(Format, ...) OutputDebug(OutputDebugLevel::Info,  Format, __VA_ARGS__)
-#define  Warn(Format, ...) OutputDebug(OutputDebugLevel::Warn,  Format, __VA_ARGS__)
+#define Info(Format, ...) OutputDebug(OutputDebugLevel::Info, Format, __VA_ARGS__)
+#define Warn(Format, ...) OutputDebug(OutputDebugLevel::Warn, Format, __VA_ARGS__)
 #define Error(Format, ...) OutputDebug(OutputDebugLevel::Error, Format, __VA_ARGS__)
 #define Fatal(Format, ...) OutputDebug(OutputDebugLevel::Fatal, Format, __VA_ARGS__)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static int __stdcall OutputDebugVA(const char* Format, va_list Args)
+static int __stdcall OutputDebugVA(const char *Format, va_list Args)
 {
 	char CharBuffer[_OUTPUT_DEBUG_STRING_LENGTH];
 	int NumCharsWritten = vsnprintf(CharBuffer, sizeof(CharBuffer), Format, Args);
@@ -112,7 +118,7 @@ static int __stdcall OutputDebugVA(const char* Format, va_list Args)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static int __stdcall OutputDebugF(const char* Format, ...)
+static int __stdcall OutputDebugF(const char *Format, ...)
 {
 	va_list Args;
 	va_start(Args, Format);
@@ -126,17 +132,15 @@ static int __stdcall OutputDebugF(const char* Format, ...)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static int __stdcall OutputDebug(OutputDebugLevel Level, const char* Format, ...)
+static int __stdcall OutputDebug(OutputDebugLevel Level, const char *Format, ...)
 {
-	static std::unordered_map<OutputDebugLevel, const char*> Markers
-	{
-		{ OutputDebugLevel::Trace, "TRC" },
-		{ OutputDebugLevel::Debug, "DBG" },
-		{ OutputDebugLevel::Info, "INF" },
-		{ OutputDebugLevel::Warn, "WRN" },
-		{ OutputDebugLevel::Error, "ERR" },
-		{ OutputDebugLevel::Fatal, "FTL" }
-	};
+	static std::unordered_map<OutputDebugLevel, const char *> Markers{
+		{OutputDebugLevel::Trace, "TRC"},
+		{OutputDebugLevel::Debug, "DBG"},
+		{OutputDebugLevel::Info, "INF"},
+		{OutputDebugLevel::Warn, "WRN"},
+		{OutputDebugLevel::Error, "ERR"},
+		{OutputDebugLevel::Fatal, "FTL"}};
 
 	if (Level < _OUTPUT_DEBUG_LEVEL)
 	{

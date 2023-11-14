@@ -15,7 +15,7 @@
 
 namespace Utilities
 {
-	class Timer 
+	class Timer
 	{
 	public:
 		Timer();
@@ -41,23 +41,27 @@ namespace Utilities
 		StepTimer();
 
 		// Get elapsed time since the previous Update call.
-		double getElapsedSeconds() const { 
+		double getElapsedSeconds() const
+		{
 			return m_elapsedSeconds;
 		}
-		
-		double getElapsedMilliSeconds() const { 
-			if(m_elapsedMicroSeconds > m_targetMicroSeconds)
+
+		double getElapsedMilliSeconds() const
+		{
+			if (m_elapsedMicroSeconds > m_targetMicroSeconds)
 				return m_targetMicroSeconds / 1000.0;
 			return m_elapsedMicroSeconds / 1000.0;
 		}
 
-		unsigned int getElapsedMicroSeconds() const { 
-			if(m_elapsedMicroSeconds > m_targetMicroSeconds)
+		unsigned int getElapsedMicroSeconds() const
+		{
+			if (m_elapsedMicroSeconds > m_targetMicroSeconds)
 				return m_targetMicroSeconds;
 			return m_elapsedMicroSeconds;
 		}
 
-		unsigned int getDeltaMicroSeconds() const { 
+		unsigned int getDeltaMicroSeconds() const
+		{
 			return m_delta;
 		}
 
@@ -72,13 +76,13 @@ namespace Utilities
 
 		// Set how often to call Update when in fixed timestep mode.
 		void setTargetElapsedSeconds(double targetElapsed) { m_targetMicroSeconds = targetElapsed * 1000000; }
-	
+
 		// Update timer state, calling the specified functions the appropriate number of times.
-		void tick(std::function<void()> update,std::function<void()>,std::function<void()>);
+		void tick(std::function<void()> update, std::function<void()>, std::function<void()>);
 
 	private:
-		 std::chrono::time_point<std::chrono::system_clock> m_lastFrameTime;
-		
+		std::chrono::time_point<std::chrono::system_clock> m_lastFrameTime;
+
 		unsigned int m_delta;
 		double m_elapsedSeconds;
 		unsigned int m_elapsedMicroSeconds;

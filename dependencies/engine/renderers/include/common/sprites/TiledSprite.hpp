@@ -7,7 +7,7 @@
 namespace Engine
 {
 	struct TiledSprite : public Sprite
-    {
+	{
 		Utilities::Size<int> tileSize;
 		unsigned int currentTile;
 

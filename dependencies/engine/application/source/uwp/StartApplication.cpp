@@ -4,9 +4,8 @@
 using namespace winrt;
 using namespace Windows::UI::Xaml;
 
-void startApplication() 
+void startApplication()
 {
-   	Application::Start([](auto &&) {
-  		make<Engine::UwpApplication>();
-	});
+	Application::Start([](auto &&)
+					   { make<Engine::UwpApplication>(); });
 }

@@ -12,7 +12,7 @@ class ParallaxBackground;
 class Pipes;
 class Ground;
 
-namespace Engine 
+namespace Engine
 {
 	class ITextureManager;
 	class IRenderer;
@@ -31,11 +31,11 @@ namespace Utilities
 class GamePlayScene : public Engine::GameScene
 {
 public:
-    GamePlayScene(IGameStateCallback* gameCallback);
-    ~GamePlayScene();
+	GamePlayScene(IGameStateCallback *gameCallback);
+	~GamePlayScene();
 
 	// Engine::GameScene
-    void load() override;
+	void load() override;
 	void unload() override;
 	void updateScreenSize(int width, int height) override;
 	void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
@@ -59,13 +59,13 @@ private:
 	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
 	int mScreenSizeX;
 	int mScreenSizeY;
-	IGameStateCallback* mGame;
+	IGameStateCallback *mGame;
 	bool mSpacePressedBefore;
 	bool mShowInstructions;
 	Utilities::Timer mPipesGenerator;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
 	int mScore;
 
-	std::mt19937 mGen; //Standard mersenne_twister_engine seeded with rd()
-    std::uniform_int_distribution<> mDistrib;
+	std::mt19937 mGen; // Standard mersenne_twister_engine seeded with rd()
+	std::uniform_int_distribution<> mDistrib;
 };

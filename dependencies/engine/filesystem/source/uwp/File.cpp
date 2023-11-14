@@ -15,7 +15,8 @@ void File::open(string filename)
 
 void File::close()
 {
-    if(mStorageFile) {
+    if (mStorageFile)
+    {
         mStorageFile = nullptr;
     }
 }

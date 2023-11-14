@@ -14,112 +14,122 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-namespace Engine {
-	class TextureLoaderImpl {
+namespace Engine
+{
+	class TextureLoaderImpl
+	{
 	private:
-		static bool loadPngImage(std::shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
+		static bool loadPngImage(std::shared_ptr<File> file, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData)
+		{
 			png_structp png_ptr;
 			png_infop info_ptr;
 			const unsigned int sig_read = 0;
 			int color_type, interlace_type;
 			FILE *fp;
 
-			if(file->isOpen()) {
+			if (file->isOpen())
+			{
 				fp = file->get();
-			} else {
+			}
+			else
+			{
 				return false;
 			}
 
 			/* Create and initialize the png_struct
-			* with the desired error handler
-			* functions.  If you want to use the
-			* default stderr and longjump method,
-			* you can supply NULL for the last
-			* three parameters.  We also supply the
-			* the compiler header file version, so
-			* that we know if the application
-			* was compiled with a compatible version
-			* of the library.  REQUIRED
-			*/
+			 * with the desired error handler
+			 * functions.  If you want to use the
+			 * default stderr and longjump method,
+			 * you can supply NULL for the last
+			 * three parameters.  We also supply the
+			 * the compiler header file version, so
+			 * that we know if the application
+			 * was compiled with a compatible version
+			 * of the library.  REQUIRED
+			 */
 			png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING,
-				nullptr, nullptr, nullptr);
+											 nullptr, nullptr, nullptr);
 
-			if (png_ptr == nullptr) {
+			if (png_ptr == nullptr)
+			{
 				fclose(fp);
 				return false;
 			}
 
 			/* Allocate/initialize the memory
-			* for image information.  REQUIRED. */
+			 * for image information.  REQUIRED. */
 			info_ptr = png_create_info_struct(png_ptr);
-			if (info_ptr == nullptr) {
+			if (info_ptr == nullptr)
+			{
 				fclose(fp);
 				png_destroy_read_struct(&png_ptr, nullptr, nullptr);
 				return false;
 			}
 
 			/* Set error handling if you are
-			* using the setjmp/longjmp method
-			* (this is the normal method of
-			* doing things with libpng).
-			* REQUIRED unless you  set up
-			* your own error handlers in
-			* the png_create_read_struct()
-			* earlier.
-			*/
-			if (setjmp(png_jmpbuf(png_ptr))) {
+			 * using the setjmp/longjmp method
+			 * (this is the normal method of
+			 * doing things with libpng).
+			 * REQUIRED unless you  set up
+			 * your own error handlers in
+			 * the png_create_read_struct()
+			 * earlier.
+			 */
+			if (setjmp(png_jmpbuf(png_ptr)))
+			{
 				/* Free all of the memory associated
-				* with the png_ptr and info_ptr */
+				 * with the png_ptr and info_ptr */
 				png_destroy_read_struct(&png_ptr, &info_ptr, nullptr);
 				fclose(fp);
 				/* If we get here, we had a
-				* problem reading the file */
+				 * problem reading the file */
 				return false;
 			}
 
 			/* Set up the output control if
-			* you are using standard C streams */
+			 * you are using standard C streams */
 			png_init_io(png_ptr, fp);
 
 			/* If we have already
-			* read some of the signature */
+			 * read some of the signature */
 			png_set_sig_bytes(png_ptr, sig_read);
 
 			/*
-			* If you have enough memory to read
-			* in the entire image at once, and
-			* you need to specify only
-			* transforms that can be controlled
-			* with one of the PNG_TRANSFORM_*
-			* bits (this presently excludes
-			* dithering, filling, setting
-			* background, and doing gamma
-			* adjustment), then you can read the
-			* entire image (including pixels)
-			* into the info structure with this
-			* call
-			*
-			* PNG_TRANSFORM_STRIP_16 |
-			* PNG_TRANSFORM_PACKING  forces 8 bit
-			* PNG_TRANSFORM_EXPAND forces to
-			*  expand a palette into RGB
-			*/
+			 * If you have enough memory to read
+			 * in the entire image at once, and
+			 * you need to specify only
+			 * transforms that can be controlled
+			 * with one of the PNG_TRANSFORM_*
+			 * bits (this presently excludes
+			 * dithering, filling, setting
+			 * background, and doing gamma
+			 * adjustment), then you can read the
+			 * entire image (including pixels)
+			 * into the info structure with this
+			 * call
+			 *
+			 * PNG_TRANSFORM_STRIP_16 |
+			 * PNG_TRANSFORM_PACKING  forces 8 bit
+			 * PNG_TRANSFORM_EXPAND forces to
+			 *  expand a palette into RGB
+			 */
 			png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, nullptr);
 
 			png_uint_32 width, height;
 			int bit_depth;
 			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type,
-				&interlace_type, nullptr, nullptr);
+						 &interlace_type, nullptr, nullptr);
 			outWidth = width;
 			outHeight = height;
 
 			outHasAlpha = color_type & PNG_COLOR_MASK_ALPHA;
 			const auto row_bytes = static_cast<unsigned int>(png_get_rowbytes(png_ptr, info_ptr));
-			*outData = static_cast<unsigned char*>(malloc(row_bytes * outHeight));
+			*outData = static_cast<unsigned char *>(malloc(row_bytes * outHeight));
 
 			const auto row_pointers = png_get_rows(png_ptr, info_ptr);
 
-			for (auto i = 0; i < outHeight; i++) {
+			for (auto i = 0; i < outHeight; i++)
+			{
 				// note that png is ordered top to
 				// bottom, but OpenGL expect it bottom to top
 				// so the order or swapped
@@ -127,7 +137,7 @@ namespace Engine {
 			}
 
 			/* Clean up after the read,
-			* and free any memory allocated */
+			 * and free any memory allocated */
 			png_destroy_read_struct(&png_ptr, &info_ptr, nullptr);
 
 			/* Close the file */
@@ -139,19 +149,22 @@ namespace Engine {
 
 	public:
 		TextureLoaderImpl()
-			: mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) { }	
+			: mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) {}
 
-		void loadTexture(Texture2D& texture)
+		void loadTexture(Texture2D &texture)
 		{
-			if (texture.name != EMPTY_TEXTURE_NAME) {
-				//auto wFilename = s2ws(texture.Name);
+			if (texture.name != EMPTY_TEXTURE_NAME)
+			{
+				// auto wFilename = s2ws(texture.Name);
 				const auto file = mFileSystem->loadFile(std::string("textures\\" + texture.name), false);
-				if(file){
+				if (file)
+				{
 					int width, height;
 					auto hasAlpha = false;
 					GLubyte *textureImage;
 					const auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
-					if (!success) {
+					if (!success)
+					{
 						texture.name = "";
 						std::cout << "Unable to load png file" << std::endl;
 						return;
@@ -160,11 +173,13 @@ namespace Engine {
 					texture.height = height;
 					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
 					setTexturePixels(texture.textureIndex, texture.width, texture.height, hasAlpha, textureImage);
-					if (textureImage) {
+					if (textureImage)
+					{
 						delete textureImage;
 					}
 				}
-				else {
+				else
+				{
 					deleteTexture(texture.textureIndex);
 					texture.textureIndex = 0;
 					texture.width = 0;
@@ -180,14 +195,14 @@ namespace Engine {
 }
 
 TextureLoader::TextureLoader()
-	: mImpl(std::make_unique<TextureLoaderImpl>()) { }
+	: mImpl(std::make_unique<TextureLoaderImpl>()) {}
 
 TextureLoader::~TextureLoader()
 {
 	mImpl.reset(nullptr);
 }
 
-void TextureLoader::loadTexture(Texture2D& texture)
+void TextureLoader::loadTexture(Texture2D &texture)
 {
 	mImpl->loadTexture(texture);
 }

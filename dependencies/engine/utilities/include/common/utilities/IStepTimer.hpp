@@ -8,7 +8,7 @@ namespace Utilities
 	public:
 		virtual ~IStepTimer() = default;
 
-		virtual void tick(std::function<void()>,std::function<void()>,std::function<void()>) = 0;
+		virtual void tick(std::function<void()>, std::function<void()>, std::function<void()>) = 0;
 
 		virtual unsigned int getDeltaMicroSeconds() const = 0;
 		//  Get elapsed time since the previous Update call.
@@ -17,7 +17,7 @@ namespace Utilities
 		virtual unsigned int getElapsedMicroSeconds() const = 0;
 
 		// Get total number of updates since start of the program.
-		virtual uint32_t getFrameCount() const  = 0;
+		virtual uint32_t getFrameCount() const = 0;
 
 		// Get the current framerate.
 		virtual uint32_t getFramesPerSecond() const = 0;

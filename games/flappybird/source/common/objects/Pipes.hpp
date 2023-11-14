@@ -7,7 +7,7 @@
 
 namespace Utilities
 {
-	class IStepTimer;	
+	class IStepTimer;
 }
 
 namespace Engine
@@ -16,20 +16,18 @@ namespace Engine
 	class IRenderer;
 }
 
-class Pipe 
-	: public Engine::Sprite
-	, public Engine::IPhysicsBody
-	, public Engine::ICollidable
+class Pipe
+	: public Engine::Sprite,
+	  public Engine::IPhysicsBody,
+	  public Engine::ICollidable
 {
 public:
 	using Engine::IPhysicsBody::position;
 
 	Pipe(Utilities::Point<float> position)
-		: Sprite::Sprite()
-		, IPhysicsBody::IPhysicsBody(position) 
-		, ICollidable::ICollidable(position)
+		: Sprite::Sprite(), IPhysicsBody::IPhysicsBody(position), ICollidable::ICollidable(position)
 	{
-		size = { 52.0f, 25.0f };
+		size = {52.0f, 25.0f};
 		position = Utilities::Point<float>{position.x, position.y};
 	}
 };
@@ -52,7 +50,6 @@ public:
 	bool hasScored;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	std::shared_ptr<Engine::Sprite> topPipeDebugSprite;
-	std::shared_ptr<Engine::Sprite> bottomPipeDebugSprite;	
+	std::shared_ptr<Engine::Sprite> bottomPipeDebugSprite;
 #endif
 };
- 

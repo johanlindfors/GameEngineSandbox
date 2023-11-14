@@ -2,7 +2,8 @@
 #include <winrt/Windows.UI.Xaml.h>
 #include <winrt/Windows.ApplicationModel.Activation.h>
 
-namespace Engine {
+namespace Engine
+{
     struct UwpApplication : winrt::Windows::UI::Xaml::ApplicationT<UwpApplication>
     {
         UwpApplication() = default;

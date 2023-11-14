@@ -2,8 +2,9 @@
 #include <locale>
 #include <Windows.h>
 
-namespace Utilities {
-    std::wstring s2ws(const std::string& str)
+namespace Utilities
+{
+    std::wstring s2ws(const std::string &str)
     {
         if (str.empty())
         {
@@ -21,7 +22,7 @@ namespace Utilities {
         return result;
     }
 
-    std::string ws2s(const std::wstring& wstr)
+    std::string ws2s(const std::wstring &wstr)
     {
         if (wstr.empty())
         {

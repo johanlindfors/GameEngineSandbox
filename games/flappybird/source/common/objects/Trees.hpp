@@ -4,7 +4,7 @@
 
 namespace Utilities
 {
-	class IStepTimer;	
+	class IStepTimer;
 }
 
 namespace Engine
@@ -13,7 +13,8 @@ namespace Engine
 	struct Sprite;
 }
 
-class Trees {
+class Trees
+{
 public:
 	Trees(Utilities::Point<float> position, Utilities::Vector2 velocity);
 	void update(std::shared_ptr<Utilities::IStepTimer> timer);

@@ -16,15 +16,12 @@
 #include "game/GameDefines.hpp"
 #include "objects/Map.hpp"
 
-
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-BootScene::BootScene(IGameStateCallback* gameCallback)
-    : mGame(gameCallback)
-    , mInitialized(false)
-    , mLoadedTasks(0)
+BootScene::BootScene(IGameStateCallback *gameCallback)
+    : mGame(gameCallback), mInitialized(false), mLoadedTasks(0)
 {
     id = typeid(BootScene).name();
 }
@@ -33,30 +30,31 @@ void BootScene::load()
 {
     printf("[BootScene::load]\n");
 
-    mLoadingTasks.push([&](){    
+    mLoadingTasks.push([&]()
+                       {    
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
 
-        mLoadedTasks++;
-    });
-    
-    mLoadingTasks.push([&](){    
+        mLoadedTasks++; });
+
+    mLoadingTasks.push([&]()
+                       {    
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         resourceManager->loadTextures({ TILES, FONT });
 
-        mLoadedTasks++;
-    });
+        mLoadedTasks++; });
 
-    mLoadingTasks.push([&]() {
+    mLoadingTasks.push([&]()
+                       {
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         auto config = IOCContainer::instance().resolve<Utilities::Config>();
         auto camera = make_shared<Engine::OrthographicCamera>( 0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f );
         IOCContainer::instance().register_type<OrthographicCamera>(camera);
 
-        mLoadedTasks++;
-    });
+        mLoadedTasks++; });
 
-    mLoadingTasks.push([&]() {
+    mLoadingTasks.push([&]()
+                       {
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         auto shader = resourceManager->getShader( "simple" );
         auto camera = IOCContainer::resolve_type<OrthographicCamera>();
@@ -64,10 +62,10 @@ void BootScene::load()
         fontRenderer->initialize();
         IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
-        mLoadedTasks++;
-    });
+        mLoadedTasks++; });
 
-    mLoadingTasks.push([&]() {
+    mLoadingTasks.push([&]()
+                       {
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         auto shader = resourceManager->getShader( "simple" );
         auto camera = IOCContainer::resolve_type<OrthographicCamera>();
@@ -76,17 +74,18 @@ void BootScene::load()
         IOCContainer::instance().register_type<IRenderer>(renderer);
 
         this_thread::sleep_for(LOADING_PAUSE);
-        mLoadedTasks++;
-    });
+        mLoadedTasks++; });
 
-    for(int i = 0; i < 10; i++){
-        mLoadingTasks.push([&]() {
+    for (int i = 0; i < 10; i++)
+    {
+        mLoadingTasks.push([&]()
+                           {
             this_thread::sleep_for(LOADING_PAUSE);
-            mLoadedTasks++;
-        });
+            mLoadedTasks++; });
     }
 
-    mLoadingTasks.push([&]() {
+    mLoadingTasks.push([&]()
+                       {
         string result;
 
         if(IOCContainer::instance().contains<IHttpClient>()) {
@@ -108,8 +107,7 @@ void BootScene::load()
 
         this_thread::sleep_for(LOADING_PAUSE);
         mLoadedTasks++;
-        mInitialized = true;
-    });
+        mInitialized = true; });
 
     mTotalTasks = mLoadingTasks.size();
 }
@@ -120,14 +118,19 @@ void BootScene::unload()
 }
 
 void BootScene::updateScreenSize(int width, int height)
-{}
+{
+}
 
 void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
-    if(mInitialized) {
+    if (mInitialized)
+    {
         mGame->goToState(GameState::GamePlay);
-    } else {
-        if(!mLoadingTasks.empty()) {
+    }
+    else
+    {
+        if (!mLoadingTasks.empty())
+        {
             std::function<void()> loadingTask = mLoadingTasks.front();
             loadingTask();
             mLoadingTasks.pop();
@@ -137,10 +140,10 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 
 void BootScene::draw(std::shared_ptr<Engine::IRenderer> renderer)
 {
-    if(IOCContainer::instance().contains<FontRenderer>()) {
+    if (IOCContainer::instance().contains<FontRenderer>())
+    {
         auto fontRenderer = IOCContainer::resolve_type<FontRenderer>();
-        string loaded(to_string(static_cast<int>(mLoadedTasks/static_cast<float>(mTotalTasks)*100)) + "%");
-        fontRenderer->drawString(loaded, FontRenderer::Alignment::Center, { 200, 200}, 2.0);
+        string loaded(to_string(static_cast<int>(mLoadedTasks / static_cast<float>(mTotalTasks) * 100)) + "%");
+        fontRenderer->drawString(loaded, FontRenderer::Alignment::Center, {200, 200}, 2.0);
     }
-
 }

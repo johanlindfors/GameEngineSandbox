@@ -8,6 +8,6 @@ int main(int argc, char **argv)
     setbuf(stdout, NULL);
     bootstrap();
     startApplication(argc, argv);
-  
+
     return 0;
 }

@@ -24,12 +24,13 @@ using namespace Engine;
 string FileSystem::getAssetsDirectory()
 {
 	auto config = Utilities::IOCContainer::instance().resolve<Utilities::Config>();
-	if(mAssetsDirectory.size() == 0) {
+	if (mAssetsDirectory.size() == 0)
+	{
 		cout << "Iterating over filesystem..." << endl;
 #ifdef UWP
 		const auto folder = Package::Current().InstalledLocation();
 		const auto folderPath = folder.Path();
-		mAssetsDirectory = string(folderPath + L"\\assets\\");    
+		mAssetsDirectory = string(folderPath + L"\\assets\\");
 #elif WIN32
 		const unsigned int bufferSize = 512;
 		vector<char> buffer(bufferSize + 1);
@@ -38,11 +39,12 @@ string FileSystem::getAssetsDirectory()
 		const filesystem::path p(s);
 		const auto executableDirectory = p.parent_path();
 		const auto folderPath = executableDirectory.generic_string();
-		mAssetsDirectory =  string(folderPath + "/assets/");
+		mAssetsDirectory = string(folderPath + "/assets/");
 #elif defined(PLATFORM_POSIX)
-		for (auto const& dir_entry : filesystem::recursive_directory_iterator(filesystem::current_path()))
+		for (auto const &dir_entry : filesystem::recursive_directory_iterator(filesystem::current_path()))
 		{
-			if(dir_entry.is_directory() && dir_entry.path().filename() == "assets") {
+			if (dir_entry.is_directory() && dir_entry.path().filename() == "assets")
+			{
 				mAssetsDirectory = string(dir_entry.path().generic_string() + "/");
 				break;
 			}

@@ -6,11 +6,13 @@ namespace Utilities
 	class IStepTimer;
 }
 
-namespace Engine {
+namespace Engine
+{
 
 	struct IPhysicsBody;
 
-	class IPhysicsEngine {
+	class IPhysicsEngine
+	{
 	public:
 		virtual void addBody(std::shared_ptr<IPhysicsBody> body) = 0;
 		virtual void update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;

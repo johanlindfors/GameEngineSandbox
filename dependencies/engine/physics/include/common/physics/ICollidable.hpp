@@ -1,23 +1,23 @@
 #pragma once
 #include "utilities/MathHelper.hpp"
 
-namespace Engine 
+namespace Engine
 {
     class ICollidable
     {
-        public:
-            ICollidable(Utilities::Point<float> position)
-                : isCollidable(false)
-                , AABB(Utilities::Rectangle<float>(
-                    position.x,
-                    position.y,
-                    0.0f,
-                    0.0f))
-            { }
+    public:
+        ICollidable(Utilities::Point<float> position)
+            : isCollidable(false), AABB(Utilities::Rectangle<float>(
+                                       position.x,
+                                       position.y,
+                                       0.0f,
+                                       0.0f))
+        {
+        }
 
-   			virtual ~ICollidable() = default;
+        virtual ~ICollidable() = default;
 
-            bool isCollidable;
-            Utilities::Rectangle<float> AABB;
+        bool isCollidable;
+        Utilities::Rectangle<float> AABB;
     };
 }

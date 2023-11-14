@@ -2,14 +2,15 @@
 #include "glwrapper.hpp"
 #include <string>
 
-namespace Engine {
-    GLuint compileShader(GLenum type, const std::string& source);
+namespace Engine
+{
+    GLuint compileShader(GLenum type, const std::string &source);
 
-    GLuint compileProgram(const std::string& vsSource, const std::string& fsSource);
+    GLuint compileProgram(const std::string &vsSource, const std::string &fsSource);
 
     GLuint generateTexture();
 
-    void setTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte* pixels);
+    void setTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte *pixels);
 
     void deleteTexture(int textureIndex);
 
@@ -20,7 +21,7 @@ namespace Engine {
     GLint GlCreateProgram();
     void GlUseProgram(GLuint program);
     void GlDeleteProgram(GLuint program);
-    void GlLinkProgram (GLuint program);
+    void GlLinkProgram(GLuint program);
     void GlGetProgramiv(GLuint program, GLenum pname, GLint *params);
     void GlGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 
@@ -33,17 +34,17 @@ namespace Engine {
     void GlBindBuffer(GLenum target, GLuint buffer);
     void GlGenBuffers(GLsizei n, GLuint *buffers);
     void GlBufferData(GLenum target, GLsizeiptr size, const void *data, GLenum usage);
-    
+
     void GlActiveTexture(GLenum texture);
     void GlBindTexture(GLenum target, GLuint texture);
     void GlTexParameteri(GLenum target, GLenum pname, GLint param);
     void GlGenTextures(GLsizei n, GLuint *textures);
     void GlPixelStorei(GLenum pname, GLint param);
     void GlTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *pixels);
-    void GlDeleteTextures (GLsizei n, const GLuint *textures);
+    void GlDeleteTextures(GLsizei n, const GLuint *textures);
 
     void GlViewport(GLint x, GLint y, GLsizei width, GLsizei height);
-    void GlClearColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+    void GlClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
     void GlClear(GLbitfield mask);
     void GlEnable(GLenum cap);
     void GlBlendFunc(GLenum sfactor, GLenum dfactor);
@@ -60,7 +61,7 @@ namespace Engine {
 
     GLuint GlCreateShader(GLenum type);
     void GlDeleteShader(GLuint shader);
-    void GlShaderSource(GLuint shader, GLsizei count, const GLchar *const*string, const GLint *length);
+    void GlShaderSource(GLuint shader, GLsizei count, const GLchar *const *string, const GLint *length);
     void GlCompileShader(GLuint shader);
     void GlGetShaderiv(GLuint shader, GLenum pname, GLint *params);
     void GlGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);

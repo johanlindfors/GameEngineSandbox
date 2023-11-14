@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 
-namespace Engine 
+namespace Engine
 {
-    class IHttpClient 
+    class IHttpClient
     {
-        public:
-            virtual std::string get(std::string url) = 0;
+    public:
+        virtual std::string get(std::string url) = 0;
     };
 }
