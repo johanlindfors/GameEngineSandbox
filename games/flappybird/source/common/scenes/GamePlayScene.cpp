@@ -20,6 +20,7 @@
 #include <ctime>
 #include <string>
 #include "resources/IResourceManager.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -47,6 +48,8 @@ GamePlayScene::~GamePlayScene()
 
 void GamePlayScene::load()
 {
+	debuglog << "[GamePlayScene::load]" << endl;
+
 	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	auto atlas = resourceManager->getTexture("atlas.png");
 	mBackground->texture.textureIndex = atlas.textureIndex;

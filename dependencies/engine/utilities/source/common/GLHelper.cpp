@@ -276,8 +276,12 @@ namespace Engine
 		glUniform2f(location, v0, v1);
 	}
 
-	void GlUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3)
-	{
+	void GlUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
+		TRACE("[GLHelper::GlUniform3f]\n");
+		glUniform3f(location, v0, v1, v2);
+	}
+
+	void GlUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
 		TRACE("[GLHelper::GlUniform4f]\n");
 		glUniform4f(location, v0, v1, v2, v3);
 	}

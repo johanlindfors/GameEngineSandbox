@@ -1,4 +1,4 @@
-#include "glwrapper.hpp"
+#include "utilities/glwrapper.hpp"
 #include "game-loop/GameLoop.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"

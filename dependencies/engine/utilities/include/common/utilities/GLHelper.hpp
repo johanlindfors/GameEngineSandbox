@@ -1,5 +1,5 @@
 #pragma once
-#include "glwrapper.hpp"
+#include "utilities/glwrapper.hpp"
 #include <string>
 
 namespace Engine
@@ -54,6 +54,7 @@ namespace Engine
     GLint GlGetUniformLocation(GLuint program, const GLchar *name);
     void GlUniform1i(GLint location, GLint v0);
     void GlUniform2f(GLint location, GLfloat v0, GLfloat v1);
+    void GlUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
     void GlUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
     void GlUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
     void GlUniform4fv(GLint location, GLsizei count, const GLfloat *value);

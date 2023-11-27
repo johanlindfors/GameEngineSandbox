@@ -1,14 +1,8 @@
 #pragma once
-#include <string>
-#include <vector>
-
 #include "utilities/IOC.hpp"
 #include "utilities/Config.hpp"
 #include "Game.hpp"
 #include "GameDefines.hpp"
-#include "renderers/SimpleRenderer.hpp"
-#include "resources/ResourceManager.hpp"
-#include "filesystem/FileSystem.hpp"
 
 using namespace std;
 using namespace Engine;

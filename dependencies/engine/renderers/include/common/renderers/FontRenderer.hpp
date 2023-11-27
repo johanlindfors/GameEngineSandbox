@@ -2,9 +2,8 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "glwrapper.hpp"
+#include "utilities/glwrapper.hpp"
 #include "utilities/MathHelper.hpp"
-#include "utilities/ILazyInitialized.hpp"
 #include "SpriteRenderer.hpp"
 
 namespace Engine

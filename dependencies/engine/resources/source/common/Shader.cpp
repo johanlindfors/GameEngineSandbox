@@ -35,7 +35,7 @@ void Shader::setVector2f(const string &name, float x, float y)
 
 void Shader::setVector3f(const string &name, float x, float y, float z)
 {
-    glUniform3f(GlGetUniformLocation(ID, name.c_str()), x, y, z);
+    GlUniform3f(GlGetUniformLocation(ID, name.c_str()), x, y, z);
 }
 
 void Shader::setVector4f(const string &name, float x, float y, float z, float w)

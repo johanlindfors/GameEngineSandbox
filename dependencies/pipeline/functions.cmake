@@ -1,6 +1,5 @@
 macro(initialize_pipeline)
     if(MSVC)
-
         if(MSVC_VERSION GREATER 1700)
             set(COMPILER_VERSION "12")
         elseif(MSVC_VERSION GREATER 1600)
@@ -19,11 +18,19 @@ macro(initialize_pipeline)
             set(PLATFORM linux)
             set(LINUX 1)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLINUX -DPLATFORM_POSIX")
-        else()
+        elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
             set(PLATFORM osx)
             set(OSX 1)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOSX -DPLATFORM_POSIX")
             set(CMAKE_APPLE_SILICON_PROCESSOR arm64)
+        elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
+            set(PLATFORM android)
+            set(ANDROID 1)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DANDROID")
+        elseif(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
+            set(PLATFORM ios)
+            set(IOS 1)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIOS")
         endif()
     endif()
 
@@ -137,12 +144,20 @@ function(build_executable project_name)
         ${EXECUTABLE_INCLUDE_DIRECTORIES}
     )
 
-    add_executable(${project_name} WIN32 ${COMMON_SOURCES} ${PLATFORM_SOURCES} ${PLATFORM_COMMON_SOURCES} ${ASSETS})
-
-    target_link_libraries(${project_name} ${DEPENDENCIES})
+    if(ANDROID)
+        add_library(xpengine SHARED ${COMMON_SOURCES} ${PLATFORM_SOURCES} ${PLATFORM_COMMON_SOURCES} ${RESOURCES})
+        target_link_libraries(xpengine ${DEPENDENCIES})
     
-    set_property(TARGET ${project_name} PROPERTY CXX_STANDARD 17)
-    set_property(TARGET ${project_name} PROPERTY CXX_STANDARD_REQUIRED ON)
+        set_property(TARGET xpengine PROPERTY CXX_STANDARD 17)
+        set_property(TARGET xpengine PROPERTY CXX_STANDARD_REQUIRED ON)
+    else()
+        add_executable(${project_name} WIN32 ${COMMON_SOURCES} ${PLATFORM_SOURCES} ${PLATFORM_COMMON_SOURCES} ${RESOURCES})
+        target_link_libraries(${project_name} ${DEPENDENCIES})
+
+        set_property(TARGET ${project_name} PROPERTY CXX_STANDARD 17)
+        set_property(TARGET ${project_name} PROPERTY CXX_STANDARD_REQUIRED ON)
+    endif()
+
 endfunction()
 
 function (copy_assets)

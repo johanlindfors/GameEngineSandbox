@@ -7,6 +7,7 @@
 #include "sprites/Sprite.hpp"
 #include "utilities/IStepTimer.hpp"
 #include "resources/IResourceManager.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -31,7 +32,9 @@ InstructionsScene::InstructionsScene(IGameStateCallback *gameCallback)
 }
 
 void InstructionsScene::load()
-{
+{	
+	debuglog << "[InstructionsScene::load]" << endl;
+
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	auto atlas = resourceManager->getTexture("atlas.png");

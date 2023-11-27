@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include "utilities/StringHelpers.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -12,22 +13,20 @@ using namespace Utilities;
 void File::open(string filename, bool writeable)
 {
     mFilename = filename;
-    std::cout << "[File::Open] Opening file '" << mFilename << "'!" << endl;
+    debuglog << "[File::Open] Opening file '" << mFilename << "'!" << endl;
     mFileHandle = fopen(mFilename.c_str(), writeable ? "wb" : "rb");
-    if (!mFileHandle)
-    {
-        std::cout << "Failed to open file!" << endl;
+    if(!mFileHandle) {
+        debuglog << "Failed to open file!" << endl;
     }
 }
 
 void File::create(string filename)
 {
     mFilename = filename;
-    std::cout << "[File::Create] Creating file '" << mFilename << "'!" << endl;
+    debuglog << "[File::Create] Creating file '" << mFilename << "'!" << endl;
     mFileHandle = fopen(mFilename.c_str(), "wb");
-    if (!mFileHandle)
-    {
-        std::cout << "Failed to create file!" << endl;
+    if(!mFileHandle) {
+        debuglog << "Failed to create file!" << endl;
     }
 }
 

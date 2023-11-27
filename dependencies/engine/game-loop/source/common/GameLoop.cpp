@@ -8,6 +8,7 @@
 #include "utilities/StepTimer.hpp"
 #include "game-loop/IGameLoopCallback.hpp"
 #include "filesystem/FileSystem.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -22,40 +23,40 @@ void GameLoop::initialize(shared_ptr<Config> config)
 	mTimer->setFixedTimeStep(config->useFixedTimeStep);
 	mTimer->setTargetElapsedSeconds(1.0f / config->fps);
 
-	printf("[GameLoop::initialize] Timer initialized\n");
+    debuglog << "[GameLoop::initialize] Timer initialized" << std::endl;
 
 	// Ordering is important
 	if (!IOCContainer::instance().contains<FileSystem>())
 	{
 		mFileSystem = make_shared<FileSystem>();
 		IOCContainer::instance().register_type<IFileSystem>(mFileSystem);
-		printf("[GameLoop::initialize] FileSystem registered\n");
+		debuglog << "[GameLoop::initialize] FileSystem registered" << std::endl;
 	}
 
 	if (!IOCContainer::instance().contains<IResourceManager>())
 	{
 		mResourceManager = make_shared<ResourceManager>();
 		IOCContainer::instance().register_type<IResourceManager>(mResourceManager);
-		printf("[GameLoop::initialize] ResourceManager registered\n");
+		debuglog << "[GameLoop::initialize] ResourceManager registered" << std::endl;
 	}
 
 	if (IOCContainer::instance().contains<IRenderer>())
 	{
 		mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		mRenderer->initialize();
-		printf("[GameLoop::initialize] Renderer initalized\n");
+		debuglog << "[GameLoop::initialize] Renderer initalized" << std::endl;
 	}
 
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::instance().register_type<IInputManager>(mInputManager);
-	printf("[GameLoop::initialize] InputManager registered\n");
+	debuglog << "[GameLoop::initialize] InputManager registered" << std::endl;
 
 	mSceneManager = make_shared<SceneManager>();
 	IOCContainer::instance().register_type<ISceneManager>(mSceneManager);
-	printf("[GameLoop::initialize] SceneManager registered\n");
+	debuglog << "[GameLoop::initialize] SceneManager registered" << std::endl;
 
 	mSceneManager->initialize();
-	printf("[GameLoop::initialize] SceneManager initialized\n");
+	debuglog << "[GameLoop::initialize] SceneManager initialized" << std::endl;
 
 	// Game must register callback
 	mGameLoopCallback = IOCContainer::instance().resolve<IGameLoopCallback>();
@@ -64,9 +65,8 @@ void GameLoop::initialize(shared_ptr<Config> config)
 	mIsInitialized = true;
 }
 
-GameLoop::~GameLoop()
-{
-	printf("[GameLoop::~GameLoop]\n");
+GameLoop::~GameLoop() {
+	debuglog << "[GameLoop::~GameLoop]" << std::endl;
 	mTimer.reset();
 
 	mSceneManager.reset();
