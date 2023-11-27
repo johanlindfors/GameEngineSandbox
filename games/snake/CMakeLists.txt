@@ -18,6 +18,7 @@ set(DEPENDENCIES
     resources
     input
     scenes
+    EnTT::EnTT
 )
 
 if(WINDOWS_STORE)
@@ -63,7 +64,6 @@ if(LINUX)
     list(APPEND DEPENDENCIES 
         GLESv2
         ${GLFW_LIBRARIES}
-        EnTT::EnTT
     )
 endif()
 

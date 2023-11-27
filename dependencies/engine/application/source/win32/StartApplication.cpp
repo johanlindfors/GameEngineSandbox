@@ -2,12 +2,12 @@
 #include <Windows.h>
 #include <windowsx.h>
 #include <memory>
-#include "glwrapper.hpp"
+#include "utilities/glwrapper.hpp"
 #include "input/IInputManager.hpp"
 #include "utilities/IOC.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/StringHelpers.hpp"
-#include "OutputDebug.hpp"
+#include "utilities/OutputDebug.hpp"
 
 using namespace Engine;
 using namespace Utilities;
@@ -212,7 +212,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		if (input)
 		{
-			input->addKeyboardEvent(static_cast<unsigned int>(wParam), true);
+			input->addKeyboardEvent(static_cast<unsigned int>(wParam), Engine::ButtonState::Pressed);
 		}
 		break;
 	case WM_KEYUP:
@@ -223,7 +223,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		if (input)
 		{
-			input->addKeyboardEvent(static_cast<unsigned int>(wParam), false);
+			input->addKeyboardEvent(static_cast<unsigned int>(wParam), Engine::ButtonState::Released);
 		}
 		break;
 	case WM_LBUTTONDOWN:

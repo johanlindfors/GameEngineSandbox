@@ -3,6 +3,7 @@
 #include "resources/Model.hpp"
 #include "renderers/Camera.hpp"
 #include "resources/Shader.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -25,12 +26,12 @@ ModelRenderer::~ModelRenderer()
 
 void ModelRenderer::initialize()
 {
-    printf("[ModelRenderer::initialize]\n");
+    debuglog << "[ModelRenderer::initialize]" << endl;
 }
 
 void ModelRenderer::updateWindowSize(int width, int height)
 {
-    printf("[ModelRenderer::updateWindowSize]\n");
+	debuglog << "[ModelRenderer::updateWindowSize]" << endl;
     GlViewport(0, 0, width, height);
 }
 
@@ -82,7 +83,7 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
 
     // glDisable(GL_DEPTH_TEST);
     // render
-    GlBindVertexArray(model->VAO);
+    GlBindVertexArray(model->getVAO());
     GlDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(model->getVertexCount()));
     glEnable(GL_DEPTH_TEST);
 }

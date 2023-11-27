@@ -20,6 +20,6 @@ private:
     bool mInitialized;
     IGameStateCallback *mGame;
     std::queue<std::function<void()>> mLoadingTasks;
-    uint mLoadedTasks;
-    uint mTotalTasks;
+    unsigned int mLoadedTasks;
+    unsigned int mTotalTasks;
 };

@@ -87,7 +87,7 @@ void FontRenderer::drawString(const string &str, Alignment alignment, Point<floa
 	}
 	for (const auto &character : str)
 	{
-		drawCharacter(character, Rectangle<float>(
+		drawCharacter(character, Utilities::Rectangle<float>(
 									 x,
 									 y,
 									 mCharacters[character].width * scale,
@@ -96,9 +96,9 @@ void FontRenderer::drawString(const string &str, Alignment alignment, Point<floa
 	}
 }
 
-Rectangle<float> FontRenderer::measureString(const string &str)
+Utilities::Rectangle<float> FontRenderer::measureString(const string &str)
 {
-	auto dimensions = Rectangle<float>({0.0f, 0.0f, 0.0f, 0.0f});
+	auto dimensions = Utilities::Rectangle<float>({0.0f, 0.0f, 0.0f, 0.0f});
 	for (const auto &character : str)
 	{
 		dimensions.size.width += mCharacters[character].xAdvance;
@@ -110,11 +110,11 @@ Rectangle<float> FontRenderer::measureString(const string &str)
 	return dimensions;
 }
 
-void FontRenderer::drawCharacter(char character, Rectangle<float> rectangle)
+void FontRenderer::drawCharacter(char character, Utilities::Rectangle<float> rectangle)
 {
 	const auto textureWidth = mCharacterSprite->texture.width;
 	const auto textureHeight = mCharacterSprite->texture.height;
-	Rectangle<float> spriteOffset(
+	Utilities::Rectangle<float> spriteOffset(
 		mCharacters[character].xOffset / textureWidth, mCharacters[character].yOffset / textureHeight,
 		mCharacters[character].width / textureWidth, mCharacters[character].height / textureHeight);
 	mCharacterSprite->offset = spriteOffset;

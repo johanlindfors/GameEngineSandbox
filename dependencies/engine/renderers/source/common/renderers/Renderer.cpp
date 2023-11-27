@@ -1,6 +1,10 @@
 #include "renderers/Renderer.hpp"
 #include <string>
 #include "utilities/GLHelper.hpp"
+#include "sprites/Sprite.hpp"
+#include "renderers/Camera.hpp"
+#include "resources/Shader.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -11,18 +15,18 @@ Renderer::Renderer(
 
 Renderer::~Renderer()
 {
-    printf("[Renderer::~Renderer]\n");
-    mShader.reset();
+    debuglog << "[Renderer::~Renderer]" << endl;
+	mShader.reset();
 }
 
 void Renderer::initialize()
 {
-    printf("[Renderer::initialize]\n");
+    debuglog << "[Renderer::initialize]" << endl;
 }
 
 void Renderer::updateWindowSize(int width, int height)
 {
-    printf("[Renderer::updateWindowSize]\n");
+	debuglog << "[Renderer::updateWindowSize]" << endl;
     GlViewport(0, 0, width, height);
 }
 

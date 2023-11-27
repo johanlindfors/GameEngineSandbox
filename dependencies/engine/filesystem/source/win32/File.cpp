@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include "utilities/StringHelpers.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -21,11 +22,10 @@ void File::open(string filename, bool writeable)
 void File::create(string filename)
 {
     auto wFilename = s2ws(filename);
-    std::cout << "[File::Create] Creating file '" << filename << "'!" << endl;
+    debuglog << "[File::Create] Creating file '" << filename << "'!" << endl;
     _wfopen_s(&mFileHandle, wFilename.c_str(), L"wb");
-    if (!mFileHandle)
-    {
-        std::cout << "Failed to create file!" << endl;
+    if(!mFileHandle) {
+        debuglog << "Failed to create file!" << endl;
     }
 }
 

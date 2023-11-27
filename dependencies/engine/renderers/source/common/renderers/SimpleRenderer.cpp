@@ -2,18 +2,20 @@
 #include "utilities/IOC.hpp"
 #include "resources/IResourceManager.hpp"
 #include "resources/Shader.hpp"
-#include "glwrapper.hpp"
+#include "utilities/glwrapper.hpp"
+#include "utilities/Logger.hpp"
 
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
 void SimpleRenderer::initialize()
 {
-    printf("[SimpleRenderer::initialize] In initialize\n");
+    debuglog << "[SimpleRenderer::initialize] In initialize" << endl;
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     resourceManager->loadShader("simple", "simple.vs", "simple.fs");
     resourceManager->loadShader("light_cube", "light_cube.vs", "light_cube.fs");

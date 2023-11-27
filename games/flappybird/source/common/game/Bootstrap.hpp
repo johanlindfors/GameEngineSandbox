@@ -37,8 +37,5 @@ void bootstrap()
     auto scoreSystem = make_shared<ScoreSystem>();
     IOCContainer::instance().register_type<ScoreSystem>(scoreSystem);
 
-    auto lazyLoaded = make_shared<LazyInitializedTypes>();
-    lazyLoaded->emplace_back(scoreSystem);
-    IOCContainer::instance().register_type<LazyInitializedTypes>(lazyLoaded);
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<GameStateMachine>());
 }

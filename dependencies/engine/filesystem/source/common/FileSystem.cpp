@@ -1,7 +1,6 @@
 #include "filesystem/FileSystem.hpp"
 #include "filesystem/File.hpp"
-#include "utilities/Config.hpp"
-#include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 
 #ifdef UWP
 #include <winrt/Windows.Storage.h>
@@ -16,6 +15,13 @@ using namespace Windows::ApplicationModel;
 #elif defined(PLATFORM_POSIX)
 #include <iostream>
 #include <filesystem>
+namespace fs = std::filesystem;
+#elif ANDROID
+#include <filesystem>
+namespace fs = std::filesystem;
+#elif __linux__
+#include <filesystem>
+namespace fs = std::filesystem;
 #endif
 
 using namespace std;
@@ -23,10 +29,9 @@ using namespace Engine;
 
 string FileSystem::getAssetsDirectory()
 {
-	auto config = Utilities::IOCContainer::instance().resolve<Utilities::Config>();
 	if (mAssetsDirectory.size() == 0)
 	{
-		cout << "Iterating over filesystem..." << endl;
+		debuglog << "Iterating over filesystem..." << endl;
 #ifdef UWP
 		const auto folder = Package::Current().InstalledLocation();
 		const auto folderPath = folder.Path();
@@ -53,7 +58,8 @@ string FileSystem::getAssetsDirectory()
 		static_assert("Invalid platform configured");
 #endif
 	}
-	return mAssetsDirectory;
+	debuglog << mAssetsDirectory.c_str() << endl;
+    return mAssetsDirectory;
 }
 
 std::shared_ptr<File> FileSystem::loadFile(std::string filename, bool writeable)

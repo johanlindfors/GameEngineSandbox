@@ -18,12 +18,6 @@ void ScoreSystem::setLatestScore(int score)
     }
 };
 
-void ScoreSystem::lazyInitialize()
-{
-    loadHighScore();
-    printf("[ScoreSystem::LazyInitialize] HighScore is: %d\n", mHighScore);
-}
-
 void ScoreSystem::loadHighScore()
 {
     auto fileSystem = IOCContainer::instance().resolve<IFileSystem>();

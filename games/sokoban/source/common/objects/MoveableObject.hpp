@@ -6,7 +6,7 @@
 
 namespace Engine
 {
-    class Sprite;
+    struct Sprite;
     class IRenderer;
 }
 

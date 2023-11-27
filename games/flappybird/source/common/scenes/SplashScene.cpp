@@ -7,14 +7,14 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "sprites/Sprite.hpp"
 #include "utilities/IStepTimer.hpp"
-#include "utilities/ILazyInitialized.hpp"
-#include <iostream>
 #include "objects/ParallaxBackground.hpp"
 #include "objects/Bird.hpp"
 #include "objects/Ground.hpp"
 #include "utilities/Config.hpp"
 #include "renderers/Camera.hpp"
 #include "renderers/FontRenderer.hpp"
+#include "systems/ScoreSystem.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -58,7 +58,7 @@ void SplashScene::load()
 	resourceManager->loadTextures({"atlas.png"});
 
 	auto config = IOCContainer::instance().resolve<Utilities::Config>();
-	auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
+	auto camera = make_shared<Engine::OrthographicCamera>(0.0f, static_cast<float>(config->width), 0.0f, static_cast<float>(config->height), -1.0f, 1.0f);
 	auto shader = resourceManager->getShader("simple");
 	auto renderer = make_shared<SpriteRenderer>(shader, camera);
 	renderer->initialize();
@@ -76,16 +76,14 @@ void SplashScene::load()
 	mGround->initializeSprite();
 	mSkyline->initializeSprites();
 
-	auto lazyInitializedTypes = IOCContainer::instance().resolve<LazyInitializedTypes>();
-	for (auto it = lazyInitializedTypes->begin(); it != lazyInitializedTypes->end(); ++it)
-	{
-		it->get()->lazyInitialize();
-	}
-
+    auto scoreSystem = make_shared<ScoreSystem>();
+    IOCContainer::instance().register_type<ScoreSystem>(scoreSystem);
+	scoreSystem->loadHighScore();
+	
 	// Audio
 	// mResourcesToLoad.push(L"background.png");
 
-	printf("[SplashScene::load] Loaded\n");
+	debuglog << "[SplashScene::load] Loaded" << endl;
 }
 
 void SplashScene::unload() {}
