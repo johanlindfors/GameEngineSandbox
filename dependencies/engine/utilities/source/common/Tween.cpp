@@ -17,7 +17,7 @@ Tween::Tween(
 
 void Tween::update(shared_ptr<IStepTimer> timer)
 {
-    auto delta = timer->getDeltaMicroSeconds();
+    auto delta = timer->getElapsedMilliSeconds();
     elapsed += delta;
     float currentValue = targetValue;
     if (elapsed <= duration)

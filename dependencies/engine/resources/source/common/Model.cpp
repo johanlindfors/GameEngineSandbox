@@ -34,7 +34,7 @@ Model::Model(
 
 void Model::InitializeGlBuffers()
 {
-    GlGenVertexArrays(1, &VAO);
+    GlGenVertexArrays(1, &mVAO);
     GlGenBuffers(1, &mVBO);
 
     GlBindBuffer(GL_ARRAY_BUFFER, mVBO);
@@ -42,7 +42,7 @@ void Model::InitializeGlBuffers()
 
 void Model::UpdateGlAttributes()
 {
-    GlBindVertexArray(VAO);
+    GlBindVertexArray(mVAO);
 
     // position attribute
     GlVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);

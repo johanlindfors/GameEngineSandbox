@@ -4,6 +4,7 @@
 #include "sprites/Sprite.hpp"
 #include "renderers/Camera.hpp"
 #include "resources/Shader.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -24,7 +25,7 @@ SpriteRenderer::~SpriteRenderer()
 void SpriteRenderer::initialize()
 {
     Renderer::initialize();
-    printf("[SpriteRenderer::initialize]\n");
+    debuglog << "[SpriteRenderer::initialize]" << endl;
 
     float vertices[] = {
         // pos      // tex

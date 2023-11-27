@@ -1,4 +1,4 @@
-#include "glwrapper.hpp"
+#include "utilities/glwrapper.hpp"
 #include "game-loop/GameLoop.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
@@ -57,22 +57,35 @@ public:
         glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
                            {
                 auto input = IOCContainer::instance().resolve<IInputManager>();
-                bool pressed = action != GLFW_RELEASE;
+                ButtonState state(ButtonState::None);
+                switch (action) {
+                    case GLFW_PRESS:
+                        state = ButtonState::Pressed;
+                        break;
+                    case GLFW_REPEAT:
+                        state = ButtonState::Repeat;
+                        break;
+                    case GLFW_RELEASE:
+                        state = ButtonState::Released;
+                        break;
+                    default:
+                        break;
+                }
                 switch(key) {
                     case GLFW_KEY_LEFT:
-                        input->addKeyboardEvent(0x25, pressed);
+                        input->addKeyboardEvent(0x25, state);
                         break;
                     case GLFW_KEY_RIGHT:
-                        input->addKeyboardEvent(0x27, pressed);
+                        input->addKeyboardEvent(0x27, state);
                         break;
                     case GLFW_KEY_UP:
-                        input->addKeyboardEvent(0x26, pressed);
+                        input->addKeyboardEvent(0x26, state);
                         break;
                     case GLFW_KEY_DOWN:
-                        input->addKeyboardEvent(0x28, pressed);
+                        input->addKeyboardEvent(0x28, state);
                         break;
                     case GLFW_KEY_SPACE:
-                        input->addKeyboardEvent(0x20, pressed);
+                        input->addKeyboardEvent(0x20, state);
                         break;
                     case GLFW_KEY_ESCAPE:
                         glfwSetWindowShouldClose(window, 1);

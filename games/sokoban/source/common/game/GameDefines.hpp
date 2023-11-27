@@ -10,7 +10,7 @@
 #define SPOT 2
 #define CRATE 3
 #define PLAYER 4
-#define FONT "vga_bold_16x16.png"
+//#define FONT "vga_bold_16x16.png"
 #define LOADING_PAUSE 150ms
 #define FONT "vga_16x16.png"
 #define IS_ANIMATED true

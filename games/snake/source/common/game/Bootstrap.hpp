@@ -2,7 +2,6 @@
 #include "utilities/IOC.hpp"
 #include "game/Game.hpp"
 #include "utilities/Config.hpp"
-#include "renderers/SpriteRenderer.hpp"
 
 using namespace std;
 using namespace Engine;

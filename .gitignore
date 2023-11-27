@@ -263,3 +263,5 @@ output/
 build/
 build*/
 **/*.DS_Store
+
+.gradle/

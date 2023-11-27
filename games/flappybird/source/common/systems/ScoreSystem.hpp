@@ -1,7 +1,6 @@
 #pragma once
-#include "utilities/ILazyInitialized.hpp"
 
-class ScoreSystem : public Utilities::ILazyInitialized
+class ScoreSystem
 {
 public:
     ScoreSystem()
@@ -12,9 +11,6 @@ public:
     void setLatestScore(int score);
     void saveHighScore();
     void loadHighScore();
-
-    // Utilities::ILazyInitialized
-    void lazyInitialize();
 
 private:
     int mLatestScore;

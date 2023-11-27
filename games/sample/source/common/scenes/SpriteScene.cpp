@@ -24,15 +24,12 @@ void SpriteScene::load()
     printf("[SpriteScene::load]\n");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 
-    if (IOCContainer::instance().contains<SpriteRenderer>())
-    {
+    if(IOCContainer::instance().contains<SpriteRenderer>()) {
         mRenderer = IOCContainer::instance().resolve<SpriteRenderer>();
-    }
-    else
-    {
-        resourceManager->loadShader("simple", "simple.vs", "simple.fs");
-        resourceManager->loadTextures({"truesec.png"});
-
+    } else {
+        resourceManager->loadTextures({ "coderox.png" });
+        resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
+        
         auto config = IOCContainer::instance().resolve<Utilities::Config>();
         auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
         auto shader = resourceManager->getShader("simple");
@@ -42,8 +39,8 @@ void SpriteScene::load()
     }
 
     mSprite = make_shared<Sprite>();
-    mSprite->texture = resourceManager->getTexture("truesec.png");
-    mSprite->size = {256.0f, 256.0f};
+    mSprite->texture = resourceManager->getTexture( "coderox.png" );
+    mSprite->size = { 256.0f, 256.0f };
 
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 }

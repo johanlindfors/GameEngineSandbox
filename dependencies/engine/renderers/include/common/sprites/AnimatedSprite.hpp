@@ -1,5 +1,6 @@
 #pragma once
 #include "TiledSprite.hpp"
+#include <vector>
 
 namespace Engine
 {

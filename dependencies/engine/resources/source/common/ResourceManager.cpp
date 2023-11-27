@@ -39,13 +39,12 @@ Texture2D ResourceManager::createEmptyTexture()
 void ResourceManager::loadTextures(vector<string> fileNames)
 {
 	printf("[ResourceManager::loadTextures]\n");
-	if (!mInitialized)
-	{
+	if (!mInitialized) {
 		const auto emptyTexture = createEmptyTexture();
 		mTextures[emptyTexture.name] = emptyTexture;
 	}
-
-	for (auto const &filename : fileNames)
+	
+	for (auto const& filename : fileNames)
 	{
 		if (mTextures.find(filename) == mTextures.end())
 		{

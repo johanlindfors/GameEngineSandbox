@@ -14,7 +14,6 @@ elseif(OSX)
         OpenGL::GL
         glfw
         PNG
-        libjpeg
     )
 elseif(LINUX)
     find_package(PNG REQUIRED)
@@ -27,6 +26,17 @@ elseif(LINUX)
         ${GLFWs_LIBRARIES}
         PNG::PNG
         JPEG::JPEG
+    )
+elseif(ANDROID)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLFW REQUIRED glfw3)
+    find_package(game-activity REQUIRED CONFIG)
+    list(APPEND DEPENDENCIES
+        EGL
+        GLESv3
+        ${GLFWs_LIBRARIES}
+        log
+        game-activity::game-activity
     )
 else() # WIN32
     find_package(GLEW REQUIRED)

@@ -43,7 +43,7 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
             {
                 mSprite->position.x = value;
             },
-            150 * 1000,
+            150,
             false,
             onCompleteCallback);
     }
@@ -56,7 +56,7 @@ void MoveableObject::move(int deltaX, int deltaY, function<void()> onCompleteCal
             {
                 mSprite->position.y = value;
             },
-            150 * 1000,
+            150,
             false,
             onCompleteCallback);
     }

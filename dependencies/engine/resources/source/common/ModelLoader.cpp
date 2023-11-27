@@ -1,6 +1,7 @@
 #include "resources/ModelLoader.hpp"
 #include "resources/IResourceManager.hpp"
 #include "resources/Model.hpp"
+#include "utilities/MathHelper.hpp"
 #include "utilities/IOC.hpp"
 #include "filesystem/IFileSystem.hpp"
 #include "filesystem/File.hpp"

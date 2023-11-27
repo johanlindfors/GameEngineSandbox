@@ -9,6 +9,7 @@
 #include "renderers/FontRenderer.hpp"
 #include "systems/ScoreSystem.hpp"
 #include "resources/IResourceManager.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -27,6 +28,7 @@ GameOverScene::~GameOverScene()
 
 void GameOverScene::load()
 {
+	debuglog << "[GameOverScene::load]" << endl;
 	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	auto texture = resourceManager->getTexture("atlas.png");
 	mGameOverText->texture = texture;

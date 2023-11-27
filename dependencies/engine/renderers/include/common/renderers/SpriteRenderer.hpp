@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "Renderer.hpp"
-#include "glwrapper.hpp"
+#include "utilities/glwrapper.hpp"
 #include "utilities/MathHelper.hpp"
 
 namespace Engine

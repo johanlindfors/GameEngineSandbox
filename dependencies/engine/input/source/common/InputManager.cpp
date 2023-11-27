@@ -25,8 +25,8 @@ bool InputManager::isKeyDown(int keyCode)
 {
     if (keyCode >= 0 && keyCode < 256)
     {
-        return mKeyboard[keyCode] == ButtonState::Pressed;
-        mKeyboard[keyCode] == ButtonState::Repeat;
+        return mKeyboard[keyCode] == ButtonState::Pressed ||
+               mKeyboard[keyCode] == ButtonState::Repeat;
     }
     return false;
 }
