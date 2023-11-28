@@ -6,13 +6,19 @@
 
 To try this small game engine follow these steps:
 ```
-git clone https://github.com/coderox/GameEngineSandbox.git
+git clone https://github.com/johanlindfors/GameEngineSandbox.git
 ```
 
 Make sure to fetch the thirdparty submodules:
 ```
 git submodule update --init
 ```
+
+These two commands can be combined as follows:
+```
+git clone --recurse-submodules https://github.com/johanlindfors/GameEngineSandbox.git
+```
+
 
 ## Building a Win32 version
 If you want to build Win32 version, make sure to bootstrap vcpkg and fetch Win32 specific dependencies
@@ -51,14 +57,9 @@ Make sure to install the following:
 sudo apt install libpng-dev pkg-config libglfw3-dev libssl-dev libjpeg-dev
 ```
 
-Then in the root directory of this repository create a an output directory called build:
-```
-mkdir build
-cd build
-```
-
 Generate all the files needed to build the application, build and run:
 ```
+cd build
 cmake ..
 cmake --build .
 ./games/sokoban/sokoban
