@@ -8,12 +8,14 @@ if(WINDOWS_STORE)
 elseif(OSX)
     find_package(glfw3 REQUIRED)
     find_package(OpenGL REQUIRED)
+    find_package(JPEG REQUIRED)
     find_package(PkgConfig REQUIRED)
     pkg_search_module(PNG REQUIRED libpng)
     list(APPEND DEPENDENCIES 
         OpenGL::GL
         glfw
         PNG
+        JPEG::JPEG
     )
 elseif(LINUX)
     find_package(PNG REQUIRED)
