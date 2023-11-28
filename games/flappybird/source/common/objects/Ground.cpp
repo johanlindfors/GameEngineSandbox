@@ -10,12 +10,19 @@ using namespace Engine;
 using namespace Utilities;
 
 Ground::Ground(Point<float> position, Vector2 velocity)
-    : mPosition(position), mVelocity(velocity), mGround(vector<Point<float>>()), mGroundSprite(make_shared<Sprite>()), mGroundBackgroundSprite(make_shared<Sprite>()), ICollidable::ICollidable(position), mIsRunning(true), mGroundBackgroundOffset(0), mGroundOffset(0)
+    : mPosition(position),
+    mVelocity(velocity),
+    mGround(vector<Point<float>>()),
+    mGroundSprite(make_shared<Sprite>()),
+    mGroundBackgroundSprite(make_shared<Sprite>()),
+    mIsRunning(true),
+    mGroundBackgroundOffset(0),
+    mGroundOffset(0),
 
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
-      ,
-      mGroundDebugSprite(make_shared<Sprite>())
+    mGroundDebugSprite(make_shared<Sprite>()),
 #endif
+    ICollidable::ICollidable(position)
 {
     for (size_t i = 0; i < 14; i++)
     {
@@ -53,7 +60,7 @@ void Ground::initializeSprite()
         23.0f / 512.0f, 26.0f / 512.0f}; // 108, 1, 131, 27;
 
     mGroundBackgroundSprite->offset = {
-        108.0f / 512.0f, (512.0f - 27.0f) / 512.0f,
+        109.0f / 512.0f, (512.0f - 27.0f) / 512.0f,
         1.0f / 512.0f, 1.0f / 512.0f}; // 108, 26, 109, 27
 }
 

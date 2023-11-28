@@ -33,10 +33,10 @@ void Clouds::initializeSprite()
     mClouds->texture = texture;
     mCloudsBackground->texture = texture;
     mClouds->offset = {
-        1.0f / 512.0f, (512.0f - 103.0f) / 512.0f,
+        2.0f / 512.0f, (512.0f - 103.0f) / 512.0f,
         351.0f / 512.0f, 33.0f / 512.0f}; // 1, 70, 352, 103
     mCloudsBackground->offset = {
-        1.0f / 512.0f, (512.0f - 103.0f) / 512.0f,
+        2.0f / 512.0f, (512.0f - 103.0f) / 512.0f,
         1.0f / 512.0f, 1.0f / 512.0f
 
     }; // 1, 102, 2, 103

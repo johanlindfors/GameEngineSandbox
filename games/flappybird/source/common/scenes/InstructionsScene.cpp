@@ -14,7 +14,12 @@ using namespace Engine;
 using namespace Utilities;
 
 InstructionsScene::InstructionsScene(IGameStateCallback *gameCallback)
-	: mInstructions(make_shared<Sprite>()), mGetReady(make_shared<Sprite>()), mWindowWidth(0), mWindowHeight(0), mGame(gameCallback), mSpacePressedBefore(true)
+	: mInstructions(make_shared<Sprite>()),
+	mGetReady(make_shared<Sprite>()),
+	mWindowWidth(0),
+	mWindowHeight(0),
+	mGame(gameCallback),
+	mSpacePressedBefore(true)
 {
 	id = typeid(InstructionsScene).name();
 
