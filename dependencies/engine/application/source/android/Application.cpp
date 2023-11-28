@@ -45,6 +45,8 @@ void Application::initApplication() {
     mGameLoop = std::make_unique<Engine::GameLoop>();
     debuglog << "[Application::initApplication] game was created" << std::endl;
     auto gameConfig = Utilities::IOCContainer::instance().resolve<Utilities::Config>();
+    gameWidth_ = gameConfig->width;
+    gameHeight_ = gameConfig->height;
     debuglog << "[Application::initApplication] was launched with the game: " << gameConfig->title << std::endl;
     auto androidWrapper = std::make_shared<AndroidWrapper>(app_);
     Utilities::IOCContainer::instance().register_type<AndroidWrapper>(androidWrapper);
@@ -138,7 +140,11 @@ void Application::updateRenderArea() {
     if (width != width_ || height != height_) {
         width_ = width;
         height_ = height;
+        debuglog << "Screen size: " << width << "," << height << std::endl;
         glViewport(0, 0, width, height);
+
+        aspectRatioX_ = static_cast<float>(gameWidth_) / static_cast<float>(width);
+        aspectRatioY_ = static_cast<float>(gameHeight_) / static_cast<float>(height);
     }
 }
 
@@ -167,14 +173,14 @@ void Application::handleInput() {
 
         // get the x and y position of this event if it is not ACTION_MOVE.
         auto &pointer = motionEvent.pointers[pointerIndex];
-        auto x = GameActivityPointerAxes_getX(&pointer);
-        auto y = GameActivityPointerAxes_getY(&pointer);
+        auto x = GameActivityPointerAxes_getX(&pointer) * aspectRatioX_;
+        auto y = GameActivityPointerAxes_getY(&pointer) * aspectRatioY_;
 
         // determine the action type and process the event accordingly.
         switch (action & AMOTION_EVENT_ACTION_MASK) {
             case AMOTION_EVENT_ACTION_DOWN:
             case AMOTION_EVENT_ACTION_POINTER_DOWN:
-                debuglog << "(" << pointer.id << ", " << x << ", " << y << ") "
+                debuglog << "(" << pointer.id << ": " << x << ", " << y << ") "
                          << "Pointer Down";
                 mInputManager->addMouseEvent(Engine::MouseButton::Left, Engine::ButtonState::Pressed, x, y);
                 break;

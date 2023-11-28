@@ -16,7 +16,15 @@ using namespace Engine;
 using namespace Utilities;
 
 GameOverScene::GameOverScene(IGameStateCallback *gameCallback)
-	: mGameOverText(make_shared<Sprite>()), mScoreBoard(make_shared<Sprite>()), mMedal(make_shared<Sprite>()), mButton(make_shared<Sprite>()), mGame(gameCallback), mInputManager(IOCContainer::instance().resolve<IInputManager>()), mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>()), mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), mScoreSystem(IOCContainer::instance().resolve<ScoreSystem>())
+	: mGameOverText(make_shared<Sprite>()), 
+	  mScoreBoard(make_shared<Sprite>()), 
+	  mMedal(make_shared<Sprite>()), 
+	  mButton(make_shared<Sprite>()), 
+	  mGame(gameCallback), 
+	  mInputManager(IOCContainer::instance().resolve<IInputManager>()), 
+	  mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>()),
+	  //mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), 
+	  mScoreSystem(IOCContainer::instance().resolve<ScoreSystem>())
 {
 	id = typeid(GameOverScene).name();
 }
@@ -116,7 +124,7 @@ void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 			}
 			spriteRenderer->drawSprite(mMedal);
 		}
-		mFontRenderer->drawString(to_string(score), FontRenderer::Alignment::Center, Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 68}, 0.3f);
-		mFontRenderer->drawString(to_string(mScoreSystem->getHighScore()), FontRenderer::Alignment::Center, Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 18}, 0.3f);
+		// mFontRenderer->drawString(to_string(score), FontRenderer::Alignment::Center, Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 68}, 0.3f);
+		// mFontRenderer->drawString(to_string(mScoreSystem->getHighScore()), FontRenderer::Alignment::Center, Point<float>{mScoreBoard->position.x + 200, mScoreBoard->position.y + 18}, 0.3f);
 	}
 }

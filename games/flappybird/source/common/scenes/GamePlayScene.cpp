@@ -27,7 +27,18 @@ using namespace Engine;
 using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
-	: mBackground(make_shared<Sprite>()), mSkyline(make_unique<ParallaxBackground>()), mBird(make_shared<Bird>(Point<float>{80, SCREEN_HEIGHT / 2.0f})), mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0})), mPipes(vector<shared_ptr<Pipes>>()), mInputManager(IOCContainer::instance().resolve<IInputManager>()), mPhysicsEngine(IOCContainer::instance().resolve<IPhysicsEngine>()), mCollider(IOCContainer::instance().resolve<IObjectCollider>()), mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>()), mScreenSizeX(0), mScreenSizeY(0), mGame(gameCallback), mSpacePressedBefore(true), mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), mShowInstructions(true), mScore(0)
+	: mBackground(make_shared<Sprite>()), 
+	  mSkyline(make_unique<ParallaxBackground>()), 
+	  mBird(make_shared<Bird>(Point<float>{80, SCREEN_HEIGHT / 2.0f})), 
+	  mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0})), 
+	  mPipes(vector<shared_ptr<Pipes>>()), 
+	  mInputManager(IOCContainer::instance().resolve<IInputManager>()), 
+	  mPhysicsEngine(IOCContainer::instance().resolve<IPhysicsEngine>()), 
+	  mCollider(IOCContainer::instance().resolve<IObjectCollider>()), 
+	  mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>()), 
+	  mScreenSizeX(0), mScreenSizeY(0), mGame(gameCallback), mSpacePressedBefore(true), 
+	  //mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), 
+	  mShowInstructions(true), mScore(0)
 {
 	id = typeid(GamePlayScene).name();
 	mPipesGenerator.setInterval(1250000);
@@ -57,8 +68,8 @@ void GamePlayScene::load()
 	// mBackground->offset = 3;
 	mBackground->size = {288.0f, 505.0f};
 	mBackground->offset = {
-		1.0f / 512.0f, (512.0f - 71.0f) / 512.0f,
-		1.0f / 512.0f, 1.0f / 512.0f};
+		40.0f / 512.0f, (512.0f - 72.0f) / 512.0f,
+		4.0f / 512.0f, 4.0f / 512.0f};
 	mSkyline->initializeSprites();
 	mGround->initializeSprite();
 
@@ -78,7 +89,7 @@ void GamePlayScene::updateScreenSize(int width, int height)
 	mScreenSizeX = width;
 	mScreenSizeY = height;
 
-	mFontRenderer->updateWindowSize(width, height);
+	//mFontRenderer->updateWindowSize(width, height);
 }
 
 void GamePlayScene::reset()
@@ -218,6 +229,6 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 	{
 		float x = mScreenSizeX / 2.0f;
 		float y = mScreenSizeY / 2.0f + 220.0f;
-		mFontRenderer->drawString(to_string(mScore), FontRenderer::Alignment::Center, Point<float>{x, y}, 0.4f);
+		//mFontRenderer->drawString(to_string(mScore), FontRenderer::Alignment::Center, Point<float>{x, y}, 0.4f);
 	}
 }

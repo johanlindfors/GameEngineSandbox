@@ -10,5 +10,10 @@ varying vec2 TexCoord;
 
 void main() {
 	gl_Position = projection * world * vec4(vertex.xy, 0.0, 1.0);
-	TexCoord = offset.xy + vertex.zw * offset.zw;
+	TexCoord =
+	    //offset.xy +
+	    vec2(offset.x, offset.y) +
+	    vec2(vertex.z, vertex.w) *
+	    //offset.zw;
+	    vec2(offset.z, offset.w);
 }

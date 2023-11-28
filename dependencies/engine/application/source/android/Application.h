@@ -20,7 +20,11 @@ public:
             surface_(EGL_NO_SURFACE),
             context_(EGL_NO_CONTEXT),
             width_(0),
-            height_(0) {
+            height_(0),
+            aspectRatioX_(1.0),
+            aspectRatioY_(1.0),
+            gameWidth_(0),
+            gameHeight_(0) {
         initApplication();
     }
 
@@ -57,6 +61,10 @@ private:
     EGLContext context_;
     EGLint width_;
     EGLint height_;
+    float aspectRatioX_;
+    float aspectRatioY_;
+    int gameWidth_;
+    int gameHeight_;
 
     std::shared_ptr<Engine::GameLoop> mGameLoop;
     std::shared_ptr<Engine::IInputManager> mInputManager;

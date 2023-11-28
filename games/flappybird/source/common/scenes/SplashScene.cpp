@@ -64,9 +64,9 @@ void SplashScene::load()
 	renderer->initialize();
 	IOCContainer::instance().register_type<IRenderer>(renderer);
 
-	auto fontRenderer = make_shared<FontRenderer>("textures/numbers.fnt", "atlas.png", shader, camera);
-	fontRenderer->initialize();
-	IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
+	// auto fontRenderer = make_shared<FontRenderer>("textures/numbers.fnt", "atlas.png", shader, camera);
+	// fontRenderer->initialize();
+	// IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
 	auto atlas = resourceManager->getTexture("atlas.png");
 	mBackground->texture.textureIndex = atlas.textureIndex;

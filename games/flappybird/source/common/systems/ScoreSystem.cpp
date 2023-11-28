@@ -13,7 +13,7 @@ void ScoreSystem::setLatestScore(int score)
     if (mLatestScore > mHighScore)
     {
         mHighScore = mLatestScore;
-        saveHighScore();
+        //saveHighScore();
         printf("[ScoreSystem::SetLatestScore] HighScore saved: %d\n", mHighScore);
     }
 };
