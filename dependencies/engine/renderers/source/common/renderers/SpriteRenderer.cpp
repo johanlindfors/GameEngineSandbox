@@ -62,8 +62,8 @@ void SpriteRenderer::initialize()
 void SpriteRenderer::updateWindowSize(int width, int height)
 {
     Renderer::updateWindowSize(width, height);
-    mCamera->right = static_cast<float>(width);
-    mCamera->top = static_cast<float>(height);
+    // mCamera->right = static_cast<float>(width);
+    // mCamera->top = static_cast<float>(height);
     glViewport(0, 0, static_cast<GLint>(width), static_cast<GLint>(height));
 }
 
