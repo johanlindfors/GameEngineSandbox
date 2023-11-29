@@ -29,7 +29,7 @@ void GridScene::load()
         resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
         
         auto config = IOCContainer::instance().resolve<Utilities::Config>();
-        auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
+        auto camera = make_shared<Engine::OrthographicCamera>(-config->width/config->height, config->width/config->height, -1.0f, 1.0f, -1.0f, 1.0f);
         auto shader = resourceManager->getShader("simple");
         mRenderer = make_shared<SpriteRenderer>(shader, camera);
         mRenderer->initialize();
@@ -38,8 +38,8 @@ void GridScene::load()
 
     mSprite = make_shared<Sprite>();
     mSprite->texture = resourceManager->getTexture( "grid.png" );
-    mSprite->size = { 51.2f, 51.2f };
-    mSprite->position = { 0.0f, 0.0f };
+    mSprite->size = { 1.0f, 1.0f };
+    mSprite->position = { -0.5f, -0.5f };
 
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 }
@@ -64,8 +64,8 @@ void GridScene::update(shared_ptr<IStepTimer> timer)
 
 void GridScene::draw(shared_ptr<IRenderer> renderer)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glDisable(GL_DEPTH_TEST);
+    GlClear(GL_COLOR_BUFFER_BIT);
+    GlDisable(GL_DEPTH_TEST);
 
     mRenderer->drawSprite(mSprite);
 }

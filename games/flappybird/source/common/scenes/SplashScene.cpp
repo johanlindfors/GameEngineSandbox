@@ -35,20 +35,20 @@ SplashScene::SplashScene(IGameStateCallback *gameCallback)
 	mGame(gameCallback)
 {
 	id = typeid(SplashScene).name();
-	// mBackground->offset = 3;
-	mBackground->size = {288.0f, 505.0f};
-	mBackground->offset = {
-		2.0f / 512.0f, (512.0f - 72.0f) / 512.0f,
-		1.0f / 512.0f, 1.0f / 512.0f};
 
-	// mButton->offset = 12;
+	// mBackground->size = {288.0f, 505.0f};
+	mBackground->size = { 1.0f, 1.0f };
+	mBackground->position = { -0.5f, -0.5f };
+	mBackground->offset = {
+	 	40.0f / 512.0f, (512.0f - 80.0f) / 512.0f,
+	 	1.0f / 512.0f, 1.0f / 512.0f};
+
 	mButton->size = {104.0f, 58.0f};
 	mButton->position = Point<float>{92.0f, 176.0f};
 	mButton->offset = {
 		2.0f / 512.0f, (512.0f - 351.0f) / 512.0,
 		104.0f / 512.0f, 58.0 / 512.0f};
 
-	// mTitle->offset = 13;
 	mTitle->size = {179.0f, 48.0f};
 	mTitle->offset = {
 		116.0f / 512.0f, (512.0f - 346.0f) / 512.0f,
@@ -69,15 +69,16 @@ void SplashScene::load()
 	resourceManager->loadTextures({"atlas.png"});
 
 	auto config = IOCContainer::instance().resolve<Utilities::Config>();
-	auto camera = make_shared<Engine::OrthographicCamera>(0.0f, static_cast<float>(config->width), 0.0f, static_cast<float>(config->height), -1.0f, 1.0f);
+	auto aspectRatio = static_cast<float>(config->width)/static_cast<float>(config->height);
+	auto camera = make_shared<Engine::OrthographicCamera>(-aspectRatio, aspectRatio, -1.0f, 1.0f, -1.0f, 1.0f);
 	auto shader = resourceManager->getShader("simple");
 	auto renderer = make_shared<SpriteRenderer>(shader, camera);
 	renderer->initialize();
 	IOCContainer::instance().register_type<IRenderer>(renderer);
 
-	// auto fontRenderer = make_shared<FontRenderer>("textures/numbers.fnt", "atlas.png", shader, camera);
-	// fontRenderer->initialize();
-	// IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
+	auto fontRenderer = make_shared<FontRenderer>("textures/numbers.fnt", "atlas.png", shader, camera);
+	fontRenderer->initialize();
+	IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
 	auto atlas = resourceManager->getTexture("atlas.png");
 	mBackground->texture.textureIndex = atlas.textureIndex;
@@ -109,6 +110,9 @@ void SplashScene::updateScreenSize(int width, int height)
 
 	mWindowWidth = width;
 	mWindowHeight = height;
+	
+	auto renderer = IOCContainer::instance().resolve<IRenderer>();
+	renderer->updateWindowSize(width, height);
 }
 
 void SplashScene::update(shared_ptr<IStepTimer> timer)
@@ -139,12 +143,12 @@ void SplashScene::draw(shared_ptr<IRenderer> renderer)
 	{
 		spriteRenderer->drawSprite(mBackground);
 	}
-	mSkyline->draw(renderer);
-    mGround->draw(renderer);
-	mBird->draw(renderer);
-	if (spriteRenderer)
-	{
-		spriteRenderer->drawSprite(mTitle);
-		spriteRenderer->drawSprite(mButton);
-	}
+	// mSkyline->draw(renderer);
+    // mGround->draw(renderer);
+	// mBird->draw(renderer);
+	// if (spriteRenderer)
+	// {
+	// 	spriteRenderer->drawSprite(mTitle);
+	// 	spriteRenderer->drawSprite(mButton);
+	// }
 }

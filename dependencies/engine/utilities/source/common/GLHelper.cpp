@@ -1,5 +1,6 @@
 #include "utilities/GLHelper.hpp"
 #include <vector>
+#include "utilities/Logger.hpp"
 // #define DEBUG 1
 #ifdef DEBUG
 #define TRACE(x) printf(x)
@@ -165,6 +166,7 @@ namespace Engine
 	void GlViewport(GLint x, GLint y, GLsizei width, GLsizei height)
 	{
 		TRACE("[GLHelper::GlViewport]\n");
+		debuglog << "(" << x << "," << y << ")-(" << width << "," << height << ")" << std::endl;
 		glViewport(x, y, width, height);
 	}
 
@@ -180,10 +182,22 @@ namespace Engine
 		glClear(mask);
 	}
 
+	void GlCullFace(GLenum mode)
+	{
+		TRACE("[GLHelper::GlCullFace]\n");
+		glCullFace(mode);
+	}
+
 	void GlDisable(GLenum cap)
 	{
 		TRACE("[GLHelper::GlDisable]\n");
 		glDisable(cap);
+	}
+
+	void GlDisableVertexAttribArray(GLuint index)
+	{
+		TRACE("[GLHelper::GlDisableVertexAttribArray]\n");
+		glDisableVertexAttribArray(index);
 	}
 
 	void GlActiveTexture(GLenum texture)

@@ -54,18 +54,18 @@ namespace Engine {
 
             // Get an opengl texture
             GLuint textureId;
-            glGenTextures(1, &textureId);
-            glBindTexture(GL_TEXTURE_2D, textureId);
+            GlGenTextures(1, &textureId);
+            GlBindTexture(GL_TEXTURE_2D, textureId);
 
             // Clamp to the edge, you'll get odd results alpha blending if you don't
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             // Load the texture into VRAM
-            glTexImage2D(
+            GlTexImage2D(
                     GL_TEXTURE_2D, // target
                     0, // mip level
                     GL_RGBA, // internal format, often advisable to use BGR
@@ -78,7 +78,7 @@ namespace Engine {
             );
 
             // generate mip levels. Not really needed for 2D, but good to do
-            glGenerateMipmap(GL_TEXTURE_2D);
+            GlGenerateMipmap(GL_TEXTURE_2D);
 
             // cleanup helpers
             AImageDecoder_delete(pAndroidDecoder);

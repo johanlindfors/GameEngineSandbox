@@ -61,10 +61,10 @@ void SpriteRenderer::initialize()
 
 void SpriteRenderer::updateWindowSize(int width, int height)
 {
+    float aspectRatio = static_cast<float>(width)/static_cast<float>(height);
+    mCamera->left = static_cast<float>(-aspectRatio);
+    mCamera->right = static_cast<float>(aspectRatio);
     Renderer::updateWindowSize(width, height);
-    // mCamera->right = static_cast<float>(width);
-    // mCamera->top = static_cast<float>(height);
-    glViewport(0, 0, static_cast<GLint>(width), static_cast<GLint>(height));
 }
 
 void SpriteRenderer::clear(float r, float g, float b, float a)

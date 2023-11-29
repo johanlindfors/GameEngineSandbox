@@ -1,4 +1,4 @@
-#include "utilities/LinuxOut.hpp"
+#include "LinuxOut.hpp"
 
 LinuxOut linuxOut("LO ");
 std::ostream debuglog(&linuxOut);

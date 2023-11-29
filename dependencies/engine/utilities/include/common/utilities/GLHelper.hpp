@@ -25,6 +25,8 @@ namespace Engine
     void GlGetProgramiv(GLuint program, GLenum pname, GLint *params);
     void GlGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 
+    void GlCullFace(GLenum mode);
+	void GlDisableVertexAttribArray(GLuint index);
     void GlGenVertexArrays(GLsizei n, GLuint *arrays);
     void GlBindVertexArray(GLuint array);
     void GlEnableVertexAttribArray(GLuint index);

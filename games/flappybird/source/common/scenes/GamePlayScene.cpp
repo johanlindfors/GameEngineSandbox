@@ -37,7 +37,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
 	  mCollider(IOCContainer::instance().resolve<IObjectCollider>()), 
 	  mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>()), 
 	  mScreenSizeX(0), mScreenSizeY(0), mGame(gameCallback), mSpacePressedBefore(true), 
-	  //mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), 
+	  mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), 
 	  mShowInstructions(true), mScore(0)
 {
 	id = typeid(GamePlayScene).name();
@@ -65,7 +65,6 @@ void GamePlayScene::load()
 	auto atlas = resourceManager->getTexture("atlas.png");
 	mBackground->texture.textureIndex = atlas.textureIndex;
 
-	// mBackground->offset = 3;
 	mBackground->size = {288.0f, 505.0f};
 	mBackground->offset = {
 		40.0f / 512.0f, (512.0f - 72.0f) / 512.0f,
@@ -89,7 +88,7 @@ void GamePlayScene::updateScreenSize(int width, int height)
 	mScreenSizeX = width;
 	mScreenSizeY = height;
 
-	//mFontRenderer->updateWindowSize(width, height);
+	mFontRenderer->updateWindowSize(width, height);
 }
 
 void GamePlayScene::reset()
@@ -229,6 +228,6 @@ void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 	{
 		float x = mScreenSizeX / 2.0f;
 		float y = mScreenSizeY / 2.0f + 220.0f;
-		//mFontRenderer->drawString(to_string(mScore), FontRenderer::Alignment::Center, Point<float>{x, y}, 0.4f);
+		mFontRenderer->drawString(to_string(mScore), FontRenderer::Alignment::Center, Point<float>{x, y}, 0.4f);
 	}
 }

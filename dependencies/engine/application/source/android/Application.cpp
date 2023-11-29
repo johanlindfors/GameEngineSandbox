@@ -32,7 +32,7 @@ void Application::render() {
     updateRenderArea();
 
     // clear the color buffer
-    glClear(GL_COLOR_BUFFER_BIT);
+    GlClear(GL_COLOR_BUFFER_BIT);
 
     mGameLoop->tick();
 
@@ -124,8 +124,8 @@ void Application::initApplication() {
     PRINT_GL_STRING_AS_LIST(GL_EXTENSIONS);
 
     // enable alpha globally for now, you probably don't want to do this in a game
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GlEnable(GL_BLEND);
+    GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     mGameLoop->initialize(gameConfig);
 }
@@ -141,7 +141,7 @@ void Application::updateRenderArea() {
         width_ = width;
         height_ = height;
         debuglog << "Screen size: " << width << "," << height << std::endl;
-        glViewport(0, 0, width, height);
+        GlViewport(0, 0, width, height);
 
         aspectRatioX_ = static_cast<float>(gameWidth_) / static_cast<float>(width);
         aspectRatioY_ = static_cast<float>(gameHeight_) / static_cast<float>(height);

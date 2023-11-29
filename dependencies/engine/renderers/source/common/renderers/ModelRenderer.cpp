@@ -19,9 +19,9 @@ ModelRenderer::ModelRenderer(
 ModelRenderer::~ModelRenderer()
 {
     mShader.reset();
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
+    GlDisableVertexAttribArray(0);
+    GlDisableVertexAttribArray(1);
+    GlDisableVertexAttribArray(2);
 }
 
 void ModelRenderer::initialize()
@@ -69,21 +69,17 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
     mShader->setMatrix4("model", world);
     mShader->setMatrix4("normalRotation", glm::transpose(glm::inverse(world)));
 
-    glBindTexture(GL_TEXTURE_2D, model->getTexture().textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    GlBindTexture(GL_TEXTURE_2D, model->getTexture().textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
     // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // set texture filtering parameters
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GlEnable(GL_BLEND);
+    GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    // glFrontFace(GL_CCW);
-
-    // glDisable(GL_DEPTH_TEST);
-    // render
+    GlEnable(GL_CULL_FACE);
+    GlCullFace(GL_BACK);
     GlBindVertexArray(model->getVAO());
     GlDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(model->getVertexCount()));
-    glEnable(GL_DEPTH_TEST);
+    GlEnable(GL_DEPTH_TEST);
 }
