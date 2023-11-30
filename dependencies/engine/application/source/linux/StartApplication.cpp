@@ -50,6 +50,10 @@ public:
         printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
         printf("GL_SHADING_LANGUAGE_VERSION : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
+        // int frameBufferWidth, frameBufferHeight;
+        // glfwGetFramebufferSize(window, &frameBufferWidth, &frameBufferHeight);
+        // glViewport(0, 0, frameBufferWidth, frameBufferHeight);
+
         glfwSetWindowUserPointer(window, game.get());
         glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height)
                                   {
@@ -105,6 +109,10 @@ public:
                     default:
                         break;
                 } });
+
+        glfwSetFramebufferSizeCallback(window, [](GLFWwindow *window, int width, int height) {
+            glViewport(0,0,width,height);
+        });
 
         while (!glfwWindowShouldClose(window))
         {
