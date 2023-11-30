@@ -92,14 +92,11 @@ void BootScene::load()
             printf("[BootScene::update] Fetching level from server\n");
 
             auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
-            string url("https://programmeramera.se/pages/sokobants/assets/003.txt");
+            string url("https://programmeramera.se/pages/sokobants/assets/002.txt");
             result = httpClient->get(url);
-
-            if(result.length() == 0) {
-                printf("[BootScene::update] Failed to fetch level\n");
-                result = HARD_MAP;
-            }
-        } else {
+        }
+        if(result.length() == 0) {
+            printf("[BootScene::update] Failed to fetch level\n");
             result = HARD_MAP;
         }
 
