@@ -34,7 +34,6 @@ public:
 	void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
 private:
-	std::shared_ptr<Engine::Sprite> mBackground;
 	std::shared_ptr<ParallaxBackground> mSkyline;
 	std::shared_ptr<Ground> mGround;
 	std::shared_ptr<Engine::Sprite> mTitle;

@@ -15,14 +15,14 @@
 #include "renderers/FontRenderer.hpp"
 #include "systems/ScoreSystem.hpp"
 #include "utilities/Logger.hpp"
+#include "game/GameDefines.hpp"
 
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
 SplashScene::SplashScene(IGameStateCallback *gameCallback)
-	: mBackground(make_shared<Sprite>()),
-	mSkyline(make_shared<ParallaxBackground>()),
+	: mSkyline(make_shared<ParallaxBackground>()),
 	mGround(make_shared<Ground>(Point<float>{0, 85 }, Vector2{SCROLL_SPEED, 0})),
 	mTitle(make_shared<Sprite>()),
 	mButton(make_shared<Sprite>()),
@@ -36,20 +36,16 @@ SplashScene::SplashScene(IGameStateCallback *gameCallback)
 {
 	id = typeid(SplashScene).name();
 
-	// mBackground->size = {288.0f, 505.0f};
-	mBackground->size = { 1.0f, 1.0f };
-	mBackground->position = { -0.5f, -0.5f };
-	mBackground->offset = {
-	 	40.0f / 512.0f, (512.0f - 80.0f) / 512.0f,
-	 	1.0f / 512.0f, 1.0f / 512.0f};
-
-	mButton->size = {104.0f, 58.0f};
-	mButton->position = Point<float>{92.0f, 176.0f};
+	mButton->size = {104.0f/GAME_WIDTH*2, 58.0f/GAME_HEIGHT*2};
+	//mButton->position = Point<float>{92.0f/, 176.0f};
+	auto size = mButton->size;
+	auto pos = mButton-> position;
+	mButton->position = {pos.x - size.width / 2.0f, pos.y - size.height / 2.0f};
 	mButton->offset = {
 		2.0f / 512.0f, (512.0f - 351.0f) / 512.0,
 		104.0f / 512.0f, 58.0 / 512.0f};
 
-	mTitle->size = {179.0f, 48.0f};
+	mTitle->size = {179.0f/GAME_WIDTH*2, 48.0f/GAME_HEIGHT*2};
 	mTitle->offset = {
 		116.0f / 512.0f, (512.0f - 346.0f) / 512.0f,
 		179.0f / 512.0f, 48.0f / 512.0f}; // 116, 298, 295, 346
@@ -57,7 +53,7 @@ SplashScene::SplashScene(IGameStateCallback *gameCallback)
 
 SplashScene::~SplashScene()
 {
-	mBackground.reset();
+
 }
 
 void SplashScene::load()
@@ -81,7 +77,6 @@ void SplashScene::load()
 	IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
 	auto atlas = resourceManager->getTexture("atlas.png");
-	mBackground->texture.textureIndex = atlas.textureIndex;
 	mButton->texture.textureIndex = atlas.textureIndex;
 	mTitle->texture.textureIndex = atlas.textureIndex;
 	mBird->initializeSprite();
@@ -105,7 +100,8 @@ void SplashScene::updateScreenSize(int width, int height)
 	if (mWindowWidth == width && mWindowHeight == height)
 		return;
 
-	mTitle->position = Point<float>{30.0f, height - 100.0f - mTitle->size.height};
+	//mTitle->position = Point<float>{30.0f, height - 100.0f - mTitle->size.height};
+	mTitle->position = { -mTitle->size.width / 2.0f, mTitle->size.height / 2.0f + 0.3f};
 	mBird->position = Point<float>{230.0f, height - 129.0f};
 
 	mWindowWidth = width;
@@ -139,16 +135,13 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 void SplashScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
-	if (spriteRenderer)
-	{
-		spriteRenderer->drawSprite(mBackground);
-	}
+	renderer->clear(BACKGROUND_R, BACKGROUND_G, BACKGROUND_B, BACKGROUND_A);
 	// mSkyline->draw(renderer);
     // mGround->draw(renderer);
 	// mBird->draw(renderer);
-	// if (spriteRenderer)
-	// {
-	// 	spriteRenderer->drawSprite(mTitle);
-	// 	spriteRenderer->drawSprite(mButton);
-	// }
+	if (spriteRenderer)
+	{
+	 	spriteRenderer->drawSprite(mTitle);
+		spriteRenderer->drawSprite(mButton);
+	}
 }

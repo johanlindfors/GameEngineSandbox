@@ -1,8 +1,14 @@
 #pragma once
 
+#define GAME_WIDTH 288.0f
+#define GAME_HEIGHT 505.0f
 #define SCREEN_WIDTH 288
 #define SCREEN_HEIGHT 505
 #define FRAMES_PER_SECOND 60
 #define SCROLL_SPEED -0.17f
 #define GRAVITY 9.1f
 #define DEBUG_TEXTURES_ENABLED false
+#define BACKGROUND_R 0.027f
+#define BACKGROUND_G 0.549f
+#define BACKGROUND_B 0.992f
+#define BACKGROUND_A 1.0
