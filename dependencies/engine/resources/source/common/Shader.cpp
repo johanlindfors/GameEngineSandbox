@@ -52,3 +52,7 @@ void Shader::setMatrix4(const string &name, const glm::mat4 &matrix)
 {
     GlUniformMatrix4fv(GlGetUniformLocation(ID, name.c_str()), 1, false, glm::value_ptr(matrix));
 }
+
+int Shader::getAttribLocation(const string &name) const {
+    return GlGetAttribLocation(ID, name.c_str());
+}
