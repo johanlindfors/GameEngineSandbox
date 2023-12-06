@@ -51,7 +51,8 @@ void SpriteRenderer::initialize()
     GlBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
-    GlVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
+    auto attribLocation = mShader->getAttribLocation("vertex");
+    GlVertexAttribPointer(attribLocation, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
     GlEnableVertexAttribArray(0);
 }
 
