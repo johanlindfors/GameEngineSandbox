@@ -31,12 +31,10 @@ elseif(LINUX)
     )
 elseif(ANDROID)
     find_package(PkgConfig REQUIRED)
-    pkg_search_module(GLFW REQUIRED glfw3)
     find_package(game-activity REQUIRED CONFIG)
     list(APPEND DEPENDENCIES
         EGL
         GLESv3
-        ${GLFWs_LIBRARIES}
         log
         game-activity::game-activity
     )
