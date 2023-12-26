@@ -8,7 +8,7 @@
 #include "utilities/Logger.hpp"
 #include "resources/IResourceManager.hpp"
 #include "resources/Shader.hpp"
-#include "sprites/Sprite.hpp"
+#include "sprites/TiledSprite.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "renderers/Camera.hpp"
 
@@ -39,12 +39,11 @@ void SpriteScene::load()
     renderer->initialize();
     IOCContainer::instance().register_type<IRenderer>(renderer);
 
-    mSprite = make_shared<Sprite>();
+    mSprite = make_shared<TiledSprite>();
     mSprite->texture = resourceManager->getTexture( "grid.png" );
+    mSprite->tileSize = { 32, 32 };
     mSprite->size = { 256.0f, 256.0f };
-    // mSprite->position = {
-    //     static_cast<float>(config->width / 2.0f - mSprite->size.width / 2.0f),
-    //     static_cast<float>(config->height / 2.0f - mSprite->size.height / 2.0f)};
+    mSprite->setFrame(11);
 }
 
 void SpriteScene::unload()
@@ -65,7 +64,5 @@ void SpriteScene::draw(shared_ptr<IRenderer> renderer)
 {
     auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	spriteRenderer->clear(CORNFLOWER_BLUE);
-    // glClear(GL_COLOR_BUFFER_BIT);
-    // glDisable(GL_DEPTH_TEST);
     spriteRenderer->drawSprite(mSprite);
 }
