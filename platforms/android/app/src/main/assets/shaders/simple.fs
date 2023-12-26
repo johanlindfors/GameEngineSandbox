@@ -1,5 +1,4 @@
 precision mediump float;
-//out vec4 FragColor;
 
 varying vec2 TexCoord;
 uniform sampler2D tex;
