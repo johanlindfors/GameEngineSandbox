@@ -1,14 +1,15 @@
 #include "utilities/GLHelper.hpp"
+#include "utilities/Logger.hpp"
 #include <vector>
 // #define DEBUG 1
 #ifdef DEBUG
-#define TRACE(x) printf(x)
+#define TRACE(x) debuglog << x;
 #else
 #define TRACE(x)       \
 	do                 \
 	{                  \
 		if (0)         \
-			printf(x); \
+			debuglog << x; \
 	} while (0)
 #endif /* DEBUG */
 
@@ -145,7 +146,7 @@ namespace Engine
 		const auto err = GlGetError();
 		if (err != GL_NO_ERROR)
 		{
-			printf("OpenGL error %08x\n", err);
+			debuglog << "OpenGL error " << err;
 			exit(1);
 		}
 	}
