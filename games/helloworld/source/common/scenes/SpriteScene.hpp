@@ -8,7 +8,7 @@ namespace Engine
 {
     class SpriteRenderer;
     class IInputManager;
-    struct Sprite;
+    struct TiledSprite;
 }
 
 namespace Utilities
@@ -31,6 +31,6 @@ namespace HelloWorld::Scenes
         void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
     private:
-        std::shared_ptr<Engine::Sprite> mSprite;
+        std::shared_ptr<Engine::TiledSprite> mSprite;
     };
 }
