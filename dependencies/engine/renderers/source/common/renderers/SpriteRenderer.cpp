@@ -61,7 +61,7 @@ void SpriteRenderer::updateWindowSize(int width, int height)
     Renderer::updateWindowSize(width, height);
     mCamera->right = static_cast<float>(width);
     mCamera->top = static_cast<float>(height);
-    glViewport(0, 0, static_cast<GLint>(width), static_cast<GLint>(height));
+    GlViewport(0, 0, static_cast<GLint>(width), static_cast<GLint>(height));
 }
 
 void SpriteRenderer::clear(float r, float g, float b, float a)

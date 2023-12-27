@@ -11,7 +11,7 @@ using namespace HelloWorld::Scenes;
 
 void Game::initialize()
 {
-	IOCContainer::instance()
+    IOCContainer::instance()
         .resolve<ISceneManager>()
         ->addScene(make_shared<SpriteScene>());
 }

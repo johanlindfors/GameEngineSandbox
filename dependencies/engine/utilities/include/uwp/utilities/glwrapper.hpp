@@ -9,3 +9,4 @@
 #include <EGL/eglplatform.h>
 
 #include <angle_windowsstore.h>
+#include "utilities/GLHelper.hpp"
