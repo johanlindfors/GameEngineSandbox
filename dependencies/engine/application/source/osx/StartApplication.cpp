@@ -52,7 +52,7 @@ public:
                                   {
                 auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
                 game->updateWindowSize(width, height);
-                glViewport(0,0,width, height); });
+                GlViewport(0,0,width, height); });
 
         glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
                            {

@@ -44,6 +44,9 @@ void SpriteScene::load()
     mSprite->tileSize = { 32, 32 };
     mSprite->size = { 256.0f, 256.0f };
     mSprite->setFrame(11);
+    mSprite->position = {
+        static_cast<float>(config->width / 2.0f - mSprite->size.width / 2.0f),
+        static_cast<float>(config->height / 2.0f - mSprite->size.height / 2.0f)};
 }
 
 void SpriteScene::unload()

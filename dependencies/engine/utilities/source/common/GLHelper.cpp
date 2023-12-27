@@ -166,6 +166,11 @@ namespace Engine
 	void GlViewport(GLint x, GLint y, GLsizei width, GLsizei height)
 	{
 		TRACE("[GLHelper::GlViewport]\n");
+		debuglog << "New viewport: X: " 
+				 << x << " Y: " 
+				 << y << " Width: " 
+				 << width << " Height: " 
+				 << height <<	std::endl;
 		glViewport(x, y, width, height);
 	}
 
