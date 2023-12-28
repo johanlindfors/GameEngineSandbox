@@ -48,6 +48,18 @@ void GameLoop::initialize(shared_ptr<Config> config)
 		debuglog << "[GameLoop::initialize] Renderer initalized" << std::endl;
 	}
 
+	if(config->useFixedGameSize) {
+		// framebuffer prepare
+		if (IOCContainer::instance().contains<FrameBufferRenderer>()) {
+			mFrameBufferRenderer = IOCContainer::instance().resolve<FrameBufferRenderer>();
+		} else {
+			mResourceManager->loadShader( "framebuffer", "framebuffer.vs", "framebuffer.fs" );
+			mFrameBufferRenderer = make_shared<FrameBufferRenderer>();
+			mFrameBufferRenderer->initialize(config, mResourceManager->getShader("framebuffer"));
+		}
+	}
+
+
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::instance().register_type<IInputManager>(mInputManager);
 	debuglog << "[GameLoop::initialize] InputManager registered" << std::endl;
@@ -62,11 +74,6 @@ void GameLoop::initialize(shared_ptr<Config> config)
 	// Game must register callback
 	mGameLoopCallback = IOCContainer::instance().resolve<IGameLoopCallback>();
 	mGameLoopCallback->initialize();
-
-	// framebuffer prepare
-	mResourceManager->loadShader( "framebuffer", "framebuffer.vs", "framebuffer.fs" );
-	mFrameBufferRenderer = make_unique<FrameBufferRenderer>(mResourceManager->getShader("framebuffer"));
-	mFrameBufferRenderer->initialize(config);
 
 	mIsInitialized = true;
 }
@@ -111,7 +118,10 @@ void GameLoop::updateWindowSize(int width, int height)
 		mRenderer->updateWindowSize(width, height);
 	}
 	mSceneManager->updateScreenSize(width, height);
-	mFrameBufferRenderer->updateScreenSize(width, height);
+	if(mFrameBufferRenderer)
+	{
+		mFrameBufferRenderer->updateScreenSize(width, height);
+	}
 }
 
 void GameLoop::getDefaultSize(int &width, int &height)
@@ -148,11 +158,12 @@ void GameLoop::render()
 	}
 	if (mRenderer)
 	{
-		// framebuffer begin
-		mFrameBufferRenderer->begin();
-		//mRenderer->clear();
+		if(mFrameBufferRenderer)
+			mFrameBufferRenderer->begin();
+	
 		mSceneManager->draw(mRenderer);
-		// framebuffer end
-		mFrameBufferRenderer->end();
+	
+		if(mFrameBufferRenderer)
+			mFrameBufferRenderer->end();
 	}
 }
