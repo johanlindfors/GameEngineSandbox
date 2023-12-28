@@ -136,7 +136,7 @@ void Application::updateRenderArea() {
         width_ = width;
         height_ = height;
         mGameLoop->updateWindowSize(width, height);
-        glViewport(0, 0, width, height);
+        //glViewport(0, 0, width, height);
     }
 }
 
