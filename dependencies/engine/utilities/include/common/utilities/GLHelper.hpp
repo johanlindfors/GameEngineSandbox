@@ -34,6 +34,18 @@ namespace Engine
     void GlBindBuffer(GLenum target, GLuint buffer);
     void GlGenBuffers(GLsizei n, GLuint *buffers);
     void GlBufferData(GLenum target, GLsizeiptr size, const void *data, GLenum usage);
+    
+    void GlBindFramebuffer(GLenum target, GLuint framebuffer);
+    void GlFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+    void GlRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+    void GlBindRenderbuffer(GLenum target, GLuint renderbuffer);
+    void GlGenFramebuffers(GLsizei n, GLuint *ids);
+    void GlDeleteFramebuffers(GLsizei n, GLuint *framebuffers);
+    void GlDeleteVertexArrays(GLsizei n, const GLuint *arrays);
+    void GlDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers);
+    void GlFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+    void GlGenRenderbuffers(GLsizei n, GLuint *renderbuffers);
+    GLenum GlCheckFramebufferStatus(GLenum target);
 
     void GlActiveTexture(GLenum texture);
     void GlBindTexture(GLenum target, GLuint texture);
