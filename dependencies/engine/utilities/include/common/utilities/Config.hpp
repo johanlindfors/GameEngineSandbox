@@ -13,6 +13,6 @@ namespace Utilities
         std::string executable = "";
         unsigned int glMajorVersion = 3;
         unsigned int glMinorVersion = 3;
-        bool useFixedGameSize = true;
+        bool useFixedGameSize = false;
     };
 }

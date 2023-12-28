@@ -8,8 +8,7 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-FrameBufferRenderer::FrameBufferRenderer(shared_ptr<Shader> shader)
-    : mShader(shader)
+FrameBufferRenderer::FrameBufferRenderer()
 {
 
 }
@@ -23,8 +22,10 @@ FrameBufferRenderer::~FrameBufferRenderer()
     glDeleteFramebuffers(1, &framebuffer);
 }
 
-void FrameBufferRenderer::initialize(shared_ptr<Config> config)
+void FrameBufferRenderer::initialize(shared_ptr<Config> config, shared_ptr<Shader> shader)
 {
+    mShader = shader;
+
     float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
         // positions   // texCoords
         -1.0f,  1.0f,  0.0f, 1.0f,

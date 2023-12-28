@@ -17,7 +17,8 @@ void bootstrap() {
     config->title = "Hello World";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
-    
+    config->useFixedGameSize = true;
+
     IOCContainer::instance().register_type<Config>(config);
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<Game>());
 }
