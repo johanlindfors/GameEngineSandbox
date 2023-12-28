@@ -15,6 +15,7 @@ namespace Engine
 	class IGameLoopCallback;
 	class IResourceManager;
 	class IFileSystem;
+	class FrameBufferRenderer;
 
 	class GameLoop
 	{
@@ -29,9 +30,9 @@ namespace Engine
 		std::shared_ptr<IInputManager> getInput() const { return mInputManager; }
 
 	private:
+		void handleInput() const;
 		void update() const;
 		void render();
-		void clear() const;
 
 		std::shared_ptr<Utilities::IStepTimer> mTimer;
 		std::shared_ptr<IRenderer> mRenderer;
@@ -40,6 +41,7 @@ namespace Engine
 		std::shared_ptr<ISceneManager> mSceneManager;
 		std::shared_ptr<IResourceManager> mResourceManager;
 		std::shared_ptr<IFileSystem> mFileSystem;
+		std::unique_ptr<FrameBufferRenderer> mFrameBufferRenderer;
 		bool mIsInitialized;
 	};
 } // namespace Engine

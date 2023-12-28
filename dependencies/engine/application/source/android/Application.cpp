@@ -31,9 +31,6 @@ void Application::render() {
     // changed.
     updateRenderArea();
 
-    // clear the color buffer
-    glClear(GL_COLOR_BUFFER_BIT);
-
     mGameLoop->tick();
 
     // Present the rendered image. This is an implicit glFlush.
