@@ -9,6 +9,7 @@
 #include "game-loop/IGameLoopCallback.hpp"
 #include "filesystem/FileSystem.hpp"
 #include "utilities/Logger.hpp"
+#include "renderers/FrameBufferRenderer.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -62,6 +63,11 @@ void GameLoop::initialize(shared_ptr<Config> config)
 	mGameLoopCallback = IOCContainer::instance().resolve<IGameLoopCallback>();
 	mGameLoopCallback->initialize();
 
+	// framebuffer prepare
+	mResourceManager->loadShader( "framebuffer", "framebuffer.vs", "framebuffer.fs" );
+	mFrameBufferRenderer = make_unique<FrameBufferRenderer>(mResourceManager->getShader("framebuffer"));
+	mFrameBufferRenderer->initialize(config);
+
 	mIsInitialized = true;
 }
 
@@ -82,11 +88,10 @@ void GameLoop::tick()
 	if (!mIsInitialized)
 		return;
 	mTimer->tick(
-		[&]() { /* process input*/ },
-		[&]()
-		{ update(); },
-		[&]()
-		{ render(); });
+		[&]() { handleInput(); },
+		[&]() { update(); },
+		[&]() { render(); }
+	);
 }
 
 void GameLoop::updateWindowSize(int width, int height)
@@ -106,6 +111,7 @@ void GameLoop::updateWindowSize(int width, int height)
 		mRenderer->updateWindowSize(width, height);
 	}
 	mSceneManager->updateScreenSize(width, height);
+	mFrameBufferRenderer->updateScreenSize(width, height);
 }
 
 void GameLoop::getDefaultSize(int &width, int &height)
@@ -115,26 +121,24 @@ void GameLoop::getDefaultSize(int &width, int &height)
 	height = 500;
 }
 
+void GameLoop::handleInput() const 
+{
+	mInputManager->update();
+}
+
 void GameLoop::update() const
 {
-	if (!mIsInitialized)
-		return;
-
 	// TODO: Add your game logic here.
 	mGameLoopCallback->update(mTimer);
 	mSceneManager->update(mTimer);
-	mInputManager->update();
 }
 
 void GameLoop::render()
 {
-	if (!mIsInitialized)
-		return;
 	// Don't try to render anything before the first Update.
 	if (mTimer->getFrameCount() == 0)
-	{
 		return;
-	}
+
 	if (!mRenderer)
 	{
 		if (IOCContainer::instance().contains<IRenderer>())
@@ -142,14 +146,13 @@ void GameLoop::render()
 			mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		}
 	}
-	clear();
-	mSceneManager->draw(mRenderer);
-}
-
-void GameLoop::clear() const
-{
 	if (mRenderer)
 	{
-		mRenderer->clear();
+		// framebuffer begin
+		mFrameBufferRenderer->begin();
+		//mRenderer->clear();
+		mSceneManager->draw(mRenderer);
+		// framebuffer end
+		mFrameBufferRenderer->end();
 	}
 }

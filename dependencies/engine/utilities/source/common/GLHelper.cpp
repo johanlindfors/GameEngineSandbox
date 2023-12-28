@@ -171,7 +171,7 @@ namespace Engine
 				 << y << " Width: " 
 				 << width << " Height: " 
 				 << height <<	std::endl;
-		glViewport(x, y, width, height);
+		//glViewport(x, y, width, height);
 	}
 
 	void GlClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)

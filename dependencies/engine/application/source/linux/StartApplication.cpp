@@ -109,17 +109,12 @@ public:
         while (!glfwWindowShouldClose(window))
         {
             glfwPollEvents();
-            glClear(GL_COLOR_BUFFER_BIT);
-
             game->tick();
             glfwSwapBuffers(window);
         }
         game.reset();
         glfwTerminate();
     }
-
-private:
-    shared_ptr<IInputManager> mInput;
 };
 
 void startApplication(int argc, char **argv)

@@ -58,9 +58,9 @@ void SpriteScene::unload()
 void SpriteScene::updateScreenSize(int width, int height)
 {
     debuglog << "[SpriteScene::updateScreenSize] Width: " << width << " Height: " << height << endl;
-    mSprite->position = {
-        static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f),
-        static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)};
+    // mSprite->position = {
+    //     static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f),
+    //     static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)};
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
