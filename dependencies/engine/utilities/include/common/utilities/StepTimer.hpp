@@ -78,7 +78,7 @@ namespace Utilities
 		void setTargetElapsedSeconds(double targetElapsed) { m_targetMicroSeconds = targetElapsed * 1000000; }
 
 		// Update timer state, calling the specified functions the appropriate number of times.
-		void tick(std::function<void()> update, std::function<void()>, std::function<void()>);
+		void tick(std::function<void()> processInput, std::function<void()> update, std::function<void()> render);
 
 	private:
 		std::chrono::time_point<std::chrono::system_clock> m_lastFrameTime;
