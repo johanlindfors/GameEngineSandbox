@@ -122,7 +122,8 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 }
 
 void SplashScene::draw(shared_ptr<IRenderer> renderer)
-{
+{	
+	renderer->clear(CORNFLOWER_BLUE);
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if (spriteRenderer)
 	{

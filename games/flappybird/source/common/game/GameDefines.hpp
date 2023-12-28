@@ -6,3 +6,4 @@
 #define SCROLL_SPEED -0.17f
 #define GRAVITY 9.1f
 #define DEBUG_TEXTURES_ENABLED false
+#define CORNFLOWER_BLUE 100 / 255.f, 149 / 255.f, 237 / 255.f, 1
