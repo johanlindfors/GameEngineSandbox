@@ -17,7 +17,7 @@ namespace Engine
         FrameBufferRenderer();
         ~FrameBufferRenderer();
         void initialize(std::shared_ptr<Utilities::Config> config, std::shared_ptr<Engine::Shader> shader);
-        void updateScreenSize(int width, int height);
+        void updateScreenSize(int &width, int &height);
         void begin();
         void end();
 

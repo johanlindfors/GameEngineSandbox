@@ -1,10 +1,10 @@
 #pragma once
 
-#include "utilities/glwrapper.hpp"
 #include "game-loop/GameLoop.hpp"
+#include "input/IInputManager.hpp"
+#include "utilities/glwrapper.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
-#include "input/IInputManager.hpp"
 #include <memory>
 
 struct android_app;

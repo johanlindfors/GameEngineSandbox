@@ -103,6 +103,8 @@ void GameLoop::tick()
 
 void GameLoop::updateWindowSize(int width, int height)
 {
+	ScreenToGameCoordinatesConverter.setScreenSize({width, height});
+                
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
@@ -113,15 +115,18 @@ void GameLoop::updateWindowSize(int width, int height)
 			mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		}
 	}
+	if(mFrameBufferRenderer)
+	{
+		mFrameBufferRenderer->updateScreenSize(width, height);
+		auto gameSize = ScreenToGameCoordinatesConverter.getGameSize();
+		width = gameSize.width;
+		height = gameSize.height;
+	} 	
 	if (mRenderer)
 	{
 		mRenderer->updateWindowSize(width, height);
 	}
 	mSceneManager->updateScreenSize(width, height);
-	if(mFrameBufferRenderer)
-	{
-		mFrameBufferRenderer->updateScreenSize(width, height);
-	}
 }
 
 void GameLoop::getDefaultSize(int &width, int &height)

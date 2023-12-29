@@ -6,7 +6,7 @@ uniform sampler2D screenTexture;
 void main()
 {
     // No postprocessing
-    gl_FragColor = texture2D(screenTexture, TexCoord);
+    gl_FragColor = texture2D(screenTexture, TexCoords);
 
     // Invert colors
     //gl_FragColor = vec4(vec3(1.0 - texture2D(screenTexture, TexCoord)), 1.0);

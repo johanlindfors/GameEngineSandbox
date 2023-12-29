@@ -19,7 +19,7 @@ InstructionsScene::InstructionsScene(IGameStateCallback *gameCallback)
 	, mWindowWidth(0)
 	, mWindowHeight(0)
 	, mGame(gameCallback)
-	, mSpacePressedBefore(false)
+	, mSpacePressedBefore(true)
 {
 	id = typeid(InstructionsScene).name();
 

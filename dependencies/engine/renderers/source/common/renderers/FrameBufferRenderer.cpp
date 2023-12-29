@@ -74,11 +74,14 @@ void FrameBufferRenderer::initialize(shared_ptr<Config> config, shared_ptr<Shade
     GlBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FrameBufferRenderer::updateScreenSize(int width, int height)
+void FrameBufferRenderer::updateScreenSize(int &width, int &height)
 {
     mScreenWidth = width;
     mScreenHeight = height;
 
+    width = mWidth;
+    height = mHeight;
+    
     debuglog << "Game Size: " << mWidth << "x" << mHeight << " Screen Size: " << mScreenWidth << "x" << mScreenHeight << endl;
 }
 

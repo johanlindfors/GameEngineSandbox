@@ -42,6 +42,8 @@ void Application::initApplication() {
     mGameLoop = std::make_unique<Engine::GameLoop>();
     debuglog << "[Application::initApplication] game was created" << std::endl;
     auto gameConfig = Utilities::IOCContainer::instance().resolve<Utilities::Config>();
+    mGameLoop->ScreenToGameCoordinatesConverter.setGameSize({gameConfig->width, gameConfig->height});
+
     debuglog << "[Application::initApplication] was launched with the game: " << gameConfig->title << std::endl;
     auto androidWrapper = std::make_shared<AndroidWrapper>(app_);
     Utilities::IOCContainer::instance().register_type<AndroidWrapper>(androidWrapper);
@@ -136,7 +138,7 @@ void Application::updateRenderArea() {
         width_ = width;
         height_ = height;
         mGameLoop->updateWindowSize(width, height);
-        //glViewport(0, 0, width, height);
+		mGameLoop->ScreenToGameCoordinatesConverter.setScreenSize({width, height});
     }
 }
 
@@ -165,8 +167,9 @@ void Application::handleInput() {
 
         // get the x and y position of this event if it is not ACTION_MOVE.
         auto &pointer = motionEvent.pointers[pointerIndex];
-        auto x = GameActivityPointerAxes_getX(&pointer);
-        auto y = GameActivityPointerAxes_getY(&pointer);
+        auto gameScreenAspect = mGameLoop->ScreenToGameCoordinatesConverter.getAspects();
+        auto x = GameActivityPointerAxes_getX(&pointer) * gameScreenAspect.width;
+        auto y = GameActivityPointerAxes_getY(&pointer) * gameScreenAspect.height;
 
         // determine the action type and process the event accordingly.
         switch (action & AMOTION_EVENT_ACTION_MASK) {

@@ -3,6 +3,7 @@
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
 #include "input/IInputManager.hpp"
+#include "utilities/ScreenToGameCoordinatesConverter.hpp"
 #include <memory>
 
 using namespace std;
@@ -42,7 +43,7 @@ public:
 
         game->initialize(config);
         printf("[StartLinuxApplication] initialized\n");
-
+        game->ScreenToGameCoordinatesConverter.setGameSize({width,height});
         game->updateWindowSize(width, height);
         printf("[StartLinuxApplication] Windows size updated\n");
 
@@ -63,7 +64,11 @@ public:
                     double xpos, ypos;
                     glfwGetCursorPos(window, &xpos, &ypos);
                     auto input = IOCContainer::instance().resolve<IInputManager>();
-                    input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, xpos, ypos);
+                    auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
+                    auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
+                    auto scaledX = xpos * gameAspects.width;
+                    auto scaledY = ypos * gameAspects.height;
+                    input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
                 } });
 
         glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
