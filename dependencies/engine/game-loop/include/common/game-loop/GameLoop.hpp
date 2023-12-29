@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "utilities/ScreenToGameCoordinatesConverter.hpp"
 
 namespace Utilities
 {
@@ -28,6 +29,7 @@ namespace Engine
 		void updateWindowSize(int width, int height);
 		static void getDefaultSize(int &width, int &height);
 		std::shared_ptr<IInputManager> getInput() const { return mInputManager; }
+		Utilities::ScreenToGameCoordinatesConverter ScreenToGameCoordinatesConverter;
 
 	private:
 		void handleInput() const;

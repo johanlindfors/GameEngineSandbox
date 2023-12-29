@@ -27,7 +27,21 @@ using namespace Engine;
 using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
-	: mBackground(make_shared<Sprite>()), mSkyline(make_unique<ParallaxBackground>()), mBird(make_shared<Bird>(Point<float>{80, SCREEN_HEIGHT / 2.0f})), mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0})), mPipes(vector<shared_ptr<Pipes>>()), mInputManager(IOCContainer::instance().resolve<IInputManager>()), mPhysicsEngine(IOCContainer::instance().resolve<IPhysicsEngine>()), mCollider(IOCContainer::instance().resolve<IObjectCollider>()), mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>()), mScreenSizeX(0), mScreenSizeY(0), mGame(gameCallback), mSpacePressedBefore(true), mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), mShowInstructions(true), mScore(0)
+	: mBackground(make_shared<Sprite>())
+	, mSkyline(make_unique<ParallaxBackground>())
+	, mBird(make_shared<Bird>(Point<float>{80, SCREEN_HEIGHT / 2.0f}))
+	, mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0}))
+	, mPipes(vector<shared_ptr<Pipes>>())
+	, mInputManager(IOCContainer::instance().resolve<IInputManager>())
+	, mPhysicsEngine(IOCContainer::instance().resolve<IPhysicsEngine>())
+	, mCollider(IOCContainer::instance().resolve<IObjectCollider>())
+	, mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
+	, mScreenSizeX(0)
+	, mScreenSizeY(0)
+	, mGame(gameCallback)
+	, mSpacePressedBefore(true)
+	, mFontRenderer(IOCContainer::instance().resolve<FontRenderer>())
+	, mShowInstructions(true), mScore(0)
 {
 	id = typeid(GamePlayScene).name();
 	mPipesGenerator.setInterval(1250000);
