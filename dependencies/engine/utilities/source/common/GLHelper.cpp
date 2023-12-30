@@ -1,14 +1,15 @@
 #include "utilities/GLHelper.hpp"
+#include "utilities/Logger.hpp"
 #include <vector>
 // #define DEBUG 1
 #ifdef DEBUG
-#define TRACE(x) printf(x)
+#define TRACE(x) debuglog << x;
 #else
 #define TRACE(x)       \
 	do                 \
 	{                  \
 		if (0)         \
-			printf(x); \
+			debuglog << x; \
 	} while (0)
 #endif /* DEBUG */
 
@@ -145,7 +146,7 @@ namespace Engine
 		const auto err = GlGetError();
 		if (err != GL_NO_ERROR)
 		{
-			printf("OpenGL error %08x\n", err);
+			debuglog << "OpenGL error " << err;
 			exit(1);
 		}
 	}
@@ -165,6 +166,11 @@ namespace Engine
 	void GlViewport(GLint x, GLint y, GLsizei width, GLsizei height)
 	{
 		TRACE("[GLHelper::GlViewport]\n");
+		// debuglog << "New viewport: X: " 
+		// 		 << x << " Y: " 
+		// 		 << y << " Width: " 
+		// 		 << width << " Height: " 
+		// 		 << height <<	std::endl;
 		glViewport(x, y, width, height);
 	}
 
@@ -422,5 +428,70 @@ namespace Engine
 	{
 		TRACE("[GLHelper::GlDrawArrays]\n");
 		glDrawArrays(mode, first, count);
+	}
+
+    void GlBindFramebuffer(GLenum target, GLuint framebuffer) {
+		TRACE("[GLHelper::GlBindFramebuffer]\n");
+		glBindFramebuffer(target, framebuffer);
+	}
+
+    void GlFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer)
+	{
+		TRACE("[GLHelper::GlFramebufferRenderbuffer]\n");
+		glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
+	}
+
+    void GlRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
+	{
+		TRACE("[GLHelper::GlRenderbufferStorage]\n");
+		glRenderbufferStorage(target, internalformat, width, height);
+	}
+
+    void GlBindRenderbuffer(GLenum target, GLuint renderbuffer)
+	{
+		TRACE("[GLHelper::GlBindRenderbuffer]\n");
+		glBindRenderbuffer(target, renderbuffer);
+	}
+
+    void GlGenFramebuffers(GLsizei n, GLuint *ids)
+	{
+		TRACE("[GLHelper::GlGenFramebuffers]\n");
+		glGenFramebuffers(n, ids);
+	}
+
+    void GlDeleteFramebuffers(GLsizei n, GLuint *framebuffers)
+	{
+		TRACE("[GLHelper::GlDeleteFramebuffers]\n");
+		glDeleteFramebuffers(n, framebuffers);
+	}
+
+    void GlDeleteVertexArrays(GLsizei n, const GLuint *arrays)
+	{
+		TRACE("[GLHelper::GlDeleteVertexArrays]\n");
+		glDeleteVertexArrays(n, arrays);
+	}
+
+	void GlDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers)
+	{
+		TRACE("[GLHelper::GlDeleteRenderbuffers]\n");
+		glDeleteRenderbuffers(n, renderbuffers);
+	}
+
+    void GlFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)
+	{
+		TRACE("[GLHelper::GlFramebufferTexture2D]\n");
+		glFramebufferTexture2D(target, attachment, textarget, texture, level);
+	}
+
+    void GlGenRenderbuffers(GLsizei n, GLuint *renderbuffers)
+	{
+		TRACE("[GLHelper::GlGenRenderbuffers]\n");
+		glGenRenderbuffers(n, renderbuffers);
+	}
+
+	GLenum GlCheckFramebufferStatus(GLenum target)
+	{
+		TRACE("[GLHelper::GlCheckFramebufferStatus]\n");
+		return glCheckFramebufferStatus(target);
 	}
 }

@@ -28,6 +28,7 @@ void bootstrap()
     config->executable = "flappybird";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
+    config->useFixedGameSize = true;
     IOCContainer::instance().register_type<Config>(config);
 
     IOCContainer::instance().register_type<IPhysicsEngine>(make_shared<PhysicsEngine>());

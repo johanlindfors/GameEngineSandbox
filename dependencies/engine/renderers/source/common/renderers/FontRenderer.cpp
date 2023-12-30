@@ -58,12 +58,14 @@ void FontRenderer::initialize()
 				auto ptr = fgets(buffer, 100, fileHandle); // skip the rest of the line
 			}
 		}
+		mInitialized = true;
 	}
-	mInitialized = true;
 }
 
 void FontRenderer::drawString(const string &str, Alignment alignment, Point<float> position, float scale)
 {
+	if(!mInitialized) return;
+
 	auto dimensions = measureString(str);
 	float x, y;
 	y = position.y - dimensions.size.height / 2 * scale;
@@ -112,6 +114,8 @@ Utilities::Rectangle<float> FontRenderer::measureString(const string &str)
 
 void FontRenderer::drawCharacter(char character, Utilities::Rectangle<float> rectangle)
 {
+	if(!mInitialized) return;
+	
 	const auto textureWidth = mCharacterSprite->texture.width;
 	const auto textureHeight = mCharacterSprite->texture.height;
 	Utilities::Rectangle<float> spriteOffset(
@@ -130,7 +134,6 @@ void FontRenderer::addCharacter(int id, int x, int y, int width, int height, int
 	character.xAdvance = xadvance;
 	character.xOffset = static_cast<float>(x);
 	character.yOffset = (mCharacterSprite->texture.height - (y + height));
-	//	character.yOffset = static_cast<float>(y);
 	character.width = static_cast<float>(width);
 	character.height = static_cast<float>(height);
 

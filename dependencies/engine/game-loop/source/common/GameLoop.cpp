@@ -9,6 +9,7 @@
 #include "game-loop/IGameLoopCallback.hpp"
 #include "filesystem/FileSystem.hpp"
 #include "utilities/Logger.hpp"
+#include "renderers/FrameBufferRenderer.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -47,6 +48,18 @@ void GameLoop::initialize(shared_ptr<Config> config)
 		debuglog << "[GameLoop::initialize] Renderer initalized" << std::endl;
 	}
 
+	if(config->useFixedGameSize) {
+		// framebuffer prepare
+		if (IOCContainer::instance().contains<FrameBufferRenderer>()) {
+			mFrameBufferRenderer = IOCContainer::instance().resolve<FrameBufferRenderer>();
+		} else {
+			mResourceManager->loadShader( "framebuffer", "framebuffer.vs", "framebuffer.fs" );
+			mFrameBufferRenderer = make_shared<FrameBufferRenderer>();
+			mFrameBufferRenderer->initialize(config, mResourceManager->getShader("framebuffer"));
+		}
+	}
+
+
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::instance().register_type<IInputManager>(mInputManager);
 	debuglog << "[GameLoop::initialize] InputManager registered" << std::endl;
@@ -82,15 +95,16 @@ void GameLoop::tick()
 	if (!mIsInitialized)
 		return;
 	mTimer->tick(
-		[&]() { /* process input*/ },
-		[&]()
-		{ update(); },
-		[&]()
-		{ render(); });
+		[&]() { handleInput(); },
+		[&]() { update(); },
+		[&]() { render(); }
+	);
 }
 
 void GameLoop::updateWindowSize(int width, int height)
 {
+	ScreenToGameCoordinatesConverter.setScreenSize({width, height});
+                
 	// TODO: Handle window size changed events
 	if (!mIsInitialized)
 		return;
@@ -101,6 +115,13 @@ void GameLoop::updateWindowSize(int width, int height)
 			mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		}
 	}
+	if(mFrameBufferRenderer)
+	{
+		mFrameBufferRenderer->updateScreenSize(width, height);
+		auto gameSize = ScreenToGameCoordinatesConverter.getGameSize();
+		width = gameSize.width;
+		height = gameSize.height;
+	} 	
 	if (mRenderer)
 	{
 		mRenderer->updateWindowSize(width, height);
@@ -115,26 +136,24 @@ void GameLoop::getDefaultSize(int &width, int &height)
 	height = 500;
 }
 
+void GameLoop::handleInput() const 
+{
+	mInputManager->update();
+}
+
 void GameLoop::update() const
 {
-	if (!mIsInitialized)
-		return;
-
 	// TODO: Add your game logic here.
 	mGameLoopCallback->update(mTimer);
 	mSceneManager->update(mTimer);
-	mInputManager->update();
 }
 
 void GameLoop::render()
 {
-	if (!mIsInitialized)
-		return;
 	// Don't try to render anything before the first Update.
 	if (mTimer->getFrameCount() == 0)
-	{
 		return;
-	}
+
 	if (!mRenderer)
 	{
 		if (IOCContainer::instance().contains<IRenderer>())
@@ -142,14 +161,14 @@ void GameLoop::render()
 			mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		}
 	}
-	clear();
-	mSceneManager->draw(mRenderer);
-}
-
-void GameLoop::clear() const
-{
 	if (mRenderer)
 	{
-		mRenderer->clear();
+		if(mFrameBufferRenderer)
+			mFrameBufferRenderer->begin();
+	
+		mSceneManager->draw(mRenderer);
+	
+		if(mFrameBufferRenderer)
+			mFrameBufferRenderer->end();
 	}
 }

@@ -10,21 +10,25 @@ using namespace Engine;
 using namespace Utilities;
 
 Ground::Ground(Point<float> position, Vector2 velocity)
-    : mPosition(position), mVelocity(velocity), mGround(vector<Point<float>>()), mGroundSprite(make_shared<Sprite>()), mGroundBackgroundSprite(make_shared<Sprite>()), ICollidable::ICollidable(position), mIsRunning(true), mGroundBackgroundOffset(0), mGroundOffset(0)
+    : mPosition(position)
+    , mVelocity(velocity)
+    , mGround(vector<Point<float>>())
+    , mGroundSprite(make_shared<Sprite>())
+    , mGroundBackgroundSprite(make_shared<Sprite>()), ICollidable::ICollidable(position)
+    , mIsRunning(true)
 
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
       ,
       mGroundDebugSprite(make_shared<Sprite>())
 #endif
 {
+    mGroundSprite->size = {24.0, 27.0f};
     for (size_t i = 0; i < 14; i++)
     {
-        auto ground = Point<float>{position.x + i * 23, position.y};
+        auto ground = Point<float>{position.x + i * mGroundSprite->size.width, position.y};
         mGround.push_back(ground);
     }
-
-    mGroundSprite->size = {23.0, 26.0f};
-
+    
     mGroundBackgroundSprite->position = Point<float>{position.x, position.y - 200};
     mGroundBackgroundSprite->size = {288.0, 200.0f};
 
@@ -49,12 +53,12 @@ void Ground::initializeSprite()
     mGroundDebugSprite->texture = texture;
 #endif
     mGroundSprite->offset = {
-        108.0f / 512.0f, (512.0f - 27.0f) / 512.0f,
-        23.0f / 512.0f, 26.0f / 512.0f}; // 108, 1, 131, 27;
+        108.0f / 512.0f, (512.0f - 25.0f) / 512.0f,
+        mGroundSprite->size.width / 512.0f, 27.0f / 512.0f}; // 108, 1, 131, 27;
 
     mGroundBackgroundSprite->offset = {
-        108.0f / 512.0f, (512.0f - 27.0f) / 512.0f,
-        1.0f / 512.0f, 1.0f / 512.0f}; // 108, 26, 109, 27
+        109.0f / 512.0f, (512.0f - 28.0f) / 512.0f,
+        (mGroundSprite->size.width - 2 ) / 512.0f, 5.0f / 512.0f}; // 108, 26, 109, 27
 }
 
 void Ground::update(shared_ptr<IStepTimer> timer)
@@ -66,7 +70,7 @@ void Ground::update(shared_ptr<IStepTimer> timer)
         ground.x += (mVelocity.x * timer->getElapsedMilliSeconds());
         if (ground.x <= -30)
         {
-            ground.x += 14 * 23;
+            ground.x += 14 * mGroundSprite->size.width;
         }
     }
 }
