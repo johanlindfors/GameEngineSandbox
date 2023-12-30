@@ -21,14 +21,9 @@ using namespace Engine;
 using namespace Utilities;
 
 SplashScene::SplashScene(IGameStateCallback *gameCallback)
-	: mBackground(make_shared<Sprite>()), mSkyline(make_shared<ParallaxBackground>()), mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0})), mTitle(make_shared<Sprite>()), mButton(make_shared<Sprite>()), mBird(make_shared<Bird>(Point<float>{0, 0})), mMillisecondsToLoad(2000.0f), mHasLoadedGamePlay(false), mIsLoadingResources(true), mWindowWidth(0), mWindowHeight(0), mGame(gameCallback)
+	: mSkyline(make_shared<ParallaxBackground>()), mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0})), mTitle(make_shared<Sprite>()), mButton(make_shared<Sprite>()), mBird(make_shared<Bird>(Point<float>{0, 0})), mMillisecondsToLoad(2000.0f), mHasLoadedGamePlay(false), mIsLoadingResources(true), mWindowWidth(0), mWindowHeight(0), mGame(gameCallback)
 {
 	id = typeid(SplashScene).name();
-	// mBackground->offset = 3;
-	mBackground->size = {288.0f, 505.0f};
-	mBackground->offset = {
-		1.0f / 512.0f, (512.0f - 71.0f) / 512.0f,
-		1.0f / 512.0f, 1.0f / 512.0f};
 
 	// mButton->offset = 12;
 	mButton->size = {104.0f, 58.0f};
@@ -46,7 +41,11 @@ SplashScene::SplashScene(IGameStateCallback *gameCallback)
 
 SplashScene::~SplashScene()
 {
-	mBackground.reset();
+	mSkyline.reset();
+	mGround.reset();
+	mTitle.reset();
+	mButton.reset();
+	mBird.reset();
 }
 
 void SplashScene::load()
@@ -69,7 +68,6 @@ void SplashScene::load()
 	IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
 	auto atlas = resourceManager->getTexture("atlas.png");
-	mBackground->texture.textureIndex = atlas.textureIndex;
 	mButton->texture.textureIndex = atlas.textureIndex;
 	mTitle->texture.textureIndex = atlas.textureIndex;
 	mBird->initializeSprite();
@@ -123,12 +121,9 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 
 void SplashScene::draw(shared_ptr<IRenderer> renderer)
 {	
-	renderer->clear(CORNFLOWER_BLUE);
+	renderer->clear(BACKGROUND_COLOR);
+	
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
-	if (spriteRenderer)
-	{
-		spriteRenderer->drawSprite(mBackground);
-	}
 	mSkyline->draw(renderer);
 	mGround->draw(renderer);
 	mBird->draw(renderer);
