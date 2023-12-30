@@ -5,6 +5,7 @@
 #include "input/IInputManager.hpp"
 #include "utilities/ScreenToGameCoordinatesConverter.hpp"
 #include <memory>
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -59,17 +60,24 @@ public:
                 GlViewport(0,0,width, height); });
 
         glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods)
-                                   {
-                if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-                    double xpos, ypos;
-                    glfwGetCursorPos(window, &xpos, &ypos);
-                    auto input = IOCContainer::instance().resolve<IInputManager>();
-                    auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
-                    auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
-                    auto scaledX = xpos * gameAspects.width;
-                    auto scaledY = ypos * gameAspects.height;
+        {
+            if (button == GLFW_MOUSE_BUTTON_LEFT) {
+                double xpos, ypos;
+                glfwGetCursorPos(window, &xpos, &ypos);
+                auto input = IOCContainer::instance().resolve<IInputManager>();
+                auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
+                auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
+                auto scaledX = xpos * gameAspects.width;
+                auto scaledY = ypos * gameAspects.height;
+                if(action == GLFW_PRESS) {
+                    debuglog << "Mouse (" << xpos << ", " << ypos << ") down" << std::endl;
                     input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
-                } });
+                } else if(action == GLFW_RELEASE) {
+                    debuglog << "Mouse (" << xpos << ", " << ypos << ") up" << std::endl;
+                    input->addMouseEvent(MouseButton::Left, ButtonState::Released, scaledX, scaledY);
+                }
+            }
+        });
 
         glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
                            {
