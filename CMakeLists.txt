@@ -9,7 +9,7 @@ project(${GAME_TO_BUILD})
 
 if(MSVC)
     message("Including VCPK toolchain")
-    include(xpengine/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake)
+    include(dependencies/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake)
 endif()
 
 if(NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
