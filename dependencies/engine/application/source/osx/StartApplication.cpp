@@ -3,8 +3,9 @@
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
 #include "input/IInputManager.hpp"
+#include "utilities/ScreenToGameCoordinatesConverter.hpp"
 #include <memory>
-#include <filesystem>
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -43,7 +44,7 @@ public:
 
         game->initialize(config);
         printf("[StartOsxApplication] initialized\n");
-
+        game->ScreenToGameCoordinatesConverter.setGameSize({width,height});
         game->updateWindowSize(width, height);
         printf("[StartOsxApplication] Windows size updated\n");
 
@@ -96,17 +97,24 @@ public:
 
         glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods)
                                    {
-                if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+                if (button == GLFW_MOUSE_BUTTON_LEFT) {
                     double xpos, ypos;
                     glfwGetCursorPos(window, &xpos, &ypos);
                     auto input = IOCContainer::instance().resolve<IInputManager>();
-                    input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, xpos, ypos);
+                    auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
+                    auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
+                    auto scaledX = xpos * gameAspects.width;
+                    auto scaledY = ypos * gameAspects.height;
+                    if(action == GLFW_PRESS) {
+                        input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
+                    } else {
+                        input->addMouseEvent(MouseButton::Left, ButtonState::Released, scaledX, scaledY);
+                    }
                 } });
 
         while (!glfwWindowShouldClose(window))
         {
             glfwPollEvents();
-            glClear(GL_COLOR_BUFFER_BIT);
             game->tick();
             glfwSwapBuffers(window);
         }
