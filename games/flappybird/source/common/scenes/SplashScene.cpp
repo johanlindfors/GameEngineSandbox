@@ -21,7 +21,17 @@ using namespace Engine;
 using namespace Utilities;
 
 SplashScene::SplashScene(IGameStateCallback *gameCallback)
-	: mSkyline(make_shared<ParallaxBackground>()), mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0})), mTitle(make_shared<Sprite>()), mButton(make_shared<Sprite>()), mBird(make_shared<Bird>(Point<float>{0, 0})), mMillisecondsToLoad(2000.0f), mHasLoadedGamePlay(false), mIsLoadingResources(true), mWindowWidth(0), mWindowHeight(0), mGame(gameCallback)
+	: mSkyline(make_shared<ParallaxBackground>())
+	, mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0}))
+	, mTitle(make_shared<Sprite>())
+	, mButton(make_shared<Sprite>())
+	, mBird(make_shared<Bird>(Point<float>{0, 0}))
+	, mMillisecondsToLoad(2000.0f)
+	, mHasLoadedGamePlay(false)
+	, mIsLoadingResources(true)
+	, mWindowWidth(0)
+	, mWindowHeight(0)
+	, mGame(gameCallback)
 {
 	id = typeid(SplashScene).name();
 
