@@ -46,6 +46,7 @@ void startApplication()
 	{
 		g_gameLoop->getDefaultSize(width, height);
 	}
+	g_gameLoop->ScreenToGameCoordinatesConverter.setGameSize({width,height});
 	g_gameLoop->updateWindowSize(width, height);
 
 	MSG msg = {};
