@@ -6,25 +6,13 @@ if(WINDOWS_STORE)
         libGLESv2
     )
 elseif(OSX)
-    find_package(glfw3 REQUIRED)
     find_package(OpenGL REQUIRED)
-    find_package(JPEG REQUIRED)
-    find_package(PkgConfig REQUIRED)
-    pkg_search_module(PNG REQUIRED libpng)
     list(APPEND DEPENDENCIES 
         OpenGL::GL
-        glfw
-        PNG
-        JPEG::JPEG
     )
 elseif(LINUX)
-    find_package(PNG REQUIRED)
-    find_package(JPEG REQUIRED)
-    
     list(APPEND DEPENDENCIES 
         GLESv2
-        PNG::PNG
-        JPEG::JPEG
     )
 elseif(ANDROID)
     find_package(PkgConfig REQUIRED)
@@ -35,13 +23,11 @@ elseif(ANDROID)
         log
         game-activity::game-activity
     )
-else() # WIN32
+elseif(WIN32)
     find_package(GLEW REQUIRED)
-    find_package(PNG REQUIRED)
     list(APPEND DEPENDENCIES 
         opengl32.lib
         GLEW::GLEW
-        PNG::PNG
     )
 endif()
 

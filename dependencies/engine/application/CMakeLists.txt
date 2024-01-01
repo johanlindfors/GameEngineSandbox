@@ -5,7 +5,12 @@ set(DEPENDENCIES
     game-loop
 )
 
-if(LINUX)
+if(OSX)
+    find_package(glfw3 REQUIRED)
+    list(APPEND DEPENDENCIES 
+        glfw
+    )
+elseif(LINUX)
     find_package(PkgConfig REQUIRED)
     pkg_search_module(GLFW REQUIRED glfw3)
     list(APPEND DEPENDENCIES 
