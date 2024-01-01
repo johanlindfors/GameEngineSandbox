@@ -1,8 +1,8 @@
 project(application)
 
 set(DEPENDENCIES
-    utilities
     game-loop
+    utilities
 )
 
 if(OSX)

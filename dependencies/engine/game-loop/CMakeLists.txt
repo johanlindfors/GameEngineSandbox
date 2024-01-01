@@ -1,11 +1,11 @@
 project(game-loop)
 
 set(DEPENDENCIES
-    utilities
-    scenes
     input
-    resources
     renderers
+    resources
+    scenes
+    utilities
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")
