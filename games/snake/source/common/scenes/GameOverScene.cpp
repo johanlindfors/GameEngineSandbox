@@ -59,6 +59,8 @@ void GameOverScene::update(shared_ptr<IStepTimer> timer)
 
 void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear();
+	
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if (spriteRenderer)
 	{

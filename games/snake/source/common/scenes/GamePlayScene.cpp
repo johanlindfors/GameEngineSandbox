@@ -92,5 +92,7 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear();
+	
 	mSpriteSystem->render(mRegistry, renderer);
 }

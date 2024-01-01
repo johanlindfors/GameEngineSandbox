@@ -15,9 +15,9 @@
 #include "game/IGameStateCallback.hpp"
 #include "game/GameDefines.hpp"
 #include "objects/Map.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
-using namespace Engine;
 using namespace Engine;
 
 BootScene::BootScene(IGameStateCallback *gameCallback)
@@ -28,7 +28,7 @@ BootScene::BootScene(IGameStateCallback *gameCallback)
 
 void BootScene::load()
 {
-    printf("[BootScene::load]\n");
+    debuglog << "[BootScene::load]" << endl;
 
     mLoadingTasks.push([&]()
                        {    
@@ -89,14 +89,14 @@ void BootScene::load()
         string result;
 
         if(IOCContainer::instance().contains<IHttpClient>()) {
-            printf("[BootScene::update] Fetching level from server\n");
+            debuglog << "[BootScene::update] Fetching level from server" << endl;
 
             auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
             string url("https://programmeramera.se/pages/sokobants/assets/003.txt");
             result = httpClient->get(url);
 
             if(result.length() == 0) {
-                printf("[BootScene::update] Failed to fetch level\n");
+                debuglog << "[BootScene::update] Failed to fetch level" << endl;
                 result = HARD_MAP;
             }
         } else {
@@ -114,7 +114,7 @@ void BootScene::load()
 
 void BootScene::unload()
 {
-    printf("[BootScene::unload]\n");
+    debuglog << "[BootScene::unload]" << endl;
 }
 
 void BootScene::updateScreenSize(int width, int height)
@@ -131,6 +131,7 @@ void BootScene::update(std::shared_ptr<Engine::IStepTimer> timer)
     {
         if (!mLoadingTasks.empty())
         {
+            debuglog << "[BootScene::update] running load task" << endl;
             std::function<void()> loadingTask = mLoadingTasks.front();
             loadingTask();
             mLoadingTasks.pop();
@@ -140,6 +141,9 @@ void BootScene::update(std::shared_ptr<Engine::IStepTimer> timer)
 
 void BootScene::draw(std::shared_ptr<Engine::IRenderer> renderer)
 {
+    debuglog << "[BootScene::draw]" << endl;
+    renderer->clear();
+
     if (IOCContainer::instance().contains<FontRenderer>())
     {
         auto fontRenderer = IOCContainer::resolve_type<FontRenderer>();

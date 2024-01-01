@@ -11,8 +11,8 @@ void bootstrap()
     auto config = make_shared<Config>();
     config->width = 500;
     config->height = 500;
-    config->fps = 15;
-    config->useFixedTimeStep = false;
+    config->fps = 30;
+    config->useFixedTimeStep = true;
     config->executable = "snake";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;

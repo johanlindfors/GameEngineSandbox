@@ -8,13 +8,18 @@
 #include "utilities/IStepTimer.hpp"
 #include "utilities/Config.hpp"
 #include "renderers/Camera.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
 using namespace Engine;
 
 SplashScene::SplashScene(IGameStateCallback *gameCallback)
-	: mSprite(make_shared<Sprite>()), mMillisecondsToLoad(2000.0f), hasLoadedGamePlay(false), isLoadingResources(false), mGame(gameCallback)
+	: mSprite(make_shared<Sprite>())
+	, mMillisecondsToLoad(2000.0f)
+	, hasLoadedGamePlay(false)
+	, isLoadingResources(false)
+	, mGame(gameCallback)
 {
 	id = typeid(SplashScene).name();
 }
@@ -76,7 +81,7 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 {
 	if (mResourcesToLoad.size() > 0)
 	{
-		printf("[SplashScene::Update] Loading resources\n");
+		debuglog << "[SplashScene::Update] Loading resources" << endl;
 
 		isLoadingResources = true;
 		vector<string> fileNames;
@@ -84,11 +89,12 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 		mResourcesToLoad.pop();
 		mResourceManager->loadTextures(vector<string>(fileNames));
 		isLoadingResources = false;
-		printf("[SplashScene::Update] Resources loaded\n");
 	}
-	mMillisecondsToLoad -= static_cast<float>((timer->getElapsedSeconds() * 1000.0f));
+	mMillisecondsToLoad -= static_cast<float>(timer->getElapsedMilliSeconds());
 	if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0)
 	{
+		debuglog << "[SplashScene::Update] Resources loaded" << endl;
+
 		auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
 		if (!hasLoadedGamePlay)
 		{
@@ -100,6 +106,8 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 
 void SplashScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear();
+
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if (spriteRenderer && !isLoadingResources)
 	{

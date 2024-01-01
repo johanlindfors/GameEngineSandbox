@@ -143,6 +143,11 @@ void SimpleRenderer::draw()
 
 void SimpleRenderer::clear()
 {
-    GlClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    clear(0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void SimpleRenderer::clear(float r, float g, float b, float a)
+{
+    GlClearColor(r, g, b, a);
     GlClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

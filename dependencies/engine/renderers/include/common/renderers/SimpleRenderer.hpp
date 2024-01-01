@@ -11,7 +11,13 @@ namespace Engine
 	{
 	public:
 		SimpleRenderer()
-			: camera(glm::vec3(0.0f, 0.0f, 5.0f)), angle(0.0f), mWidth(0), mHeight(0), VBO(0), cubeVAO(0), lightCubeVAO(0)
+			: camera(glm::vec3(0.0f, 0.0f, 5.0f))
+			, angle(0.0f)
+			, mWidth(0)
+			, mHeight(0)
+			, VBO(0)
+			, cubeVAO(0)
+			, lightCubeVAO(0)
 		{
 		}
 
@@ -21,9 +27,9 @@ namespace Engine
 		void initialize() override;
 		void updateWindowSize(int width, int height) override;
 		void clear() override;
+		void clear(float r, float g, float b, float a) override;
 
 		void draw();
-		// void Draw(std::shared_ptr<Sprite> sprite, Engine::Point<float> position) override;
 
 	private:
 		unsigned int VBO, cubeVAO;

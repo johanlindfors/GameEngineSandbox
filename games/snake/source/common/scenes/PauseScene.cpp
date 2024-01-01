@@ -39,6 +39,8 @@ void PauseScene::updateScreenSize(int width, int height)
 
 void PauseScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear();
+	
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	if (spriteRenderer)
 	{

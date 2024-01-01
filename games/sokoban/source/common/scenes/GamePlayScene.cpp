@@ -57,6 +57,8 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear();
+	
 	mMap->draw(renderer);
 	mPlayer->draw(renderer);
 	mFontRenderer->drawString(to_string(mPlayerMoves), FontRenderer::Alignment::Left, {12, 400 - 20}, 1.0f);

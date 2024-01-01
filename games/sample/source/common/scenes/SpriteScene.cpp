@@ -1,9 +1,8 @@
 #include "SpriteScene.hpp"
+// Engine
 #include "utilities/IOC.hpp"
 #include "utilities/MathHelper.hpp"
 #include "resources/IResourceManager.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include "utilities/StepTimer.hpp"
 #include "resources/Shader.hpp"
 #include "sprites/Sprite.hpp"
@@ -11,17 +10,21 @@
 #include "renderers/Camera.hpp"
 #include "utilities/Config.hpp"
 #include "input/IInputManager.hpp"
-#include "ModelScene.hpp"
 #include "scenes/ISceneManager.hpp"
+#include "utilities/Logger.hpp"
+// thirdparty
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+// game
+#include "ModelScene.hpp"
 
 using namespace std;
-using namespace Engine;
 using namespace Engine;
 using namespace Sample;
 
 void SpriteScene::load()
 {
-    printf("[SpriteScene::load]\n");
+    debuglog << "[SpriteScene::load]" << endl;
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 
     if(IOCContainer::instance().contains<SpriteRenderer>()) {
@@ -47,14 +50,14 @@ void SpriteScene::load()
 
 void SpriteScene::unload()
 {
-    printf("[SpriteScene::unload]\n");
+    debuglog << "[SpriteScene::unload]" << endl;
     mRenderer.reset();
     mSprite.reset();
 }
 
 void SpriteScene::updateScreenSize(int width, int height)
 {
-    printf("[SpriteScene::updateScreenSize]\n");
+    debuglog << "[SpriteScene::updateScreenSize]" << endl;
     mSprite->position = {
         static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f),
         static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)};
@@ -74,7 +77,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
-{
+{    
     mRenderer->clear(0.35f, 0.35f, 0.34f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);

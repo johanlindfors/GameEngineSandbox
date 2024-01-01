@@ -3,6 +3,7 @@
 #include "utilities/Config.hpp"
 #include "Game.hpp"
 #include "GameDefines.hpp"
+#include "renderers/SimpleRenderer.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -22,5 +23,5 @@ void bootstrap()
     IOCContainer::instance().register_type<Config>(config);
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<Sample::Game>());
 
-    // IOCContainer::instance().register_type<IRenderer>(make_shared<Engine::SimpleRenderer>());
+    IOCContainer::instance().register_type<IRenderer>(make_shared<SimpleRenderer>());
 }

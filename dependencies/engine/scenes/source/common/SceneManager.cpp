@@ -70,7 +70,7 @@ void SceneManager::update(std::shared_ptr<Engine::IStepTimer> timer)
 
 void SceneManager::draw(shared_ptr<IRenderer> renderer)
 {
-	if (!mInitialized || mScenes.size() == 0)
+    if (!mInitialized || mScenes.size() == 0)
 	{
 		return;
 	}
