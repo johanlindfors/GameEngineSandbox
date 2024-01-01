@@ -1,7 +1,3 @@
-[submodule "dependencies/thirdparty/angle"]
-	path = dependencies/thirdparty/angle
-	url = https://github.com/coderox/angle.git
-	shallow = true
 [submodule "dependencies/thirdparty/vcpkg"]
 	path = dependencies/thirdparty/vcpkg
 	url = https://github.com/Microsoft/vcpkg.git
