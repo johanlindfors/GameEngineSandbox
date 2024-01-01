@@ -5,7 +5,13 @@ set(DEPENDENCIES
     game-loop
 )
 
-if(ANDROID)
+if(LINUX)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLFW REQUIRED glfw3)
+    list(APPEND DEPENDENCIES 
+        ${GLFWs_LIBRARIES}
+    )
+elseif(ANDROID)
     message(STATUS "Now adding Android references in application package")
     find_package(game-activity REQUIRED CONFIG)
 

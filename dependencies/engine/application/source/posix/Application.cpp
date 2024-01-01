@@ -6,6 +6,7 @@
 #include "utilities/IOC.hpp"
 #include "utilities/ScreenToGameCoordinatesConverter.hpp"
 #include "utilities/Logger.hpp"
+#include "utilities/glwrapper.hpp"
 // stl
 #include <memory>
 
@@ -22,7 +23,7 @@ Application::Application() {
 }
 
 Application::~Application() {
-    debuglog << "[StartOsxApplication] game destroyed" << endl;
+    debuglog << "[StartApplication] game destroyed" << endl;
     mGame.reset();
     glfwTerminate();
 }
@@ -58,7 +59,7 @@ void Application::setupWindow()
     debuglog << "GL_SHADING_LANGUAGE_VERSION : " << GlGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
 
     mGame->initialize(mConfig);
-    debuglog << "[StartOsxApplication] initialized" << endl;
+    debuglog << "[StartApplication] initialized" << endl;
     mGame->ScreenToGameCoordinatesConverter.setGameSize({width, height});
     mGame->updateWindowSize(width, height);
     

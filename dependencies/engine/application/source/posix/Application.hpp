@@ -1,6 +1,6 @@
 #pragma once
-// Engine
-#include "utilities/glwrapper.hpp"
+// GLFW
+#include <GLFW/glfw3.h>
 // stl
 #include <memory>
 
