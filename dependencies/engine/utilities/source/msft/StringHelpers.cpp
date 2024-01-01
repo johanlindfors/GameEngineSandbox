@@ -2,7 +2,7 @@
 #include <locale>
 #include <Windows.h>
 
-namespace Utilities
+namespace Engine
 {
     std::wstring s2ws(const std::string &str)
     {

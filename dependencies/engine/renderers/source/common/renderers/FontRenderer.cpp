@@ -101,7 +101,7 @@ void FontRenderer::drawString(const string &str, Alignment alignment, Point<floa
 	}
 }
 
-Rectangle<float> FontRenderer::measureString(const string &str)
+Engine::Rectangle<float> FontRenderer::measureString(const string &str)
 {
 	auto dimensions = Rectangle<float>({0.0f, 0.0f, 0.0f, 0.0f});
 	for (const auto &character : str)
@@ -118,7 +118,7 @@ Rectangle<float> FontRenderer::measureString(const string &str)
 void FontRenderer::drawCharacter(char character, Rectangle<float> rectangle)
 {
 	if(!mInitialized) return;
-	
+
 	const auto textureWidth = mCharacterSprite->texture.width;
 	const auto textureHeight = mCharacterSprite->texture.height;
 	Rectangle<float> spriteOffset(
