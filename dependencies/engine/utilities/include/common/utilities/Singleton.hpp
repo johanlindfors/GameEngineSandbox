@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Utilities
+namespace Engine
 {
     template <typename T>
     class Singleton

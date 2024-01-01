@@ -80,7 +80,7 @@ struct SpawnSystem
     std::shared_ptr<Engine::IResourceManager> mResourceManager;
 
     SpawnSystem()
-        : mGen(mRandomDevice()), mDistribution(0, SCREEN_SIZE - 1), mResourceManager(Utilities::IOCContainer::resolve_type<Engine::IResourceManager>())
+        : mGen(mRandomDevice()), mDistribution(0, SCREEN_SIZE - 1), mResourceManager(Engine::IOCContainer::resolve_type<Engine::IResourceManager>())
     {
     }
 
@@ -106,7 +106,7 @@ struct SpawnSystem
 
     void spawnApple(entt::registry &reg)
     {
-        Utilities::Point<int> newPosition{0, 0};
+        Engine::Point<int> newPosition{0, 0};
         bool collided;
         do
         {

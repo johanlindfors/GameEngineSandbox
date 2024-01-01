@@ -12,7 +12,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 Crate::Crate(int x, int y)
     : index(y * 10 + x)

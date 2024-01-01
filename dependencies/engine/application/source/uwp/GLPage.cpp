@@ -8,7 +8,7 @@
 
 using std::shared_ptr;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 using namespace winrt;
 using namespace Windows::Foundation;

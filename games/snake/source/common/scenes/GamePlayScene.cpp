@@ -15,7 +15,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
 	: mSpriteSystem(make_unique<SpriteSystem>()), mTransformSystem(make_unique<TransformSystem>()), mMovementSystem(make_unique<MovementSystem>()), mSpawnSystem(make_unique<SpawnSystem>()), mCleanupSystem(make_unique<CleanupSystem>()), mScoringSystem(make_unique<ScoringSystem>()), mCollisionSystem(make_unique<CollisionSystem>()), mGame(gameCallback), mSpacePressedBefore(false), mTargetMicroSeconds(1000000 / FRAMES_PER_SECOND), mElapsedMicroSeconds(0)

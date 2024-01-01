@@ -13,7 +13,7 @@
 #include <sys/time.h>
 #endif
 
-namespace Utilities
+namespace Engine
 {
 	class Timer
 	{

@@ -5,7 +5,7 @@ using namespace std;
 using namespace winrt;
 using namespace Windows::UI::Core;
 using namespace Windows::Foundation;
-using namespace Utilities;
+using namespace Engine;
 
 DispatcherWrapper::DispatcherWrapper(CoreDispatcher const &dispatcher)
     : mDispatcher(dispatcher) {}

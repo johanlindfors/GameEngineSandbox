@@ -22,7 +22,7 @@ namespace Engine
     {
         MouseButton button;
         ButtonState state;
-        Utilities::Point<int> position;
+        Engine::Point<int> position;
 
         MouseState()
             : position{0, 0}, button(MouseButton::Left), state(ButtonState::None)

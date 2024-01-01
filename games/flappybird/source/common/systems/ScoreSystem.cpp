@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 void ScoreSystem::setLatestScore(int score)
 {

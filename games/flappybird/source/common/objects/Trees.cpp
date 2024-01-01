@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 Trees::Trees(Point<float> position, Vector2 velocity)
     : mPosition(position), mVelocity(velocity), mTrees(make_shared<Sprite>()), mTreesBackground(make_shared<Sprite>()), mCloudsBackgroundOffset(0), mCloudsOffset(0)

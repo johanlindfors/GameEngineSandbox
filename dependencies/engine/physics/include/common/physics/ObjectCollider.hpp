@@ -1,12 +1,12 @@
 #pragma once
 #include "IObjectCollider.hpp"
 
-namespace Utilities
+namespace Engine
 {
-    class ObjectCollider : public Utilities::IObjectCollider
+    class ObjectCollider : public Engine::IObjectCollider
     {
     public:
-        bool intersects(Utilities::Circle circle, Utilities::Rectangle<float> rectangle);
-        bool intersects(Utilities::Rectangle<float> r1, Utilities::Rectangle<float> r2);
+        bool intersects(Engine::Circle circle, Engine::Rectangle<float> rectangle);
+        bool intersects(Engine::Rectangle<float> r1, Engine::Rectangle<float> r2);
     };
 }

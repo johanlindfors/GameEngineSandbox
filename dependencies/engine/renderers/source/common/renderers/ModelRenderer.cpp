@@ -7,7 +7,6 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
 
 ModelRenderer::ModelRenderer(
     shared_ptr<Shader> shader,

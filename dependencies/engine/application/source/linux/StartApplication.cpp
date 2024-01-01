@@ -9,7 +9,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 class Application
 {

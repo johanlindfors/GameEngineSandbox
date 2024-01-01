@@ -7,7 +7,7 @@
 #include "scenes/ISceneManager.hpp"
 
 using namespace std;
-using namespace Utilities;
+using namespace Engine;
 using namespace Engine;
 
 Game::Game()

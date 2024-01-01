@@ -16,7 +16,7 @@ namespace Engine {
         public:
         void loadTexture(Texture2D& texture)
         {
-            auto androidWrapper = Utilities::IOCContainer::instance().resolve<AndroidWrapper>();
+            auto androidWrapper = Engine::IOCContainer::instance().resolve<AndroidWrapper>();
             auto instance = androidWrapper->GetInstance();
             auto assetManager = instance->activity->assetManager;
 

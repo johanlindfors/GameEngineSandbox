@@ -21,7 +21,7 @@ namespace Engine
         virtual void initialize() override;
         virtual void updateWindowSize(int width, int height) override;
         void drawSprite(std::shared_ptr<Engine::Sprite> sprite);
-        void drawSprite(std::shared_ptr<Engine::Sprite> sprite, Utilities::Point<float> position);
+        void drawSprite(std::shared_ptr<Engine::Sprite> sprite, Engine::Point<float> position);
         void clear(float r, float g, float b, float a) override;
 
     private:

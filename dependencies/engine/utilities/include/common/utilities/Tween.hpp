@@ -2,7 +2,7 @@
 #include <functional>
 #include <memory>
 
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 
@@ -17,7 +17,7 @@ namespace Utilities
 			std::function<void(float)> setter,
 			unsigned int durationInMilliseconds,
 			std::function<void()> onCompleteCallback);
-		void update(std::shared_ptr<Utilities::IStepTimer> timer);
+		void update(std::shared_ptr<Engine::IStepTimer> timer);
 
 		static bool isTweenCompleted(std::shared_ptr<Tween> tween)
 		{

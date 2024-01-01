@@ -17,7 +17,7 @@ void InputManager::addMouseEvent(MouseButton button, ButtonState state, int x, i
     MouseState newState;
     newState.button = button;
     newState.state = state;
-    newState.position = Utilities::Point<int>{x, y};
+    newState.position = Point<int>{x, y};
     mMouseStates.push(newState);
 }
 

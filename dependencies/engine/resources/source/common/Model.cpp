@@ -5,7 +5,6 @@
 #include "utilities/GLHelper.hpp"
 
 using namespace Engine;
-using namespace Utilities;
 
 Model::Model(
     std::vector<VertexPositionNormalTexture> vertices,

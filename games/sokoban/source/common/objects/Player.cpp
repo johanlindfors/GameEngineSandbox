@@ -10,7 +10,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 Player::Player()
     : posX(0), posY(0)

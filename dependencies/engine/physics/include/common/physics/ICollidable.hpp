@@ -6,8 +6,8 @@ namespace Engine
     class ICollidable
     {
     public:
-        ICollidable(Utilities::Point<float> position)
-            : isCollidable(false), AABB(Utilities::Rectangle<float>(
+        ICollidable(Engine::Point<float> position)
+            : isCollidable(false), AABB(Engine::Rectangle<float>(
                                        position.x,
                                        position.y,
                                        0.0f,
@@ -18,6 +18,6 @@ namespace Engine
         virtual ~ICollidable() = default;
 
         bool isCollidable;
-        Utilities::Rectangle<float> AABB;
+        Engine::Rectangle<float> AABB;
     };
 }

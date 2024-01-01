@@ -5,7 +5,7 @@
 #include "scenes/SpriteScene.hpp"
 
 using namespace std;
-using namespace Utilities;
+using namespace Engine;
 using namespace Engine;
 using namespace HelloWorld::Scenes;
 

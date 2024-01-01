@@ -7,7 +7,7 @@ namespace Engine
     class ISceneManager;
 }
 
-namespace Utilities
+namespace Engine
 {
     class IStepTimer;
 }
@@ -19,7 +19,7 @@ public:
 
     // Engine::IGameLoopCallback
     void initialize() override;
-    void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+    void update(std::shared_ptr<Engine::IStepTimer> timer) override;
 
     // Engine::IGameStateCallback
     void goToState(GameState gameState) override;

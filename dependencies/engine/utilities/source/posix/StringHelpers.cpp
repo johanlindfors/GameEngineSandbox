@@ -2,7 +2,7 @@
 #include <locale>
 #include <codecvt>
 
-namespace Utilities
+namespace Engine
 {
     std::wstring s2ws(const std::string &str)
     {

@@ -11,10 +11,10 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 Bird::Bird(Point<float> position)
-	: IPhysicsBody(position), bounds(Circle(position.x + 16, position.x + 12, 12)), AABB(Utilities::Rectangle<float>(0.0f, 0.0f, 0.0f, 0.0f)), isKilled(false), mCounter(0), mAnimationCounter(0), mFramesPerAnimation(4), mSprite(make_shared<Sprite>())
+	: IPhysicsBody(position), bounds(Circle(position.x + 16, position.x + 12, 12)), AABB(Engine::Rectangle<float>(0.0f, 0.0f, 0.0f, 0.0f)), isKilled(false), mCounter(0), mAnimationCounter(0), mFramesPerAnimation(4), mSprite(make_shared<Sprite>())
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	  ,
 	  mDebugSprite(make_shared<Sprite>())
@@ -70,7 +70,7 @@ void Bird::update(shared_ptr<IStepTimer> timer)
 			mSprite->rotation -= (160.0f * timer->getElapsedMilliSeconds() / 1000.0f);
 		}
 
-		AABB = Utilities::Rectangle<float>(position.x,
+		AABB = Engine::Rectangle<float>(position.x,
 										   position.y,
 										   mSprite->size.width,
 										   mSprite->size.height);

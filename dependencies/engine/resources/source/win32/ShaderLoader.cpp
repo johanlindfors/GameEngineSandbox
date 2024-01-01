@@ -11,7 +11,7 @@
 
 using namespace std;
 using namespace Engine;
-using Utilities::IOCContainer;
+using Engine::IOCContainer;
 
 namespace Engine
 {

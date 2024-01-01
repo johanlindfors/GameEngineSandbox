@@ -4,7 +4,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 GameOverScene::GameOverScene(IGameStateCallback *gameCallback)
     : mGameOverText("Game Over"), mFontRenderer(IOCContainer::resolve_type<FontRenderer>())

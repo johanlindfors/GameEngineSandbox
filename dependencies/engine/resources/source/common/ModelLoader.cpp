@@ -9,7 +9,6 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
 
 shared_ptr<Model> ModelLoader::loadModel(const std::string &fileName)
 {

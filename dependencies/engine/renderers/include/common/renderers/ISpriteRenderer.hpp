@@ -18,6 +18,6 @@ namespace Engine
 		virtual void clear() = 0;
 
 		virtual void drawSprite(std::shared_ptr<Sprite> sprite) = 0;
-		virtual void drawSprite(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) = 0;
+		virtual void drawSprite(std::shared_ptr<Sprite> sprite, Engine::Point<float> position) = 0;
 	};
 }

@@ -14,7 +14,7 @@ namespace Engine
         // Engine::ISceneManager
         void initialize() override;
         void updateScreenSize(int width, int height) override;
-        void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+        void update(std::shared_ptr<Engine::IStepTimer> timer) override;
         void draw(std::shared_ptr<IRenderer> renderer) override;
         void addScene(std::shared_ptr<GameScene> scene) override;
         void removeScene(const std::type_info &sceneType) override;

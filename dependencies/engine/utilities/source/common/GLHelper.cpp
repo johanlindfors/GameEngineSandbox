@@ -494,4 +494,10 @@ namespace Engine
 		TRACE("[GLHelper::GlCheckFramebufferStatus]\n");
 		return glCheckFramebufferStatus(target);
 	}
+
+	const GLubyte* GlGetString(	GLenum name)
+	{
+		TRACE("[GLHelper::GlGetString]\n");
+		return glGetString(name);
+	}
 }

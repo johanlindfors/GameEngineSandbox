@@ -49,7 +49,7 @@ void SceneManager::updateScreenSize(int width, int height)
 	}
 }
 
-void SceneManager::update(std::shared_ptr<Utilities::IStepTimer> timer)
+void SceneManager::update(std::shared_ptr<Engine::IStepTimer> timer)
 {
 	if (!mInitialized || mScenes.size() == 0)
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 
-namespace Utilities
+namespace Engine
 {
     class IDispatcherWrapper
     {

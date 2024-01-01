@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace Utilities
+namespace Engine
 {
     struct Config
     {

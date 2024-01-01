@@ -7,7 +7,7 @@
 #include "scenes/InstructionsScene.hpp"
 
 using namespace std;
-using namespace Utilities;
+using namespace Engine;
 using namespace Engine;
 
 GameStateMachine::GameStateMachine()

@@ -22,7 +22,7 @@ namespace Engine
 	class FontRenderer;
 }
 
-namespace Utilities
+namespace Engine
 {
 	class IObjectCollider;
 	class ITweenEngine;
@@ -38,7 +38,7 @@ public:
 	void load() override;
 	void unload() override;
 	void updateScreenSize(int width, int height) override;
-	void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+	void update(std::shared_ptr<Engine::IStepTimer> timer) override;
 	void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
 private:
@@ -54,14 +54,14 @@ private:
 	std::vector<std::shared_ptr<Pipes>> mPipes;
 	std::shared_ptr<Engine::IInputManager> mInputManager;
 	std::shared_ptr<Engine::IPhysicsEngine> mPhysicsEngine;
-	std::shared_ptr<Utilities::IObjectCollider> mCollider;
-	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
+	std::shared_ptr<Engine::IObjectCollider> mCollider;
+	std::shared_ptr<Engine::ITweenEngine> mTweenEngine;
 	int mScreenSizeX;
 	int mScreenSizeY;
 	IGameStateCallback *mGame;
 	bool mSpacePressedBefore;
 	bool mShowInstructions;
-	Utilities::Timer mPipesGenerator;
+	Engine::Timer mPipesGenerator;
 	std::shared_ptr<Engine::FontRenderer> mFontRenderer;
 	int mScore;
 

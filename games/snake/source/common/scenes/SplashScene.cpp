@@ -11,7 +11,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 SplashScene::SplashScene(IGameStateCallback *gameCallback)
 	: mSprite(make_shared<Sprite>()), mMillisecondsToLoad(2000.0f), hasLoadedGamePlay(false), isLoadingResources(false), mGame(gameCallback)
@@ -40,7 +40,7 @@ void SplashScene::load()
 
 	mResourceManager->loadShader("simple", "simple.vs", "simple.fs");
 
-	auto config = IOCContainer::instance().resolve<Utilities::Config>();
+	auto config = IOCContainer::instance().resolve<Engine::Config>();
 	auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
 	auto shader = mResourceManager->getShader("simple");
 	auto renderer = make_shared<SpriteRenderer>(shader, camera);

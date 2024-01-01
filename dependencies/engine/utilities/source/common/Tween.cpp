@@ -3,7 +3,7 @@
 #include "utilities/MathHelper.hpp"
 
 using namespace std;
-using namespace Utilities;
+using namespace Engine;
 
 Tween::Tween(
     float original,
@@ -22,7 +22,7 @@ void Tween::update(shared_ptr<IStepTimer> timer)
     float currentValue = targetValue;
     if (elapsed <= duration)
     {
-        currentValue = Utilities::lerp(originalValue, targetValue, static_cast<float>(elapsed) / static_cast<float>(duration));
+        currentValue = Engine::lerp(originalValue, targetValue, static_cast<float>(elapsed) / static_cast<float>(duration));
     }
     else
     {

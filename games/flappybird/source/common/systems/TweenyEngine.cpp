@@ -55,7 +55,7 @@ static bool isTweenyCompleted(tweeny::tween<int> tween)
     return tween.progress() >= 1;
 }
 
-void TweenyEngine::update(std::shared_ptr<Utilities::IStepTimer> timer)
+void TweenyEngine::update(std::shared_ptr<Engine::IStepTimer> timer)
 {
     int ms = timer->getElapsedMilliSeconds();
     for (auto &tween : mTweenies)

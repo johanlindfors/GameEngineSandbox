@@ -8,12 +8,12 @@ namespace Engine
 {
 	struct TiledSprite : public Sprite
 	{
-		Utilities::Size<int> tileSize;
+		Engine::Size<int> tileSize;
 		unsigned int currentTile;
 
 		unsigned int getCols();
 		unsigned int getRows();
 		void setFrame(int frame);
-		Utilities::Rectangle<float> calculateTileOffset();
+		Engine::Rectangle<float> calculateTileOffset();
 	};
 }

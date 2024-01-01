@@ -1,12 +1,12 @@
 #pragma once
 #include "utilities/MathHelper.hpp"
 
-namespace Utilities
+namespace Engine
 {
     class IObjectCollider
     {
     public:
-        virtual bool intersects(Utilities::Circle circle, Utilities::Rectangle<float> rectangle) = 0;
-        virtual bool intersects(Utilities::Rectangle<float> r1, Utilities::Rectangle<float> r2) = 0;
+        virtual bool intersects(Engine::Circle circle, Engine::Rectangle<float> rectangle) = 0;
+        virtual bool intersects(Engine::Rectangle<float> r1, Engine::Rectangle<float> r2) = 0;
     };
 }

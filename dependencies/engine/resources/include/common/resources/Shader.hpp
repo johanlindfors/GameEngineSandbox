@@ -17,7 +17,7 @@ namespace Engine
         void setVector2f(const std::string &name, float x, float y);
         void setVector3f(const std::string &name, float x, float y, float z);
         void setVector4f(const std::string &name, float x, float y, float z, float w);
-        void setVector4fv(const std::string &name, Utilities::Vector4 vec);
+        void setVector4fv(const std::string &name, Engine::Vector4 vec);
         void setMatrix4(const std::string &name, const glm::mat4 &matrix);
         int getAttribLocation(const std::string &name) const;
 

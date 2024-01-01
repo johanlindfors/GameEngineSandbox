@@ -5,7 +5,7 @@
 #include "physics/ICollidable.hpp"
 #include "game/GameDefines.hpp"
 
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 }
@@ -20,8 +20,8 @@ class Ground
 	: public Engine::ICollidable
 {
 public:
-	Ground(Utilities::Point<float> position, Utilities::Vector2 velocity);
-	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	Ground(Engine::Point<float> position, Engine::Vector2 velocity);
+	void update(std::shared_ptr<Engine::IStepTimer> timer);
 	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 
 	void pause() { mIsRunning = false; }
@@ -29,14 +29,14 @@ public:
 	void initializeSprite();
 
 private:
-	std::vector<Utilities::Point<float>> mGround;
+	std::vector<Engine::Point<float>> mGround;
 	std::shared_ptr<Engine::Sprite> mGroundSprite;
 	std::shared_ptr<Engine::Sprite> mGroundBackgroundSprite;
 #if defined(_DEBUG) && (DEBUG_TEXTURES_ENABLED == true)
 	std::shared_ptr<Engine::Sprite> mGroundDebugSprite;
 #endif
-	Utilities::Vector2 mVelocity;
-	Utilities::Point<float> mPosition;
+	Engine::Vector2 mVelocity;
+	Engine::Point<float> mPosition;
 	int mGroundOffset;
 	int mGroundBackgroundOffset;
 	bool mIsRunning;

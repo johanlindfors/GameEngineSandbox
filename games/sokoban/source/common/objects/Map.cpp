@@ -18,7 +18,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 void Map::initialize(std::vector<int> level)
 {

@@ -9,7 +9,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 GameOverScene::GameOverScene(IGameStateCallback *gameCallback)
 	: mBackground(make_shared<Sprite>()), mText(make_shared<Sprite>()), mGame(gameCallback)

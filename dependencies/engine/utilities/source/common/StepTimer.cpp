@@ -9,7 +9,7 @@
 
 using namespace std;
 using namespace std::chrono;
-using namespace Utilities;
+using namespace Engine;
 
 Timer::Timer()
 	: mIsEnabled(true), mElapsedMicroSeconds(0), mLastFrameTime(std::chrono::system_clock::now()), mMicroSecondsInterval(0)

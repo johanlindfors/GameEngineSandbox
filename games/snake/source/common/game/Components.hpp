@@ -34,5 +34,5 @@ struct PositionComponent
 struct SpriteComponent
 {
 	Engine::Texture2D texture;
-	Utilities::Point<float> position;
+	Engine::Point<float> position;
 };

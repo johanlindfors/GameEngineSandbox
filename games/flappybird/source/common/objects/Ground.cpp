@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 Ground::Ground(Point<float> position, Vector2 velocity)
     : mPosition(position)

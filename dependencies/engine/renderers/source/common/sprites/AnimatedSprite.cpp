@@ -1,7 +1,6 @@
 #include "sprites/AnimatedSprite.hpp"
 
 using namespace std;
-using namespace Utilities;
 
 namespace Engine
 {

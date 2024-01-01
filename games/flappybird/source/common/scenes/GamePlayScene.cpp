@@ -24,7 +24,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
 	: mSkyline(make_unique<ParallaxBackground>())

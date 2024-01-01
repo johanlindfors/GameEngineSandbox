@@ -1,7 +1,7 @@
 #pragma once
 #include "MathHelper.hpp"
 
-namespace Utilities {
+namespace Engine {
     class ScreenToGameCoordinatesConverter 
     {
         public:

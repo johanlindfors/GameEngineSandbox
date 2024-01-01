@@ -5,7 +5,7 @@
 #include <functional>
 #include "IDispatcherWrapper.hpp"
 
-namespace Utilities
+namespace Engine
 {
     class DispatcherWrapper final : public IDispatcherWrapper
     {
@@ -15,7 +15,7 @@ namespace Utilities
         winrt::Windows::Foundation::IAsyncAction RunAsync(
             winrt::Windows::UI::Core::DispatchedHandler agileCallback) const;
 
-        // Utilities::IDispatcherWrapper
+        // Engine::IDispatcherWrapper
         void ScheduleOnGameThread(const std::function<void()> &handler) override;
         void ProcessScheduledFunctions() override;
 

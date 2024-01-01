@@ -1,10 +1,10 @@
 #include "physics/ObjectCollider.hpp"
 #include "utilities/MathHelper.hpp"
 
-using namespace Utilities;
+using namespace Engine;
 
 // Reference: https://www.jeffreythompson.org/collision-detection/circle-rect.php
-bool ObjectCollider::intersects(Circle circle, Utilities::Rectangle<float> rect)
+bool ObjectCollider::intersects(Circle circle, Engine::Rectangle<float> rect)
 {
 	float testX = circle.position.x;
 	float testY = circle.position.y;
@@ -32,7 +32,7 @@ bool ObjectCollider::intersects(Circle circle, Utilities::Rectangle<float> rect)
 	return false;
 }
 
-bool ObjectCollider::intersects(Utilities::Rectangle<float> r1, Utilities::Rectangle<float> r2)
+bool ObjectCollider::intersects(Engine::Rectangle<float> r1, Engine::Rectangle<float> r2)
 {
 	return r1.position.x <= (r2.position.x + r2.size.width) && (r1.position.x + r1.size.width) >= r2.position.x &&
 		   r1.position.y <= (r2.position.y + r2.size.height) && (r1.position.y + r1.size.height) >= r2.position.y;

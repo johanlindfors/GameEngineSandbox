@@ -82,4 +82,5 @@ namespace Engine
 
     GLenum GlGetError();
     void GlDisable(GLenum cap);
+    const GLubyte* GlGetString(	GLenum name);
 }

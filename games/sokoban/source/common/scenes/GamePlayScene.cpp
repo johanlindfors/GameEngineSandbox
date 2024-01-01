@@ -15,7 +15,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
 	: mGame(gameCallback), mInputManager(IOCContainer::resolve_type<IInputManager>()), mTweenEngine(IOCContainer::resolve_type<ITweenEngine>()), mFontRenderer(IOCContainer::resolve_type<FontRenderer>()), mMap(IOCContainer::resolve_type<Map>()), mPlayer(make_unique<Player>()), mCratePushes(0), mPlayerMoves(0), mKeyWasPressed(false)

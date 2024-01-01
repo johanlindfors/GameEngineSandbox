@@ -14,7 +14,7 @@ namespace Engine
     class IRenderer;
 }
 
-namespace Utilities
+namespace Engine
 {
     class IStepTimer;
 }
@@ -32,7 +32,7 @@ public:
     void moveCrate(int deltaX, int deltaY, int playerX, int playerY, std::function<void()> onCompleteCallback);
     bool checkWin();
 
-    Utilities::Point<int> playerStartPosition;
+    Engine::Point<int> playerStartPosition;
     static std::shared_ptr<Map> parse(std::string input);
 
 private:

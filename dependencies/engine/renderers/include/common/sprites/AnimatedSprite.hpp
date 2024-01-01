@@ -28,6 +28,6 @@ namespace Engine
         void pause();
         void resume();
         void reset();
-        void update(std::shared_ptr<Utilities::IStepTimer> timer);
+        void update(std::shared_ptr<Engine::IStepTimer> timer);
     };
 }

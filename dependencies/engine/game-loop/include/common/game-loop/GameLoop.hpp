@@ -2,7 +2,7 @@
 #include <memory>
 #include "utilities/ScreenToGameCoordinatesConverter.hpp"
 
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 	struct Config;
@@ -24,19 +24,19 @@ namespace Engine
 		GameLoop();
 		~GameLoop();
 
-		void initialize(std::shared_ptr<Utilities::Config> config);
+		void initialize(std::shared_ptr<Engine::Config> config);
 		void tick();
 		void updateWindowSize(int width, int height);
 		static void getDefaultSize(int &width, int &height);
 		std::shared_ptr<IInputManager> getInput() const { return mInputManager; }
-		Utilities::ScreenToGameCoordinatesConverter ScreenToGameCoordinatesConverter;
+		Engine::ScreenToGameCoordinatesConverter ScreenToGameCoordinatesConverter;
 
 	private:
 		void handleInput() const;
 		void update() const;
 		void render();
 
-		std::shared_ptr<Utilities::IStepTimer> mTimer;
+		std::shared_ptr<Engine::IStepTimer> mTimer;
 		std::shared_ptr<IRenderer> mRenderer;
 		std::shared_ptr<IInputManager> mInputManager;
 		std::shared_ptr<IGameLoopCallback> mGameLoopCallback;

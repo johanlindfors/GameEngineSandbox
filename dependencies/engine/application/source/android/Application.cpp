@@ -41,12 +41,12 @@ void Application::render() {
 void Application::initApplication() {
     mGameLoop = std::make_unique<Engine::GameLoop>();
     debuglog << "[Application::initApplication] game was created" << std::endl;
-    auto gameConfig = Utilities::IOCContainer::instance().resolve<Utilities::Config>();
+    auto gameConfig = Engine::IOCContainer::instance().resolve<Engine::Config>();
     mGameLoop->ScreenToGameCoordinatesConverter.setGameSize({gameConfig->width, gameConfig->height});
 
     debuglog << "[Application::initApplication] was launched with the game: " << gameConfig->title << std::endl;
     auto androidWrapper = std::make_shared<AndroidWrapper>(app_);
-    Utilities::IOCContainer::instance().register_type<AndroidWrapper>(androidWrapper);
+    Engine::IOCContainer::instance().register_type<AndroidWrapper>(androidWrapper);
 
     // Choose your render attributes
     constexpr EGLint attribs[] = {
@@ -144,7 +144,7 @@ void Application::updateRenderArea() {
 
 void Application::handleInput() {
     if(mInputManager == nullptr) {
-        mInputManager = Utilities::IOCContainer::instance().resolve<Engine::IInputManager>();
+        mInputManager = Engine::IOCContainer::instance().resolve<Engine::IInputManager>();
         assert(mInputManager);
     }
 

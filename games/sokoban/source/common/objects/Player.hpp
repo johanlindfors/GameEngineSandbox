@@ -6,7 +6,7 @@
 // game
 #include "MoveableObject.hpp"
 
-namespace Utilities
+namespace Engine
 {
     class IStepTimer;
 }
@@ -19,6 +19,6 @@ public:
 
     void initialize(int x, int y);
     void move(int deltaX, int deltaY);
-    void update(std::shared_ptr<Utilities::IStepTimer> timer);
+    void update(std::shared_ptr<Engine::IStepTimer> timer);
     int posX, posY;
 };

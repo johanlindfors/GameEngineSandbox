@@ -2,7 +2,7 @@
 #include "utilities/Tween.hpp"
 
 using namespace std;
-using namespace Utilities;
+using namespace Engine;
 
 TweenEngine::TweenEngine()
     : mTweens(vector<shared_ptr<Tween>>())

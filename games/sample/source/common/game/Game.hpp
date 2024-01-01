@@ -1,7 +1,7 @@
 #pragma once
 #include "game-loop/IGameLoopCallback.hpp"
 
-namespace Utilities
+namespace Engine
 {
     class IStepTimer;
 }
@@ -16,6 +16,6 @@ namespace Sample
 
         // Engine::IGameLoopCallback
         void initialize() override;
-        void update(std::shared_ptr<Utilities::IStepTimer> timer) override {}
+        void update(std::shared_ptr<Engine::IStepTimer> timer) override {}
     };
 }

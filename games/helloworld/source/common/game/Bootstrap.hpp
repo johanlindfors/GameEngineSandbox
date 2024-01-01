@@ -6,7 +6,6 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
 
 void bootstrap() {
     auto config = make_shared<Config>();

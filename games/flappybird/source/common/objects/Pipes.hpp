@@ -5,7 +5,7 @@
 #include "game/GameDefines.hpp"
 #include <memory>
 
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 }
@@ -24,24 +24,24 @@ class Pipe
 public:
 	using Engine::IPhysicsBody::position;
 
-	Pipe(Utilities::Point<float> position)
+	Pipe(Engine::Point<float> position)
 		: Sprite::Sprite(), IPhysicsBody::IPhysicsBody(position), ICollidable::ICollidable(position)
 	{
 		size = {52.0f, 25.0f};
-		position = Utilities::Point<float>{position.x, position.y};
+		position = Engine::Point<float>{position.x, position.y};
 	}
 };
 
 class Pipes
 {
 public:
-	Pipes(Utilities::Point<float> position);
-	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	Pipes(Engine::Point<float> position);
+	void update(std::shared_ptr<Engine::IStepTimer> timer);
 	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 	bool isAlive;
-	void reset(Utilities::Point<float> position);
-	bool intersects(Utilities::Circle circle, Utilities::Rectangle<float> rect);
-	bool intersects(Utilities::Rectangle<float> r1, Utilities::Rectangle<float> r2);
+	void reset(Engine::Point<float> position);
+	bool intersects(Engine::Circle circle, Engine::Rectangle<float> rect);
+	bool intersects(Engine::Rectangle<float> r1, Engine::Rectangle<float> r2);
 
 	std::shared_ptr<Pipe> topPipe;
 	std::shared_ptr<Pipe> bottomPipe;

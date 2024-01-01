@@ -18,7 +18,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 SplashScene::SplashScene(IGameStateCallback *gameCallback)
 	: mSkyline(make_shared<ParallaxBackground>())
@@ -66,7 +66,7 @@ void SplashScene::load()
 	resourceManager->loadShader("simple", "simple.vs", "simple.fs");
 	resourceManager->loadTextures({"atlas.png"});
 
-	auto config = IOCContainer::instance().resolve<Utilities::Config>();
+	auto config = IOCContainer::instance().resolve<Engine::Config>();
 	auto camera = make_shared<Engine::OrthographicCamera>(0.0f, static_cast<float>(config->width), 0.0f, static_cast<float>(config->height), -1.0f, 1.0f);
 	auto shader = resourceManager->getShader("simple");
 	auto renderer = make_shared<SpriteRenderer>(shader, camera);
@@ -118,7 +118,7 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 	auto const mouseState = mInputManager->getMouseState();
 	if (mouseState.state == ButtonState::Pressed)
 	{
-		Utilities::Point<int> position = {mouseState.position.x, 505 - mouseState.position.y};
+		Engine::Point<int> position = {mouseState.position.x, 505 - mouseState.position.y};
 		if (position.x > 92 &&
 			position.x < 92 + 104 &&
 			position.y > 176 &&

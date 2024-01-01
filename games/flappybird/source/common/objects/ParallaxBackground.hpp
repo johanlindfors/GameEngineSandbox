@@ -12,7 +12,7 @@ namespace Engine
 	struct Sprite;
 }
 
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 }
@@ -23,7 +23,7 @@ public:
 	ParallaxBackground();
 	~ParallaxBackground();
 
-	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	void update(std::shared_ptr<Engine::IStepTimer> timer);
 	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 
 	void pause() { mIsRunning = false; }

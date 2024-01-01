@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 Clouds::Clouds(Point<float> position, Vector2 velocity)
     : mPosition(position), mVelocity(velocity), mClouds(make_shared<Sprite>()), mCloudsBackground(make_shared<Sprite>()), mCloudsBackgroundOffset(0), mCloudsOffset(0)

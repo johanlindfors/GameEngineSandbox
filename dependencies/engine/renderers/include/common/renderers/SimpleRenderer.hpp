@@ -23,7 +23,7 @@ namespace Engine
 		void clear() override;
 
 		void draw();
-		// void Draw(std::shared_ptr<Sprite> sprite, Utilities::Point<float> position) override;
+		// void Draw(std::shared_ptr<Sprite> sprite, Engine::Point<float> position) override;
 
 	private:
 		unsigned int VBO, cubeVAO;

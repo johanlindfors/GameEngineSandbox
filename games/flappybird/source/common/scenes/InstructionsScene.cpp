@@ -11,7 +11,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 InstructionsScene::InstructionsScene(IGameStateCallback *gameCallback)
 	: mInstructions(make_shared<Sprite>())

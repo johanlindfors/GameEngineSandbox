@@ -2,7 +2,7 @@
 #include <memory>
 #include "utilities/glwrapper.hpp"
 
-namespace Utilities
+namespace Engine
 {
     struct Config;
 }
@@ -16,7 +16,7 @@ namespace Engine
     public:
         FrameBufferRenderer();
         ~FrameBufferRenderer();
-        void initialize(std::shared_ptr<Utilities::Config> config, std::shared_ptr<Engine::Shader> shader);
+        void initialize(std::shared_ptr<Engine::Config> config, std::shared_ptr<Engine::Shader> shader);
         void updateScreenSize(int &width, int &height);
         void begin();
         void end();

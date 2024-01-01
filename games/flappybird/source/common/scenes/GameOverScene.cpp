@@ -13,7 +13,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 GameOverScene::GameOverScene(IGameStateCallback *gameCallback)
 	: mGameOverText(make_shared<Sprite>()), mScoreBoard(make_shared<Sprite>()), mMedal(make_shared<Sprite>()), mButton(make_shared<Sprite>()), mGame(gameCallback), mInputManager(IOCContainer::instance().resolve<IInputManager>()), mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>()), mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), mScoreSystem(IOCContainer::instance().resolve<ScoreSystem>())
@@ -78,7 +78,7 @@ void GameOverScene::handleInput()
 	auto const mouseState = mInputManager->getMouseState();
 	if (mouseState.state == ButtonState::Pressed)
 	{
-		Utilities::Point<int> position = {mouseState.position.x, 505 - mouseState.position.y};
+		Engine::Point<int> position = {mouseState.position.x, 505 - mouseState.position.y};
 		if (position.x > 92 &&
 			position.x < 92 + 104 &&
 			position.y > 176 &&

@@ -1,7 +1,5 @@
 #include "sprites/TiledSprite.hpp"
 
-using namespace Utilities;
-
 namespace Engine
 {
     unsigned int TiledSprite::getCols()

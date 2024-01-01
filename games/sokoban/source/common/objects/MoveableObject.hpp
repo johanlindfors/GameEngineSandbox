@@ -10,7 +10,7 @@ namespace Engine
     class IRenderer;
 }
 
-namespace Utilities
+namespace Engine
 {
     class ITweenEngine;
 }

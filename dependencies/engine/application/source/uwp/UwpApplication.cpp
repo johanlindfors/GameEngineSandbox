@@ -11,7 +11,7 @@ using namespace Windows::UI;
 using namespace Windows::UI::Xaml;
 using namespace Windows::ApplicationModel::Activation;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 void UwpApplication::OnLaunched(LaunchActivatedEventArgs const &)
 {

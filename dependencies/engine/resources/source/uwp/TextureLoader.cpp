@@ -18,7 +18,7 @@ using namespace Windows::Foundation;
 using namespace Windows::ApplicationModel;
 using namespace Windows::Graphics::Imaging;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 namespace Engine
 {

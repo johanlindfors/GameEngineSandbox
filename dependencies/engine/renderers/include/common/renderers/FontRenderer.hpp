@@ -42,13 +42,13 @@ namespace Engine
 		};
 
 		void initialize();
-		void drawString(const std::string &str, Alignment alignment, Utilities::Point<float> position, float scale);
+		void drawString(const std::string &str, Alignment alignment, Engine::Point<float> position, float scale);
 
 	private:
 		void addCharacter(int id, int x, int y, int width, int height, int xoffset, int yoffset, int xadvance, int offset);
-		void drawCharacter(char character, Utilities::Rectangle<float> rectangle);
+		void drawCharacter(char character, Engine::Rectangle<float> rectangle);
 
-		Utilities::Rectangle<float> measureString(const std::string &str);
+		Engine::Rectangle<float> measureString(const std::string &str);
 
 		std::string mAtlasFilename;
 		std::string mTextureFilename;

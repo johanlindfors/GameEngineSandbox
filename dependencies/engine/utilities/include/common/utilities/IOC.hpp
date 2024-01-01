@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <memory>
 
-namespace Utilities
+namespace Engine
 {
     class IOCContainer final : public Singleton<IOCContainer>
     {

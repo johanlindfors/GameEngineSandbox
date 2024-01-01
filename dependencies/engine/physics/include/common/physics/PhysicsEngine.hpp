@@ -16,7 +16,7 @@ namespace Engine
 
 		// Engine::IPhysicsEngine
 		void addBody(std::shared_ptr<IPhysicsBody> body) override;
-		void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+		void update(std::shared_ptr<Engine::IStepTimer> timer) override;
 
 	private:
 		std::vector<std::shared_ptr<IPhysicsBody>> mBodies;

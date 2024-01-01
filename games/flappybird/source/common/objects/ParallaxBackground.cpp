@@ -9,7 +9,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 ParallaxBackground::ParallaxBackground()
     : mClouds(make_unique<Clouds>(Point<float>{0, 172}, Vector2{SCROLL_SPEED * 0.25f, 0}))

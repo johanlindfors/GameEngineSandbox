@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 }
@@ -15,6 +15,6 @@ namespace Engine
 	{
 	public:
 		virtual void addBody(std::shared_ptr<IPhysicsBody> body) = 0;
-		virtual void update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
+		virtual void update(std::shared_ptr<Engine::IStepTimer> timer) = 0;
 	};
 }

@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 Skyline::Skyline(Point<float> position, Vector2 velocity)
     : mSprite(make_shared<Sprite>()), mVelocity(velocity), mSkyline(vector<Point<float>>()), mTextureOffset(0)

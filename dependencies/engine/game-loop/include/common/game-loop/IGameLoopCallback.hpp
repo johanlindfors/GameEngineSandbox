@@ -9,6 +9,6 @@ namespace Engine
     public:
         virtual ~IGameLoopCallback() = default;
         virtual void initialize() = 0;
-        virtual void update(std::shared_ptr<Utilities::IStepTimer> timer) = 0;
+        virtual void update(std::shared_ptr<Engine::IStepTimer> timer) = 0;
     };
 }

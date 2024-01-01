@@ -18,7 +18,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 BootScene::BootScene(IGameStateCallback *gameCallback)
     : mGame(gameCallback), mInitialized(false), mLoadedTasks(0)
@@ -47,7 +47,7 @@ void BootScene::load()
     mLoadingTasks.push([&]()
                        {
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-        auto config = IOCContainer::instance().resolve<Utilities::Config>();
+        auto config = IOCContainer::instance().resolve<Engine::Config>();
         auto camera = make_shared<Engine::OrthographicCamera>( 0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f );
         IOCContainer::instance().register_type<OrthographicCamera>(camera);
 
@@ -121,7 +121,7 @@ void BootScene::updateScreenSize(int width, int height)
 {
 }
 
-void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
+void BootScene::update(std::shared_ptr<Engine::IStepTimer> timer)
 {
     if (mInitialized)
     {

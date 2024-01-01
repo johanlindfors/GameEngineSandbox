@@ -9,7 +9,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 Pipes::Pipes(Point<float> position)
 	: topPipe(make_shared<Pipe>(position)), bottomPipe(make_shared<Pipe>(position)), topPipeSprite(make_shared<Sprite>()), bottomPipeSprite(make_shared<Sprite>())
@@ -81,13 +81,13 @@ void Pipes::update(shared_ptr<IStepTimer> timer)
 		{
 			isAlive = false;
 		}
-		Utilities::Rectangle topAABB(
+		Engine::Rectangle topAABB(
 			topPipe->position.x,
 			topPipe->position.y,
 			topPipe->size.width,
 			topPipe->size.height + topPipeSprite->size.height);
 
-		Utilities::Rectangle bottomAABB(
+		Engine::Rectangle bottomAABB(
 			bottomPipe->position.x,
 			bottomPipe->position.y - bottomPipeSprite->size.height,
 			bottomPipe->size.width,

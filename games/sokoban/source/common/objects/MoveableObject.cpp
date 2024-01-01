@@ -13,7 +13,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 MoveableObject::MoveableObject()
     : isMoving(false)

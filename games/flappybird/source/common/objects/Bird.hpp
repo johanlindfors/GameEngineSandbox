@@ -7,7 +7,7 @@
 #include <vector>
 #include "game/GameDefines.hpp"
 
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 }
@@ -24,13 +24,13 @@ class IGameStateCallback;
 class Bird : public Engine::IPhysicsBody
 {
 public:
-	Bird(Utilities::Point<float> position);
-	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	Bird(Engine::Point<float> position);
+	void update(std::shared_ptr<Engine::IStepTimer> timer);
 	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 	void flap();
 	void initializeSprite();
-	Utilities::Circle bounds;
-	Utilities::Rectangle<float> AABB;
+	Engine::Circle bounds;
+	Engine::Rectangle<float> AABB;
 	bool isKilled;
 	void collideWithPipe();
 	void reset();

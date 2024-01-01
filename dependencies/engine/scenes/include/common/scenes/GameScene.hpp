@@ -6,7 +6,7 @@ namespace Engine
 {
 	class IRenderer;
 }
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 }
@@ -22,7 +22,7 @@ namespace Engine
 		virtual void load(){};
 		virtual void unload(){};
 		virtual void updateScreenSize(int width, int height){};
-		virtual void update(std::shared_ptr<Utilities::IStepTimer> timer){};
+		virtual void update(std::shared_ptr<Engine::IStepTimer> timer){};
 		virtual void draw(std::shared_ptr<Engine::IRenderer> renderer){};
 	};
 }

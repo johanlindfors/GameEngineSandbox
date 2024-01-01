@@ -2,7 +2,7 @@
 #include <list>
 #include "utilities/MathHelper.hpp"
 
-namespace Utilities
+namespace Engine
 {
 	class IStepTimer;
 }
@@ -16,16 +16,16 @@ namespace Engine
 class Clouds
 {
 public:
-	Clouds(Utilities::Point<float> position, Utilities::Vector2 velocity);
-	void update(std::shared_ptr<Utilities::IStepTimer> timer);
+	Clouds(Engine::Point<float> position, Engine::Vector2 velocity);
+	void update(std::shared_ptr<Engine::IStepTimer> timer);
 	void draw(std::shared_ptr<Engine::IRenderer> renderer);
 	void initializeSprite();
 
 private:
 	std::shared_ptr<Engine::Sprite> mClouds;
 	std::shared_ptr<Engine::Sprite> mCloudsBackground;
-	Utilities::Vector2 mVelocity;
-	Utilities::Point<float> mPosition;
+	Engine::Vector2 mVelocity;
+	Engine::Point<float> mPosition;
 	int mCloudsOffset;
 	int mCloudsBackgroundOffset;
 };

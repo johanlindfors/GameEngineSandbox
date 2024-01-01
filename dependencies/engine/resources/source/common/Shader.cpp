@@ -4,7 +4,6 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
 
 Shader::~Shader()
 {

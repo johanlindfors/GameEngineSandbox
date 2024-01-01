@@ -11,7 +11,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 FixedTile::FixedTile(int x, int y, int frame)
 {

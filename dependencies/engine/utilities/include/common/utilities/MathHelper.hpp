@@ -2,7 +2,7 @@
 #include <math.h>
 #include <memory>
 
-namespace Utilities
+namespace Engine
 {
     struct Matrix4
     {

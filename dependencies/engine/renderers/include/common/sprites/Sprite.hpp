@@ -14,10 +14,10 @@ namespace Engine
 		~Sprite() = default;
 
 		Texture2D texture;
-		Utilities::Point<float> position;
-		Utilities::Vector2 velocity;
-		Utilities::Size<float> size;
+		Engine::Point<float> position;
+		Engine::Vector2 velocity;
+		Engine::Size<float> size;
 		float rotation;
-		Utilities::Rectangle<float> offset;
+		Engine::Rectangle<float> offset;
 	};
 }

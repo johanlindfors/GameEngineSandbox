@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 PauseScene::PauseScene()
 	: mBackground(make_shared<Sprite>()), mText(make_shared<Sprite>())

@@ -4,7 +4,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 
 #define GRAVITY 9.1f
 

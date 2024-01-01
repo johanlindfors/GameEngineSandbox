@@ -11,7 +11,6 @@
 
 using namespace std;
 using namespace Engine;
-using Utilities::IOCContainer;
 
 namespace Engine {
 	class ShaderLoaderImpl 

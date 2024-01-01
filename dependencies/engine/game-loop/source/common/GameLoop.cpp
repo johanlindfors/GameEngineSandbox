@@ -13,7 +13,6 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
 
 GameLoop::GameLoop()
 	: mIsInitialized(false) {}

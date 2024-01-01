@@ -16,7 +16,7 @@
 
 using namespace std;
 using namespace Engine;
-using namespace Utilities;
+using namespace Engine;
 using namespace Sample;
 
 void SpriteScene::load()
@@ -30,7 +30,7 @@ void SpriteScene::load()
         resourceManager->loadTextures({ "coderox.png" });
         resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
         
-        auto config = IOCContainer::instance().resolve<Utilities::Config>();
+        auto config = IOCContainer::instance().resolve<Engine::Config>();
         auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
         auto shader = resourceManager->getShader("simple");
         mRenderer = make_shared<SpriteRenderer>(shader, camera);

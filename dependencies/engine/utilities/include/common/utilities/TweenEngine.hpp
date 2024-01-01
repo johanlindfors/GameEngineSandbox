@@ -5,7 +5,7 @@
 #include "ITweenEngine.hpp"
 #include "Tween.hpp"
 
-namespace Utilities
+namespace Engine
 {
     class TweenEngine : public ITweenEngine
     {
@@ -13,7 +13,7 @@ namespace Utilities
         TweenEngine();
         void add(float original, float target, std::function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce);
         void add(float original, float target, std::function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce, std::function<void()> onCompleteCallback);
-        void update(std::shared_ptr<Utilities::IStepTimer> timer);
+        void update(std::shared_ptr<Engine::IStepTimer> timer);
         void clear();
 
     private:
