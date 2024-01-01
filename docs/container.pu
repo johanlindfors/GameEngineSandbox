@@ -1,11 +1,13 @@
 @startuml GameEngineSandbox
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
+LAYOUT_WITH_LEGEND()
+
 Person(player, "Player")
 
 System(game, "game")
 System(engine, "engine")
-System(thirdparty, "thirdparty")
+System_Ext(thirdparty, "thirdparty")
 
 Rel(player, game, Plays)
 Rel(game, engine, Uses)

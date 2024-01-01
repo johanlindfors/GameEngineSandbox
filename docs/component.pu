@@ -1,31 +1,31 @@
 @startuml GameEngineSandbox
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
+LAYOUT_WITH_LEGEND()
+
 Person(player, "Player")
 
 System_Boundary(game, "Flappy Bird") {
-    System(flappyBird, "flappyBird")
+    Container(flappyBird, "flappyBird", "C++", "Game specific logic")
 }
 
-System_Boundary(engine, "Game Engine") {
-    System(application, "engine")
-    System(input, "input")
-    System(gameLoop, "game-loop")
-    System(filesystem, "filesystem")
-    System(physics, "physics")
-    System(renderers, "renderers")
-    System(resources, "resources")
-    System(scenes, "scenes")
-    System(shaders, "shaders")
-    System(textures, "textures")
-    System(utilities, "utilities")
+System_Boundary(engine, "Engine") {
+    Container(application, "application")
+    Container(input, "input")
+    Container(gameLoop, "game-loop")
+    Container(filesystem, "filesystem")
+    Container(physics, "physics")
+    Container(renderers, "renderers")
+    Container(resources, "resources")
+    Container(scenes, "scenes")
+    Container(utilities, "utilities")
 }
 
 System_Boundary(thirdparty, "Thirdparty") {
-    System(glm, "glm")
-    System(angle, "angle")
-    System(vcpkg, "vcpkg")
-    System(tweeny, "tweeny")
+    System_Ext(glm, "glm")
+    System_Ext(angle, "angle")
+    System_Ext(vcpkg, "vcpkg")
+    System_Ext(tweeny, "tweeny")
 }
 
 Rel(player, flappyBird, Plays)
@@ -61,7 +61,6 @@ Rel(scenes, utilities, Uses)
 
 Rel(renderers, utilities, Uses)
 Rel(renderers, filesystem, Uses)
-Rel(renderers, textures, Uses)
 Rel(renderers, glm, Uses)
 
 @enduml

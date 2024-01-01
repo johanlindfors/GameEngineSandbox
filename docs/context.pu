@@ -1,6 +1,8 @@
 @startuml GameEngineSandbox
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
+LAYOUT_WITH_LEGEND()
+
 Person(player, "Player")
 
 System_Boundary(boundary, "Flappy Bird") {
