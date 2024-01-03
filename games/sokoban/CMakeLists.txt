@@ -37,15 +37,6 @@ if(LINUX)
     )
 endif()
 
-if(OSX)
-    find_package(glfw3 REQUIRED)
-    find_package(OpenGL REQUIRED)
-    list(APPEND DEPENDENCIES 
-        OpenGL::GL
-        glfw
-    )
-endif()
-
 if(MSVC)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib")
 endif()
