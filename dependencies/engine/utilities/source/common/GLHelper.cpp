@@ -162,6 +162,12 @@ namespace Engine
 		glDeleteProgram(program);
 	}
 
+	void GlDisableVertexAttribArray(GLuint index) 
+	{
+		TRACE("[GLHelper::GlDisableVertexAttribArray]\n");
+		glDisableVertexAttribArray(index);
+	}
+
 	void GlViewport(GLint x, GLint y, GLsizei width, GLsizei height)
 	{
 		TRACE("[GLHelper::GlViewport]\n");
