@@ -27,6 +27,7 @@ message(STATUS "Adding the entt library to game")
 add_subdirectory(entt ${CMAKE_CURRENT_BINARY_DIR}/entt)
 
 add_subdirectory(glm ${CMAKE_CURRENT_BINARY_DIR}/glm)
+add_subdirectory(glfw ${CMAKE_CURRENT_BINARY_DIR}/glfw)
 
 if(DEFINED USE_HTTP)
     add_subdirectory(cpr ${CMAKE_CURRENT_BINARY_DIR}/cpr)
