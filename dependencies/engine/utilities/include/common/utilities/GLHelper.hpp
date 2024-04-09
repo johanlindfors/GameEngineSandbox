@@ -83,4 +83,5 @@ namespace Engine
 
     GLenum GlGetError();
     void GlDisable(GLenum cap);
+    void GlCullFace(GLenum mode);
 }
