@@ -29,6 +29,7 @@ namespace Engine
     void GlBindVertexArray(GLuint array);
     void GlEnableVertexAttribArray(GLuint index);
     void GlDrawArrays(GLenum mode, GLint first, GLsizei count);
+    void GlDisableVertexAttribArray(GLuint index);
 
     void GlDeleteBuffers(GLsizei n, const GLuint *buffers);
     void GlBindBuffer(GLenum target, GLuint buffer);
@@ -82,4 +83,5 @@ namespace Engine
 
     GLenum GlGetError();
     void GlDisable(GLenum cap);
+    void GlCullFace(GLenum mode);
 }
