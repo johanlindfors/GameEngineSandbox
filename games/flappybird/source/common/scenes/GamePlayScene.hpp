@@ -47,7 +47,6 @@ private:
 	void reset();
 
 	std::shared_ptr<Engine::Sprite> mInstructions;
-	std::shared_ptr<Engine::Sprite> mBackground;
 	std::unique_ptr<ParallaxBackground> mSkyline;
 	std::shared_ptr<Ground> mGround;
 

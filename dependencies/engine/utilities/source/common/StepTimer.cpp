@@ -101,7 +101,7 @@ void StepTimer::tick(
 			m_elapsedMicroSeconds -= m_targetMicroSeconds;
 		}
 		render();
-
+		processInput();
 		auto sleepForMicroSeconds = duration_cast<microseconds>(currentTime - system_clock::now()).count() + m_targetMicroSeconds;
 		if (sleepForMicroSeconds > 0)
 			this_thread::sleep_for(microseconds(sleepForMicroSeconds));
@@ -110,5 +110,6 @@ void StepTimer::tick(
 	{
 		update();
 		render();
+		processInput();
 	}
 }

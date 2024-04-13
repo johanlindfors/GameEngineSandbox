@@ -4,6 +4,7 @@
 #include <GLES3/gl3.h>
 #include <EGL/egl.h>
 #include "utilities/Logger.hpp"
+#include "utilities/GLHelper.hpp"
 
 //! executes glGetString and outputs the result to logcat
 #define PRINT_GL_STRING(s) { debuglog << #s": "<< glGetString(s) << std::endl;}

@@ -1,12 +1,11 @@
-precision mediump float;
-//layout (location = 0) in vec4 vertex;
-attribute vec4 vertex;
+#version 330 core
+layout (location = 0) in vec4 vertex;
 
 uniform mat4 world;
 uniform mat4 projection;
 uniform vec4 offset;
 
-varying vec2 TexCoord;
+out vec2 TexCoord;
 
 void main() {
 	gl_Position = projection * world * vec4(vertex.xy, 0.0, 1.0);

@@ -426,4 +426,69 @@ namespace Engine
 		debuglog << "[GlHelper::GlCullFace]" << endl;
 		glCullFace(mode);
 	}
+	
+    void GlBindFramebuffer(GLenum target, GLuint framebuffer) {
+		debuglog << "[GLHelper::GlBindFramebuffer]" << endl;
+		glBindFramebuffer(target, framebuffer);
+	}
+
+    void GlFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer)
+	{
+		debuglog << "[GLHelper::GlFramebufferRenderbuffer]" << endl;
+		glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
+	}
+
+    void GlRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
+	{
+		debuglog << "[GLHelper::GlRenderbufferStorage]" << endl;
+		glRenderbufferStorage(target, internalformat, width, height);
+	}
+
+    void GlBindRenderbuffer(GLenum target, GLuint renderbuffer)
+	{
+		debuglog << "[GLHelper::GlBindRenderbuffer]" << endl;
+		glBindRenderbuffer(target, renderbuffer);
+	}
+
+    void GlGenFramebuffers(GLsizei n, GLuint *ids)
+	{
+		debuglog << "[GLHelper::GlGenFramebuffers]" << endl;
+		glGenFramebuffers(n, ids);
+	}
+
+    void GlDeleteFramebuffers(GLsizei n, GLuint *framebuffers)
+	{
+		debuglog << "[GLHelper::GlDeleteFramebuffers]" << endl;
+		glDeleteFramebuffers(n, framebuffers);
+	}
+
+    void GlDeleteVertexArrays(GLsizei n, const GLuint *arrays)
+	{
+		debuglog << "[GLHelper::GlDeleteVertexArrays]" << endl;
+		glDeleteVertexArrays(n, arrays);
+	}
+
+	void GlDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers)
+	{
+		debuglog << "[GLHelper::GlDeleteRenderbuffers]" << endl;
+		glDeleteRenderbuffers(n, renderbuffers);
+	}
+
+    void GlFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)
+	{
+		debuglog << "[GLHelper::GlFramebufferTexture2D]" << endl;
+		glFramebufferTexture2D(target, attachment, textarget, texture, level);
+	}
+
+    void GlGenRenderbuffers(GLsizei n, GLuint *renderbuffers)
+	{
+		debuglog << "[GLHelper::GlGenRenderbuffers]" << endl;
+		glGenRenderbuffers(n, renderbuffers);
+	}
+
+	GLenum GlCheckFramebufferStatus(GLenum target)
+	{
+		debuglog << "[GLHelper::GlCheckFramebufferStatus]" << endl;
+		return glCheckFramebufferStatus(target);
+	}
 }

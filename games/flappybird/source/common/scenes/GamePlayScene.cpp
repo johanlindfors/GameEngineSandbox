@@ -27,7 +27,20 @@ using namespace Engine;
 using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
-	: mBackground(make_shared<Sprite>()), mSkyline(make_unique<ParallaxBackground>()), mBird(make_shared<Bird>(Point<float>{80, SCREEN_HEIGHT / 2.0f})), mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0})), mPipes(vector<shared_ptr<Pipes>>()), mInputManager(IOCContainer::instance().resolve<IInputManager>()), mPhysicsEngine(IOCContainer::instance().resolve<IPhysicsEngine>()), mCollider(IOCContainer::instance().resolve<IObjectCollider>()), mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>()), mScreenSizeX(0), mScreenSizeY(0), mGame(gameCallback), mSpacePressedBefore(true), mFontRenderer(IOCContainer::instance().resolve<FontRenderer>()), mShowInstructions(true), mScore(0)
+	: mSkyline(make_unique<ParallaxBackground>())
+	, mBird(make_shared<Bird>(Point<float>{80, SCREEN_HEIGHT / 2.0f}))
+	, mGround(make_shared<Ground>(Point<float>{0, 79}, Vector2{SCROLL_SPEED, 0}))
+	, mPipes(vector<shared_ptr<Pipes>>())
+	, mInputManager(IOCContainer::instance().resolve<IInputManager>())
+	, mPhysicsEngine(IOCContainer::instance().resolve<IPhysicsEngine>())
+	, mCollider(IOCContainer::instance().resolve<IObjectCollider>())
+	, mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
+	, mScreenSizeX(0)
+	, mScreenSizeY(0)
+	, mGame(gameCallback)
+	, mSpacePressedBefore(true)
+	, mFontRenderer(IOCContainer::instance().resolve<FontRenderer>())
+	, mShowInstructions(true), mScore(0)
 {
 	id = typeid(GamePlayScene).name();
 	mPipesGenerator.setInterval(1250000);
@@ -40,10 +53,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
 
 GamePlayScene::~GamePlayScene()
 {
-	mBackground.reset();
-	mSkyline.reset();
-	mBird.reset();
-	mGround.reset();
+	unload();
 }
 
 void GamePlayScene::load()
@@ -52,13 +62,7 @@ void GamePlayScene::load()
 
 	auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 	auto atlas = resourceManager->getTexture("atlas.png");
-	mBackground->texture.textureIndex = atlas.textureIndex;
 
-	// mBackground->offset = 3;
-	mBackground->size = {288.0f, 505.0f};
-	mBackground->offset = {
-		1.0f / 512.0f, (512.0f - 71.0f) / 512.0f,
-		1.0f / 512.0f, 1.0f / 512.0f};
 	mSkyline->initializeSprites();
 	mGround->initializeSprite();
 
@@ -68,9 +72,9 @@ void GamePlayScene::load()
 
 void GamePlayScene::unload()
 {
-	mBackground.reset();
 	mSkyline.reset();
 	mGround.reset();
+	mBird.reset();
 }
 
 void GamePlayScene::updateScreenSize(int width, int height)
@@ -131,7 +135,7 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 		mSkyline->update(timer);
 		mGround->update(timer);
 		mBird->update(timer);
-		if (mousePressed || (spacePressed && !mSpacePressedBefore))
+		if ((mousePressed || spacePressed) && !mSpacePressedBefore)
 		{
 			reset();
 			mGame->goToState(GameState::GamePlay);
@@ -163,12 +167,12 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 		break;
 	}
 
-	if (mousePressed || (spacePressed && !mSpacePressedBefore))
+	if ((mousePressed || spacePressed) && !mSpacePressedBefore)
 	{
 		mBird->flap();
 	}
 
-	mSpacePressedBefore = spacePressed;
+	mSpacePressedBefore = spacePressed || mousePressed;
 }
 
 void GamePlayScene::checkCollisions()
@@ -206,9 +210,8 @@ void GamePlayScene::checkCollisions()
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear(BACKGROUND_COLOR);
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
-	if (spriteRenderer)
-		spriteRenderer->drawSprite(mBackground);
 	mSkyline->draw(renderer);
 	mBird->draw(renderer);
 	for (auto pipe : mPipes)

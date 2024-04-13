@@ -59,9 +59,9 @@ void SpriteRenderer::initialize()
 void SpriteRenderer::updateWindowSize(int width, int height)
 {
     Renderer::updateWindowSize(width, height);
-    mCamera->right = static_cast<float>(width);
-    mCamera->top = static_cast<float>(height);
-    glViewport(0, 0, static_cast<GLint>(width), static_cast<GLint>(height));
+    // mCamera->right = static_cast<float>(width);
+    // mCamera->top = static_cast<float>(height);
+    // GlViewport(0, 0, static_cast<GLint>(width), static_cast<GLint>(height));
 }
 
 void SpriteRenderer::clear(float r, float g, float b, float a)
@@ -102,8 +102,8 @@ void SpriteRenderer::drawSprite(shared_ptr<Sprite> sprite, Point<float> position
 
     GlBindTexture(GL_TEXTURE_2D, sprite->texture.textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
     // set the texture wrapping parameters
-    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // set texture wrapping to GL_REPEAT (default wrapping method)
+    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     // set texture filtering parameters
     GlEnable(GL_BLEND);
     GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

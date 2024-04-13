@@ -162,24 +162,35 @@ endfunction()
 
 function (copy_assets)
     if(MSVC)
+        message(STATUS "Preparing to copy MSVC resources")
         set(OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/assets")
+    elseif(ANDROID)
+        message(STATUS "Preparing to copy android resources")
+        set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/platforms/android/app/src/main/assets")
     else()
+        message(STATUS "Preparing to copy other platform resources")
         set(OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/assets")
     endif()
     if(EXISTS "${COMMON_ASSETS_DIRECTORY}" AND IS_DIRECTORY "${COMMON_ASSETS_DIRECTORY}")
-        message(STATUS "Found common assets")
-        add_custom_target(copy_common_assets ALL
-            COMMAND ${CMAKE_COMMAND} -E copy_directory 
-            ${COMMON_ASSETS_DIRECTORY} 
-            "${OUTPUT_DIRECTORY}"
-            COMMENT "Copying common assets to binary directory: ${OUTPUT_DIRECTORY}")
+        file(GLOB_RECURSE COMMON_ASSETS_FILES LIST_DIRECTORIES false RELATIVE ${COMMON_ASSETS_DIRECTORY}
+            ${COMMON_ASSETS_DIRECTORY}/*.*
+        )
+        foreach(ASSET_FILE ${COMMON_ASSETS_FILES})
+            # get_filename_component(ASSET_FILE_NAME ${ASSET_FILE} NAME)
+            message(STATUS "Copying common asset: ${ASSET_FILE}")
+            configure_file("${COMMON_ASSETS_DIRECTORY}/${ASSET_FILE}" "${OUTPUT_DIRECTORY}/${ASSET_FILE}" COPYONLY)  
+        endforeach()
+        
     endif()
     if(EXISTS "${PLATFORM_ASSETS_DIRECTORY}" AND IS_DIRECTORY "${PLATFORM_ASSETS_DIRECTORY}")
-        message(STATUS "Found platform specific assets")
-        add_custom_target(copy_platform_assets ALL
-            COMMAND ${CMAKE_COMMAND} -E copy_directory 
-            ${PLATFORM_ASSETS_DIRECTORY} 
-            "${OUTPUT_DIRECTORY}"
-            COMMENT "Copying platform specific assets to binary directory: ${OUTPUT_DIRECTORY}")
+        file(GLOB_RECURSE PLATFORM_ASSETS_FILES LIST_DIRECTORIES false RELATIVE ${PLATFORM_ASSETS_DIRECTORY}
+            ${PLATFORM_ASSETS_DIRECTORY}/*.*
+        )
+        foreach(ASSET_FILE ${PLATFORM_ASSETS_FILES})
+            # get_filename_component(ASSET_FILE_NAME ${ASSET_FILE} NAME)
+            message(STATUS "Copying platform asset: ${ASSET_FILE}")
+            configure_file("${PLATFORM_ASSETS_DIRECTORY}/${ASSET_FILE}" "${OUTPUT_DIRECTORY}/${ASSET_FILE}" COPYONLY)  
+        endforeach()
+        
     endif()
 endfunction()
