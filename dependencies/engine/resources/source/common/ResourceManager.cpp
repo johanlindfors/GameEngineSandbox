@@ -6,6 +6,7 @@
 #include "resources/Shader.hpp"
 #include <memory>
 #include "utilities/GLHelper.hpp"
+#include "utilities/Logger.hpp"
 #include "filesystem/File.hpp"
 
 using namespace std;
@@ -38,7 +39,7 @@ Texture2D ResourceManager::createEmptyTexture()
 
 void ResourceManager::loadTextures(vector<string> fileNames)
 {
-	printf("[ResourceManager::loadTextures]\n");
+	debuglog << "[ResourceManager::loadTextures]" << endl;
 	if (!mInitialized) {
 		const auto emptyTexture = createEmptyTexture();
 		mTextures[emptyTexture.name] = emptyTexture;
@@ -84,7 +85,7 @@ void ResourceManager::loadShader(const string &name, const string &vsFileName, c
 {
 	if (mShaders.find(name) == mShaders.end())
 	{
-		printf("[ResourceManager::loadShader] Loading shader\n");
+		debuglog << "[ResourceManager::loadShader] Loading shader" << endl;
 		const auto vs = mShaderLoader->loadShader(vsFileName);
 		const auto fs = mShaderLoader->loadShader(fsFileName);
 

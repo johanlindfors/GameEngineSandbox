@@ -1,4 +1,5 @@
 #include "utilities/StepTimer.hpp"
+#include "utilities/Logger.hpp"
 #include <cmath>
 #include <exception>
 #include <stdint.h>
@@ -90,7 +91,7 @@ void StepTimer::tick(
 		m_elapsedMicroSeconds -= 1000000;
 		m_framesPerSecond = m_framesThisSecond;
 		m_framesThisSecond = 0;
-		printf("FPS %d\n", m_framesPerSecond);
+		debuglog << "FPS " << m_framesPerSecond << endl;
 	}
 
 	if (m_isFixedTimeStep)

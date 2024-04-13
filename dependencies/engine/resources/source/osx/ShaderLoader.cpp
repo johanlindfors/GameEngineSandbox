@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstring>
 #include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 #include "filesystem/File.hpp"
 #include "resources/Shader.hpp"
 
@@ -23,7 +24,7 @@ namespace Engine {
 		string loadShader(const string& fileName)
 		{
 			const auto file = mFileSystem->loadFile(std::string("shaders/" + fileName), false);
-		    printf("[ShaderLoaderImpl::LoadShader] Loading shader\n");
+		    debuglog << "[ShaderLoaderImpl::LoadShader] Loading shader" << endl;
 			std::string shader;
 			if(file && file->isOpen()){
 				auto fileHandle = file->get();
