@@ -22,7 +22,7 @@ using namespace Utilities;
 
 void Map::initialize(std::vector<int> level)
 {
-    printf("[Map::initialize] Begin\n");
+    debuglog << "[Map::initialize] Begin" << end;
     copy(level.begin(), level.end(), mLevel.begin());
     for (int index = 0; index < 100; index++)
     {
@@ -48,7 +48,7 @@ void Map::initialize(std::vector<int> level)
             break;
         }
     }
-    printf("[Map::initialize] End\n");
+    debuglog << "[Map::initialize] End" << endl;
 }
 
 void Map::draw(shared_ptr<IRenderer> renderer)
@@ -112,7 +112,7 @@ bool Map::checkWin()
 
 shared_ptr<Map> Map::parse(string input)
 {
-    printf("[Map::parse] parsing input\n");
+    debuglog << "[Map::parse] parsing input" << end;
     std::istringstream parsed(input);
     vector<int> level;
     char c;
@@ -141,12 +141,12 @@ shared_ptr<Map> Map::parse(string input)
             break;
         }
     }
-    printf("[Map::parse] parsed fetch input\n");
+    debuglog << "[Map::parse] parsed fetch input" << endl;
     struct MkShrdEnablr : public Map
     {
     };
     auto map = make_shared<MkShrdEnablr>();
     map->initialize(level);
-    printf("[Map::parse] initialized level\n");
+    debuglog << "[Map::parse] initialized level" << endl;
     return map;
 }

@@ -39,7 +39,7 @@ public:
         glfwSwapInterval(0);
 
         debuglog << "GL_VERSION  : " << glGetString(GL_VERSION) << endl;
-        debuglog << "GL_RENDERER : %s\n" << glGetString(GL_RENDERER) << endl;
+        debuglog << "GL_RENDERER : " << glGetString(GL_RENDERER) << endl;
         debuglog << "GL_SHADING_LANGUAGE_VERSION : " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
 
         game->initialize(config);

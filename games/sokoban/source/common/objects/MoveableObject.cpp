@@ -18,7 +18,7 @@ using namespace Utilities;
 MoveableObject::MoveableObject()
     : isMoving(false)
 {
-    printf("[MoveableObject::constructor]\n");
+    debuglog << "[MoveableObject::constructor]" << endl;
 }
 
 void MoveableObject::draw(shared_ptr<IRenderer> renderer)

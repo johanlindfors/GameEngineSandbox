@@ -5,12 +5,13 @@
 #include <vector>
 #include "utilities/IOC.hpp"
 #include "utilities/MathHelper.hpp"
-#include "resources/IResourceManager.hpp"
 #include "utilities/StepTimer.hpp"
+#include "utilities/Config.hpp"
+#include "utilities/Logger.hpp"
+#include "resources/IResourceManager.hpp"
 #include "resources/Shader.hpp"
 #include "renderers/ModelRenderer.hpp"
 #include "renderers/Camera.hpp"
-#include "utilities/Config.hpp"
 #include "resources/Model.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include "input/IInputManager.hpp"
@@ -24,7 +25,7 @@ using namespace Sample;
 
 void ModelScene::load()
 {
-    printf("[ModelScene::load]\n");
+    debuglog << "[ModelScene::load]" << endl;
 
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     resourceManager->loadShader("model", "model.vs", "model.fs");
@@ -52,13 +53,13 @@ void ModelScene::load()
 
 void ModelScene::unload()
 {
-    printf("[ModelScene::unload]\n");
+    debuglog << "[ModelScene::unload]" << endl;
     mRenderer.reset();
 }
 
 void ModelScene::updateScreenSize(int width, int height)
 {
-    printf("[ModelScene::updateScreenSize]\n");
+    debuglog << "[ModelScene::updateScreenSize]" << endl;
     mRenderer->updateWindowSize(width, height);
 }
 
@@ -81,6 +82,7 @@ void ModelScene::update(shared_ptr<IStepTimer> timer)
 
 void ModelScene::draw(shared_ptr<IRenderer> renderer)
 {
+    debuglog << "[ModelScene::draw]" << endl;
     // draw sprites or models
     mRenderer->clear();
     glm::mat4 world = glm::mat4(1.0f);
