@@ -3,6 +3,7 @@
 // engine
 #include "sprites/AnimatedSprite.hpp"
 #include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 #include "resources/IResourceManager.hpp"
 
 // game
