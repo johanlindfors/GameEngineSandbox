@@ -9,6 +9,7 @@
 #include "renderers/FontRenderer.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 #include "http/IHttpClient.hpp"
 
 // game
@@ -114,7 +115,7 @@ void BootScene::load()
 
 void BootScene::unload()
 {
-    debuglog "[BootScene::unload]" << endl;
+    debuglog << "[BootScene::unload]" << endl;
 }
 
 void BootScene::updateScreenSize(int width, int height)

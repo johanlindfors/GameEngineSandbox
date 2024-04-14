@@ -9,6 +9,7 @@
 // engine
 #include "renderers/SpriteRenderer.hpp"
 #include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 #include "resources/IResourceManager.hpp"
 
 // game
@@ -22,7 +23,7 @@ using namespace Utilities;
 
 void Map::initialize(std::vector<int> level)
 {
-    debuglog << "[Map::initialize] Begin" << end;
+    debuglog << "[Map::initialize] Begin" << endl;
     copy(level.begin(), level.end(), mLevel.begin());
     for (int index = 0; index < 100; index++)
     {
@@ -112,7 +113,7 @@ bool Map::checkWin()
 
 shared_ptr<Map> Map::parse(string input)
 {
-    debuglog << "[Map::parse] parsing input" << end;
+    debuglog << "[Map::parse] parsing input" << endl;
     std::istringstream parsed(input);
     vector<int> level;
     char c;

@@ -7,6 +7,7 @@
 #include "resources/IResourceManager.hpp"
 #include "utilities/TweenEngine.hpp"
 #include "utilities/IStepTimer.hpp"
+#include "utilities/Logger.hpp"
 
 // game
 #include "game/GameDefines.hpp"
