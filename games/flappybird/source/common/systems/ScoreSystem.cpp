@@ -1,9 +1,11 @@
 #include "ScoreSystem.hpp"
 #include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 #include "filesystem/IFileSystem.hpp"
 #include "filesystem/File.hpp"
 #include <stdio.h>
 
+using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
@@ -14,7 +16,7 @@ void ScoreSystem::setLatestScore(int score)
     {
         mHighScore = mLatestScore;
         saveHighScore();
-        printf("[ScoreSystem::SetLatestScore] HighScore saved: %d\n", mHighScore);
+        debuglog << "[ScoreSystem::SetLatestScore] HighScore saved: " << mHighScore << endl;
     }
 };
 

@@ -31,7 +31,7 @@ GamePlayScene::~GamePlayScene()
 
 void GamePlayScene::load()
 {
-	printf("[GamePlayScene::load]\n");
+	debuglog << "[GamePlayScene::load]" << endl;
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
 	mPlayer->initialize(mMap->playerStartPosition.x, mMap->playerStartPosition.y);
@@ -39,7 +39,7 @@ void GamePlayScene::load()
 
 void GamePlayScene::unload()
 {
-	printf("[GamePlayScene::unload]\n");
+	debuglog << "[GamePlayScene::unload]" << endl;
 }
 
 void GamePlayScene::updateScreenSize(int width, int height)

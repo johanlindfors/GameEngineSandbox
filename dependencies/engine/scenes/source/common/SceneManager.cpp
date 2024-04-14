@@ -1,5 +1,6 @@
 #include "scenes/SceneManager.hpp"
 #include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 #include "renderers/ISpriteRenderer.hpp"
 #include <string>
 
@@ -11,7 +12,7 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	printf("[SceneManager::~SceneManager]\n");
+	debuglog << "[SceneManager::~SceneManager]" << endl;
 	for (auto &scene : mScenes)
 	{
 		scene->unload();

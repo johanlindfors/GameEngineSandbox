@@ -1,6 +1,7 @@
 #include "resources/ShaderLoader.hpp"
 #include "filesystem/FileSystem.hpp"
 #include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 #include "filesystem/File.hpp"
 #include "resources/Shader.hpp"
 
@@ -19,7 +20,7 @@ namespace Engine
 		string loadShader(const string &fileName)
 		{
 			const auto file = mFileSystem->loadFile(string("shaders/" + fileName), false);
-			printf("[ShaderLoaderImpl::LoadShader] Loading shader\n");
+			debuglog << "[ShaderLoaderImpl::LoadShader] Loading shader" << endl;
 			string shader;
 			if (file && file->isOpen())
 			{

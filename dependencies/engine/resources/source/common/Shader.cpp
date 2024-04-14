@@ -1,5 +1,6 @@
 #include "resources/Shader.hpp"
 #include "utilities/GLHelper.hpp"
+#include "utilities/Logger.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
 using namespace std;
@@ -8,7 +9,7 @@ using namespace Utilities;
 
 Shader::~Shader()
 {
-    printf("[Shader::~Shader]\n");
+    debuglog << "[Shader::~Shader]" << endl;
     GlDeleteProgram(ID);
 }
 

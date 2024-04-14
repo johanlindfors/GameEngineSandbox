@@ -19,13 +19,13 @@ public:
         GLFWwindow *window;
 
         auto game = std::make_unique<GameLoop>();
-        printf("[StartOsxApplication] game created\n");
+        debuglog << "[StartOsxApplication] game created" << endl;
         auto config = IOCContainer::instance().resolve<Config>();
-        printf("[StartOsxApplication] found config\n");
+        debuglog << "[StartOsxApplication] found config" << endl;
         int width, height;
         width = config->width;
         height = config->height;
-        printf("[StartOsxApplication] get default size returned\n");
+        debuglog << "[StartOsxApplication] get default size returned" << endl;
 
         glfwInitHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
         glfwInit();
@@ -38,79 +38,76 @@ public:
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
 
-        printf("GL_VERSION  : %s\n", glGetString(GL_VERSION));
-        printf("GL_RENDERER : %s\n", glGetString(GL_RENDERER));
-        printf("GL_SHADING_LANGUAGE_VERSION : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+        debuglog << "GL_VERSION  : " << glGetString(GL_VERSION) << endl;
+        debuglog << "GL_RENDERER : " << glGetString(GL_RENDERER) << endl;
+        debuglog << "GL_SHADING_LANGUAGE_VERSION : " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
 
         game->initialize(config);
-        printf("[StartOsxApplication] initialized\n");
+        debuglog << "[StartOsxApplication] initialized" << endl;
         game->ScreenToGameCoordinatesConverter.setGameSize({width,height});
         game->updateWindowSize(width, height);
-        printf("[StartOsxApplication] Windows size updated\n");
+        debuglog << "[StartOsxApplication] Windows size updated" << endl;
 
         glfwSetWindowUserPointer(window, game.get());
-        glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height)
-                                  {
-                auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
-                game->updateWindowSize(width, height);
-                GlViewport(0,0,width, height); });
+        glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height) {
+            auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
+            game->updateWindowSize(width, height);
+            GlViewport(0,0,width, height); });
 
-        glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
-                           {
+        glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+            auto input = IOCContainer::instance().resolve<IInputManager>();
+            ButtonState state(ButtonState::None);
+            switch (action) {
+                case GLFW_PRESS:
+                    state = ButtonState::Pressed;
+                    break;
+                case GLFW_REPEAT:
+                    state = ButtonState::Repeat;
+                    break;
+                case GLFW_RELEASE:
+                    state = ButtonState::Released;
+                    break;
+                default:
+                    break;
+            }
+            switch(key) {
+                case GLFW_KEY_LEFT:
+                    input->addKeyboardEvent(0x25, state);
+                    break;
+                case GLFW_KEY_RIGHT:
+                    input->addKeyboardEvent(0x27, state);
+                    break;
+                case GLFW_KEY_UP:
+                    input->addKeyboardEvent(0x26, state);
+                    break;
+                case GLFW_KEY_DOWN:
+                    input->addKeyboardEvent(0x28, state);
+                    break;
+                case GLFW_KEY_SPACE:
+                    input->addKeyboardEvent(0x20, state);
+                    break;
+                case GLFW_KEY_ESCAPE:
+                    glfwSetWindowShouldClose(window, 1);
+                    break;
+                default:
+                    break;
+            } });
+
+        glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods) {
+            if (button == GLFW_MOUSE_BUTTON_LEFT) {
+                double xpos, ypos;
+                glfwGetCursorPos(window, &xpos, &ypos);
                 auto input = IOCContainer::instance().resolve<IInputManager>();
-                ButtonState state(ButtonState::None);
-                switch (action) {
-                    case GLFW_PRESS:
-                        state = ButtonState::Pressed;
-                        break;
-                    case GLFW_REPEAT:
-                        state = ButtonState::Repeat;
-                        break;
-                    case GLFW_RELEASE:
-                        state = ButtonState::Released;
-                        break;
-                    default:
-                        break;
+                auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
+                auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
+                auto scaledX = xpos * gameAspects.width;
+                auto scaledY = ypos * gameAspects.height;
+                if(action == GLFW_PRESS) {
+                    input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
+                } else {
+                    input->addMouseEvent(MouseButton::Left, ButtonState::Released, scaledX, scaledY);
                 }
-                switch(key) {
-                    case GLFW_KEY_LEFT:
-                        input->addKeyboardEvent(0x25, state);
-                        break;
-                    case GLFW_KEY_RIGHT:
-                        input->addKeyboardEvent(0x27, state);
-                        break;
-                    case GLFW_KEY_UP:
-                        input->addKeyboardEvent(0x26, state);
-                        break;
-                    case GLFW_KEY_DOWN:
-                        input->addKeyboardEvent(0x28, state);
-                        break;
-                    case GLFW_KEY_SPACE:
-                        input->addKeyboardEvent(0x20, state);
-                        break;
-                    case GLFW_KEY_ESCAPE:
-                        glfwSetWindowShouldClose(window, 1);
-                        break;
-                    default:
-                        break;
-                } });
-
-        glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods)
-                                   {
-                if (button == GLFW_MOUSE_BUTTON_LEFT) {
-                    double xpos, ypos;
-                    glfwGetCursorPos(window, &xpos, &ypos);
-                    auto input = IOCContainer::instance().resolve<IInputManager>();
-                    auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
-                    auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
-                    auto scaledX = xpos * gameAspects.width;
-                    auto scaledY = ypos * gameAspects.height;
-                    if(action == GLFW_PRESS) {
-                        input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
-                    } else {
-                        input->addMouseEvent(MouseButton::Left, ButtonState::Released, scaledX, scaledY);
-                    }
-                } });
+            } });
 
         while (!glfwWindowShouldClose(window))
         {
