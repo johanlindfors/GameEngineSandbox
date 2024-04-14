@@ -43,7 +43,7 @@ namespace Engine
 			GLchar *strInfoLog = new GLchar[infoLogLength + 1];
 			GlGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
 
-			debuglog << "Compilation error in shader: '" << strInfoLog << "'" << endl;
+			debuglog << "[GLHelper::CompileShader] Compilation error in shader: '" << strInfoLog << "'" << endl;
 			delete[] strInfoLog;
 		}
 
@@ -66,7 +66,7 @@ namespace Engine
 		}
 
 		const auto vs = compileShader(GL_VERTEX_SHADER, vsSource);
-		debuglog << "[GLHelper::CompileProgram] Vertex shader compiled\n" << endl;
+		debuglog << "[GLHelper::CompileProgram] Vertex shader compiled" << endl;
 		const auto fs = compileShader(GL_FRAGMENT_SHADER, fsSource);
 		debuglog << "[GLHelper::CompileProgram] Fragment shader compiled" << endl;
 
@@ -100,7 +100,7 @@ namespace Engine
 			GlGetProgramInfoLog(program, static_cast<GLsizei>(infoLog.size()), nullptr, infoLog.data());
 
 			auto errorMessage = string(infoLog.begin(), infoLog.end());
-			debuglog << "Program link failed: " << errorMessage.c_str() << endl;
+			debuglog << "[GLHelper::CompileProgram] Program link failed: " << errorMessage.c_str() << endl;
 		}
 
 		return program;
@@ -368,7 +368,7 @@ namespace Engine
 
 	void GlGetProgramiv(GLuint program, GLenum pname, GLint *params)
 	{
-		debuglog << "[GLHelper::GlGetProgramiv]\n" << endl;
+		debuglog << "[GLHelper::GlGetProgramiv]" << endl;
 		glGetProgramiv(program, pname, params);
 	}
 

@@ -28,7 +28,7 @@ BootScene::BootScene(IGameStateCallback *gameCallback)
 
 void BootScene::load()
 {
-    printf("[BootScene::load]\n");
+    debuglog << "[BootScene::load]" << endl;
 
     mLoadingTasks.push([&]()
                        {    
@@ -89,14 +89,14 @@ void BootScene::load()
         string result;
 
         if(IOCContainer::instance().contains<IHttpClient>()) {
-            printf("[BootScene::update] Fetching level from server\n");
+            debuglog << "[BootScene::update] Fetching level from server" << endl;
 
             auto httpClient = IOCContainer::instance().resolve<IHttpClient>();
             string url("https://programmeramera.se/pages/sokobants/assets/003.txt");
             result = httpClient->get(url);
 
             if(result.length() == 0) {
-                printf("[BootScene::update] Failed to fetch level\n");
+                debuglog << "[BootScene::update] Failed to fetch level" << endl;
                 result = HARD_MAP;
             }
         } else {
@@ -114,7 +114,7 @@ void BootScene::load()
 
 void BootScene::unload()
 {
-    printf("[BootScene::unload]\n");
+    debuglog "[BootScene::unload]" << endl;
 }
 
 void BootScene::updateScreenSize(int width, int height)

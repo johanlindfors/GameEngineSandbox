@@ -1,4 +1,4 @@
 #include "utilities/AppleOut.hpp"
 
-AppleOut appleOut("LO ");
+AppleOut appleOut("");
 std::ostream debuglog(&appleOut);

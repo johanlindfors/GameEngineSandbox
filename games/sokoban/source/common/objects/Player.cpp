@@ -15,7 +15,7 @@ using namespace Utilities;
 Player::Player()
     : posX(0), posY(0)
 {
-    printf("[Player::constructor]\n");
+    debuglog << "[Player::constructor]" << endl;
 
 #if (IS_ANIMATED == true)
     auto sprite = make_shared<AnimatedSprite>();
