@@ -22,7 +22,6 @@ elseif(LINUX)
     find_package(PkgConfig REQUIRED)
     pkg_search_module(PNG    libpng>=1.6.0   QUIET)
     pkg_search_module(JPEG   libjpeg         QUIET)
-    #pkg_search_module(GLFW   glfw3           QUIET)
 
     list(APPEND DEPENDENCIES
         GLESv2
