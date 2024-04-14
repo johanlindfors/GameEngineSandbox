@@ -6,6 +6,7 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "renderers/FontRenderer.hpp"
 #include "input/IInputManager.hpp"
+#include "utilities/Logger.hpp"
 
 // game
 #include "game/IGameStateCallback.hpp"
