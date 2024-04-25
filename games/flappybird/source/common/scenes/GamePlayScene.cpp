@@ -5,6 +5,7 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "physics/IPhysicsEngine.hpp"
 #include "utilities/TweenEngine.hpp"
+#include "audio/IAudioManager.hpp"
 #include "input/IInputManager.hpp"
 #include "game/IGameStateCallback.hpp"
 #include "utilities/MathHelper.hpp"
@@ -35,6 +36,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
 	, mPhysicsEngine(IOCContainer::instance().resolve<IPhysicsEngine>())
 	, mCollider(IOCContainer::instance().resolve<IObjectCollider>())
 	, mTweenEngine(IOCContainer::instance().resolve<ITweenEngine>())
+	, mAudioManager(IOCContainer::instance().resolve<IAudioManager>())
 	, mScreenSizeX(0)
 	, mScreenSizeY(0)
 	, mGame(gameCallback)
@@ -167,9 +169,12 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 		break;
 	}
 
-	if ((mousePressed || spacePressed) && !mSpacePressedBefore)
+	if ((mousePressed || spacePressed) 
+		&& !mSpacePressedBefore 
+		&& mGame->getCurrentState() != GameState::GameOver)
 	{
 		mBird->flap();
+		mAudioManager->playSound("flap.wav");
 	}
 
 	mSpacePressedBefore = spacePressed || mousePressed;
@@ -181,21 +186,24 @@ void GamePlayScene::checkCollisions()
 	{
 		bool collision = mCollider->intersects(mBird->bounds, pipe->topPipe->AABB) ||
 						 mCollider->intersects(mBird->bounds, pipe->bottomPipe->AABB);
-		if (collision && mBird->isAlive)
+		if (collision && mBird->isAlive && !mBird->isKilled)
 		{ // Collided with a pipe
 			mBird->collideWithPipe();
 			mPipesGenerator.pause();
 			mSkyline->pause();
 			mGround->pause();
+			mAudioManager->playSound("pipe-hit.wav");
 		}
 		if (!pipe->hasScored && pipe->bottomPipe->position.x < mBird->position.x)
 		{
 			mScore++;
 			pipe->hasScored = true;
+			mAudioManager->playSound("score.wav");
 		}
 	}
 
-	if (mCollider->intersects(mBird->bounds, mGround->AABB))
+	if (mCollider->intersects(mBird->bounds, mGround->AABB) &&
+		mBird->allowGravity)
 	{
 		auto scoreSystem = IOCContainer::instance().resolve<ScoreSystem>();
 		scoreSystem->setLatestScore(mScore);
@@ -205,6 +213,7 @@ void GamePlayScene::checkCollisions()
 		mBird->collideWithPipe();
 		mBird->allowGravity = false;
 		mGame->goToState(GameState::GameOver);
+		mAudioManager->playSound("ground-hit.wav");
 	}
 }
 

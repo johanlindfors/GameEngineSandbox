@@ -2,8 +2,10 @@
 #include "resources/TextureLoader.hpp"
 #include "resources/ShaderLoader.hpp"
 #include "resources/ModelLoader.hpp"
+#include "resources/SoundLoader.hpp"
 #include "resources/Model.hpp"
 #include "resources/Shader.hpp"
+#include "resources/Sound.hpp"
 #include <memory>
 #include "utilities/GLHelper.hpp"
 #include "utilities/Logger.hpp"
@@ -13,13 +15,18 @@ using namespace std;
 using namespace Engine;
 
 ResourceManager::ResourceManager()
-	: mInitialized(false), mTextureLoader(make_unique<TextureLoader>()), mShaderLoader(make_unique<ShaderLoader>()), mModelLoader(make_unique<ModelLoader>()) {}
+	: mInitialized(false)
+	, mTextureLoader(make_unique<TextureLoader>())
+	, mShaderLoader(make_unique<ShaderLoader>())
+	, mModelLoader(make_unique<ModelLoader>())
+	, mSoundLoader(make_unique<SoundLoader>()) {}
 
 ResourceManager::~ResourceManager()
 {
 	mTextureLoader.reset();
 	mShaderLoader.reset();
 	mModelLoader.reset();
+	mSoundLoader.reset();
 }
 
 Texture2D ResourceManager::createEmptyTexture()
@@ -104,7 +111,6 @@ void ResourceManager::loadModel(const string &fileName)
 {
 	if (mModels.find(fileName) == mModels.end())
 	{
-
 		const auto model = mModelLoader->loadModel(fileName);
 		mModels[fileName] = model;
 	}
@@ -114,3 +120,18 @@ shared_ptr<Model> ResourceManager::getModel(const string &name) const
 {
 	return mModels.at(name);
 }
+
+void ResourceManager::loadSounds(vector<string> fileNames) {
+	for (auto const& filename : fileNames) {
+		if (mSounds.find(filename) == mSounds.end())
+		{
+			debuglog << "[ResourceManager::loadSound] Loading sound '" << filename << "'" << endl;
+			const auto sound = mSoundLoader->loadSound(filename);
+			mSounds[filename] = sound;
+		}
+	}
+}
+
+Engine::Sound ResourceManager::getSound(const std::string &name) const {
+	return mSounds.at(name);
+};

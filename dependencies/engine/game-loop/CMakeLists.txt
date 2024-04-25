@@ -6,6 +6,7 @@ set(DEPENDENCIES
     input
     resources
     renderers
+    audio
 )
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

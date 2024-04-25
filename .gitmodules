@@ -22,3 +22,6 @@
 [submodule "dependencies/thirdparty/entt"]
 	path = dependencies/thirdparty/entt
 	url = git@github.com:skypjack/entt.git
+[submodule "dependencies/thirdparty/openal-soft"]
+	path = dependencies/thirdparty/openal-soft
+	url = https://github.com/kcat/openal-soft

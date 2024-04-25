@@ -31,3 +31,5 @@ add_subdirectory(glm ${CMAKE_CURRENT_BINARY_DIR}/glm)
 if(DEFINED USE_HTTP)
     add_subdirectory(cpr ${CMAKE_CURRENT_BINARY_DIR}/cpr)
 endif()
+
+add_subdirectory(openal-soft ${CMAKE_CURRENT_BINARY_DIR}/openal-soft)
