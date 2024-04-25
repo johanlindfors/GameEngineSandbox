@@ -20,6 +20,7 @@ namespace Engine
 	class IPhysicsEngine;
 	struct Sprite;
 	class FontRenderer;
+	class IAudioManager;
 }
 
 namespace Utilities
@@ -56,6 +57,7 @@ private:
 	std::shared_ptr<Engine::IPhysicsEngine> mPhysicsEngine;
 	std::shared_ptr<Utilities::IObjectCollider> mCollider;
 	std::shared_ptr<Utilities::ITweenEngine> mTweenEngine;
+	std::shared_ptr<Engine::IAudioManager> mAudioManager;
 	int mScreenSizeX;
 	int mScreenSizeY;
 	IGameStateCallback *mGame;

@@ -16,6 +16,7 @@ elseif(OSX)
         glfw
         PNG
         JPEG::JPEG
+        OpenAL
     )
 elseif(LINUX)
     find_package(PNG REQUIRED)
@@ -28,6 +29,7 @@ elseif(LINUX)
         ${GLFWs_LIBRARIES}
         PNG::PNG
         JPEG::JPEG
+        OpenAL
     )
 elseif(ANDROID)
     find_package(PkgConfig REQUIRED)

@@ -10,6 +10,7 @@
 #include "filesystem/FileSystem.hpp"
 #include "utilities/Logger.hpp"
 #include "renderers/FrameBufferRenderer.hpp"
+#include "audio/AudioManager.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -59,6 +60,10 @@ void GameLoop::initialize(shared_ptr<Config> config)
 		}
 	}
 
+	mAudioManager = make_shared<AudioManager>();
+	mAudioManager->initialize();
+	IOCContainer::instance().register_type<IAudioManager>(mAudioManager);
+	debuglog << "[GameLoop::initialize] AudioManager registered" << std::endl;
 
 	mInputManager = make_shared<InputManager>();
 	IOCContainer::instance().register_type<IInputManager>(mInputManager);
@@ -82,6 +87,7 @@ GameLoop::~GameLoop() {
 	debuglog << "[GameLoop::~GameLoop]" << std::endl;
 	mTimer.reset();
 
+	mAudioManager.reset();
 	mSceneManager.reset();
 	mInputManager.reset();
 	if (mResourceManager.get())
