@@ -1,14 +1,14 @@
 #pragma once
-#include "utilities/ALHelper.hpp"
+#include <string>
 
 namespace Engine
 {
     struct Sound {
-        ALuint Buffer;
-        unsigned int Source;
         std::string Name;
+        unsigned int Buffer;
+        unsigned int Source;
         unsigned char Channels;
-        int SampleRate;
+        unsigned int SampleRate;
         unsigned char BitsPerSample;
     };
 }
