@@ -12,6 +12,7 @@ namespace Engine
 	class IRenderer;
 	class IInputManager;
 	class IResourceManager;
+	class IAudioManager;
 }
 
 class GamePlayScene : public Engine::GameScene
@@ -42,4 +43,5 @@ private:
 	std::unique_ptr<CollisionSystem> mCollisionSystem;
 	double mElapsedMicroSeconds;
 	double mTargetMicroSeconds;
+	std::shared_ptr<Engine::IAudioManager> mAudioManager;
 };

@@ -40,6 +40,7 @@ void SplashScene::load()
 	mSprite->texture = mResourceManager->getTexture("coderox.png");
 
 	mResourceManager->loadShader("simple", "simple.vs", "simple.fs");
+	mResourceManager->loadSounds({"score.wav"});
 
 	auto config = IOCContainer::instance().resolve<Utilities::Config>();
 	auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
