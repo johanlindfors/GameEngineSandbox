@@ -8,6 +8,7 @@
 #include "utilities/MathHelper.hpp"
 #include "sprites/Sprite.hpp"
 #include "utilities/StepTimer.hpp"
+#include "audio/IAudioManager.hpp"
 
 // game
 #include "game/IGameStateCallback.hpp"
@@ -18,7 +19,18 @@ using namespace Engine;
 using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
-	: mSpriteSystem(make_unique<SpriteSystem>()), mTransformSystem(make_unique<TransformSystem>()), mMovementSystem(make_unique<MovementSystem>()), mSpawnSystem(make_unique<SpawnSystem>()), mCleanupSystem(make_unique<CleanupSystem>()), mScoringSystem(make_unique<ScoringSystem>()), mCollisionSystem(make_unique<CollisionSystem>()), mGame(gameCallback), mSpacePressedBefore(false), mTargetMicroSeconds(1000000 / FRAMES_PER_SECOND), mElapsedMicroSeconds(0)
+	: mSpriteSystem(make_unique<SpriteSystem>())
+	, mTransformSystem(make_unique<TransformSystem>())
+	, mMovementSystem(make_unique<MovementSystem>())
+	, mSpawnSystem(make_unique<SpawnSystem>())
+	, mCleanupSystem(make_unique<CleanupSystem>())
+	, mScoringSystem(make_unique<ScoringSystem>())
+	, mCollisionSystem(make_unique<CollisionSystem>())
+	, mGame(gameCallback)
+	, mSpacePressedBefore(false)
+	, mTargetMicroSeconds(1000000 / FRAMES_PER_SECOND)
+	, mElapsedMicroSeconds(0)
+	, mAudioManager(IOCContainer::resolve_type<IAudioManager>())
 {
 	id = typeid(GamePlayScene).name();
 }
@@ -66,6 +78,7 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 			{
 				mSpawnSystem->spawnApple(mRegistry);
 				mCleanupSystem->resetCounter(mRegistry, 1);
+				mAudioManager->playSound("score.wav");
 			}
 			mCleanupSystem->update(mRegistry);
 			if (mCollisionSystem->update(mRegistry))
@@ -92,5 +105,6 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear(0.0, 0.0, 0.0, 1.0);
 	mSpriteSystem->render(mRegistry, renderer);
 }
