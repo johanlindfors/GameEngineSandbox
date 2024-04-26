@@ -8,6 +8,7 @@
 #include "resources/Sound.hpp"
 #include <memory>
 #include "utilities/GLHelper.hpp"
+#include "utilities/ALHelper.hpp"
 #include "utilities/Logger.hpp"
 #include "filesystem/File.hpp"
 
@@ -23,9 +24,18 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+	debuglog << "[ResourceManager::~ResourceManager]" << endl;
+	for (const auto &texture : mTextures)
+	{
+		GlDeleteTextures(1, &texture.second.textureIndex);
+	}
 	mTextureLoader.reset();
 	mShaderLoader.reset();
 	mModelLoader.reset();
+	for (const auto &sound : mSounds) {
+		AlDeleteSources(1, &sound.second.Source);
+		AlDeleteBuffers(1, &sound.second.Buffer);
+	}
 	mSoundLoader.reset();
 }
 
