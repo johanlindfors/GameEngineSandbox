@@ -22,22 +22,6 @@ namespace Engine {
 		SoundLoaderImpl()
 			: mFileSystem(IOCContainer::instance().resolve<IFileSystem>()) { }	
 
-		// char* loadSound(const string& fileName)
-		// {
-		// 	const auto file = mFileSystem->loadFile(std::string("audio/" + fileName), false);
-		//     debuglog << "[SoundLoaderImpl::LoadSound] Loading sound" << endl;
-		// 	std::string sound;
-		// 	if(file && file->isOpen()){
-		// 		auto fileHandle = file->get();
-		// 		char buffer[100];
-		// 		while(!feof(fileHandle)) {
-		// 			if(fgets(buffer, 100, fileHandle) != NULL)
-		// 				sound += buffer;
-		// 		}
-		// 	}
-		// 	return sound.c_str();
-		// }
-
 		std::int32_t convert_to_int(char* buffer, std::size_t len)
 		{
 			std::int32_t a = 0;
