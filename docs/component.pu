@@ -11,7 +11,7 @@ System_Boundary(engine, "Game Engine") {
     System(application, "engine")
     System(audio, "audio")
     System(filesystem, "filesystem")
-    System(game-loop, "game-loop")
+    System(gameLoop, "game-loop")
     System(http, "http")
     System(input, "input")
     System(physics, "physics")
@@ -26,7 +26,7 @@ System_Boundary(thirdparty, "Thirdparty") {
     System(cpr, "cpr")
     System(entt, "entt")
     System(glm, "glm")
-    System(openal-soft, "openal-soft")
+    System(openalSoft, "openal-soft")
     System(tweeny, "tweeny")
     System(vcpkg, "vcpkg")
 }
@@ -34,15 +34,14 @@ System_Boundary(thirdparty, "Thirdparty") {
 Rel(player, flappyBird, Plays)
 
 Rel(flappyBird, application, Uses)
-Rel(flappyBird, game-loop, Uses)
+Rel(flappyBird, gameLoop, Uses)
 Rel(flappyBird, renderers, Uses)
-Rel(flappyBird, textures, Uses)
 Rel(flappyBird, input, Uses)
 Rel(flappyBird, scenes, Uses)
 Rel(flappyBird, physics, Uses)
 Rel(flappyBird, tweeny, Uses)
 
-Rel(application, game-loop, Uses)
+Rel(application, gameLoop, Uses)
 Rel(application, utilities, Uses)
 
 Rel(audio, utilities, Uses)
@@ -50,11 +49,12 @@ Rel(audio, resources, Uses)
 
 Rel(filesystem, utilities, Uses)
 
-Rel(game-loop, utilities, Uses)
-Rel(game-loop, scenes, Uses)
-Rel(game-loop, input, Uses)
-Rel(game-loop, resources, Uses)
-Rel(game-loop, renderers, Uses)
+Rel(gameLoop, utilities, Uses)
+Rel(gameLoop, scenes, Uses)
+Rel(gameLoop, input, Uses)
+Rel(gameLoop, audio, Uses)
+Rel(gameLoop, resources, Uses)
+Rel(gameLoop, renderers, Uses)
 
 Rel(http, utilities, Uses)
 
