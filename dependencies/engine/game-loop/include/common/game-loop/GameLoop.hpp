@@ -16,6 +16,7 @@ namespace Engine
 	class IGameLoopCallback;
 	class IResourceManager;
 	class IFileSystem;
+	class IAudioManager;
 	class FrameBufferRenderer;
 
 	class GameLoop
@@ -43,6 +44,7 @@ namespace Engine
 		std::shared_ptr<ISceneManager> mSceneManager;
 		std::shared_ptr<IResourceManager> mResourceManager;
 		std::shared_ptr<IFileSystem> mFileSystem;
+		std::shared_ptr<IAudioManager> mAudioManager;
 		std::shared_ptr<FrameBufferRenderer> mFrameBufferRenderer;
 		bool mIsInitialized;
 	};

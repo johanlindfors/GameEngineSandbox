@@ -1,5 +1,7 @@
 add_subdirectory(application ${CMAKE_CURRENT_BINARY_DIR}/engine/application)
 
+add_subdirectory(audio ${CMAKE_CURRENT_BINARY_DIR}/engine/audio)
+
 add_subdirectory(filesystem ${CMAKE_CURRENT_BINARY_DIR}/engine/filesystem)
 
 add_subdirectory(game-loop ${CMAKE_CURRENT_BINARY_DIR}/engine/game-loop)

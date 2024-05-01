@@ -20,6 +20,7 @@ set(DEPENDENCIES
     scenes
     physics
     tweeny
+    audio
 )
 
 if(WINDOWS_STORE)

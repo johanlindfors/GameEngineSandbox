@@ -16,6 +16,9 @@
 #include "systems/ScoreSystem.hpp"
 #include "utilities/Logger.hpp"
 
+#include "utilities/ALHelper.hpp"
+#include "resources/Sound.hpp"
+
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
@@ -89,8 +92,8 @@ void SplashScene::load()
 	scoreSystem->loadHighScore();
 	
 	// Audio
-	// mResourcesToLoad.push(L"background.png");
-
+	resourceManager->loadSounds({"flap.wav", "ground-hit.wav", "ouch.wav", "pipe-hit.wav", "score.wav"});
+	
 	debuglog << "[SplashScene::load] Loaded" << endl;
 }
 

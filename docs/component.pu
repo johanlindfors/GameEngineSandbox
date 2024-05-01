@@ -9,31 +9,33 @@ System_Boundary(game, "Flappy Bird") {
 
 System_Boundary(engine, "Game Engine") {
     System(application, "engine")
-    System(input, "input")
-    System(gameLoop, "game-loop")
+    System(audio, "audio")
     System(filesystem, "filesystem")
+    System(gameLoop, "game-loop")
+    System(http, "http")
+    System(input, "input")
     System(physics, "physics")
-    System(renderer, "renderer")
+    System(renderers, "renderers")
+    System(resources, "resources")
     System(scenes, "scenes")
-    System(shaders, "shaders")
-    System(textures, "textures")
     System(utilities, "utilities")
 }
 
 System_Boundary(thirdparty, "Thirdparty") {
-    System(glm, "glm")
     System(angle, "angle")
-    System(vcpkg, "vcpkg")
+    System(cpr, "cpr")
+    System(entt, "entt")
+    System(glm, "glm")
+    System(openalSoft, "openal-soft")
     System(tweeny, "tweeny")
+    System(vcpkg, "vcpkg")
 }
 
 Rel(player, flappyBird, Plays)
 
 Rel(flappyBird, application, Uses)
-Rel(flappyBird, application, Uses)
 Rel(flappyBird, gameLoop, Uses)
-Rel(flappyBird, renderer, Uses)
-Rel(flappyBird, textures, Uses)
+Rel(flappyBird, renderers, Uses)
 Rel(flappyBird, input, Uses)
 Rel(flappyBird, scenes, Uses)
 Rel(flappyBird, physics, Uses)
@@ -42,28 +44,34 @@ Rel(flappyBird, tweeny, Uses)
 Rel(application, gameLoop, Uses)
 Rel(application, utilities, Uses)
 
-Rel(filesystem, utilities, Uses)
+Rel(audio, utilities, Uses)
+Rel(audio, resources, Uses)
 
-Rel(scenes, renderer, Uses)
-Rel(scenes, utilities, Uses)
+Rel(filesystem, utilities, Uses)
 
 Rel(gameLoop, utilities, Uses)
 Rel(gameLoop, scenes, Uses)
 Rel(gameLoop, input, Uses)
-Rel(gameLoop, textures, Uses)
-Rel(gameLoop, renderer, Uses)
+Rel(gameLoop, audio, Uses)
+Rel(gameLoop, resources, Uses)
+Rel(gameLoop, renderers, Uses)
+
+Rel(http, utilities, Uses)
+
+Rel(input, utilities, Uses)
 
 Rel(physics, utilities, Uses)
 
-Rel(renderer, utilities, Uses)
-Rel(renderer, filesystem, Uses)
-Rel(renderer, textures, Uses)
-Rel(renderer, glm, Uses)
+Rel(renderers, utilities, Uses)
+Rel(renderers, filesystem, Uses)
+Rel(renderers, resources, Uses)
+Rel(renderers, glm, Uses)
 
-Rel(shaders, utilities, Uses)
-Rel(shaders, filesystem, Uses)
+Rel(resources, utilities, Uses)
+Rel(resources, filesystem, Uses)
+Rel(resources, glm, Uses)
 
-Rel(textures, utilities, Uses)
-Rel(textures, filesystem, Uses)
+Rel(scenes, renderers, Uses)
+Rel(scenes, utilities, Uses)
 
 @enduml
