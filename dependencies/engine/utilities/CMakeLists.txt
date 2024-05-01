@@ -46,6 +46,7 @@ else() # WIN32
     list(APPEND DEPENDENCIES 
         GLEW::GLEW
         PNG::PNG
+        OpenAL
     )
     if(WIN32)
         list(APPEND DEPENDENCIES
