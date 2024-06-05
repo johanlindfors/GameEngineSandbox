@@ -11,8 +11,8 @@ namespace Engine
     bool AlcMakeContextCurrent(ALCcontext *context);
     void AlcDestroyContext(ALCcontext *context);
     bool AlcIsExtensionPresent(ALCdevice *device, std::string extname);
-    const ALCchar* ALC_APIENTRY AlcGetString(ALCdevice *device, ALCenum param);
-    ALCenum ALC_APIENTRY AlcGetError(ALCdevice *device);
+    const ALCchar* AlcGetString(ALCdevice *device, ALCenum param);
+    ALCenum AlcGetError(ALCdevice *device);
     ALCcontext* AlcGetCurrentContext();
     ALCdevice* AlcGetContextsDevice(ALCcontext *context);
     

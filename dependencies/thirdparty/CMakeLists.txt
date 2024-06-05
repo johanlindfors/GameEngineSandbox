@@ -34,4 +34,6 @@ if(DEFINED USE_HTTP)
     add_subdirectory(cpr ${CMAKE_CURRENT_BINARY_DIR}/cpr)
 endif()
 
-add_subdirectory(openal-soft ${CMAKE_CURRENT_BINARY_DIR}/openal-soft)
+if (NOT EMSCRIPTEN)
+    add_subdirectory(openal-soft ${CMAKE_CURRENT_BINARY_DIR}/openal-soft)
+endif()
