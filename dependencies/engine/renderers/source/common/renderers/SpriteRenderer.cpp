@@ -52,8 +52,11 @@ void SpriteRenderer::initialize()
 
     // position attribute
     auto attribLocation = mShader->getAttribLocation("vertex");
+    debuglog << "[SpriteRenderer::initialize] AttribLocation: " << attribLocation << endl;
     GlVertexAttribPointer(attribLocation, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
-    GlEnableVertexAttribArray(0);
+    GlEnableVertexAttribArray(attribLocation);
+
+    debuglog << "[SpriteRenderer::initialize] Done " << endl;
 }
 
 void SpriteRenderer::updateWindowSize(int width, int height)

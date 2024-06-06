@@ -12,6 +12,8 @@ using namespace Windows::ApplicationModel;
 #include <Windows.h>
 #include <vector>
 #include <filesystem>
+#elif EMSCRIPTEN
+#include <emscripten.h>
 #elif defined(PLATFORM_POSIX)
 #include <iostream>
 #include <filesystem>
@@ -54,6 +56,8 @@ string FileSystem::getAssetsDirectory()
 				break;
 			}
 		}
+#elif EMSCRIPTEN
+		mAssetsDirectory = string("assets/");
 #else
 		static_assert("Invalid platform configured");
 #endif
@@ -64,6 +68,7 @@ string FileSystem::getAssetsDirectory()
 
 std::shared_ptr<File> FileSystem::loadFile(std::string filename, bool writeable)
 {
+	debuglog << "[FileSystem::loadFile] Loading file " << filename << endl;
 	const auto directory = getAssetsDirectory();
 	auto file = std::make_shared<File>();
 	file->open(directory + filename, writeable);

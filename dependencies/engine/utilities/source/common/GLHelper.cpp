@@ -242,7 +242,7 @@ namespace Engine
 
 	void GlVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer)
 	{
-		debuglog << "[GLHelper::GlVertexAttribPointern" << endl;
+		debuglog << "[GLHelper::GlVertexAttribPointer" << endl;
 		glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 	}
 

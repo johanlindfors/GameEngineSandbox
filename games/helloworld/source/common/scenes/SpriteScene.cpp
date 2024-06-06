@@ -19,6 +19,8 @@
 // Game
 #include "game/GameDefines.hpp"
 
+#include <emscripten.h>
+
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
@@ -29,9 +31,22 @@ void SpriteScene::load()
     debuglog << "[SpriteScene::load]" << endl;
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 
+    auto files = { 
+        "assets/textures/grid.png", 
+        "assets/shaders/simple.vs",
+        "assets/shaders/simple.fs"
+    };
+    for(auto &file : files)
+    {
+        auto httpFileName = string("http://localhost:6931/") + string(file);
+        debuglog << "[SpriteScene::load] Fetching file '" << httpFileName << "' from server." << endl;
+        emscripten_wget(httpFileName.c_str(), file);
+    }
+    debuglog << "[SpriteScene::load] All files fetched" << endl;
+
     resourceManager->loadTextures({ "grid.png" });
     resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
-    
+
     auto config = IOCContainer::instance().resolve<Utilities::Config>();
     auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
     auto shader = resourceManager->getShader("simple");

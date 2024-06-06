@@ -2,6 +2,7 @@
 #include <memory>
 #include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.hpp"
+#include "scenes/BootScene.hpp"
 #include "scenes/SpriteScene.hpp"
 
 using namespace std;
@@ -13,5 +14,5 @@ void Game::initialize()
 {
     IOCContainer::instance()
         .resolve<ISceneManager>()
-        ->addScene(make_shared<SpriteScene>());
+        ->addScene(make_shared<BootScene>());
 }
