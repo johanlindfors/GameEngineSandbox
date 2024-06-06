@@ -1,7 +1,7 @@
 attribute vec4 vertex;
 uniform mat4 world;
 uniform mat4 projection;
-attribute vec4 offset;
+uniform vec4 offset;
 
 varying vec2 TexCoord;
 
