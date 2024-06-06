@@ -13,36 +13,36 @@ namespace Utilities
     class IStepTimer;
 }
 
-// class IResourceDownloaderCallback
-// {
-// public:
-// 	virtual ~IResourceDownloaderCallback() = default;
-// 	virtual void complete() = 0;
-// 	virtual void error() = 0;
-// };
+class IResourceDownloaderCallback
+{
+public:
+	virtual ~IResourceDownloaderCallback() = default;
+	virtual void complete() = 0;
+	virtual void error() = 0;
+};
 
-// class ResourceDownloader
-// {
-// public:
-//     ResourceDownloader(
-//         IResourceDownloaderCallback* callbackInstance,  
-//         std::vector<std::string> resources)
-//     {
-//         mCallbackInstance = callbackInstance;
-//         mResources = resources;
-//     }
-//     virtual ~ResourceDownloader() {}
-//     void downloadNext();
-//     void reportError();
-// private:
-//     std::vector<std::string> mResources;
-//     int mFetchedResources = 0;
-//     IResourceDownloaderCallback* mCallbackInstance;
-// };
+class ResourceDownloader
+{
+public:
+    ResourceDownloader(
+        IResourceDownloaderCallback* callbackInstance,  
+        std::vector<std::string> resources)
+    {
+        mCallbackInstance = callbackInstance;
+        mResources = resources;
+    }
+    virtual ~ResourceDownloader() {}
+    void downloadNext();
+    void reportError();
+private:
+    std::vector<std::string> mResources;
+    int mFetchedResources = 0;
+    IResourceDownloaderCallback* mCallbackInstance;
+};
 
 namespace HelloWorld::Scenes
 {
-    class BootScene : public Engine::GameScene//, public IResourceDownloaderCallback
+    class BootScene : public Engine::GameScene, public IResourceDownloaderCallback
     {
     public:
         BootScene() { id = typeid(BootScene).name();}
@@ -55,8 +55,8 @@ namespace HelloWorld::Scenes
         void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
         // IRessourceDownloaderCallback
-        // void complete();
-        // void error();
+        void complete() override;
+        void error() override;
 
     private:
         bool mResourcesLoaded = false;

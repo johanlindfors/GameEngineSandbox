@@ -1,5 +1,6 @@
 #include "utilities/TweenEngine.hpp"
 #include "utilities/Tween.hpp"
+#include <algorithm>
 
 using namespace std;
 using namespace Utilities;

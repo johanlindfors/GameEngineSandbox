@@ -54,6 +54,11 @@ elseif(WIN32) # WIN32
         )
     endif()
 else() # EMSCRIPTEN
+    # find_package(PkgConfig REQUIRED)
+    # pkg_search_module(PNG REQUIRED libpng)
+    # list(APPEND DEPENDENCIES 
+    #     PNG
+    # )
 endif()
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

@@ -19,8 +19,6 @@
 // Game
 #include "game/GameDefines.hpp"
 
-#include <emscripten.h>
-
 using namespace std;
 using namespace Engine;
 using namespace Utilities;
@@ -30,22 +28,8 @@ void SpriteScene::load()
 {
     debuglog << "[SpriteScene::load]" << endl;
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-
-    auto files = { 
-        "assets/textures/grid.png", 
-        "assets/shaders/simple.vs",
-        "assets/shaders/simple.fs"
-    };
-    for(auto &file : files)
-    {
-        auto httpFileName = string("http://localhost:6931/") + string(file);
-        debuglog << "[SpriteScene::load] Fetching file '" << httpFileName << "' from server." << endl;
-        emscripten_wget(httpFileName.c_str(), file);
-    }
-    debuglog << "[SpriteScene::load] All files fetched" << endl;
-
-    resourceManager->loadTextures({ "grid.png" });
     resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
+    // resourceManager->loadTextures({ "grid.png" });
 
     auto config = IOCContainer::instance().resolve<Utilities::Config>();
     auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
@@ -54,33 +38,36 @@ void SpriteScene::load()
     renderer->initialize();
     IOCContainer::instance().register_type<IRenderer>(renderer);
 
-    mSprite = make_shared<TiledSprite>();
-    mSprite->texture = resourceManager->getTexture( "grid.png" );
-    mSprite->tileSize = { 32, 32 };
-    mSprite->size = { 256.0f, 256.0f };
-    mSprite->setFrame(11);
-    mSprite->position = {
-        static_cast<float>(config->width / 2.0f - mSprite->size.width / 2.0f),
-        static_cast<float>(config->height / 2.0f - mSprite->size.height / 2.0f)};
+    // mSprite = make_shared<TiledSprite>();
+    // mSprite->texture = resourceManager->getTexture( "grid.png" );
+    // mSprite->tileSize = { 32, 32 };
+    // mSprite->size = { 256.0f, 256.0f };
+    // mSprite->setFrame(11);
+    // mSprite->position = {
+    //     static_cast<float>(config->width / 2.0f - mSprite->size.width / 2.0f),
+    //     static_cast<float>(config->height / 2.0f - mSprite->size.height / 2.0f)};
 }
 
 void SpriteScene::unload()
 {
     debuglog << "[SpriteScene::unload]" << endl;
-    mSprite.reset();
+    if(mSprite)
+        mSprite.reset();
 }
 
 void SpriteScene::updateScreenSize(int width, int height)
 {
     debuglog << "[SpriteScene::updateScreenSize] Width: " << width << " Height: " << height << endl;
-    // mSprite->position = {
-    //     static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f),
-    //     static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)};
+    if(mSprite)
+        mSprite->position = {
+            static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f),
+            static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)};
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
 {
     auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	spriteRenderer->clear(CORNFLOWER_BLUE);
-    spriteRenderer->drawSprite(mSprite);
+    if(mSprite)
+        spriteRenderer->drawSprite(mSprite);
 }
