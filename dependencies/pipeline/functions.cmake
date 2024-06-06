@@ -156,7 +156,7 @@ function(build_executable project_name)
         set_property(TARGET xpengine PROPERTY CXX_STANDARD_REQUIRED ON)
     elseif(EMSCRIPTEN)
         set(CMAKE_EXECUTABLE_SUFFIX ".html")
-        set(LINK_OPTIONS ${LINK_OPTIONS} -sWASM=1 -sALLOW_MEMORY_GROWTH=1 -sNO_EXIT_RUNTIME=0 -sASSERTIONS=1 -sUSE_GLFW=3 -sUSE_LIBPNG=1 -sASYNCIFY -oindex.html)
+        set(LINK_OPTIONS ${LINK_OPTIONS} -sWASM=1 -sALLOW_MEMORY_GROWTH=1 -sNO_EXIT_RUNTIME=0 -sASSERTIONS=1 -sUSE_GLFW=3 --use-port=libpng -oindex.html)
         add_executable(${project_name} WIN32 ${COMMON_SOURCES} ${PLATFORM_SOURCES} ${PLATFORM_COMMON_SOURCES} ${RESOURCES})
         target_link_libraries(${project_name} ${DEPENDENCIES} ${LINK_OPTIONS})
 
