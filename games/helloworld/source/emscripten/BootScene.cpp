@@ -1,4 +1,4 @@
-#include "BootScene.hpp"
+#include "scenes/BootScene.hpp"
 
 #include <emscripten.h>
 

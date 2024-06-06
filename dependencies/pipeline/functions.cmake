@@ -132,6 +132,7 @@ function(build_executable project_name)
         source/
         source/common
         source/${PLATFORM}
+        include/${PLATFORM}
     )
 
     if(UWP OR WIN32)
