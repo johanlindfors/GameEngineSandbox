@@ -23,11 +23,12 @@ namespace Engine
     Rectangle<float> TiledSprite::calculateTileOffset()
     {
         Size<float> normalizedTileSize = {
-            static_cast<float>(tileSize.width) / texture.width,
-            static_cast<float>(tileSize.height) / texture.height};
+            1.0f / getCols(),
+            1.0f / getRows()
+        };
         offset = {
-            static_cast<float>(currentTile % getCols() * normalizedTileSize.width),
-            1.0f - static_cast<float>(static_cast<int>(currentTile / getCols() + 1) * normalizedTileSize.height),
+            currentTile % getCols() * normalizedTileSize.width,
+            1.0f - (currentTile / getCols() + 1) * normalizedTileSize.height,
             normalizedTileSize.width,
             normalizedTileSize.height};
         return offset;
