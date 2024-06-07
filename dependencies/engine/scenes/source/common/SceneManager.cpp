@@ -36,6 +36,7 @@ void SceneManager::initialize()
 
 void SceneManager::updateScreenSize(int width, int height)
 {
+	debuglog << "[SceneManager::updateScreenSize] width: " << width << ", height: " << height << endl;
 	mScreenWidth = width;
 	mScreenHeight = height;
 

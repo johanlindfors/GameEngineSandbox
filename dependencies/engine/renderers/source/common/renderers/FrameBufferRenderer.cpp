@@ -68,10 +68,15 @@ void FrameBufferRenderer::initialize(shared_ptr<Config> config, shared_ptr<Shade
     GlBindRenderbuffer(GL_RENDERBUFFER, rbo);
     GlRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, mWidth, mHeight); // use a single renderbuffer object for both a depth AND stencil buffer.
     GlFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
+
     // now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
     if (GlCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        debuglog << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
-    GlBindFramebuffer(GL_FRAMEBUFFER, 0);
+        debuglog << "[FrameBufferRenderer::initialize] ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
+    else {
+        debuglog << "[FrameBufferRenderer::initialize] Framebuffer is complete!" << endl;
+        GlBindFramebuffer(GL_FRAMEBUFFER, 0);
+        mInitialized = true;
+    }
 }
 
 void FrameBufferRenderer::updateScreenSize(int &width, int &height)

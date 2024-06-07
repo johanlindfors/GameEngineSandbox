@@ -7,6 +7,9 @@
 #include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.hpp"
 #include "renderers/SpriteRenderer.hpp"
+#include "renderers/FrameBufferRenderer.hpp"
+#include "resources/IResourceManager.hpp"
+#include "utilities/Config.hpp"
 
 // Game
 #include "game/GameDefines.hpp"
@@ -56,6 +59,8 @@ void BootScene::load()
     debuglog << "[BootScene::load] In load" << endl;
     std::vector<std::string> resources = {
         "assets/textures/grid.png", 
+        "assets/shaders/framebuffer.vs",
+        "assets/shaders/framebuffer.fs",
         "assets/shaders/simple.vs",
         "assets/shaders/simple.fs"
     };
@@ -78,6 +83,15 @@ void BootScene::updateScreenSize(int width, int height)
 void BootScene::complete()
 {
     debuglog << "[BootScene::complete] In complete" << endl;
+    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+    resourceManager->loadShader("framebuffer", "framebuffer.vs", "framebuffer.fs");
+    auto shader = resourceManager->getShader("framebuffer");   
+    debuglog << "[BootScene::complete] Found shader" << endl;
+    auto config = IOCContainer::instance().resolve<Config>();
+    debuglog << "[BootScene::complete] Found config" << endl;
+    IOCContainer::instance().resolve<FrameBufferRenderer>()->initialize(config, shader);
+    debuglog << "[BootScene::complete] Framebuffer initialized" << endl;
+    
     mResourcesLoaded = true;
 }
 

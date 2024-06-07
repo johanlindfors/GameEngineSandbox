@@ -147,7 +147,8 @@ namespace Engine
 		if (err != GL_NO_ERROR)
 		{
 			debuglog << "OpenGL error " << err << endl;
-			exit(1);
+			//exit(1);
+			throw new runtime_error("OpenGL error");
 		}
 	}
 
