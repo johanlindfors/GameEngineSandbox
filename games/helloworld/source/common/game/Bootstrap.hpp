@@ -18,7 +18,9 @@ void bootstrap() {
     config->title = "Hello World";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
+    #ifndef EMSCRIPTEN
     config->useFixedGameSize = true;
+    #endif
 
     auto frameBufferRenderer = make_shared<FrameBufferRenderer>();
     IOCContainer::instance().register_type<FrameBufferRenderer>(frameBufferRenderer);
