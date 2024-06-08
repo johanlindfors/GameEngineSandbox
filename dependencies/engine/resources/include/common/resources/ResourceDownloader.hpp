@@ -14,7 +14,7 @@ namespace Engine
             : mCompleted(completed)
             , mProgress(progress) {}
         
-        virtual ~ResourceDownloader() {}
+        virtual ~ResourceDownloader();
         void downloadResources(const std::vector<std::string>& resources);
         void downloadNext();
         void reportError();

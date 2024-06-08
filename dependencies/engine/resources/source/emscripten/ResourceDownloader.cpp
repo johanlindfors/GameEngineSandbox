@@ -7,12 +7,18 @@ using namespace std;
 using namespace Engine;
 using Utilities::IOCContainer;
 
+ResourceDownloader::~ResourceDownloader() {
+    debuglog << "[ResourceDownloader::~ResourceDownloader] In destructor" << endl;
+}
+
 void onLoaded(const char* file) {
+    debuglog << "[ResourceDownloader::onLoaded] Download next..." << endl;
     auto resourceDownloader = IOCContainer::instance().resolve<ResourceDownloader>();
     resourceDownloader->downloadNext();
 }
 
 void onError(const char* file) {
+    debuglog << "[ResourceDownloader::onError] Download failed!!!" << endl;
     auto resourceDownloader = IOCContainer::instance().resolve<ResourceDownloader>();
     resourceDownloader->reportError();
 }

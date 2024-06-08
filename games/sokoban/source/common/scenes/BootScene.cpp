@@ -11,6 +11,7 @@
 #include "utilities/IOC.hpp"
 #include "utilities/Logger.hpp"
 #include "http/IHttpClient.hpp"
+#include "resources/ResourceDownloader.hpp"
 
 // game
 #include "game/IGameStateCallback.hpp"
@@ -27,35 +28,74 @@ BootScene::BootScene(IGameStateCallback *gameCallback)
     id = typeid(BootScene).name();
 }
 
+BootScene::~BootScene()
+{
+    debuglog << "[BootScene::~BootScene] In destructor" << endl;
+    // throw new std::runtime_error("[BootScene::~BootScene] in destructore");
+}
+
+
 void BootScene::load()
 {
     debuglog << "[BootScene::load]" << endl;
 
-    mLoadingTasks.push([&]()
-                       {    
+#if EMSCRIPTEN
+    mLoadingTasks.push([&]() {    
+        const std::vector<std::string> resources = {
+            "assets/fonts/vga_16x16.fnt",
+            string("assets/textures/") + string(TILES),
+            string("assets/textures/") + string(FONT),
+            "assets/shaders/simple.vs",
+            "assets/shaders/simple.fs"
+        };
+        auto resourceDownloader = make_shared<ResourceDownloader>(
+            [&](bool success) { 
+                if(success) {
+                    debuglog << "[BootScene::onComplete] Download completed" << endl;
+                    mPreviousTaskFinished = true;
+                } else {
+                    debuglog << "[BootScene::complete] Download failed" << endl;
+                }
+                IOCContainer::instance().remove<ResourceDownloader>();
+            },
+            [&](int progress) { 
+                debuglog << "[BootScene::progress] Progress: " << progress << endl;
+            }
+        );
+        IOCContainer::instance().register_type<ResourceDownloader>(resourceDownloader);
+        resourceDownloader->downloadResources(resources);
+    });
+#else
+    mPreviousTaskFinished = true;
+#endif
+
+    mLoadingTasks.push([&]() {    
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
 
-        mLoadedTasks++; });
+        mLoadedTasks++;
+        mPreviousTaskFinished = true;
+    });
 
-    mLoadingTasks.push([&]()
-                       {    
+    mLoadingTasks.push([&]() {    
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         resourceManager->loadTextures({ TILES, FONT });
 
-        mLoadedTasks++; });
+        mLoadedTasks++;
+        mPreviousTaskFinished = true;
+    });
 
-    mLoadingTasks.push([&]()
-                       {
+    mLoadingTasks.push([&]() {
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         auto config = IOCContainer::instance().resolve<Utilities::Config>();
         auto camera = make_shared<Engine::OrthographicCamera>( 0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f );
         IOCContainer::instance().register_type<OrthographicCamera>(camera);
 
-        mLoadedTasks++; });
+        mLoadedTasks++;
+        mPreviousTaskFinished = true;
+    });
 
-    mLoadingTasks.push([&]()
-                       {
+    mLoadingTasks.push([&]() {
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         auto shader = resourceManager->getShader( "simple" );
         auto camera = IOCContainer::resolve_type<OrthographicCamera>();
@@ -63,10 +103,11 @@ void BootScene::load()
         fontRenderer->initialize();
         IOCContainer::instance().register_type<FontRenderer>(fontRenderer);
 
-        mLoadedTasks++; });
+        mLoadedTasks++;
+        mPreviousTaskFinished = true;
+    });
 
-    mLoadingTasks.push([&]()
-                       {
+    mLoadingTasks.push([&]() {
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         auto shader = resourceManager->getShader( "simple" );
         auto camera = IOCContainer::resolve_type<OrthographicCamera>();
@@ -75,18 +116,20 @@ void BootScene::load()
         IOCContainer::instance().register_type<IRenderer>(renderer);
 
         this_thread::sleep_for(LOADING_PAUSE);
-        mLoadedTasks++; });
+        mLoadedTasks++;
+            mPreviousTaskFinished = true;
+    });
 
-    for (int i = 0; i < 10; i++)
-    {
+    for (int i = 0; i < 10; i++) {
         mLoadingTasks.push([&]()
                            {
             this_thread::sleep_for(LOADING_PAUSE);
-            mLoadedTasks++; });
+            mLoadedTasks++; 
+            mPreviousTaskFinished = true;
+        });
     }
 
-    mLoadingTasks.push([&]()
-                       {
+    mLoadingTasks.push([&]() {
         string result;
 
         if(IOCContainer::instance().contains<IHttpClient>()) {
@@ -108,7 +151,9 @@ void BootScene::load()
 
         this_thread::sleep_for(LOADING_PAUSE);
         mLoadedTasks++;
-        mInitialized = true; });
+        mPreviousTaskFinished = true;
+        mInitialized = true;
+    });
 
     mTotalTasks = mLoadingTasks.size();
 }
@@ -124,14 +169,16 @@ void BootScene::updateScreenSize(int width, int height)
 
 void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
 {
+    debuglog << "[BootScene::update]" << endl;
     if (mInitialized)
     {
         mGame->goToState(GameState::GamePlay);
     }
     else
     {
-        if (!mLoadingTasks.empty())
+        if (mPreviousTaskFinished && !mLoadingTasks.empty())
         {
+            mPreviousTaskFinished = false;
             std::function<void()> loadingTask = mLoadingTasks.front();
             loadingTask();
             mLoadingTasks.pop();
