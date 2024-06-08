@@ -3,7 +3,7 @@
 #include "utilities/GLHelper.hpp"
 #include "utilities/Logger.hpp"
 #include "png.h"
-#include <jpeglib.h>
+// #include <jpeglib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
