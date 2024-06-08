@@ -19,7 +19,15 @@ using namespace Engine;
 using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
-	: mGame(gameCallback), mInputManager(IOCContainer::resolve_type<IInputManager>()), mTweenEngine(IOCContainer::resolve_type<ITweenEngine>()), mFontRenderer(IOCContainer::resolve_type<FontRenderer>()), mMap(IOCContainer::resolve_type<Map>()), mPlayer(make_unique<Player>()), mCratePushes(0), mPlayerMoves(0), mKeyWasPressed(false)
+	: mGame(gameCallback)
+	, mInputManager(IOCContainer::resolve_type<IInputManager>())
+	, mTweenEngine(IOCContainer::resolve_type<ITweenEngine>())
+	, mFontRenderer(IOCContainer::resolve_type<FontRenderer>())
+	, mMap(IOCContainer::resolve_type<Map>())
+	, mPlayer(make_unique<Player>())
+	, mCratePushes(0)
+	, mPlayerMoves(0)
+	, mKeyWasPressed(false)
 {
 	id = typeid(GamePlayScene).name();
 }
@@ -51,6 +59,7 @@ void GamePlayScene::updateScreenSize(int width, int height)
 
 void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
+	debuglog << "Update..." << endl;
 	handleInput();
 	mPlayer->update(timer);
 	mTweenEngine->update(timer);
@@ -104,21 +113,25 @@ void GamePlayScene::handleInput()
 
 	if (mInputManager->isKeyDown(37))
 	{
+		debuglog << "Left" << endl;
 		if (!mKeyWasPressed)
 			move(-1, 0);
 	}
 	else if (mInputManager->isKeyDown(39))
 	{
+		debuglog << "Right" << endl;
 		if (!mKeyWasPressed)
 			move(1, 0);
 	}
 	else if (mInputManager->isKeyDown(40))
 	{
+		debuglog << "Up" << endl;
 		if (!mKeyWasPressed)
 			move(0, -1);
 	}
 	else if (mInputManager->isKeyDown(38))
 	{
+		debuglog << "Down" << endl;
 		if (!mKeyWasPressed)
 			move(0, 1);
 	}

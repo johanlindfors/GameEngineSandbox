@@ -19,6 +19,7 @@ void mainLoop() {
     glfwPollEvents();
     game->tick();
     glfwSwapBuffers(window);
+    debuglog.flush();
 }
 
 void startApplication(int argc, char **argv)

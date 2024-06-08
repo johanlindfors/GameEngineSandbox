@@ -9,7 +9,7 @@ class BootScene : public Engine::GameScene
 {
 public:
     BootScene(IGameStateCallback *gameCallback);
-    ~BootScene() = default;
+    ~BootScene();
     void load() override;
     void unload() override;
     void updateScreenSize(int width, int height) override;
@@ -22,4 +22,5 @@ private:
     std::queue<std::function<void()>> mLoadingTasks;
     unsigned int mLoadedTasks;
     unsigned int mTotalTasks;
+    bool mPreviousTaskFinished = true;
 };
