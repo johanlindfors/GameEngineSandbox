@@ -84,6 +84,7 @@ void Player::initialize(int x, int y)
 
 void Player::move(int deltaX, int deltaY)
 {
+    isMoving = true;
 #if IS_ANIMATED == true
     auto sprite = static_pointer_cast<AnimatedSprite>(mSprite);
     if (deltaY != 0)
@@ -95,14 +96,13 @@ void Player::move(int deltaX, int deltaY)
         sprite->play(deltaX > 0 ? "right" : "left");
     }
 #endif
-    isMoving = true;
-    MoveableObject::move(deltaX, deltaY, [&]()
-                         {
+    MoveableObject::move(deltaX, deltaY, [&]() {
 #if IS_ANIMATED == true
         auto sprite = static_pointer_cast<AnimatedSprite>(mSprite);    
         sprite->isPlaying = false;
 #endif
-        isMoving = false; });
+        isMoving = false; }
+    );
 }
 
 void Player::update(shared_ptr<IStepTimer> timer)

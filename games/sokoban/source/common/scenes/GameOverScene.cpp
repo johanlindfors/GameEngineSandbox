@@ -14,5 +14,6 @@ GameOverScene::GameOverScene(IGameStateCallback *gameCallback)
 
 void GameOverScene::draw(shared_ptr<IRenderer> renderer)
 {
+    renderer->clear(0,0,0,1);
     mFontRenderer->drawString(mGameOverText, FontRenderer::Alignment::Center, Point<float>{200, 200}, 2.0f);
 }

@@ -24,7 +24,7 @@ void bootstrap()
 {
     auto config = make_shared<Config>();
     config->fps = FRAMES_PER_SECOND;
-    config->useFixedTimeStep = false;
+    config->useFixedTimeStep = true;
     config->width = SCREEN_WIDTH;
     config->height = SCREEN_HEIGHT;
     config->title = "Sokoban";

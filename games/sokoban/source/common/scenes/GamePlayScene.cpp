@@ -34,6 +34,7 @@ GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
 
 GamePlayScene::~GamePlayScene()
 {
+	debuglog << "[GamePlayScene::~GamePlayScene] In destructor" << endl;
 	mMap.reset();
 	mPlayer.reset();
 }
@@ -59,7 +60,6 @@ void GamePlayScene::updateScreenSize(int width, int height)
 
 void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 {
-	debuglog << "Update..." << endl;
 	handleInput();
 	mPlayer->update(timer);
 	mTweenEngine->update(timer);
@@ -67,6 +67,7 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear(0, 0, 0, 1);
 	mMap->draw(renderer);
 	mPlayer->draw(renderer);
 	mFontRenderer->drawString(to_string(mPlayerMoves), FontRenderer::Alignment::Left, {12, 400 - 20}, 1.0f);
@@ -106,37 +107,32 @@ void GamePlayScene::movePlayer(int deltaX, int deltaY)
 
 void GamePlayScene::handleInput()
 {
-	if (mPlayer->isMoving)
-	{
+	if (mPlayer->isMoving) {
 		return;
 	}
 
-	if (mInputManager->isKeyDown(37))
-	{
-		debuglog << "Left" << endl;
-		if (!mKeyWasPressed)
+	if(!mKeyWasPressed) {
+		if (mInputManager->isKeyDown(37))
+		{
+			debuglog << "Left" << endl;
 			move(-1, 0);
-	}
-	else if (mInputManager->isKeyDown(39))
-	{
-		debuglog << "Right" << endl;
-		if (!mKeyWasPressed)
+		}
+		else if (mInputManager->isKeyDown(39))
+		{
+			debuglog << "Right" << endl;
 			move(1, 0);
-	}
-	else if (mInputManager->isKeyDown(40))
-	{
-		debuglog << "Up" << endl;
-		if (!mKeyWasPressed)
+		}
+		else if (mInputManager->isKeyDown(40))
+		{
+			debuglog << "Down" << endl;
 			move(0, -1);
-	}
-	else if (mInputManager->isKeyDown(38))
-	{
-		debuglog << "Down" << endl;
-		if (!mKeyWasPressed)
+		}
+		else if (mInputManager->isKeyDown(38))
+		{
+			debuglog << "Up" << endl;
 			move(0, 1);
-	}
-	else
-	{
+		}
+	} else {
 		mKeyWasPressed = false;
 	}
 }
