@@ -104,6 +104,7 @@ void SceneManager::removeScene(const type_info &sceneType)
 		{
 			auto scene = mScenes.at(i);
 			scene->unload();
+			scene.reset();
 			mScenes.erase(mScenes.begin() + i);
 		}
 	}

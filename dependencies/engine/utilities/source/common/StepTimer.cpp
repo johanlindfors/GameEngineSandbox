@@ -60,7 +60,13 @@ void Timer::reset()
 }
 
 StepTimer::StepTimer()
-	: m_elapsedMicroSeconds(0), m_targetMicroSeconds(1000000.0 / 15.0), m_elapsedSeconds(0.0), m_frameCount(0), m_framesPerSecond(0), m_framesThisSecond(0), m_isFixedTimeStep(false)
+	: m_elapsedMicroSeconds(0)
+	, m_targetMicroSeconds(1000000.0 / 15.0)
+	, m_elapsedSeconds(0.0)
+	, m_frameCount(0)
+	, m_framesPerSecond(0)
+	, m_framesThisSecond(0)
+	, m_isFixedTimeStep(false)
 
 {
 	// Initialisation
@@ -96,13 +102,9 @@ void StepTimer::tick(
 
 	if (m_isFixedTimeStep)
 	{
-		while (m_elapsedMicroSeconds >= m_targetMicroSeconds)
-		{
-			update();
-			m_elapsedMicroSeconds -= m_targetMicroSeconds;
-		}
-		render();
+		update();
 		processInput();
+		render();
 		auto sleepForMicroSeconds = duration_cast<microseconds>(currentTime - system_clock::now()).count() + m_targetMicroSeconds;
 		if (sleepForMicroSeconds > 0)
 			this_thread::sleep_for(microseconds(sleepForMicroSeconds));
@@ -110,7 +112,7 @@ void StepTimer::tick(
 	else
 	{
 		update();
-		render();
 		processInput();
+		render();
 	}
 }

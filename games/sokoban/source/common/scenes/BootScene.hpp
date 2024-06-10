@@ -2,6 +2,7 @@
 #include "scenes/GameScene.hpp"
 #include <functional>
 #include <queue>
+#include <thread>
 
 class IGameStateCallback;
 
@@ -23,4 +24,5 @@ private:
     unsigned int mLoadedTasks;
     unsigned int mTotalTasks;
     bool mPreviousTaskFinished = true;
+    std::string mLoaded;
 };

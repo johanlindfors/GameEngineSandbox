@@ -19,6 +19,7 @@
 #include "objects/Map.hpp"
 
 using namespace std;
+using namespace std::chrono;
 using namespace Engine;
 using namespace Utilities;
 
@@ -40,7 +41,9 @@ void BootScene::load()
     debuglog << "[BootScene::load]" << endl;
 
 #if EMSCRIPTEN
-    mLoadingTasks.push([&]() {    
+    mLoadingTasks.push([&]() {
+        debuglog << "[BootScene::load] Downloading resources..." << endl;
+
         const std::vector<std::string> resources = {
             "assets/fonts/vga_16x16.fnt",
             string("assets/textures/") + string(TILES),
@@ -69,7 +72,8 @@ void BootScene::load()
     mPreviousTaskFinished = true;
 #endif
 
-    mLoadingTasks.push([&]() {    
+    mLoadingTasks.push([this]() {    
+        debuglog << "[BootScene::load] Loading shader" << endl;
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
 
@@ -78,6 +82,7 @@ void BootScene::load()
     });
 
     mLoadingTasks.push([&]() {    
+        debuglog << "[BootScene::load] Loading textures" << endl;
         auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
         resourceManager->loadTextures({ TILES, FONT });
 
@@ -149,7 +154,7 @@ void BootScene::load()
 
         IOCContainer::instance().register_type<Map>(Map::parse(result));
 
-        this_thread::sleep_for(LOADING_PAUSE);
+        // this_thread::sleep_for(LOADING_PAUSE);
         mLoadedTasks++;
         mPreviousTaskFinished = true;
         mInitialized = true;
@@ -180,18 +185,21 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
         {
             mPreviousTaskFinished = false;
             std::function<void()> loadingTask = mLoadingTasks.front();
-            loadingTask();
             mLoadingTasks.pop();
+            mLoaded = to_string(static_cast<int>(mLoadedTasks / static_cast<float>(mTotalTasks) * 100)) + "%";
+            loadingTask();
+            this_thread::sleep_for(microseconds(1500));
         }
     }
 }
 
 void BootScene::draw(std::shared_ptr<Engine::IRenderer> renderer)
 {
+    debuglog << "[BootScene::draw]" << endl;
+    renderer->clear(0,0,0,1);
     if (IOCContainer::instance().contains<FontRenderer>())
     {
         auto fontRenderer = IOCContainer::resolve_type<FontRenderer>();
-        string loaded(to_string(static_cast<int>(mLoadedTasks / static_cast<float>(mTotalTasks) * 100)) + "%");
-        fontRenderer->drawString(loaded, FontRenderer::Alignment::Center, {200, 200}, 2.0);
+        fontRenderer->drawString(mLoaded, FontRenderer::Alignment::Center, {200, 200}, 2.0);
     }
 }
