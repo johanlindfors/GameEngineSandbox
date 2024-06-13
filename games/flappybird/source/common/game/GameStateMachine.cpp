@@ -6,6 +6,10 @@
 #include "scenes/ISceneManager.hpp"
 #include "scenes/InstructionsScene.hpp"
 
+#ifdef EMSCRIPTEN
+#include "BootScene.hpp"
+#endif
+
 using namespace std;
 using namespace Utilities;
 using namespace Engine;
@@ -30,8 +34,13 @@ void GameStateMachine::handleBootState()
 {
 	if (mCurrentState == GameState::Unknown)
 	{
+#ifdef EMSCRIPTEN
+		mCurrentState = GameState::Boot;
+		mSceneManager->addScene(make_shared<BootScene>(this));
+#else
 		mCurrentState = GameState::Boot;
 		mNextState = GameState::Splash;
+#endif
 	}
 }
 
@@ -41,6 +50,9 @@ void GameStateMachine::handleSplashState()
 	{
 		mCurrentState = GameState::Splash;
 		mSceneManager->addScene(make_shared<SplashScene>(this));
+#ifdef EMSCRIPTEN
+		mSceneManager->removeScene(typeid(BootScene));
+#endif
 	}
 }
 

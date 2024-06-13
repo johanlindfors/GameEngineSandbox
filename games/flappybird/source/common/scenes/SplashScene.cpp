@@ -67,6 +67,7 @@ void SplashScene::load()
 	mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
 	resourceManager->loadShader("simple", "simple.vs", "simple.fs");
+	debuglog << "[SplashScene::load] Shader Loaded" << endl;
 	resourceManager->loadTextures({"atlas.png"});
 
 	auto config = IOCContainer::instance().resolve<Utilities::Config>();
