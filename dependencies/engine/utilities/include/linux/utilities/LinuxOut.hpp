@@ -17,8 +17,10 @@ public:
 
 protected:
     virtual int sync() override {
+#ifdef _DEBUG
         std::cout << logTag_ << str().c_str();
         str("");
+#endif
         return 0;
     }
 
