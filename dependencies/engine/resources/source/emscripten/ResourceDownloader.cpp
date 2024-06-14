@@ -2,6 +2,7 @@
 #include <emscripten.h>
 #include <utilities/IOC.hpp>
 #include <utilities/Logger.hpp>
+#include <utilities/wasmwrapper.hpp>
 
 using namespace std;
 using namespace Engine;
@@ -36,7 +37,9 @@ void ResourceDownloader::downloadNext()
     if (mFetchedResources == mResources.size()) {
         mCompleted(true);
     } else {
-        auto httpFileName = string("http://localhost:6931/") + string(mResources[mFetchedResources]);
+        auto href = getCurrentUrl();
+        debuglog << "[ResourceDownloader::downloadNext] Current URL: " << href << endl;
+        auto httpFileName = href + string(mResources[mFetchedResources]);
         debuglog << "[ResourceDownloader::downloadNext] Fetching file '" << httpFileName << "' from server." << endl;
         emscripten_async_wget(
             httpFileName.c_str(), 
