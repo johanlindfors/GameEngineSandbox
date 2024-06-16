@@ -9,6 +9,7 @@
 #include "filesystem/File.hpp"
 #include "resources/Texture2D.hpp"
 #include "utilities/StringHelpers.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -171,7 +172,7 @@ namespace Engine
 					}
 					texture.width = width;
 					texture.height = height;
-					std::cout << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
+					debuglog << "Image loaded " << width << " " << height << " alpha " << hasAlpha << std::endl;
 					setTexturePixels(texture.textureIndex, texture.width, texture.height, hasAlpha, textureImage);
 					if (textureImage)
 					{

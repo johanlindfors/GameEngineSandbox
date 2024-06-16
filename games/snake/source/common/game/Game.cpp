@@ -1,10 +1,15 @@
 #include "Game.hpp"
+// Engine
 #include "utilities/IOC.hpp"
+// Game
 #include "scenes/SplashScene.hpp"
 #include "scenes/GamePlayScene.hpp"
 #include "scenes/GameOverScene.hpp"
 #include "scenes/PauseScene.hpp"
 #include "scenes/ISceneManager.hpp"
+#ifdef EMSCRIPTEN
+#include "BootScene.hpp"
+#endif
 
 using namespace std;
 using namespace Utilities;
@@ -30,8 +35,13 @@ void Game::handleBootState()
 {
 	if (mCurrentState == GameState::Unknown)
 	{
+#ifdef EMSCRIPTEN
+		mCurrentState = GameState::Boot;
+		mSceneManager->addScene(make_shared<BootScene>(this));
+#else
 		mCurrentState = GameState::Boot;
 		mNextState = GameState::Splash;
+#endif
 	}
 }
 

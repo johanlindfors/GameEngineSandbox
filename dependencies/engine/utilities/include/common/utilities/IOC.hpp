@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.hpp"
+#include "utilities/Logger.hpp"
 #include <map>
 #include <string>
 #include <stdexcept>
@@ -110,7 +111,7 @@ namespace Utilities
                 return std::static_pointer_cast<T>(iter->second);
             }
             char message[255];
-            snprintf(message, sizeof(message), "Could not locate type in IOC: %s", id.c_str());
+            debuglog << "Could not locate type in IOC: " << id.c_str() << std::endl;
             throw std::runtime_error(message);
         }
 

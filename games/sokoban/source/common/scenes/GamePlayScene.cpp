@@ -19,13 +19,22 @@ using namespace Engine;
 using namespace Utilities;
 
 GamePlayScene::GamePlayScene(IGameStateCallback *gameCallback)
-	: mGame(gameCallback), mInputManager(IOCContainer::resolve_type<IInputManager>()), mTweenEngine(IOCContainer::resolve_type<ITweenEngine>()), mFontRenderer(IOCContainer::resolve_type<FontRenderer>()), mMap(IOCContainer::resolve_type<Map>()), mPlayer(make_unique<Player>()), mCratePushes(0), mPlayerMoves(0), mKeyWasPressed(false)
+	: mGame(gameCallback)
+	, mInputManager(IOCContainer::resolve_type<IInputManager>())
+	, mTweenEngine(IOCContainer::resolve_type<ITweenEngine>())
+	, mFontRenderer(IOCContainer::resolve_type<FontRenderer>())
+	, mMap(IOCContainer::resolve_type<Map>())
+	, mPlayer(make_unique<Player>())
+	, mCratePushes(0)
+	, mPlayerMoves(0)
+	, mKeyWasPressed(false)
 {
 	id = typeid(GamePlayScene).name();
 }
 
 GamePlayScene::~GamePlayScene()
 {
+	debuglog << "[GamePlayScene::~GamePlayScene] In destructor" << endl;
 	mMap.reset();
 	mPlayer.reset();
 }
@@ -58,6 +67,7 @@ void GamePlayScene::update(shared_ptr<IStepTimer> timer)
 
 void GamePlayScene::draw(shared_ptr<IRenderer> renderer)
 {
+	renderer->clear(0, 0, 0, 1);
 	mMap->draw(renderer);
 	mPlayer->draw(renderer);
 	mFontRenderer->drawString(to_string(mPlayerMoves), FontRenderer::Alignment::Left, {12, 400 - 20}, 1.0f);
@@ -97,33 +107,32 @@ void GamePlayScene::movePlayer(int deltaX, int deltaY)
 
 void GamePlayScene::handleInput()
 {
-	if (mPlayer->isMoving)
-	{
+	if (mPlayer->isMoving) {
 		return;
 	}
 
-	if (mInputManager->isKeyDown(37))
-	{
-		if (!mKeyWasPressed)
+	if(!mKeyWasPressed) {
+		if (mInputManager->isKeyDown(37))
+		{
+			debuglog << "Left" << endl;
 			move(-1, 0);
-	}
-	else if (mInputManager->isKeyDown(39))
-	{
-		if (!mKeyWasPressed)
+		}
+		else if (mInputManager->isKeyDown(39))
+		{
+			debuglog << "Right" << endl;
 			move(1, 0);
-	}
-	else if (mInputManager->isKeyDown(40))
-	{
-		if (!mKeyWasPressed)
+		}
+		else if (mInputManager->isKeyDown(40))
+		{
+			debuglog << "Down" << endl;
 			move(0, -1);
-	}
-	else if (mInputManager->isKeyDown(38))
-	{
-		if (!mKeyWasPressed)
+		}
+		else if (mInputManager->isKeyDown(38))
+		{
+			debuglog << "Up" << endl;
 			move(0, 1);
-	}
-	else
-	{
+		}
+	} else {
 		mKeyWasPressed = false;
 	}
 }

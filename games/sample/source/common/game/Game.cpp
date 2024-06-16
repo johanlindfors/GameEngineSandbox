@@ -3,6 +3,10 @@
 #include "scenes/ISceneManager.hpp"
 #include "scenes/SpriteScene.hpp"
 #include "scenes/ModelScene.hpp"
+#ifdef __EMSCRIPTEN__
+#include "utilities/Logger.hpp"
+#include "emscripten/BootScene.hpp"
+#endif
 
 using namespace std;
 using namespace Utilities;
@@ -13,5 +17,10 @@ void Game::initialize()
 {
 	auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
 	//sceneManager->addScene(make_shared<ModelScene>());
+#ifdef __EMSCRIPTEN__
+	debuglog << "[Game::initialize] Adding BootScene" << endl;
+	sceneManager->addScene(make_shared<BootScene>());
+#else
 	sceneManager->addScene(make_shared<SpriteScene>());
+#endif
 }

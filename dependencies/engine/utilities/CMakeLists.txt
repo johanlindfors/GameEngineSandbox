@@ -40,7 +40,7 @@ elseif(ANDROID)
         log
         game-activity::game-activity
     )
-else() # WIN32
+elseif(WIN32) # WIN32
     find_package(GLEW REQUIRED)
     find_package(PNG REQUIRED)
     list(APPEND DEPENDENCIES 
@@ -53,6 +53,12 @@ else() # WIN32
             opengl32.lib
         )
     endif()
+else() # EMSCRIPTEN
+    # find_package(PkgConfig REQUIRED)
+    # pkg_search_module(PNG REQUIRED libpng)
+    # list(APPEND DEPENDENCIES 
+    #     PNG
+    # )
 endif()
 
 build_library(${PROJECT_NAME} "${DEPENDENCIES}")

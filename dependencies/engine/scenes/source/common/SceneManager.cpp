@@ -36,6 +36,7 @@ void SceneManager::initialize()
 
 void SceneManager::updateScreenSize(int width, int height)
 {
+	debuglog << "[SceneManager::updateScreenSize] width: " << width << ", height: " << height << endl;
 	mScreenWidth = width;
 	mScreenHeight = height;
 
@@ -103,6 +104,7 @@ void SceneManager::removeScene(const type_info &sceneType)
 		{
 			auto scene = mScenes.at(i);
 			scene->unload();
+			scene.reset();
 			mScenes.erase(mScenes.begin() + i);
 		}
 	}

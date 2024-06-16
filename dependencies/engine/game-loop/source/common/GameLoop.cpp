@@ -121,7 +121,7 @@ void GameLoop::updateWindowSize(int width, int height)
 			mRenderer = IOCContainer::instance().resolve<IRenderer>();
 		}
 	}
-	if(mFrameBufferRenderer)
+	if(mFrameBufferRenderer && mFrameBufferRenderer->isInitialized())
 	{
 		mFrameBufferRenderer->updateScreenSize(width, height);
 		auto gameSize = ScreenToGameCoordinatesConverter.getGameSize();
@@ -169,12 +169,12 @@ void GameLoop::render()
 	}
 	if (mRenderer)
 	{
-		if(mFrameBufferRenderer)
+		if(mFrameBufferRenderer && mFrameBufferRenderer->isInitialized())
 			mFrameBufferRenderer->begin();
 	
 		mSceneManager->draw(mRenderer);
 	
-		if(mFrameBufferRenderer)
+		if(mFrameBufferRenderer && mFrameBufferRenderer->isInitialized())
 			mFrameBufferRenderer->end();
 	}
 }

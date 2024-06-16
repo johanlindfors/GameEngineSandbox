@@ -21,6 +21,8 @@ namespace Engine
         void begin();
         void end();
 
+        bool isInitialized() const { return mInitialized; }
+
     protected:
         std::shared_ptr<Engine::Shader> mShader;
         unsigned int quadVAO, quadVBO;
@@ -29,5 +31,6 @@ namespace Engine
         unsigned int textureColorbuffer;
         unsigned int mWidth, mHeight;
         unsigned int mScreenWidth, mScreenHeight;
+        bool mInitialized;
     };
 }

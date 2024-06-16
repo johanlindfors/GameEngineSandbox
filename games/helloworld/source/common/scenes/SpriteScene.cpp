@@ -28,10 +28,9 @@ void SpriteScene::load()
 {
     debuglog << "[SpriteScene::load]" << endl;
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-
-    resourceManager->loadTextures({ "grid.png" });
     resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
-    
+    resourceManager->loadTextures({ "grid.png" });
+
     auto config = IOCContainer::instance().resolve<Utilities::Config>();
     auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
     auto shader = resourceManager->getShader("simple");
@@ -52,20 +51,23 @@ void SpriteScene::load()
 void SpriteScene::unload()
 {
     debuglog << "[SpriteScene::unload]" << endl;
-    mSprite.reset();
+    if(mSprite)
+        mSprite.reset();
 }
 
 void SpriteScene::updateScreenSize(int width, int height)
 {
     debuglog << "[SpriteScene::updateScreenSize] Width: " << width << " Height: " << height << endl;
-    // mSprite->position = {
-    //     static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f),
-    //     static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)};
+    if(mSprite)
+        mSprite->position = {
+            static_cast<float>(width / 2.0f - mSprite->size.width / 2.0f),
+            static_cast<float>(height / 2.0f - mSprite->size.height / 2.0f)};
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
 {
     auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
 	spriteRenderer->clear(CORNFLOWER_BLUE);
-    spriteRenderer->drawSprite(mSprite);
+    if(mSprite)
+        spriteRenderer->drawSprite(mSprite);
 }

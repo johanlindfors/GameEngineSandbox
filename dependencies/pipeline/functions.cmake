@@ -31,6 +31,10 @@ macro(initialize_pipeline)
             set(PLATFORM ios)
             set(IOS 1)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIOS")
+        elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Emscripten")
+            set(PLATFORM emscripten)
+            set(EMSCRIPTEN 1)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
         endif()
     endif()
 
@@ -128,6 +132,7 @@ function(build_executable project_name)
         source/
         source/common
         source/${PLATFORM}
+        include/${PLATFORM}
     )
 
     if(UWP OR WIN32)
@@ -150,6 +155,14 @@ function(build_executable project_name)
     
         set_property(TARGET xpengine PROPERTY CXX_STANDARD 17)
         set_property(TARGET xpengine PROPERTY CXX_STANDARD_REQUIRED ON)
+    elseif(EMSCRIPTEN)
+        set(CMAKE_EXECUTABLE_SUFFIX ".html")
+        set(LINK_OPTIONS ${LINK_OPTIONS} -sWASM=1 -lembind -sALLOW_MEMORY_GROWTH=1 -sNO_EXIT_RUNTIME=0 -sASSERTIONS=1 -sUSE_GLFW=3 --use-port=libpng -oindex.html)
+        add_executable(${project_name} WIN32 ${COMMON_SOURCES} ${PLATFORM_SOURCES} ${PLATFORM_COMMON_SOURCES} ${RESOURCES})
+        target_link_libraries(${project_name} ${DEPENDENCIES} ${LINK_OPTIONS})
+
+        set_property(TARGET ${project_name} PROPERTY CXX_STANDARD 17)
+        set_property(TARGET ${project_name} PROPERTY CXX_STANDARD_REQUIRED ON)
     else()
         add_executable(${project_name} WIN32 ${COMMON_SOURCES} ${PLATFORM_SOURCES} ${PLATFORM_COMMON_SOURCES} ${RESOURCES})
         target_link_libraries(${project_name} ${DEPENDENCIES})

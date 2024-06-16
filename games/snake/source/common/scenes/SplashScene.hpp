@@ -34,7 +34,7 @@ private:
 	std::shared_ptr<Engine::Sprite> mSprite;
 	float mMillisecondsToLoad;
 	bool hasLoadedGamePlay;
-	bool isLoadingResources;
+	bool mIsLoadingResources;
 	std::queue<std::string> mResourcesToLoad;
 	std::shared_ptr<Engine::IResourceManager> mResourceManager;
 

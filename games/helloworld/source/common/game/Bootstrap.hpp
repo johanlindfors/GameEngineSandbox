@@ -3,6 +3,7 @@
 #include "utilities/Config.hpp"
 #include "Game.hpp"
 #include "GameDefines.hpp"
+#include "renderers/FrameBufferRenderer.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -17,8 +18,12 @@ void bootstrap() {
     config->title = "Hello World";
     config->glMajorVersion = 3;
     config->glMinorVersion = 3;
+    #ifndef EMSCRIPTEN
     config->useFixedGameSize = true;
+    #endif
 
+    auto frameBufferRenderer = make_shared<FrameBufferRenderer>();
+    IOCContainer::instance().register_type<FrameBufferRenderer>(frameBufferRenderer);
     IOCContainer::instance().register_type<Config>(config);
     IOCContainer::instance().register_type<IGameLoopCallback>(make_shared<Game>());
 }
