@@ -20,15 +20,6 @@ namespace Engine
 
 		string loadShader(const string &fileName)
 		{
-			// auto httpFileName = string("http://localhost:6931/assets/shaders/" + fileName); 
-			// debuglog << "[ShaderLoaderImpl::LoadShader] Fetching shader '" << httpFileName << "' from server." << endl;
-			// if(emscripten_wget(httpFileName.c_str(), string("assets/shaders/" + fileName).c_str()) != 0)
-			// {
-			// 	debuglog << "[ShaderLoaderImpl::LoadShader] Failed to load shader from server." << endl;
-			// 	return "";
-			// } else {
-			// 	debuglog << "[ShaderLoaderImpl::LoadShader] Successfully loaded shader from server." << endl;
-			// }
 			const auto file = mFileSystem->loadFile(string("shaders/" + fileName), false);
 			debuglog << "[ShaderLoaderImpl::LoadShader] Loading shader" << endl;
 			string shader;

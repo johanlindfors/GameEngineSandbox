@@ -158,29 +158,13 @@ namespace Engine
 		{
 			if (texture.name != EMPTY_TEXTURE_NAME)
 			{
-				// auto httpFileName = string("http://localhost:6931/assets/textures/" + texture.name); 
-				// debuglog << "[TextureLoaderImpl::loadTexture] Fetching texture '" << httpFileName << "' from server." << endl;
-				// if(emscripten_wget(httpFileName.c_str(), string("assets/textures/" + texture.name).c_str()) != 0)
-				// {
-				// 	debuglog << "[TextureLoaderImpl::loadTexture] Failed to load texture from server." << endl;
-				// } else {
-				// 	debuglog << "[TextureLoaderImpl::loadTexture] Successfully loaded texture from server." << endl;
-				// }
 				const auto file = mFileSystem->loadFile(std::string("textures/" + texture.name), false);
 				if (file)
 				{
 					int width, height;
 					auto hasAlpha = false;
 					GLubyte *textureImage;
-					auto success = false;
-					// if (texture.name.substr(texture.name.find_last_of(".") + 1) == "jpg")
-					// {
-					// 	success = loadJpgImage(file, width, height, &textureImage);
-					// }
-					// else
-					// {
-						success = loadPngImage(file, width, height, hasAlpha, &textureImage);
-					// }
+					auto success = loadPngImage(file, width, height, hasAlpha, &textureImage);
 					if (!success)
 					{
 						std::cout << "Unable to load png file: " << std::endl;
