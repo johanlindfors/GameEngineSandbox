@@ -1,15 +1,13 @@
 #pragma once
 #include "scenes/GameScene.hpp"
+#include "game/IGameStateCallback.hpp"
 #include <memory>
-#include <queue>
 
 class IGameStateCallback;
 
 namespace Engine
 {
 	class IRenderer;
-	class IResourceManager;
-	struct Sprite;
 }
 
 namespace Utilities
@@ -17,11 +15,11 @@ namespace Utilities
 	class IStepTimer;
 }
 
-class SplashScene : public Engine::GameScene
+class BootScene : public Engine::GameScene
 {
 public:
-	SplashScene(IGameStateCallback *gameCallback);
-	~SplashScene();
+	BootScene(IGameStateCallback *gameCallback);
+	~BootScene();
 
 	// Engine::GameScene
 	void load() override;
@@ -30,13 +28,7 @@ public:
 	void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
 	void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
-private:
-	std::shared_ptr<Engine::Sprite> mSprite;
-	float mMillisecondsToLoad;
-	bool hasLoadedGamePlay;
-	bool mIsLoadingResources;
-	std::queue<std::string> mResourcesToLoad;
-	std::shared_ptr<Engine::IResourceManager> mResourceManager;
-
-	IGameStateCallback *mGame;
+    private:
+        bool mResourcesLoaded = false;
+        IGameStateCallback *mGame;
 };

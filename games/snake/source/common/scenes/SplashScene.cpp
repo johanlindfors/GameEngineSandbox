@@ -15,7 +15,11 @@ using namespace Engine;
 using namespace Utilities;
 
 SplashScene::SplashScene(IGameStateCallback *gameCallback)
-	: mSprite(make_shared<Sprite>()), mMillisecondsToLoad(2000.0f), hasLoadedGamePlay(false), isLoadingResources(false), mGame(gameCallback)
+	: mSprite(make_shared<Sprite>())
+	, mMillisecondsToLoad(2000.0f)
+	, hasLoadedGamePlay(false)
+	, mIsLoadingResources(true)
+	, mGame(gameCallback)
 {
 	id = typeid(SplashScene).name();
 }
@@ -26,9 +30,8 @@ void SplashScene::load()
 {
 	mResourceManager = IOCContainer::instance().resolve<IResourceManager>();
 
-	vector<string> fileNames;
-	fileNames.emplace_back("coderox.png");
-	mResourceManager->loadTextures(vector<string>(fileNames));
+	mResourceManager->loadTextures(vector<string>({"coderox.png"}));
+	mSprite->texture = mResourceManager->getTexture("coderox.png");
 
 	mResourcesToLoad.push("apple.png");
 	mResourcesToLoad.push("snake.png");
@@ -36,8 +39,6 @@ void SplashScene::load()
 	mResourcesToLoad.push("gameover/text.png");
 	mResourcesToLoad.push("pause/background.png");
 	mResourcesToLoad.push("pause/text.png");
-
-	mSprite->texture = mResourceManager->getTexture("coderox.png");
 
 	mResourceManager->loadShader("simple", "simple.vs", "simple.fs");
 	mResourceManager->loadSounds({"score.wav"});
@@ -80,17 +81,16 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 	{
 		debuglog << "[SplashScene::Update] Loading resources" << endl;
 
-		isLoadingResources = true;
 		vector<string> fileNames;
 		fileNames.emplace_back(mResourcesToLoad.front());
 		mResourcesToLoad.pop();
 		mResourceManager->loadTextures(vector<string>(fileNames));
-		isLoadingResources = false;
 		debuglog << "[SplashScene::Update] Resources loaded" << endl;
 	}
 	mMillisecondsToLoad -= static_cast<float>((timer->getElapsedSeconds() * 1000.0f));
 	if (mMillisecondsToLoad <= 0 && mResourcesToLoad.size() == 0)
 	{
+		mIsLoadingResources = false;
 		auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
 		if (!hasLoadedGamePlay)
 		{
@@ -103,7 +103,7 @@ void SplashScene::update(shared_ptr<IStepTimer> timer)
 void SplashScene::draw(shared_ptr<IRenderer> renderer)
 {
 	auto spriteRenderer = static_pointer_cast<SpriteRenderer>(renderer);
-	if (spriteRenderer && !isLoadingResources)
+	if (spriteRenderer && !mIsLoadingResources)
 	{
 		spriteRenderer->drawSprite(mSprite);
 	}
