@@ -51,7 +51,7 @@ pipeline.ps1 -win32 -build -toolchainFile:[path to explicit toolchain file for v
 pipeline.ps1 -uwp -build
 ```
 
-## Building on Ubuntu 22.04 or MacOS
+## Building on Linux or MacOS
 Make sure to install the following:
 ```
 sudo apt install libpng-dev pkg-config libglfw3-dev libssl-dev libjpeg-dev
@@ -63,6 +63,25 @@ cd build
 cmake ..
 cmake --build .
 ./games/sokoban/sokoban
+```
+
+## Building for HTML5/WASM
+First you need to install and configure the Emscripten SDK. The GitHub repository can be found here: https://github.com/emscripten-core/emsdk
+
+After properly configured the SDK, you can follow the script above with some minor tweaks as follows:
+```
+cd build
+emcmake cmake ..
+emmake make --build .
+emrun ./games/sokoban
+```
+
+If it's the first time you build anything with emscripten you can (or at least I did) stumble upon some missing headers (usually png.h). In that case you need to leverage the emscripten compiler (emcc) and pass the following parameter ```-sUSE_LIBPNG```. This will make sure to download the LIBPNG port and any dependencies and place it in the appopriate directory (on my machines it was in the emsdk repository under ```upstream/emscripten/cache/ports```.
+
+What I did was I created a simple c++ sample and then called the following command:
+
+```
+emcc sample.cpp -sUSE_LIBPNG
 ```
 
 There are three small games that can be build by passing the name as an argument to CMake such as:
