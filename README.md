@@ -72,7 +72,7 @@ After properly configured the SDK, you can follow the script above with some min
 ```
 cd build
 emcmake cmake ..
-emmake make --build .
+emmake make
 emrun ./games/sokoban
 ```
 
