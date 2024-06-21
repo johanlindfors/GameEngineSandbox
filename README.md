@@ -1,5 +1,5 @@
 # GameEngineSandbox
-![GitHub Actions](https://github.com/johanlindfors/Game%20Engine%20Sandbox/actions/workflows/buildAllSamples/badge.svg)
+![GitHub Actions](https://github.com/johanlindfors/GameEngineSandbox/actions/workflows/buildAllSamples/badge.svg)
 [![CodeFactor](https://www.codefactor.io/repository/github/johanlindfors/gameenginesandbox/badge)](https://www.codefactor.io/repository/github/johanlindfors/gameenginesandbox)
 [![CodeQL](https://github.com/johanlindfors/GameEngineSandbox/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/johanlindfors/GameEngineSandbox/actions/workflows/codeql-analysis.yml)
 
