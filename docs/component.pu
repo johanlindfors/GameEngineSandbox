@@ -19,12 +19,13 @@ System_Boundary(engine, "Game Engine") {
     System(resources, "resources")
     System(scenes, "scenes")
     System(utilities, "utilities")
-}
+  }
 
 System_Boundary(thirdparty, "Thirdparty") {
     System(angle, "angle")
     System(cpr, "cpr")
     System(entt, "entt")
+    System(glfw, "glfw")
     System(glm, "glm")
     System(openalSoft, "openal-soft")
     System(tweeny, "tweeny")
@@ -52,26 +53,17 @@ Rel(filesystem, utilities, Uses)
 Rel(gameLoop, utilities, Uses)
 Rel(gameLoop, scenes, Uses)
 Rel(gameLoop, input, Uses)
-Rel(gameLoop, audio, Uses)
 Rel(gameLoop, resources, Uses)
-Rel(gameLoop, renderers, Uses)
-
-Rel(http, utilities, Uses)
-
-Rel(input, utilities, Uses)
+Rel(gameLoop, renderer, Uses)
 
 Rel(physics, utilities, Uses)
 
-Rel(renderers, utilities, Uses)
-Rel(renderers, filesystem, Uses)
-Rel(renderers, resources, Uses)
-Rel(renderers, glm, Uses)
+Rel(renderer, utilities, Uses)
+Rel(renderer, filesystem, Uses)
+Rel(renderer, resources, Uses)
+Rel(renderer, glm, Uses)
 
 Rel(resources, utilities, Uses)
 Rel(resources, filesystem, Uses)
-Rel(resources, glm, Uses)
-
-Rel(scenes, renderers, Uses)
-Rel(scenes, utilities, Uses)
 
 @enduml
