@@ -30,3 +30,11 @@ mkdir build_sokoban
 cd build_sokoban
 cmake .. -DGAME_TO_BUILD=sokoban -DUSE_HTTP=true
 cmake --build .
+
+# Build helloworld
+cd ..
+rm -fr build_helloworld
+mkdir build_helloworld
+cd build_helloworld
+cmake .. -DGAME_TO_BUILD=helloworld
+cmake --build .
