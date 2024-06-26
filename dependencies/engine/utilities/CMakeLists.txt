@@ -28,6 +28,7 @@ elseif(LINUX)
         glfw
         png
         jpeg
+        OpenAL
     )
 elseif(ANDROID)
     find_package(PkgConfig REQUIRED)
