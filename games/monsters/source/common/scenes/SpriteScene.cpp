@@ -9,11 +9,10 @@
 #include "resources/IResourceManager.hpp"
 #include "resources/Shader.hpp"
 #include "sprites/Sprite.hpp"
-#include "renderers/SpriteRenderer.hpp"
+#include "renderers/SpriteRenderer.hpp" 
 #include "renderers/Camera.hpp"
 #include "input/IInputManager.hpp"
 #include "scenes/ISceneManager.hpp"
-#include "ModelScene.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -74,7 +73,6 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
 {
-    debuglog << "[SpriteScene::draw]" << endl;
     mRenderer->clear(0.35f, 0.35f, 0.34f, 1.0f);
     GlClear(GL_COLOR_BUFFER_BIT);
     GlDisable(GL_DEPTH_TEST);

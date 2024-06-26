@@ -2,7 +2,6 @@
 #include "utilities/IOC.hpp"
 #include "scenes/ISceneManager.hpp"
 #include "scenes/SpriteScene.hpp"
-#include "scenes/ModelScene.hpp"
 #ifdef __EMSCRIPTEN__
 #include "utilities/Logger.hpp"
 #include "emscripten/BootScene.hpp"
