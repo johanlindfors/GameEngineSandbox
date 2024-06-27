@@ -29,8 +29,8 @@ void ModelScene::load()
 
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     resourceManager->loadShader("model", "model.vs", "model.fs");
-    resourceManager->loadModel("cube.obj");
-    auto model = resourceManager->getModel("cube.obj");
+    resourceManager->loadModel("ship-small.obj");
+    auto model = resourceManager->getModel("ship-small.obj");
     mModels.emplace_back(model);
     angle = 0.0f;
 
@@ -40,7 +40,7 @@ void ModelScene::load()
     }
     else
     {
-        auto camera = make_shared<Engine::Camera>(glm::vec3(0.0f, 0.0f, 7.0f));
+        auto camera = make_shared<Engine::Camera>(glm::vec3(10.0f, 5.0f, 20.0f));
         auto shader = resourceManager->getShader("model");
         mRenderer = make_shared<ModelRenderer>(shader, camera);
         mRenderer->initialize();
@@ -86,19 +86,19 @@ void ModelScene::draw(shared_ptr<IRenderer> renderer)
     // draw sprites or models
     mRenderer->clear();
     glm::mat4 world = glm::mat4(1.0f);
-    world = glm::rotate(world, angle, glm::vec3(1.0f, 1.0, 0.0f));
+    //world = glm::rotate(world, angle, glm::vec3(1.0f, 1.0, 0.0f));
     for (const auto &model : mModels)
     {
-        for (int x = -1; x < 2; x++)
-            for (int y = -1; y < 2; y++)
-                for (int z = -1; z < 2; z++)
-                {
-                    auto newWorld = glm::translate(world, glm::vec3(
-                                                              static_cast<float>(x),
-                                                              static_cast<float>(y),
-                                                              static_cast<float>(z)));
-                    newWorld = glm::scale(newWorld, glm::vec3(0.75f, 0.75f, 0.75f));
-                    mRenderer->drawModel(model, newWorld);
-                }
+        // for (int x = -1; x < 2; x++)
+        //     for (int y = -1; y < 2; y++)
+        //         for (int z = -1; z < 2; z++)
+        //         {
+        //             auto newWorld = glm::translate(world, glm::vec3(
+        //                                                       static_cast<float>(x),
+        //                                                       static_cast<float>(y),
+        //                                                       static_cast<float>(z)));
+        //             newWorld = glm::scale(newWorld, glm::vec3(0.75f, 0.75f, 0.75f));
+                    mRenderer->drawModel(model, world);
+                // }
     }
 }
