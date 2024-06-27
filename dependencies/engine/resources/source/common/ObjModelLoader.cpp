@@ -6,6 +6,7 @@
 #include "utilities/Logger.hpp"
 #include "filesystem/IFileSystem.hpp"
 #include "filesystem/File.hpp"
+#include "resources/Material.hpp"
 #include <vector>
 
 using namespace std;
@@ -27,21 +28,7 @@ shared_ptr<Model> ObjModelLoader::loadModel(const std::string &fileName)
     {
         auto fileHandle = file->get();
         char buffer[100];
-        // read header
-        // fscanf(fileHandle, "%s,", buffer);
-        // auto name = string(buffer);
-        // debuglog << "Name: " << name << endl;
-        // fscanf(fileHandle, "%s,", buffer);
-        // auto textureName = string(buffer);
-        // debuglog << "Texture Name: " << textureName << endl;
-        // resourceManager->loadTextures({textureName});
-        // modelTexture = resourceManager->getTexture(textureName);
-        // int vertexCount;
-        // fscanf(fileHandle, "%d\n", &vertexCount);
-        // debuglog << "Number of vertices: " << vertexCount << endl;
-        // int vertexElements;
-        // fscanf(fileHandle, "%d\n", &vertexElements);
-        // debuglog << "Elements in vertex: " << vertexElements << endl;
+
         while (!feof(fileHandle))
         {
             fscanf(fileHandle, "%s ", buffer);
@@ -92,20 +79,12 @@ shared_ptr<Model> ObjModelLoader::loadModel(const std::string &fileName)
             {
                 debuglog << "Reading material!" << std::endl;
                 fscanf(fileHandle, "%s", buffer);
-                auto textureName = string("coderox.png");
-                debuglog << "Texture Name: " << textureName << endl;
-                resourceManager->loadTextures({textureName});
-                modelTexture = resourceManager->getTexture(textureName);
+                auto materialFilename = string(buffer);
+                resourceManager->loadMaterial(materialFilename);
+                // debuglog << "Texture Name: " << textureName << endl;
+                // resourceManager->loadTextures({textureName});
+                modelTexture = resourceManager->getMaterial(materialFilename)->getTexture();
             }
-            // std::vector<float> value(vertexElements);
-            // for (int i = 0; i < vertexElements; i++)
-            // {
-            //     fscanf(fileHandle, "%f,", &value[i]);
-            // }Vector3
-            // vertices.emplace_back(
-            //     Vector3{value[0], value[1], value[2]},
-            //     Vector3{value[3], value[4], value[5]},
-            //     Vector2{value[6], value[7]});
         }
     }
     return make_shared<Model>(vertices, modelTexture);
