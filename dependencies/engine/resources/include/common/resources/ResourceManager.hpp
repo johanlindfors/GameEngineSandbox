@@ -5,13 +5,11 @@
 
 namespace Engine
 {
-	struct Texture2D;
-	class Shader;
-	class Model;
 	class TextureLoader;
 	class ShaderLoader;
 	class ObjModelLoader;
 	class SoundLoader;
+	class MaterialLoader;
 
 	class ResourceManager : public IResourceManager
 	{
@@ -33,6 +31,9 @@ namespace Engine
 		void loadSounds(std::vector<std::string> fileNames) override;
 		Engine::Sound getSound(const std::string &name) const override;
 
+		void loadMaterial(const std::string &fileName) override;
+		std::shared_ptr<Engine::Material> getMaterial(const std::string &name) const override;
+
 	private:
 		static Engine::Texture2D createEmptyTexture();
 
@@ -41,9 +42,11 @@ namespace Engine
 		std::map<std::string, Sound> mSounds;
 		std::map<std::string, std::shared_ptr<Shader>> mShaders;
 		std::map<std::string, std::shared_ptr<Model>> mModels;
+		std::map<std::string, std::shared_ptr<Material>> mMaterials;
 		std::unique_ptr<Engine::TextureLoader> mTextureLoader;
 		std::unique_ptr<Engine::ShaderLoader> mShaderLoader;
 		std::unique_ptr<Engine::ObjModelLoader> mModelLoader;
 		std::unique_ptr<Engine::SoundLoader> mSoundLoader;
+		std::unique_ptr<Engine::MaterialLoader> mMaterialLoader;
 	};
 }

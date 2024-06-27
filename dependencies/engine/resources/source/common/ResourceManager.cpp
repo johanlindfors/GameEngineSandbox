@@ -3,6 +3,7 @@
 #include "resources/ShaderLoader.hpp"
 #include "resources/ObjModelLoader.hpp"
 #include "resources/SoundLoader.hpp"
+#include "resources/MaterialLoader.hpp"
 #include "resources/Model.hpp"
 #include "resources/Shader.hpp"
 #include "resources/Sound.hpp"
@@ -20,7 +21,8 @@ ResourceManager::ResourceManager()
 	, mTextureLoader(make_unique<TextureLoader>())
 	, mShaderLoader(make_unique<ShaderLoader>())
 	, mModelLoader(make_unique<ObjModelLoader>())
-	, mSoundLoader(make_unique<SoundLoader>()) {}
+	, mSoundLoader(make_unique<SoundLoader>())
+	, mMaterialLoader(make_unique<MaterialLoader>()) {}
 
 ResourceManager::~ResourceManager()
 {
@@ -32,6 +34,7 @@ ResourceManager::~ResourceManager()
 	mTextureLoader.reset();
 	mShaderLoader.reset();
 	mModelLoader.reset();
+	mMaterialLoader.reset();
 	for (const auto &sound : mSounds) {
 		AlDeleteSources(1, &sound.second.Source);
 		AlDeleteBuffers(1, &sound.second.Buffer);
@@ -145,3 +148,17 @@ void ResourceManager::loadSounds(vector<string> fileNames) {
 Engine::Sound ResourceManager::getSound(const std::string &name) const {
 	return mSounds.at(name);
 };
+
+void ResourceManager::loadMaterial(const string &fileName)
+{
+	if (mMaterials.find(fileName) == mMaterials.end())
+	{
+		const auto material = mMaterialLoader->loadMaterial(fileName);
+		mMaterials[fileName] = material;
+	}
+}
+
+shared_ptr<Material> ResourceManager::getMaterial(const string &name) const
+{
+	return mMaterials.at(name);
+}
