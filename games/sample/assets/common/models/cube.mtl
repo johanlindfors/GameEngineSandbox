@@ -1,0 +1,6 @@
+# created by Johan Lindfors
+
+newmtl coderox
+Kd 1 1 1
+map_Kd coderox.png
+

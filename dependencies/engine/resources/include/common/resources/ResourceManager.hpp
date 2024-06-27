@@ -10,7 +10,7 @@ namespace Engine
 	class Model;
 	class TextureLoader;
 	class ShaderLoader;
-	class ModelLoader;
+	class ObjModelLoader;
 	class SoundLoader;
 
 	class ResourceManager : public IResourceManager
@@ -43,7 +43,7 @@ namespace Engine
 		std::map<std::string, std::shared_ptr<Model>> mModels;
 		std::unique_ptr<Engine::TextureLoader> mTextureLoader;
 		std::unique_ptr<Engine::ShaderLoader> mShaderLoader;
-		std::unique_ptr<Engine::ModelLoader> mModelLoader;
+		std::unique_ptr<Engine::ObjModelLoader> mModelLoader;
 		std::unique_ptr<Engine::SoundLoader> mSoundLoader;
 	};
 }
