@@ -46,10 +46,35 @@ shared_ptr<Material> MaterialLoader::loadMaterial(const std::string &fileName)
                 resourceManager->loadTextures({textureFilename});
                 material->setTexture(resourceManager->getTexture(textureFilename));
             }
-            else if(instruction == "Kd")
+            else if(instruction == "Kd") // diffuse color
             {
                 // TODO
             }
+            else if(instruction == "Ka") // ambient color
+            {
+                // TODO
+            }
+            else if(instruction == "Ks") // specular color
+            {
+                // TODO
+            }
+            else if(instruction == "Ns") // specular exponent
+            {
+                // TODO
+            }
+            else if(instruction == "d") // dissolve
+            {
+                // TODO
+            }
+            else if(instruction == "Tr") // transparency (Tr = 1 -d)
+            {
+                // TODO
+            }
+            else if(instruction == "Ni") // index of refraction
+            {
+                // TODO
+            }
+
         }
     }
     return material;

@@ -27,10 +27,11 @@ void ModelScene::load()
 {
     debuglog << "[ModelScene::load]" << endl;
 
+    auto modelToLoad = string("ship-large.obj");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     resourceManager->loadShader("model", "model.vs", "model.fs");
-    resourceManager->loadModel("ship-small.obj");
-    auto model = resourceManager->getModel("ship-small.obj");
+    resourceManager->loadModel(modelToLoad);
+    auto model = resourceManager->getModel(modelToLoad);
     mModels.emplace_back(model);
     angle = 0.0f;
 
@@ -40,7 +41,7 @@ void ModelScene::load()
     }
     else
     {
-        auto camera = make_shared<Engine::Camera>(glm::vec3(10.0f, 5.0f, 20.0f));
+        auto camera = make_shared<Engine::Camera>(glm::vec3(30.0f, 15.0f, 0.0f));
         auto shader = resourceManager->getShader("model");
         mRenderer = make_shared<ModelRenderer>(shader, camera);
         mRenderer->initialize();
@@ -86,7 +87,8 @@ void ModelScene::draw(shared_ptr<IRenderer> renderer)
     // draw sprites or models
     mRenderer->clear();
     glm::mat4 world = glm::mat4(1.0f);
-    //world = glm::rotate(world, angle, glm::vec3(1.0f, 1.0, 0.0f));
+    world = glm::translate(world, glm::vec3(0.0f, -4.0f, 0.0f));
+    world = glm::rotate(world, angle, glm::vec3(0.0f, 1.0, 0.0f));
     for (const auto &model : mModels)
     {
         // for (int x = -1; x < 2; x++)
