@@ -1,7 +1,7 @@
 #include "resources/ResourceManager.hpp"
 #include "resources/TextureLoader.hpp"
 #include "resources/ShaderLoader.hpp"
-#include "resources/ModelLoader.hpp"
+#include "resources/ObjModelLoader.hpp"
 #include "resources/SoundLoader.hpp"
 #include "resources/Model.hpp"
 #include "resources/Shader.hpp"
@@ -19,7 +19,7 @@ ResourceManager::ResourceManager()
 	: mInitialized(false)
 	, mTextureLoader(make_unique<TextureLoader>())
 	, mShaderLoader(make_unique<ShaderLoader>())
-	, mModelLoader(make_unique<ModelLoader>())
+	, mModelLoader(make_unique<ObjModelLoader>())
 	, mSoundLoader(make_unique<SoundLoader>()) {}
 
 ResourceManager::~ResourceManager()

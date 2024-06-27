@@ -29,8 +29,8 @@ void ModelScene::load()
 
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     resourceManager->loadShader("model", "model.vs", "model.fs");
-    resourceManager->loadModel("cube.mdl");
-    auto model = resourceManager->getModel("cube.mdl");
+    resourceManager->loadModel("cube.obj");
+    auto model = resourceManager->getModel("cube.obj");
     mModels.emplace_back(model);
     angle = 0.0f;
 
@@ -82,7 +82,7 @@ void ModelScene::update(shared_ptr<IStepTimer> timer)
 
 void ModelScene::draw(shared_ptr<IRenderer> renderer)
 {
-    debuglog << "[ModelScene::draw]" << endl;
+    //debuglog << "[ModelScene::draw]" << endl;
     // draw sprites or models
     mRenderer->clear();
     glm::mat4 world = glm::mat4(1.0f);
