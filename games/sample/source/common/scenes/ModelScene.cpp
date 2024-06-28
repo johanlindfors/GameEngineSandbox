@@ -27,7 +27,7 @@ void ModelScene::load()
 {
     debuglog << "[ModelScene::load]" << endl;
 
-    auto modelToLoad = string("cube.obj");
+    auto modelToLoad = string("building-dock.obj");
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     resourceManager->loadShader("model", "model.vs", "model.fs");
     resourceManager->loadModel(modelToLoad);
@@ -41,7 +41,7 @@ void ModelScene::load()
     }
     else
     {
-        auto camera = make_shared<Engine::Camera>(glm::vec3(5.0f, 2.0f, 0.0f));
+        auto camera = make_shared<Engine::Camera>(glm::vec3(0.0f, 1.0f, 5.0f));
         auto shader = resourceManager->getShader("model");
         mRenderer = make_shared<ModelRenderer>(shader, camera);
         mRenderer->initialize();
@@ -91,16 +91,6 @@ void ModelScene::draw(shared_ptr<IRenderer> renderer)
     world = glm::rotate(world, angle, glm::vec3(0.0f, -1.0, 0.0f));
     for (const auto &model : mModels)
     {
-        // for (int x = -1; x < 2; x++)
-        //     for (int y = -1; y < 2; y++)
-        //         for (int z = -1; z < 2; z++)
-        //         {
-        //             auto newWorld = glm::translate(world, glm::vec3(
-        //                                                       static_cast<float>(x),
-        //                                                       static_cast<float>(y),
-        //                                                       static_cast<float>(z)));
-        //             newWorld = glm::scale(newWorld, glm::vec3(0.75f, 0.75f, 0.75f));
-                    mRenderer->drawModel(model, world);
-                // }
+        mRenderer->drawModel(model, world);
     }
 }

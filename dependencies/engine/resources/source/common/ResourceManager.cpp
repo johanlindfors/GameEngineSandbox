@@ -6,6 +6,7 @@
 #include "resources/MaterialLoader.hpp"
 #include "resources/Model.hpp"
 #include "resources/Shader.hpp"
+#include "resources/Material.hpp"
 #include "resources/Sound.hpp"
 #include <memory>
 #include "utilities/GLHelper.hpp"
@@ -158,7 +159,7 @@ void ResourceManager::loadMaterial(const string &fileName)
 	}
 }
 
-shared_ptr<Material> ResourceManager::getMaterial(const string &name) const
+Material ResourceManager::getMaterial(const string &name) const
 {
 	return mMaterials.at(name);
 }
