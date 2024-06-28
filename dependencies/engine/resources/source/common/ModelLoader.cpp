@@ -18,7 +18,7 @@ shared_ptr<Model> ModelLoader::loadModel(const std::string &fileName)
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     std::vector<VertexPositionNormalTexture> vertices;
     const auto file = fileSystem->loadFile(std::string("models/" + fileName), false);
-    Texture2D modelTexture;
+    Material material;
     debuglog << "[ModelLoader::loadModel] Loading model" << endl;
     if (file && file->isOpen())
     {
@@ -32,7 +32,7 @@ shared_ptr<Model> ModelLoader::loadModel(const std::string &fileName)
         auto textureName = string(buffer);
         debuglog << "Texture Name: " << textureName << endl;
         resourceManager->loadTextures({textureName});
-        modelTexture = resourceManager->getTexture(textureName);
+        material.Texture = resourceManager->getTexture(textureName);
         int vertexCount;
         fscanf(fileHandle, "%d\n", &vertexCount);
         debuglog << "Number of vertices: " << vertexCount << endl;
@@ -52,5 +52,5 @@ shared_ptr<Model> ModelLoader::loadModel(const std::string &fileName)
                 Vector2{value[6], value[7]});
         }
     }
-    return make_shared<Model>(vertices, modelTexture);
+    return make_shared<Model>(vertices, material);
 }

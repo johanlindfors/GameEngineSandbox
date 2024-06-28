@@ -32,7 +32,7 @@ namespace Engine
 		Engine::Sound getSound(const std::string &name) const override;
 
 		void loadMaterial(const std::string &fileName) override;
-		std::shared_ptr<Engine::Material> getMaterial(const std::string &name) const override;
+		Engine::Material getMaterial(const std::string &name) const override;
 
 	private:
 		static Engine::Texture2D createEmptyTexture();
@@ -42,7 +42,7 @@ namespace Engine
 		std::map<std::string, Sound> mSounds;
 		std::map<std::string, std::shared_ptr<Shader>> mShaders;
 		std::map<std::string, std::shared_ptr<Model>> mModels;
-		std::map<std::string, std::shared_ptr<Material>> mMaterials;
+		std::map<std::string, Material> mMaterials;
 		std::unique_ptr<Engine::TextureLoader> mTextureLoader;
 		std::unique_ptr<Engine::ShaderLoader> mShaderLoader;
 		std::unique_ptr<Engine::ObjModelLoader> mModelLoader;

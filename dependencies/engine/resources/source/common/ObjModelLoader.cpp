@@ -22,7 +22,7 @@ shared_ptr<Model> ObjModelLoader::loadModel(const std::string &fileName)
     std::vector<Vector2> uvs;
     std::vector<VertexPositionNormalTexture> vertices;
     const auto file = fileSystem->loadFile(std::string("models/" + fileName), false);
-    Texture2D modelTexture;
+    Material material;
     debuglog << "[ModelLoader::loadModel] Loading model" << endl;
     if (file && file->isOpen())
     {
@@ -41,9 +41,13 @@ shared_ptr<Model> ObjModelLoader::loadModel(const std::string &fileName)
             {
                 debuglog << "Reading vertice!" << std::endl;
                 float x, y, z;
+                float r, g, b;
                 fscanf(fileHandle, "%f ", &x);
                 fscanf(fileHandle, "%f ", &y);
                 fscanf(fileHandle, "%f ", &z);
+                fscanf(fileHandle, "%f ", &r);
+                fscanf(fileHandle, "%f ", &g);
+                fscanf(fileHandle, "%f ", &b);
                 verts.emplace_back(Vector3{x,y,z});
             }
             else if(instruction == "vt")
@@ -83,9 +87,9 @@ shared_ptr<Model> ObjModelLoader::loadModel(const std::string &fileName)
                 resourceManager->loadMaterial(materialFilename);
                 // debuglog << "Texture Name: " << textureName << endl;
                 // resourceManager->loadTextures({textureName});
-                modelTexture = resourceManager->getMaterial(materialFilename)->getTexture();
+                material = resourceManager->getMaterial(materialFilename);
             }
         }
     }
-    return make_shared<Model>(vertices, modelTexture);
+    return make_shared<Model>(vertices, material);
 }

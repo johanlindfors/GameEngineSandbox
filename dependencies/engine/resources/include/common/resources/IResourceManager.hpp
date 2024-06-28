@@ -10,7 +10,7 @@ namespace Engine
 	struct Sound;
 	class Shader;
 	class Model;
-	class Material;
+	struct Material;
 
 	class IResourceManager
 	{
@@ -28,6 +28,6 @@ namespace Engine
 		virtual Engine::Sound getSound(const std::string &name) const = 0;
 
 		virtual void loadMaterial(const std::string &fileName) = 0;
-		virtual std::shared_ptr<Engine::Material> getMaterial(const std::string &name) const = 0;
+		virtual Engine::Material getMaterial(const std::string &name) const = 0;
 	};
 }

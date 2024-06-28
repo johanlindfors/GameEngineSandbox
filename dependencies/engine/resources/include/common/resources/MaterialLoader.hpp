@@ -4,13 +4,13 @@
 
 namespace Engine
 {
-	class Material;
+	struct Material;
 
 	class MaterialLoader
 	{
 	public:
 		MaterialLoader() {}
 
-		std::shared_ptr<Material> loadMaterial(const std::string &fileName);
+		Material loadMaterial(const std::string &fileName);
 	};
 }

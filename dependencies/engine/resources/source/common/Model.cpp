@@ -1,7 +1,7 @@
 #include "resources/Model.hpp"
 #include <vector>
 #include "utilities/MathHelper.hpp"
-#include "resources/Texture2D.hpp"
+#include "resources/Material.hpp"
 #include "utilities/GLHelper.hpp"
 
 using namespace Engine;
@@ -9,8 +9,9 @@ using namespace Utilities;
 
 Model::Model(
     std::vector<VertexPositionNormalTexture> vertices,
-    Texture2D texture)
-    : mTexture(texture), mVertexCount(static_cast<int>(vertices.size()))
+    Material material)
+    : mMaterial(material)
+    , mVertexCount(static_cast<int>(vertices.size()))
 {
     InitializeGlBuffers();
 
@@ -22,8 +23,9 @@ Model::Model(
 Model::Model(
     float vertices[],
     int vertexCount,
-    Texture2D texture)
-    : mTexture(texture), mVertexCount(vertexCount)
+    Material material)
+    : mMaterial(material)
+    , mVertexCount(vertexCount)
 {
     InitializeGlBuffers();
 

@@ -53,12 +53,13 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
 {
     mShader->use();
     checkOpenGLError();
+    auto material = model->getMaterial();
 
     // lighting
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+    glm::vec3 lightPos(-1.0f, 1.0f, 1.0f);
 
-    mShader->setVector3f("objectColor", 0.35f, 0.35f, 0.34f);
-    mShader->setVector3f("lightColor", 1.0f, 1.0f, 1.0f);
+    mShader->setVector3f("objectColor", 0.1f, 0.1f, 0.1f);
+    mShader->setVector3f("lightColor", material.Diffuse.x, material.Diffuse.y, material.Diffuse.z);
     mShader->setVector3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
 
     // view/projection transformations
@@ -69,7 +70,7 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
     mShader->setMatrix4("model", world);
     mShader->setMatrix4("normalRotation", glm::transpose(glm::inverse(world)));
 
-    GlBindTexture(GL_TEXTURE_2D, model->getTexture().textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    GlBindTexture(GL_TEXTURE_2D, material.Texture.textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
     // set the texture wrapping parameters
     GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
     GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

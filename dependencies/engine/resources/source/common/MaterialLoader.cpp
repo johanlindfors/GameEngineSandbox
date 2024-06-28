@@ -11,13 +11,13 @@ using namespace std;
 using namespace Engine;
 using namespace Utilities;
 
-shared_ptr<Material> MaterialLoader::loadMaterial(const std::string &fileName)
+Material MaterialLoader::loadMaterial(const std::string &fileName)
 {
     auto fileSystem = IOCContainer::instance().resolve<IFileSystem>();
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
     const auto file = fileSystem->loadFile(std::string("models/" + fileName), false);
     Texture2D modelTexture;
-    std::shared_ptr<Material> material = make_shared<Material>();
+    Material material;
     debuglog << "[MaterialLoader::loadMaterial] Loading material" << endl;
     if (file && file->isOpen())
     {
@@ -28,15 +28,13 @@ shared_ptr<Material> MaterialLoader::loadMaterial(const std::string &fileName)
         {
             fscanf(fileHandle, "%s ", buffer);
             auto instruction = string(buffer);
-            if(instruction == "#")
-                continue;
-            else if(instruction == "")
+            if(instruction == "#" || instruction == "")
                 continue;
             else if(instruction == "newmtl")
             {
                 debuglog << "Reading name!" << std::endl;
                 fscanf(fileHandle, "%s ", buffer);
-                material->setName(string(buffer));
+                material.Name = string(buffer);
             }
             else if(instruction == "map_Kd")
             {
@@ -44,23 +42,37 @@ shared_ptr<Material> MaterialLoader::loadMaterial(const std::string &fileName)
                 fscanf(fileHandle, "%s", buffer);
                 auto textureFilename = string(buffer);
                 resourceManager->loadTextures({textureFilename});
-                material->setTexture(resourceManager->getTexture(textureFilename));
+                material.Texture = resourceManager->getTexture(textureFilename);
             }
             else if(instruction == "Kd") // diffuse color
             {
-                // TODO
+                float x, y, z;
+                fscanf(fileHandle, "%f ", &x);
+                fscanf(fileHandle, "%f ", &y);
+                fscanf(fileHandle, "%f ", &z);
+                material.Diffuse = {x,y,z};
             }
             else if(instruction == "Ka") // ambient color
             {
-                // TODO
+                float x, y, z;
+                fscanf(fileHandle, "%f ", &x);
+                fscanf(fileHandle, "%f ", &y);
+                fscanf(fileHandle, "%f ", &z);
+                //material.Ambient = {x,y,z};
             }
             else if(instruction == "Ks") // specular color
             {
-                // TODO
+                float x, y, z;
+                fscanf(fileHandle, "%f ", &x);
+                fscanf(fileHandle, "%f ", &y);
+                fscanf(fileHandle, "%f ", &z);
+                //material.Specilar = {x,y,z};
             }
             else if(instruction == "Ns") // specular exponent
             {
-                // TODO
+                float exponent;
+                fscanf(fileHandle, "%f ", &exponent);
+                //material.SpecularExponent = exponent;
             }
             else if(instruction == "d") // dissolve
             {
@@ -74,7 +86,6 @@ shared_ptr<Material> MaterialLoader::loadMaterial(const std::string &fileName)
             {
                 // TODO
             }
-
         }
     }
     return material;
