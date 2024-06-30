@@ -35,6 +35,6 @@ if(DEFINED USE_HTTP)
     add_subdirectory(cpr ${CMAKE_CURRENT_BINARY_DIR}/cpr)
 endif()
 
-if (NOT EMSCRIPTEN)
+if ((NOT EMSCRIPTEN) AND (NOT WIN32))
     add_subdirectory(openal-soft ${CMAKE_CURRENT_BINARY_DIR}/openal-soft)
 endif()

@@ -24,9 +24,7 @@ If you want to build Win32 version, make sure to bootstrap vcpkg and fetch Win32
 
 ```
 ./dependencies/thirdparty/vcpkg/bootstrap-vcpkg.bat
-./dependencies/thirdparty/vcpkg/vcpkg.exe install glew:x64-windows
-./dependencies/thirdparty/vcpkg/vcpkg.exe install libpng:x64-windows
-./dependencies/thirdparty/vcpkg/vcpkg.exe install opengl:x64-windows
+./dependencies/thirdparty/vcpkg/vcpkg.exe install glew libpng opengl openal-soft
 ```
 
 You can leverage the pipeline.ps1 Powershell command to automate the creation of the projects for your preferred platform.

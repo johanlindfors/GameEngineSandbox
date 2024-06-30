@@ -42,10 +42,11 @@ elseif(ANDROID)
 elseif(WIN32) # WIN32
     find_package(GLEW REQUIRED)
     find_package(PNG REQUIRED)
+    find_package(OpenAL CONFIG REQUIRED)
     list(APPEND DEPENDENCIES
         GLEW::GLEW
         PNG::PNG
-        OpenAL
+        OpenAL::OpenAL
     )
     if(WIN32)
         list(APPEND DEPENDENCIES

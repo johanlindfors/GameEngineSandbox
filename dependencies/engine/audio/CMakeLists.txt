@@ -19,6 +19,11 @@ elseif(ANDROID)
     list(APPEND DEPENDENCIES
         OpenAL
     )
+elseif(WIN32)
+    find_package(OpenAL CONFIG REQUIRED)
+    list(APPEND DEPENDENCIES
+        OpenAL::OpenAL
+    )
 else() # WIN32
 
 endif()
