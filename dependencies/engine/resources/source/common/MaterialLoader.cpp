@@ -58,7 +58,7 @@ Material MaterialLoader::loadMaterial(const std::string &fileName)
                 fscanf(fileHandle, "%f ", &x);
                 fscanf(fileHandle, "%f ", &y);
                 fscanf(fileHandle, "%f ", &z);
-                //material.Ambient = {x,y,z};
+                material.Ambient = {x,y,z};
             }
             else if(instruction == "Ks") // specular color
             {
@@ -66,13 +66,13 @@ Material MaterialLoader::loadMaterial(const std::string &fileName)
                 fscanf(fileHandle, "%f ", &x);
                 fscanf(fileHandle, "%f ", &y);
                 fscanf(fileHandle, "%f ", &z);
-                //material.Specilar = {x,y,z};
+                material.Specular = {x,y,z};
             }
             else if(instruction == "Ns") // specular exponent
             {
                 float exponent;
                 fscanf(fileHandle, "%f ", &exponent);
-                //material.SpecularExponent = exponent;
+                material.SpecularExponent = exponent;
             }
             else if(instruction == "d") // dissolve
             {

@@ -23,12 +23,18 @@ using namespace Engine;
 using namespace Utilities;
 using namespace Sample;
 
+ModelScene::ModelScene() 
+    : mInputManager(IOCContainer::resolve_type<IInputManager>())
+    , mSceneManager(IOCContainer::resolve_type<ISceneManager>())
+    , mResourceManager(IOCContainer::resolve_type<IResourceManager>())
+{ id = typeid(ModelScene).name(); }
+
 void ModelScene::load()
 {
     debuglog << "[ModelScene::load]" << endl;
 
-    auto modelToLoad = string("building-dock.obj");
-    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+    auto modelToLoad = string("BodyMesh.obj");
+    auto resourceManager = IOCContainer::resolve_type<IResourceManager>();
     resourceManager->loadShader("model", "model.vs", "model.fs");
     resourceManager->loadModel(modelToLoad);
     auto model = resourceManager->getModel(modelToLoad);
@@ -37,7 +43,7 @@ void ModelScene::load()
 
     if (IOCContainer::instance().contains<ModelRenderer>())
     {
-        mRenderer = IOCContainer::instance().resolve<ModelRenderer>();
+        mRenderer = IOCContainer::resolve_type<ModelRenderer>();
     }
     else
     {
@@ -48,7 +54,6 @@ void ModelScene::load()
         IOCContainer::instance().register_type<ModelRenderer>(mRenderer);
     }
 
-    mInputManager = IOCContainer::instance().resolve<IInputManager>();
     mAnimate = true;
 }
 
@@ -70,9 +75,8 @@ void ModelScene::update(shared_ptr<IStepTimer> timer)
     mInputManager->update();
     if (mouseState.state == ButtonState::Pressed)
     {
-        auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
-        sceneManager->addScene(make_shared<SpriteScene>());
-        sceneManager->removeScene(typeid(ModelScene));
+        mSceneManager->addScene(make_shared<SpriteScene>());
+        mSceneManager->removeScene(typeid(ModelScene));
     }
 
     if (mAnimate)
