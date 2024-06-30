@@ -9,6 +9,8 @@ namespace Engine
     class SpriteRenderer;
     class IInputManager;
     struct Sprite;
+    class IResourceManager;
+    class ISceneManager;
 }
 
 namespace Utilities
@@ -21,8 +23,8 @@ namespace Sample
     class SpriteScene : public Engine::GameScene
     {
     public:
-        SpriteScene() { id = typeid(SpriteScene).name(); }
-
+        SpriteScene();
+        
         // Engine::GameScene
         void load() override;
         void unload() override;
@@ -34,5 +36,7 @@ namespace Sample
         std::shared_ptr<Engine::SpriteRenderer> mRenderer;
         std::shared_ptr<Engine::Sprite> mSprite;
         std::shared_ptr<Engine::IInputManager> mInputManager;
+        std::shared_ptr<Engine::ISceneManager> mSceneManager;
+        std::shared_ptr<Engine::IResourceManager> mResourceManager;
     };
 }

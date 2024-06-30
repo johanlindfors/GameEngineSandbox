@@ -9,6 +9,8 @@ namespace Engine
     class ModelRenderer;
     class Model;
     class IInputManager;
+    class ISceneManager;
+    class IResourceManager;
 }
 
 namespace Utilities
@@ -21,7 +23,7 @@ namespace Sample
     class ModelScene : public Engine::GameScene
     {
     public:
-        ModelScene() { id = typeid(ModelScene).name(); }
+        ModelScene();
 
         // Engine::GameScene
         void load() override;
@@ -35,6 +37,8 @@ namespace Sample
         std::vector<std::shared_ptr<Engine::Model>> mModels;
         float angle;
         std::shared_ptr<Engine::IInputManager> mInputManager;
+        std::shared_ptr<Engine::ISceneManager> mSceneManager;
+        std::shared_ptr<Engine::IResourceManager> mResourceManager;
         bool mAnimate;
     };
 }

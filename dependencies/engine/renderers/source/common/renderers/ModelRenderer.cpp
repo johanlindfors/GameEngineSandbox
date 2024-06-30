@@ -58,7 +58,7 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
     // lighting
     glm::vec3 lightPos(-1.0f, 1.0f, 1.0f);
 
-    mShader->setVector3f("objectColor", 0.1f, 0.1f, 0.1f);
+    mShader->setVector3f("objectColor", material.Ambient.x, material.Ambient.y, material.Ambient.z);
     mShader->setVector3f("lightColor", material.Diffuse.x, material.Diffuse.y, material.Diffuse.z);
     mShader->setVector3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
 

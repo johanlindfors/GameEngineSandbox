@@ -39,16 +39,16 @@ shared_ptr<Model> ObjModelLoader::loadModel(const std::string &fileName)
                 continue;
             else if(instruction == "v")
             {
-                debuglog << "Reading vertice!" << std::endl;
-                float x, y, z;
-                float r, g, b;
-                fscanf(fileHandle, "%f ", &x);
-                fscanf(fileHandle, "%f ", &y);
-                fscanf(fileHandle, "%f ", &z);
-                fscanf(fileHandle, "%f ", &r);
-                fscanf(fileHandle, "%f ", &g);
-                fscanf(fileHandle, "%f ", &b);
-                verts.emplace_back(Vector3{x,y,z});
+                debuglog << "Reading vertices!" << std::endl;
+                const int MAX_VERTICES = 9;
+                float vertex[MAX_VERTICES];
+                int i = 0;
+                while(i < MAX_VERTICES && fscanf(fileHandle, "%f ", &vertex[i++]) > 0);
+                if(i >=3)
+                    verts.emplace_back(Vector3{vertex[0],vertex[1],vertex[2]});
+                // if(i >=6)
+                //     ;
+
             }
             else if(instruction == "vt")
             {
@@ -70,14 +70,21 @@ shared_ptr<Model> ObjModelLoader::loadModel(const std::string &fileName)
             else if(instruction == "f")
             {
                 debuglog << "Reading face!" << std::endl;
-                int v, u, n;
-                for (int i = 0; i < 3; i++)
-                {
-                    fscanf(fileHandle, "%i/", &v);
-                    fscanf(fileHandle, "%i/", &u);
-                    fscanf(fileHandle, "%i ", &n);
-                    vertices.emplace_back(verts[v-1], normals[n-1], uvs[u-1]);
-                }                
+                const int MAX_FACES = 4;
+                int v[MAX_FACES], u[MAX_FACES], n[MAX_FACES];
+                int i = 0;
+                while(i < MAX_FACES && fscanf(fileHandle, "%i/%i/%i ", &v[i], &u[i], &n[i]) > 0)
+                    i++;
+                if(i >= 3) {
+                    vertices.emplace_back(verts[v[0]-1], normals[n[0]-1], uvs[u[0]-1]);
+                    vertices.emplace_back(verts[v[1]-1], normals[n[1]-1], uvs[u[1]-1]);
+                    vertices.emplace_back(verts[v[2]-1], normals[n[2]-1], uvs[u[2]-1]);
+                }
+                if(i == 4) {
+                    vertices.emplace_back(verts[v[3]-1], normals[n[3]-1], uvs[u[3]-1]);
+                    vertices.emplace_back(verts[v[0]-1], normals[n[0]-1], uvs[u[0]-1]);
+                    vertices.emplace_back(verts[v[1]-1], normals[n[1]-1], uvs[u[1]-1]);
+                }
             }
             else if(instruction == "mtllib")
             {
