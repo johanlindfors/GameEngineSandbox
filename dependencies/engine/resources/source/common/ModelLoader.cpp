@@ -16,7 +16,7 @@ shared_ptr<Model> ModelLoader::loadModel(const std::string &fileName)
 {
     auto fileSystem = IOCContainer::instance().resolve<IFileSystem>();
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    std::vector<VertexPositionNormalTexture> vertices;
+    std::vector<VertexPositionTexture> vertices;
     const auto file = fileSystem->loadFile(std::string("models/" + fileName), false);
     Material material;
     debuglog << "[ModelLoader::loadModel] Loading model" << endl;
@@ -48,8 +48,8 @@ shared_ptr<Model> ModelLoader::loadModel(const std::string &fileName)
             }
             vertices.emplace_back(
                 Vector3{value[0], value[1], value[2]},
-                Vector3{value[3], value[4], value[5]},
-                Vector2{value[6], value[7]});
+                // Vector3{value[3], value[4], value[5]},
+                Vector2{value[3], value[4]});
         }
     }
     return make_shared<Model>(vertices, material);

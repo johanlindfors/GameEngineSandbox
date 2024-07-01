@@ -63,6 +63,24 @@ namespace Utilities
         float idx[4];
     };
 
+    union VertexPositionTexture
+    {
+        struct
+        {
+            Vector3 position;
+            Vector2 uv;
+        };
+
+        constexpr VertexPositionTexture(
+            const Vector3 &inPosition, const Vector2 &inUV)
+            : position(inPosition), uv(inUV) {}
+
+        constexpr VertexPositionTexture(
+            const float vertices[])
+            : position(Vector3{vertices[0], vertices[1], vertices[2]})
+            , uv(Vector2{vertices[3], vertices[4]}) {}
+    };
+
     union VertexPositionNormalTexture
     {
         struct
@@ -78,7 +96,9 @@ namespace Utilities
 
         constexpr VertexPositionNormalTexture(
             const float vertices[])
-            : position(Vector3{vertices[0], vertices[1], vertices[2]}), normal(Vector3{vertices[3], vertices[4], vertices[5]}), uv(Vector2{vertices[6], vertices[7]}) {}
+            : position(Vector3{vertices[0], vertices[1], vertices[2]})
+            , normal(Vector3{vertices[3], vertices[4], vertices[5]})
+            , uv(Vector2{vertices[6], vertices[7]}) {}
     };
 
     struct Vertex

@@ -4,7 +4,7 @@
 #include "Material.hpp"
 
 namespace Utilities {
-    union VertexPositionNormalTexture;
+    union VertexPositionTexture;
 }
 
 namespace Engine {
@@ -12,7 +12,7 @@ namespace Engine {
 class Model {
 public:
     Model(
-        std::vector<Utilities::VertexPositionNormalTexture> vertices,
+        std::vector<Utilities::VertexPositionTexture> vertices,
         Engine::Material material
     );
 
