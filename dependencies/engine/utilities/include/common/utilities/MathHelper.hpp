@@ -63,6 +63,23 @@ namespace Utilities
         float idx[4];
     };
 
+    union VertexPosition
+    {
+        struct
+        {
+            Vector3 position;
+        };
+
+        constexpr VertexPosition (
+            const Vector3 &inPosition)
+            : position(inPosition) { }
+
+        constexpr VertexPosition(
+            const float vertices[])
+            : position(Vector3{vertices[0], vertices[1], vertices[2]}) { }
+    };
+
+
     union VertexPositionTexture
     {
         struct

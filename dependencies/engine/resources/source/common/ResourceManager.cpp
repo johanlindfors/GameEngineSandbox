@@ -121,7 +121,8 @@ shared_ptr<Shader> ResourceManager::getShader(const string &name) const
 	return mShaders.at(name);
 }
 
-void ResourceManager::loadModel(const string &fileName)
+template<typename T>
+void ResourceManager::load(const string &fileName)
 {
 	if (mModels.find(fileName) == mModels.end())
 	{
@@ -130,7 +131,8 @@ void ResourceManager::loadModel(const string &fileName)
 	}
 }
 
-shared_ptr<Model> ResourceManager::getModel(const string &name) const
+template<typename T>
+shared_ptr<T> ResourceManager::get(const string &name) const
 {
 	return mModels.at(name);
 }
