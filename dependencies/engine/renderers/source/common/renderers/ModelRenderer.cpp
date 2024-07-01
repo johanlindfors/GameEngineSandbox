@@ -21,7 +21,7 @@ ModelRenderer::~ModelRenderer()
     mShader.reset();
     GlDisableVertexAttribArray(0);
     GlDisableVertexAttribArray(1);
-    GlDisableVertexAttribArray(2);
+    //GlDisableVertexAttribArray(2);
 }
 
 void ModelRenderer::initialize()
