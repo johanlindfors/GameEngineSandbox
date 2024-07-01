@@ -7,18 +7,18 @@
 using namespace Engine;
 using namespace Utilities;
 
-Model::Model(
-    std::vector<VertexPositionTexture> vertices,
-    Material material)
-    : mMaterial(material)
-    , mVertexCount(static_cast<int>(vertices.size()))
-{
-    InitializeGlBuffers();
+// Model::Model(
+//     std::vector<VertexPositionTexture> vertices,
+//     Material material)
+//     : mMaterial(material)
+//     , mVertexCount(static_cast<int>(vertices.size()))
+// {
+//     InitializeGlBuffers();
 
-    GlBufferData(GL_ARRAY_BUFFER, sizeof(VertexPositionTexture) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
+//     GlBufferData(GL_ARRAY_BUFFER, sizeof(VertexPositionTexture) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
 
-    UpdateGlAttributes();
-}
+//     UpdateGlAttributes();
+// }
 
 Model::Model(
     float vertices[],

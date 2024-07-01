@@ -7,10 +7,9 @@ class IGameStateCallback;
 namespace Engine
 {
     class ModelRenderer;
-    class Model;
     class IInputManager;
     class ISceneManager;
-    class IResourceManager;
+    class ResourceManager;
 }
 
 namespace Utilities
@@ -34,11 +33,11 @@ namespace Sample
 
     private:
         std::shared_ptr<Engine::ModelRenderer> mRenderer;
-        std::vector<std::shared_ptr<Engine::Model>> mModels;
+        std::vector<std::shared_ptr<Engine::Model<VertexPositionTexture>>> mModels;
         float angle;
         std::shared_ptr<Engine::IInputManager> mInputManager;
         std::shared_ptr<Engine::ISceneManager> mSceneManager;
-        std::shared_ptr<Engine::IResourceManager> mResourceManager;
+        std::shared_ptr<Engine::ResourceManager> mResourceManager;
         bool mAnimate;
     };
 }

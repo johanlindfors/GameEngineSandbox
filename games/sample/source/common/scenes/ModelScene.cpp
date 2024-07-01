@@ -8,7 +8,7 @@
 #include "utilities/StepTimer.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/Logger.hpp"
-#include "resources/IResourceManager.hpp"
+#include "resources/ResourceManager.hpp"
 #include "resources/Shader.hpp"
 #include "renderers/ModelRenderer.hpp"
 #include "renderers/Camera.hpp"
@@ -26,7 +26,7 @@ using namespace Sample;
 ModelScene::ModelScene() 
     : mInputManager(IOCContainer::resolve_type<IInputManager>())
     , mSceneManager(IOCContainer::resolve_type<ISceneManager>())
-    , mResourceManager(IOCContainer::resolve_type<IResourceManager>())
+    , mResourceManager(IOCContainer::resolve_type<ResourceManager>())
 { id = typeid(ModelScene).name(); }
 
 void ModelScene::load()
@@ -34,10 +34,9 @@ void ModelScene::load()
     debuglog << "[ModelScene::load]" << endl;
 
     auto modelToLoad = string("BodyMesh.obj");
-    auto resourceManager = IOCContainer::resolve_type<IResourceManager>();
-    resourceManager->loadShader("model", "model.vs", "model.fs");
-    resourceManager->loadModel(modelToLoad);
-    auto model = resourceManager->getModel(modelToLoad);
+    mResourceManager->loadShader("model", "model.vs", "model.fs");
+    mResourceManager->load<Model<VertexPositionTexture>>(modelToLoad);
+    auto model = mResourceManager->get<Model<VertexPositionTexture>>(modelToLoad);
     mModels.emplace_back(model);
     angle = 0.0f;
 
@@ -48,7 +47,7 @@ void ModelScene::load()
     else
     {
         auto camera = make_shared<Engine::Camera>(glm::vec3(0.0f, 1.0f, 5.0f));
-        auto shader = resourceManager->getShader("model");
+        auto shader = mResourceManager->get<Shader>("model");
         mRenderer = make_shared<ModelRenderer>(shader, camera);
         mRenderer->initialize();
         IOCContainer::instance().register_type<ModelRenderer>(mRenderer);
