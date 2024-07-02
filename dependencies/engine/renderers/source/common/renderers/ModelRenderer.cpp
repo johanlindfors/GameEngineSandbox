@@ -49,7 +49,7 @@ void ModelRenderer::clear(float r, float g, float b, float a)
     GlEnable(GL_DEPTH_TEST);
 }
 
-void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
+void ModelRenderer::drawModel(shared_ptr<ModelBase> model, glm::mat4 &world)
 {
     mShader->use();
     checkOpenGLError();
@@ -85,6 +85,7 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
     // glDisable(GL_DEPTH_TEST);
     // render
     GlBindVertexArray(model->getVAO());
-    GlDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(model->getVertexCount()));
+    auto vertexCount = model->getVertexCount();
+    GlDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexCount));
     GlEnable(GL_DEPTH_TEST);
 }

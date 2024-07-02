@@ -9,6 +9,7 @@
 #include "resources/Material.hpp"
 #include "resources/Sound.hpp"
 #include <memory>
+#include <type_traits>
 #include "utilities/GLHelper.hpp"
 #include "utilities/ALHelper.hpp"
 #include "utilities/Logger.hpp"
@@ -121,20 +122,13 @@ shared_ptr<Shader> ResourceManager::getShader(const string &name) const
 	return mShaders.at(name);
 }
 
-template<typename T>
-void ResourceManager::load(const string &fileName)
-{
-	if (mModels.find(fileName) == mModels.end())
-	{
-		const auto model = mModelLoader->loadModel(fileName);
-		mModels[fileName] = model;
-	}
+
+void ResourceManager::loadModel(const std::string &fileName) {
+
 }
 
-template<typename T>
-shared_ptr<T> ResourceManager::get(const string &name) const
-{
-	return mModels.at(name);
+std::shared_ptr<Engine::ModelBase> ResourceManager::getModel(const std::string &name) const {
+	return nullptr;
 }
 
 void ResourceManager::loadSounds(vector<string> fileNames) {

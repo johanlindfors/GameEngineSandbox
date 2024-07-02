@@ -2,5 +2,6 @@
 
 newmtl coderox
 Kd 1 1 1
+Ka 0.1 0.1 0.1
 map_Kd coderox.png
 

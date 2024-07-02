@@ -10,7 +10,7 @@ namespace Engine
     class Shader;
     class Camera;
     struct Sprite;
-    class Model;
+    class ModelBase;
 
     class ModelRenderer : public Renderer
     {
@@ -22,7 +22,7 @@ namespace Engine
         virtual void clear() override;
         virtual void clear(float r, float g, float b, float a) override;
 
-        void drawModel(std::shared_ptr<Engine::Model> model, glm::mat4 &world);
+        void drawModel(std::shared_ptr<Engine::ModelBase> model, glm::mat4 &world);
 
     private:
         std::shared_ptr<Engine::Camera> mCamera;

@@ -2,6 +2,8 @@
 #include <memory>
 #include <vector>
 #include "scenes/GameScene.hpp"
+#include "resources/Model.hpp"
+#include "utilities/MathHelper.hpp"
 
 class IGameStateCallback;
 namespace Engine
@@ -33,7 +35,8 @@ namespace Sample
 
     private:
         std::shared_ptr<Engine::ModelRenderer> mRenderer;
-        std::vector<std::shared_ptr<Engine::Model<VertexPositionTexture>>> mModels;
+        std::shared_ptr<Engine::Model<Utilities::VertexPositionTexture>> mBody;
+        std::shared_ptr<Engine::Model<Utilities::VertexPositionNormalTexture>> mCube;
         float angle;
         std::shared_ptr<Engine::IInputManager> mInputManager;
         std::shared_ptr<Engine::ISceneManager> mSceneManager;

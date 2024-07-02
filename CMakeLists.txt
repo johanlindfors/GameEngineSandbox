@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-SET(GAME_TO_BUILD "monsters" CACHE STRING "Provide game to build")
+SET(GAME_TO_BUILD "sample" CACHE STRING "Provide game to build")
 
 project(${GAME_TO_BUILD})
 
