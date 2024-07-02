@@ -35,9 +35,10 @@ void GameLoop::initialize(shared_ptr<Config> config)
 		debuglog << "[GameLoop::initialize] FileSystem registered" << std::endl;
 	}
 
-	if (!IOCContainer::instance().contains<IResourceManager>())
+	if (!IOCContainer::instance().contains<ResourceManager>())
 	{
 		mResourceManager = make_shared<ResourceManager>();
+		IOCContainer::instance().register_type<ResourceManager>(mResourceManager);
 		IOCContainer::instance().register_type<IResourceManager>(mResourceManager);
 		debuglog << "[GameLoop::initialize] ResourceManager registered" << std::endl;
 	}

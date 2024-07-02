@@ -4,7 +4,6 @@
 #include "ModelScene.hpp"
 #include <vector>
 #include "utilities/IOC.hpp"
-#include "utilities/MathHelper.hpp"
 #include "utilities/StepTimer.hpp"
 #include "utilities/Config.hpp"
 #include "utilities/Logger.hpp"
@@ -12,7 +11,6 @@
 #include "resources/Shader.hpp"
 #include "renderers/ModelRenderer.hpp"
 #include "renderers/Camera.hpp"
-#include "resources/Model.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include "input/IInputManager.hpp"
 #include "scenes/ISceneManager.hpp"
@@ -33,11 +31,16 @@ void ModelScene::load()
 {
     debuglog << "[ModelScene::load]" << endl;
 
-    auto modelToLoad = string("BodyMesh.obj");
     mResourceManager->loadShader("model", "model.vs", "model.fs");
-    mResourceManager->load<Model<VertexPositionTexture>>(modelToLoad);
-    auto model = mResourceManager->get<Model<VertexPositionTexture>>(modelToLoad);
-    mModels.emplace_back(model);
+
+    auto bodyModel = string("BodyMesh.obj");
+    mResourceManager->load<Model<VertexPositionTexture>>(bodyModel);
+    mBody = mResourceManager->get<Model<VertexPositionTexture>>(bodyModel);
+    
+    auto cubeModel = string("cube.obj");
+    mResourceManager->load<Model<VertexPositionNormalTexture>>(cubeModel);
+    mCube = mResourceManager->get<Model<VertexPositionNormalTexture>>(cubeModel);
+
     angle = 0.0f;
 
     if (IOCContainer::instance().contains<ModelRenderer>())
@@ -46,8 +49,8 @@ void ModelScene::load()
     }
     else
     {
-        auto camera = make_shared<Engine::Camera>(glm::vec3(0.0f, 1.0f, 5.0f));
-        auto shader = mResourceManager->get<Shader>("model");
+        auto camera = make_shared<Engine::Camera>(glm::vec3(0.0f, 1.0f, 15.0f));
+        auto shader = mResourceManager->getShader("model");
         mRenderer = make_shared<ModelRenderer>(shader, camera);
         mRenderer->initialize();
         IOCContainer::instance().register_type<ModelRenderer>(mRenderer);
@@ -90,10 +93,14 @@ void ModelScene::draw(shared_ptr<IRenderer> renderer)
     // draw sprites or models
     mRenderer->clear();
     glm::mat4 world = glm::mat4(1.0f);
-    //world = glm::translate(world, glm::vec3(0.0f, -4.0f, 0.0f));
-    world = glm::rotate(world, angle, glm::vec3(0.0f, -1.0, 0.0f));
-    for (const auto &model : mModels)
-    {
-        mRenderer->drawModel(model, world);
-    }
+    //world = glm::rotate(world, angle, glm::vec3(0.0f, -1.0, 0.0f));
+
+    auto bodyWorld = glm::translate(world, glm::vec3(5.0f, 0.0f, 0.0f));
+    bodyWorld = glm::rotate(bodyWorld, angle, glm::vec3(0.0f, -1.0, 0.0f));
+
+    auto cubeWorld = glm::translate(world, glm::vec3(-5.0f, 0.0f, 0.0f));
+    cubeWorld = glm::rotate(cubeWorld, angle, glm::vec3(0.0f, -1.0, 0.0f));
+
+    //mRenderer->drawModel(mBody, bodyWorld);
+    mRenderer->drawModel(mCube, cubeWorld);
 }

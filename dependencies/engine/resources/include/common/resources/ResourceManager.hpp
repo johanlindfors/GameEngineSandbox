@@ -3,40 +3,58 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include "utilities/MathHelper.hpp"
+#include "resources/Model.hpp"
+#include "resources/ObjModelLoader.hpp"
 
 namespace Engine
 {
 	class TextureLoader;
 	class ShaderLoader;
-	class ObjModelLoader;
 	class SoundLoader;
 	class MaterialLoader;
-	class Sound;
+	struct Texture2D;
+	struct Sound;
+	class Shader;
+	struct Material;
 
-	class ResourceManager 
+	class ResourceManager : public IResourceManager
 	{
 	public:
 		ResourceManager();
 		~ResourceManager();
 
 		// Engine::IResourceManager
-		void loadTextures(std::vector<std::string> fileNames);
-		Engine::Texture2D getTexture(std::string fileName) const;
-		bool isLoaded() const { return mInitialized; }
+		virtual void loadTextures(std::vector<std::string> fileNames) override;
+		virtual Engine::Texture2D getTexture(std::string fileName) const override;
+		virtual bool isLoaded() const override { return mInitialized; }
 
-		void loadShader(const std::string &name, const std::string &vsFileName, const std::string &fsFileName);
-		std::shared_ptr<Engine::Shader> getShader(const std::string &name) const;
+		virtual void loadShader(const std::string &name, const std::string &vsFileName, const std::string &fsFileName) override;
+		virtual std::shared_ptr<Engine::Shader> getShader(const std::string &name) const override;
 
-		template <class T>
-        void load(const std::string &fileName);
-		template <class T>
-        std::shared_ptr<T> get(const std::string &name) const;
+		virtual void loadModel(const std::string &fileName) override;
+		virtual std::shared_ptr<Engine::ModelBase> getModel(const std::string &name) const override;
 
-		void loadSounds(std::vector<std::string> fileNames);
-		Engine::Sound getSound(const std::string &name) const;
+		template <typename T>
+        void load(const std::string &fileName){
+			auto model = mModelLoader->loadModel<T>(fileName);
+			mModels[fileName] = model;
+		}
 
-		void loadMaterial(const std::string &fileName);
-		Engine::Material getMaterial(const std::string &name) const;
+		template <typename T>
+        std::shared_ptr<T> get(const std::string &name) const {
+            if constexpr (std::is_same<T, Model<Utilities::VertexPositionTexture>>())
+            {
+                return std::reinterpret_pointer_cast<T>(mModels.at(name));
+            }
+            return nullptr;
+        }
+
+		virtual void loadSounds(std::vector<std::string> fileNames) override;
+		virtual Engine::Sound getSound(const std::string &name) const override;
+
+		virtual void loadMaterial(const std::string &fileName) override;
+		virtual Engine::Material getMaterial(const std::string &name) const override;
 
 	private:
 		static Engine::Texture2D createEmptyTexture();
