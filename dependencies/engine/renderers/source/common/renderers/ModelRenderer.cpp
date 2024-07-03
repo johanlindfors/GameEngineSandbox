@@ -56,7 +56,7 @@ void ModelRenderer::drawModel(shared_ptr<ModelBase> model, glm::mat4 &world)
     auto material = model->getMaterial();
 
     // lighting
-    glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+    glm::vec3 lightPos(3.0f, 3.0f, 3.0f);
 
     mShader->setVector3f("objectColor", material.Ambient.x, material.Ambient.y, material.Ambient.z);
     mShader->setVector3f("lightColor", material.Diffuse.x, material.Diffuse.y, material.Diffuse.z);
