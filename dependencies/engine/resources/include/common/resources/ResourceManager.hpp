@@ -37,17 +37,20 @@ namespace Engine
 
 		template <typename T>
         void load(const std::string &fileName){
-			auto model = mModelLoader->loadModel<T>(fileName);
-			mModels[fileName] = model;
+			if constexpr (std::is_same<T, Model<Utilities::VertexPositionTexture>>())
+            {
+				VertexPositionTextureModelLoader loader;
+				mModels[fileName] = loader.loadAndParse(fileName);
+			} 
+			else if constexpr (std::is_same<T, Model<Utilities::VertexPositionNormalTexture>>()) {
+				VertexPositionNormalTextureModelLoader loader;
+				mModels[fileName] = loader.loadAndParse(fileName);
+			}
 		}
 
 		template <typename T>
         std::shared_ptr<T> get(const std::string &name) const {
-            if constexpr (std::is_same<T, Model<Utilities::VertexPositionTexture>>())
-            {
-                return std::reinterpret_pointer_cast<T>(mModels.at(name));
-            }
-            return nullptr;
+			return std::reinterpret_pointer_cast<T>(mModels.at(name));
         }
 
 		virtual void loadSounds(std::vector<std::string> fileNames) override;
@@ -67,7 +70,6 @@ namespace Engine
 		std::map<std::string, Material> mMaterials;
 		std::unique_ptr<Engine::TextureLoader> mTextureLoader;
 		std::unique_ptr<Engine::ShaderLoader> mShaderLoader;
-		std::unique_ptr<Engine::ObjModelLoader> mModelLoader;
 		std::unique_ptr<Engine::SoundLoader> mSoundLoader;
 		std::unique_ptr<Engine::MaterialLoader> mMaterialLoader;
 	};

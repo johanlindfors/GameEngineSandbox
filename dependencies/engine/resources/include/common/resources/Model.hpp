@@ -89,6 +89,7 @@ public:
 template <>
 class Model <Utilities::VertexPositionNormalTexture> : public ModelBase
 {
+public:
     Model(
         std::vector<Utilities::VertexPositionNormalTexture> vertices,
         Engine::Material material
