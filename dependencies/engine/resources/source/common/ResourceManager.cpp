@@ -22,7 +22,6 @@ ResourceManager::ResourceManager()
 	: mInitialized(false)
 	, mTextureLoader(make_unique<TextureLoader>())
 	, mShaderLoader(make_unique<ShaderLoader>())
-	, mModelLoader(make_unique<ObjModelLoader>())
 	, mSoundLoader(make_unique<SoundLoader>())
 	, mMaterialLoader(make_unique<MaterialLoader>()) {}
 
@@ -35,7 +34,6 @@ ResourceManager::~ResourceManager()
 	}
 	mTextureLoader.reset();
 	mShaderLoader.reset();
-	mModelLoader.reset();
 	mMaterialLoader.reset();
 	for (const auto &sound : mSounds) {
 		AlDeleteSources(1, &sound.second.Source);
