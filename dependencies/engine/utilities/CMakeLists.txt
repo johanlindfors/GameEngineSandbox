@@ -20,11 +20,12 @@ elseif(OSX)
     )
 elseif(LINUX)
     find_package(PkgConfig REQUIRED)
+    find_package(OpenGL REQUIRED)
     pkg_search_module(PNG    libpng>=1.6.0   QUIET)
     pkg_search_module(JPEG   libjpeg         QUIET)
 
     list(APPEND DEPENDENCIES
-        GLESv2
+        OpenGL::GL
         glfw
         png
         jpeg

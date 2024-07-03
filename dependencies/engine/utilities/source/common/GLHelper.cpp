@@ -512,9 +512,9 @@ namespace Engine
 		return glCheckFramebufferStatus(target);
 	}
 
-	// void GlPolygonMode(GLenum face, GLenum mode) 
-	// {
-	// 	if(DEBUG_OPENGL) debuglog << "[GLHelper::GlPolygonMode]" << endl;
-	// 	glPolygonMode(face, mode);
-	// }
+	void GlPolygonMode(GLenum face, GLenum mode) 
+	{
+		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlPolygonMode]" << endl;
+		glPolygonMode(face, mode);
+	}
 }

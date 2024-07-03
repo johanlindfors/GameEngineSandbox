@@ -13,6 +13,7 @@ namespace Engine
         ~Shader();
         void use();
         void createShader(const std::string &name, const std::string &vertexShader, const std::string &fragmentShader);
+        void setBoolean(const std::string &name, bool value);
         void setInteger(const std::string &name, int value);
         void setVector2f(const std::string &name, float x, float y);
         void setVector3f(const std::string &name, float x, float y, float z);

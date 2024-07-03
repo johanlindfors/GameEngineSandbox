@@ -24,6 +24,11 @@ void Shader::createShader(const string &name, const string &vertexShader, const 
     ID = compileProgram(vertexShader, fragmentShader);
 }
 
+void Shader::setBoolean(const string &name, bool value)
+{
+    GlUniform1i(GlGetUniformLocation(ID, name.c_str()), value ? 1 : 0);
+}
+
 void Shader::setInteger(const string &name, int value)
 {
     GlUniform1i(GlGetUniformLocation(ID, name.c_str()), value);
