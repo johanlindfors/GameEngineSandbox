@@ -14,17 +14,17 @@ public:
     ModelBase(Material material, int vertexCount) 
     : mMaterial(material)
     , mVertexCount(vertexCount) {
-        InitializeGlBuffers();
+        initializeGlBuffers();
     }
 
     inline const int getVertexCount() const { return mVertexCount; }
     inline const Engine::Material getMaterial() const { return mMaterial; }
     inline const unsigned int getVAO() const { return mVAO; }
 
-    virtual void UpdateGlAttributes() = 0;
+    virtual void updateGlAttributes() = 0;
 
 protected:
-    void InitializeGlBuffers();
+    void initializeGlBuffers();
 
     unsigned int mVBO;
     unsigned int mVAO;
@@ -37,8 +37,8 @@ class Model : public ModelBase
 {
 
 protected:
-    void InitializeGlBuffers();
-    void UpdateGlAttributes();
+    void initializeGlBuffers();
+    void updateGlAttributes();
 };
 
 template <>
@@ -51,10 +51,10 @@ public:
     ) : ModelBase(material, vertices.size())
     {
         GlBufferData(GL_ARRAY_BUFFER, sizeof(Utilities::VertexPosition) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
-        UpdateGlAttributes();
+        updateGlAttributes();
     }
 
-    virtual void UpdateGlAttributes() override
+    virtual void updateGlAttributes() override
     {
         GlBindVertexArray(mVAO);
 
@@ -73,10 +73,10 @@ public:
         Engine::Material material
     ) : ModelBase(material, vertices.size()) {
         GlBufferData(GL_ARRAY_BUFFER, sizeof(Utilities::VertexPositionTexture) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
-        UpdateGlAttributes();        
+        updateGlAttributes();        
     }
 
-    virtual void UpdateGlAttributes() override
+    virtual void updateGlAttributes() override
     {
         GlBindVertexArray(mVAO);
 
@@ -98,10 +98,10 @@ public:
         Engine::Material material
     ) : ModelBase(material, vertices.size()) {
         GlBufferData(GL_ARRAY_BUFFER, sizeof(Utilities::VertexPositionNormalTexture) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
-        UpdateGlAttributes();
+        updateGlAttributes();
     }
 
-    virtual void UpdateGlAttributes() override
+    virtual void updateGlAttributes() override
     {
         GlBindVertexArray(mVAO);
     

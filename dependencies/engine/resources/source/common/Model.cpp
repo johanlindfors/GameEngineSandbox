@@ -1,6 +1,6 @@
 #include "resources/Model.hpp"
 
-void Engine::ModelBase::InitializeGlBuffers()
+void Engine::ModelBase::initializeGlBuffers()
 {
     GlGenVertexArrays(1, &mVAO);
     GlGenBuffers(1, &mVBO);
