@@ -56,7 +56,7 @@ void ModelRenderer::drawModel(shared_ptr<ModelBase> model, glm::mat4 &world)
     auto material = model->getMaterial();
 
     // lighting
-    glm::vec3 lightPos(-1.0f, 1.0f, 1.0f);
+    glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 
     mShader->setVector3f("objectColor", material.Ambient.x, material.Ambient.y, material.Ambient.z);
     mShader->setVector3f("lightColor", material.Diffuse.x, material.Diffuse.y, material.Diffuse.z);
@@ -70,19 +70,24 @@ void ModelRenderer::drawModel(shared_ptr<ModelBase> model, glm::mat4 &world)
     mShader->setMatrix4("model", world);
     mShader->setMatrix4("normalRotation", glm::transpose(glm::inverse(world)));
 
-    GlBindTexture(GL_TEXTURE_2D, material.Texture.textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-    // set the texture wrapping parameters
-    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    GlEnable(GL_BLEND);
-    GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    if(material.Texture.textureIndex > 0) {
+        mShader->setBoolean("useTexture", true);
+        GlBindTexture(GL_TEXTURE_2D, material.Texture.textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+        // set the texture wrapping parameters
+        GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+        GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // set texture filtering parameters
+        GlEnable(GL_BLEND);
+        GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        GlPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    } else {
+        GlPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        mShader->setBoolean("useTexture", false);
+    }
 
     GlEnable(GL_CULL_FACE);
     GlCullFace(GL_BACK);
-    // glFrontFace(GL_CCW);
 
-    // glDisable(GL_DEPTH_TEST);
     // render
     GlBindVertexArray(model->getVAO());
     auto vertexCount = model->getVertexCount();

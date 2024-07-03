@@ -84,5 +84,5 @@ namespace Engine
     GLenum GlGetError();
     void GlDisable(GLenum cap);
     void GlCullFace(GLenum mode);
-    // void GlPolygonMode(GLenum face, GLenum mode);
+    void GlPolygonMode(GLenum face, GLenum mode);
 }

@@ -4,6 +4,7 @@ out vec4 FragColor;
 in vec3 Normal;  
 in vec3 FragPos;  
 
+uniform bool useTexture;
 uniform sampler2D tex;
 
 uniform vec3 lightPos; 
@@ -22,5 +23,9 @@ void main() {
     vec3 diffuse = diff * lightColor;
             
     vec3 result = (diffuse) * objectColor;
-    FragColor = texture(tex, FragPos.xy) + vec4(result, 1.0);
+    if(useTexture) {
+        FragColor = texture(tex, FragPos.xy) + vec4(result, 1.0);
+    } else {
+        FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
 }

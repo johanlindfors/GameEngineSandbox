@@ -4,6 +4,7 @@
 #include "Material.hpp"
 #include "utilities/MathHelper.hpp"
 #include "utilities/glwrapper.hpp"
+#include "utilities/Logger.hpp"
 
 namespace Engine {
 
@@ -20,9 +21,10 @@ public:
     inline const Engine::Material getMaterial() const { return mMaterial; }
     inline const unsigned int getVAO() const { return mVAO; }
 
+    virtual void UpdateGlAttributes() = 0;
+
 protected:
     void InitializeGlBuffers();
-    virtual void UpdateGlAttributes() = 0;
 
     unsigned int mVBO;
     unsigned int mVAO;
@@ -81,8 +83,8 @@ public:
         GlVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
         GlEnableVertexAttribArray(0);
         // texture coordinate attribute
-        GlVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
-        GlEnableVertexAttribArray(1);
+        GlVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
+        GlEnableVertexAttribArray(2);
     }
 };
 
@@ -101,7 +103,7 @@ public:
     virtual void UpdateGlAttributes() override
     {
         GlBindVertexArray(mVAO);
-
+    
         // position attribute
         GlVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
         GlEnableVertexAttribArray(0);
@@ -109,8 +111,8 @@ public:
         GlVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
         GlEnableVertexAttribArray(1);
         // texture coordinate attribute
-        GlVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
-        GlEnableVertexAttribArray(1);
+        GlVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
+        GlEnableVertexAttribArray(2);
     }
 };
 
