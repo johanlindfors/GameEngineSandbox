@@ -49,7 +49,7 @@ void ModelScene::load()
     }
     else
     {
-        auto camera = make_shared<Engine::Camera>(glm::vec3(0.0f, 1.0f, 10.0f));
+        auto camera = make_shared<Engine::Camera>(glm::vec3(0.0f, 3.0f, 8.0f));
         auto shader = mResourceManager->getShader("model");
         mRenderer = make_shared<ModelRenderer>(shader, camera);
         mRenderer->initialize();
@@ -95,11 +95,11 @@ void ModelScene::draw(shared_ptr<IRenderer> renderer)
     glm::mat4 world = glm::mat4(1.0f);
     //world = glm::rotate(world, angle, glm::vec3(0.0f, -1.0, 0.0f));
 
-    auto bodyWorld = glm::translate(world, glm::vec3(3.0f, 0.0f, 0.0f));
+    auto bodyWorld = glm::translate(world, glm::vec3(2.0f, 0.0f, 0.0f));
     bodyWorld = glm::rotate(bodyWorld, angle, glm::vec3(0.0f, -1.0, 0.0f));
 
-    auto cubeWorld = glm::translate(world, glm::vec3(-3.0f, 0.0f, 0.0f));
-    cubeWorld = glm::rotate(cubeWorld, angle, glm::vec3(0.0f, -1.0, 0.0f));
+    auto cubeWorld = glm::translate(world, glm::vec3(-2.0f, 0.0f, 0.0f));
+    cubeWorld = glm::rotate(cubeWorld, angle, glm::vec3(0.0f, -1.0f, 0.0f));
 
     mRenderer->drawModel(mBody, bodyWorld);
     mRenderer->drawModel(mCube, cubeWorld);

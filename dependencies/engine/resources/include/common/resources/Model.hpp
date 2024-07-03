@@ -48,7 +48,8 @@ public:
     Model(
         std::vector<Utilities::VertexPosition> vertices,
         Engine::Material material
-    ) : ModelBase(material, vertices.size()) {
+    ) : ModelBase(material, vertices.size())
+    {
         GlBufferData(GL_ARRAY_BUFFER, sizeof(Utilities::VertexPosition) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
         UpdateGlAttributes();
     }
