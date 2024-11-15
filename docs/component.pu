@@ -19,7 +19,7 @@ System_Boundary(engine, "Game Engine") {
     System(resources, "resources")
     System(scenes, "scenes")
     System(utilities, "utilities")
-  }
+}
 
 System_Boundary(thirdparty, "Thirdparty") {
     System(angle, "angle")
