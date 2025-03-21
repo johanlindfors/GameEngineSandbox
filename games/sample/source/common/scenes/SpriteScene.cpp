@@ -73,8 +73,8 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
     mInputManager->update();
     if (mouseState.state == ButtonState::Pressed)
     {
-        mSceneManager->removeScene(typeid(SpriteScene));
         mSceneManager->addScene(make_shared<ModelScene>());
+        mSceneManager->removeScene(typeid(SpriteScene));
     }
 }
 
