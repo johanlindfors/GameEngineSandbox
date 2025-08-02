@@ -1,5 +1,6 @@
 sudo apt-get update
-sudo apt install libpng-dev pkg-config libglfw3-dev libssl-dev libjpeg-dev libgles2-mesa-dev libxkbcommon-dev
+sudo apt install libpng-dev pkg-config libglfw3-dev libssl-dev libjpeg-dev libgles2-mesa-dev libxkbcommon-dev libxinerama-dev
+
 # Build flappybird
 rm -fr build
 mkdir build
