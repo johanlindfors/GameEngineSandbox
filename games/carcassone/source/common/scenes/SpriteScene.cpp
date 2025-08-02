@@ -71,7 +71,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
 {
-    mRenderer->clear(1.0f, 1.0f, 1.0f, 1.0f);
+    mRenderer->clear(1.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
 
