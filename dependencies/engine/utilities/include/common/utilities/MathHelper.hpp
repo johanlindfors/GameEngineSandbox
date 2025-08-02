@@ -90,7 +90,7 @@ namespace Utilities
         Vector2 uv;
     };
 
-    typedef uint16_t Index;
+    typedef unsigned short Index;
 
     template <typename T>
     union Point

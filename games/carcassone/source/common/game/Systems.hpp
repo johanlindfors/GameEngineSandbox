@@ -12,6 +12,7 @@
 #include "utilities/MathHelper.hpp"
 #include "resources/IResourceManager.hpp"
 #include "utilities/IOC.hpp"
+#include "utilities/Logger.hpp"
 
 // game
 #include "game/Components.hpp"
@@ -26,6 +27,7 @@ struct SpriteSystem
     SpriteSystem()
         : mSprite(std::make_shared<Engine::TiledSprite>())
     {
+        debuglog << "[Spritesystem::SpriteSystem] was created" << std::endl;
         mSprite->tileSize = { 32, 32 };
         mSprite->size = { 128.0f, 128.0f };
     }
@@ -38,6 +40,8 @@ struct SpriteSystem
     }
 
     void update(entt::registry& reg) {
+        debuglog << "[SpriteSystem::update]" << std::endl;
+        
         auto view = reg.view<SpriteComponent, PositionComponent>();
         for(auto entity : view) {
             auto [sprite, position] = view.get(entity);
@@ -47,6 +51,8 @@ struct SpriteSystem
     }
 
     void render(entt::registry& reg, std::shared_ptr<Engine::IRenderer> renderer) {
+        debuglog << "[SpriteSystem::render]" << std::endl;
+
         auto spriteRenderer = std::static_pointer_cast<Engine::SpriteRenderer>(renderer);
 
         auto view = reg.view<SpriteComponent>();

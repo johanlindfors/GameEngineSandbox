@@ -17,10 +17,10 @@ namespace Utilities
 		virtual unsigned int getElapsedMicroSeconds() const = 0;
 
 		// Get total number of updates since start of the program.
-		virtual uint32_t getFrameCount() const = 0;
+		virtual unsigned int getFrameCount() const = 0;
 
 		// Get the current framerate.
-		virtual uint32_t getFramesPerSecond() const = 0;
+		virtual unsigned int getFramesPerSecond() const = 0;
 
 		// Set whether to use fixed or variable timestep mode.
 		virtual void setFixedTimeStep(bool isFixedTimestep) = 0;
@@ -29,6 +29,6 @@ namespace Utilities
 		virtual void setTargetElapsedSeconds(double targetElapsed) = 0;
 
 		// Integer format represents time using 10,000,000 ticks per second.
-		static const uint64_t ticksPerSecond = 10000000;
+		static const unsigned long ticksPerSecond = 10000000;
 	};
 }
