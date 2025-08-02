@@ -29,7 +29,7 @@ public:
         debuglog << "[StartLinuxApplication] get default size returned" << endl;
 
         glfwInit();
-        // glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+        glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config->glMajorVersion);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config->glMinorVersion);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

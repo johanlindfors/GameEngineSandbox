@@ -1,7 +1,7 @@
 project(utilities)
 
 if(WINDOWS_STORE)
-    list(APPEND DEPENDENCIES 
+    list(APPEND DEPENDENCIES
         libEGL
         libGLESv2
     )
@@ -11,7 +11,7 @@ elseif(OSX)
     find_package(JPEG REQUIRED)
     find_package(PkgConfig REQUIRED)
     pkg_search_module(PNG REQUIRED libpng)
-    list(APPEND DEPENDENCIES 
+    list(APPEND DEPENDENCIES
         OpenGL::GL
         glfw
         PNG
@@ -19,16 +19,16 @@ elseif(OSX)
         OpenAL
     )
 elseif(LINUX)
-    find_package(PNG REQUIRED)
-    find_package(JPEG REQUIRED)
     find_package(PkgConfig REQUIRED)
-    pkg_search_module(GLFW REQUIRED glfw3)
+    find_package(OpenGL REQUIRED)
+    pkg_search_module(PNG    libpng>=1.6.0   QUIET)
+    pkg_search_module(JPEG   libjpeg         QUIET)
 
-    list(APPEND DEPENDENCIES 
-        GLESv2
-        ${GLFWs_LIBRARIES}
-        PNG::PNG
-        JPEG::JPEG
+    list(APPEND DEPENDENCIES
+        OpenGL::GL
+        glfw
+        png
+        jpeg
         OpenAL
     )
 elseif(ANDROID)
@@ -43,7 +43,7 @@ elseif(ANDROID)
 elseif(WIN32) # WIN32
     find_package(GLEW REQUIRED)
     find_package(PNG REQUIRED)
-    list(APPEND DEPENDENCIES 
+    list(APPEND DEPENDENCIES
         GLEW::GLEW
         PNG::PNG
         OpenAL

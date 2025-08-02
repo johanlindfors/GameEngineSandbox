@@ -1,12 +1,15 @@
 #include "resources/ResourceManager.hpp"
 #include "resources/TextureLoader.hpp"
 #include "resources/ShaderLoader.hpp"
-#include "resources/ModelLoader.hpp"
+#include "resources/ObjModelLoader.hpp"
 #include "resources/SoundLoader.hpp"
+#include "resources/MaterialLoader.hpp"
 #include "resources/Model.hpp"
 #include "resources/Shader.hpp"
+#include "resources/Material.hpp"
 #include "resources/Sound.hpp"
 #include <memory>
+#include <type_traits>
 #include "utilities/GLHelper.hpp"
 #include "utilities/ALHelper.hpp"
 #include "utilities/Logger.hpp"
@@ -19,8 +22,8 @@ ResourceManager::ResourceManager()
 	: mInitialized(false)
 	, mTextureLoader(make_unique<TextureLoader>())
 	, mShaderLoader(make_unique<ShaderLoader>())
-	, mModelLoader(make_unique<ModelLoader>())
-	, mSoundLoader(make_unique<SoundLoader>()) {}
+	, mSoundLoader(make_unique<SoundLoader>())
+	, mMaterialLoader(make_unique<MaterialLoader>()) {}
 
 ResourceManager::~ResourceManager()
 {
@@ -31,7 +34,7 @@ ResourceManager::~ResourceManager()
 	}
 	mTextureLoader.reset();
 	mShaderLoader.reset();
-	mModelLoader.reset();
+	mMaterialLoader.reset();
 	for (const auto &sound : mSounds) {
 		AlDeleteSources(1, &sound.second.Source);
 		AlDeleteBuffers(1, &sound.second.Buffer);
@@ -117,18 +120,13 @@ shared_ptr<Shader> ResourceManager::getShader(const string &name) const
 	return mShaders.at(name);
 }
 
-void ResourceManager::loadModel(const string &fileName)
-{
-	if (mModels.find(fileName) == mModels.end())
-	{
-		const auto model = mModelLoader->loadModel(fileName);
-		mModels[fileName] = model;
-	}
+
+void ResourceManager::loadModel(const std::string &fileName) {
+
 }
 
-shared_ptr<Model> ResourceManager::getModel(const string &name) const
-{
-	return mModels.at(name);
+std::shared_ptr<Engine::ModelBase> ResourceManager::getModel(const std::string &name) const {
+	return nullptr;
 }
 
 void ResourceManager::loadSounds(vector<string> fileNames) {
@@ -145,3 +143,17 @@ void ResourceManager::loadSounds(vector<string> fileNames) {
 Engine::Sound ResourceManager::getSound(const std::string &name) const {
 	return mSounds.at(name);
 };
+
+void ResourceManager::loadMaterial(const string &fileName)
+{
+	if (mMaterials.find(fileName) == mMaterials.end())
+	{
+		const auto material = mMaterialLoader->loadMaterial(fileName);
+		mMaterials[fileName] = material;
+	}
+}
+
+Material ResourceManager::getMaterial(const string &name) const
+{
+	return mMaterials.at(name);
+}

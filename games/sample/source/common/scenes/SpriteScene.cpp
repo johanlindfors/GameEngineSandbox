@@ -20,30 +20,35 @@ using namespace Engine;
 using namespace Utilities;
 using namespace Sample;
 
+SpriteScene::SpriteScene()
+    : mResourceManager(IOCContainer::resolve_type<IResourceManager>())
+    , mSceneManager(IOCContainer::resolve_type<ISceneManager>())
+    , mInputManager(IOCContainer::resolve_type<IInputManager>())
+{ 
+    id = typeid(SpriteScene).name(); 
+}
+
 void SpriteScene::load()
 {
     debuglog << "[SpriteScene::load]" << endl;
-    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-
+    
     if(IOCContainer::instance().contains<SpriteRenderer>()) {
         mRenderer = IOCContainer::instance().resolve<SpriteRenderer>();
     } else {
-        resourceManager->loadTextures({ "coderox.png" });
-        resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
+        mResourceManager->loadTextures({ "coderox.png" });
+        mResourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
         
         auto config = IOCContainer::instance().resolve<Utilities::Config>();
         auto camera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
-        auto shader = resourceManager->getShader("simple");
+        auto shader = mResourceManager->getShader("simple");
         mRenderer = make_shared<SpriteRenderer>(shader, camera);
         mRenderer->initialize();
         IOCContainer::instance().register_type<IRenderer>(mRenderer);
     }
 
     mSprite = make_shared<Sprite>();
-    mSprite->texture = resourceManager->getTexture( "coderox.png" );
+    mSprite->texture = mResourceManager->getTexture( "coderox.png" );
     mSprite->size = { 256.0f, 256.0f };
-
-    mInputManager = IOCContainer::instance().resolve<IInputManager>();
 }
 
 void SpriteScene::unload()
@@ -68,15 +73,14 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
     mInputManager->update();
     if (mouseState.state == ButtonState::Pressed)
     {
-        auto sceneManager = IOCContainer::instance().resolve<ISceneManager>();
-        sceneManager->removeScene(typeid(SpriteScene));
-        sceneManager->addScene(make_shared<ModelScene>());
+        mSceneManager->addScene(make_shared<ModelScene>());
+        mSceneManager->removeScene(typeid(SpriteScene));
     }
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
 {
-    debuglog << "[SpriteScene::draw]" << endl;
+    // debuglog << "[SpriteScene::draw]" << endl;
     mRenderer->clear(0.35f, 0.35f, 0.34f, 1.0f);
     GlClear(GL_COLOR_BUFFER_BIT);
     GlDisable(GL_DEPTH_TEST);

@@ -63,7 +63,9 @@ namespace Engine
         // returns the view matrix calculated using Euler Angles and the LookAt Matrix
         glm::mat4 getViewMatrix()
         {
-            return glm::lookAt(Position, Position + Front, Up);
+            //return glm::lookAt(Position, Position + Front, Up);
+            glm::vec3 zero = {0.0f, 0.0f, 0.0f};
+            return glm::lookAt(Position, zero, Up);
         }
 
         // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)

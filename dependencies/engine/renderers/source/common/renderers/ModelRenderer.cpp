@@ -19,9 +19,6 @@ ModelRenderer::ModelRenderer(
 ModelRenderer::~ModelRenderer()
 {
     mShader.reset();
-    GlDisableVertexAttribArray(0);
-    GlDisableVertexAttribArray(1);
-    GlDisableVertexAttribArray(2);
 }
 
 void ModelRenderer::initialize()
@@ -49,16 +46,17 @@ void ModelRenderer::clear(float r, float g, float b, float a)
     GlEnable(GL_DEPTH_TEST);
 }
 
-void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
+void ModelRenderer::drawModel(shared_ptr<ModelBase> model, glm::mat4 &world)
 {
     mShader->use();
     checkOpenGLError();
+    auto material = model->getMaterial();
 
     // lighting
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+    glm::vec3 lightPos(3.0f, 3.0f, 3.0f);
 
-    mShader->setVector3f("objectColor", 0.35f, 0.35f, 0.34f);
-    mShader->setVector3f("lightColor", 1.0f, 1.0f, 1.0f);
+    mShader->setVector3f("objectColor", material.Ambient.x, material.Ambient.y, material.Ambient.z);
+    mShader->setVector3f("lightColor", material.Diffuse.x, material.Diffuse.y, material.Diffuse.z);
     mShader->setVector3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
 
     // view/projection transformations
@@ -69,21 +67,27 @@ void ModelRenderer::drawModel(shared_ptr<Model> model, glm::mat4 &world)
     mShader->setMatrix4("model", world);
     mShader->setMatrix4("normalRotation", glm::transpose(glm::inverse(world)));
 
-    GlBindTexture(GL_TEXTURE_2D, model->getTexture().textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-    // set the texture wrapping parameters
-    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-    GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    GlEnable(GL_BLEND);
-    GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    if(material.Texture.textureIndex > 0) {
+        mShader->setBoolean("useTexture", true);
+        GlBindTexture(GL_TEXTURE_2D, material.Texture.textureIndex); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+        // set the texture wrapping parameters
+        GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+        GlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // set texture filtering parameters
+        GlEnable(GL_BLEND);
+        GlBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        GlPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    } else {
+        GlPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        mShader->setBoolean("useTexture", false);
+    }
 
     GlEnable(GL_CULL_FACE);
     GlCullFace(GL_BACK);
-    // glFrontFace(GL_CCW);
 
-    // glDisable(GL_DEPTH_TEST);
     // render
     GlBindVertexArray(model->getVAO());
-    GlDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(model->getVertexCount()));
+    auto vertexCount = model->getVertexCount();
+    GlDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexCount));
     GlEnable(GL_DEPTH_TEST);
 }

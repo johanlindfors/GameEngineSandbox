@@ -18,10 +18,15 @@
 	path = dependencies/thirdparty/cpr
 	url = https://github.com/libcpr/cpr.git
 	shallow = true
-	
 [submodule "dependencies/thirdparty/entt"]
 	path = dependencies/thirdparty/entt
 	url = git@github.com:skypjack/entt.git
+	shallow = true
 [submodule "dependencies/thirdparty/openal-soft"]
 	path = dependencies/thirdparty/openal-soft
 	url = https://github.com/kcat/openal-soft
+	shallow = true
+[submodule "dependencies/thirdparty/glfw"]
+	path = dependencies/thirdparty/glfw
+	url = https://github.com/glfw/glfw.git
+	shallow = true

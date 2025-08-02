@@ -8,5 +8,4 @@ System_Boundary(boundary, "Flappy Bird") {
 }
 
 Rel(player, flappyBird, Plays)
-
 @enduml

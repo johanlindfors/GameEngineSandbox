@@ -1,47 +1,120 @@
 #pragma once
 
 #include <vector>
-#include "Texture2D.hpp"
-
-namespace Utilities {
-    union VertexPositionNormalTexture;
-}
+#include "Material.hpp"
+#include "utilities/MathHelper.hpp"
+#include "utilities/glwrapper.hpp"
+#include "utilities/Logger.hpp"
 
 namespace Engine {
 
-class Model {
+class ModelBase
+{
+public:
+    ModelBase(Material material, int vertexCount) 
+    : mMaterial(material)
+    , mVertexCount(vertexCount) {
+        initializeGlBuffers();
+    }
+
+    inline const int getVertexCount() const { return mVertexCount; }
+    inline const Engine::Material getMaterial() const { return mMaterial; }
+    inline const unsigned int getVAO() const { return mVAO; }
+
+    virtual void updateGlAttributes() = 0;
+
+protected:
+    void initializeGlBuffers();
+
+    unsigned int mVBO;
+    unsigned int mVAO;
+    Material mMaterial;
+    int mVertexCount;
+};
+
+template <class T>
+class Model : public ModelBase
+{
+
+protected:
+    void initializeGlBuffers();
+    void updateGlAttributes();
+};
+
+template <>
+class Model <Utilities::VertexPosition> : public ModelBase
+{
+public:
+    Model(
+        std::vector<Utilities::VertexPosition> vertices,
+        Engine::Material material
+    ) : ModelBase(material, vertices.size())
+    {
+        GlBufferData(GL_ARRAY_BUFFER, sizeof(Utilities::VertexPosition) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
+        updateGlAttributes();
+    }
+
+    virtual void updateGlAttributes() override
+    {
+        GlBindVertexArray(mVAO);
+
+        // position attribute
+        GlVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+        GlEnableVertexAttribArray(0);
+    }
+};
+
+template <>
+class Model <Utilities::VertexPositionTexture> : public ModelBase
+{
+public:
+    Model(
+        std::vector<Utilities::VertexPositionTexture> vertices,
+        Engine::Material material
+    ) : ModelBase(material, vertices.size()) {
+        GlBufferData(GL_ARRAY_BUFFER, sizeof(Utilities::VertexPositionTexture) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
+        updateGlAttributes();        
+    }
+
+    virtual void updateGlAttributes() override
+    {
+        GlBindVertexArray(mVAO);
+
+        // position attribute
+        GlVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+        GlEnableVertexAttribArray(0);
+        // texture coordinate attribute
+        GlVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
+        GlEnableVertexAttribArray(2);
+    }
+};
+
+template <>
+class Model <Utilities::VertexPositionNormalTexture> : public ModelBase
+{
 public:
     Model(
         std::vector<Utilities::VertexPositionNormalTexture> vertices,
-        Engine::Texture2D texture
-    );
-
-        Model(
-            float vertices[],
-            int vertexCount,
-            Engine::Texture2D texture);
-
-        inline const size_t getVertexCount() const
-        {
-            return mVertexCount;
-        }
-
-        inline const Engine::Texture2D getTexture() const
-        {
-            return mTexture;
-        }
-
-    inline const unsigned int getVAO() const {
-        return mVAO;
+        Engine::Material material
+    ) : ModelBase(material, vertices.size()) {
+        GlBufferData(GL_ARRAY_BUFFER, sizeof(Utilities::VertexPositionNormalTexture) * vertices.size(), static_cast<void *>(&vertices[0]), GL_STATIC_DRAW);
+        updateGlAttributes();
     }
 
-private:
-    void InitializeGlBuffers();
-    void UpdateGlAttributes();
-    unsigned int mVBO;
-    unsigned int mVAO;
-    Engine::Texture2D mTexture;
-    int mVertexCount;
+    virtual void updateGlAttributes() override
+    {
+        GlBindVertexArray(mVAO);
+    
+        // position attribute
+        GlVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+        GlEnableVertexAttribArray(0);
+        // normal attribute
+        GlVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
+        GlEnableVertexAttribArray(1);
+        // texture coordinate attribute
+        GlVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
+        GlEnableVertexAttribArray(2);
+    }
 };
 
 }
