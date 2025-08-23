@@ -22,7 +22,7 @@ namespace Engine
 
 	GLuint compileShader(GLenum type, const string &source)
 	{
-		if(DEBUG_OPENGL) if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileShader] Compiling shader" << endl;
+		TRACE("[GLHelper::CompileShader] Compiling shader" << endl);
 
 		const auto shader = GlCreateShader(type);
 
