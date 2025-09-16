@@ -19,13 +19,13 @@ public:
         GLFWwindow *window;
 
         auto game = std::make_unique<GameLoop>();
-        debuglog << "[StartOsxApplication] game created" << endl;
+        debuglog << "[StartOsxApplication] game created" << std::endl;
         auto config = IOCContainer::instance().resolve<Config>();
-        debuglog << "[StartOsxApplication] found config" << endl;
+        debuglog << "[StartOsxApplication] found config" << std::endl;
         int width, height;
         width = config->width;
         height = config->height;
-        debuglog << "[StartOsxApplication] get default size returned" << endl;
+        debuglog << "[StartOsxApplication] get default size returned" << std::endl;
 
         glfwInitHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
         glfwInit();
@@ -38,15 +38,15 @@ public:
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
 
-        debuglog << "GL_VERSION  : " << glGetString(GL_VERSION) << endl;
-        debuglog << "GL_RENDERER : " << glGetString(GL_RENDERER) << endl;
-        debuglog << "GL_SHADING_LANGUAGE_VERSION : " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
+        debuglog << "GL_VERSION  : " << glGetString(GL_VERSION);
+        debuglog << "GL_RENDERER : " << glGetString(GL_RENDERER);
+        debuglog << "GL_SHADING_LANGUAGE_VERSION : " << glGetString(GL_SHADING_LANGUAGE_VERSION);
 
         game->initialize(config);
-        debuglog << "[StartOsxApplication] initialized" << endl;
+        debuglog << "[StartOsxApplication] initialized" << std::endl;
         game->ScreenToGameCoordinatesConverter.setGameSize({width,height});
         game->updateWindowSize(width, height);
-        debuglog << "[StartOsxApplication] Windows size updated" << endl;
+        debuglog << "[StartOsxApplication] Windows size updated" << std::endl;
 
         glfwSetWindowUserPointer(window, game.get());
         glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height) {
@@ -102,12 +102,28 @@ public:
                 auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
                 auto scaledX = xpos * gameAspects.width;
                 auto scaledY = ypos * gameAspects.height;
-                if(action == GLFW_PRESS) {
+                switch (action)
+                {
+                case GLFW_PRESS:
                     input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
-                } else {
+                    break;
+                
+                default:
                     input->addMouseEvent(MouseButton::Left, ButtonState::Released, scaledX, scaledY);
+                    break;
                 }
             } });
+        
+        glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xpos, double ypos) {
+            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+                auto input = IOCContainer::instance().resolve<IInputManager>();
+                auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
+                auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
+                auto scaledX = xpos * gameAspects.width;
+                auto scaledY = ypos * gameAspects.height;
+                input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
+            }
+        });
 
         while (!glfwWindowShouldClose(window))
         {

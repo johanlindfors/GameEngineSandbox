@@ -1,4 +1,4 @@
 #include "utilities/EmscriptenOut.hpp"
 
-EmscriptenOut emscriptenOut("ESO: ");
+EmscriptenOut emscriptenOut("ESO - ");
 std::ostream debuglog(&emscriptenOut);

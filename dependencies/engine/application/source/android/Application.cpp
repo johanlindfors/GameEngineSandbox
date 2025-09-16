@@ -163,7 +163,7 @@ void Application::handleInput() {
         // Find the pointer index, mask and bitshift to turn it into a readable value.
         auto pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK)
                 >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-        debuglog << "Pointer(s): ";
+        debuglog << "Pointer(s): " << std::endl;
 
         // get the x and y position of this event if it is not ACTION_MOVE.
         auto &pointer = motionEvent.pointers[pointerIndex];
@@ -176,7 +176,7 @@ void Application::handleInput() {
             case AMOTION_EVENT_ACTION_DOWN:
             case AMOTION_EVENT_ACTION_POINTER_DOWN:
                 debuglog << "(" << pointer.id << ", " << x << ", " << y << ") "
-                         << "Pointer Down";
+                         << "Pointer Down" << std::endl;
                 mInputManager->addMouseEvent(Engine::MouseButton::Left, Engine::ButtonState::Pressed, x, y);
                 break;
 
@@ -187,7 +187,7 @@ void Application::handleInput() {
             case AMOTION_EVENT_ACTION_UP:
             case AMOTION_EVENT_ACTION_POINTER_UP:
                 debuglog << "(" << pointer.id << ", " << x << ", " << y << ") "
-                         << "Pointer Up";
+                         << "Pointer Up" << std::endl;
                 mInputManager->addMouseEvent(Engine::MouseButton::Left, Engine::ButtonState::Released, x, y);
                 break;
 
@@ -199,13 +199,13 @@ void Application::handleInput() {
                     pointer = motionEvent.pointers[index];
                     x = GameActivityPointerAxes_getX(&pointer);
                     y = GameActivityPointerAxes_getY(&pointer);
-                    debuglog << "(" << pointer.id << ", " << x << ", " << y << ")";
+                    debuglog << "(" << pointer.id << ", " << x << ", " << y << ")" << std::endl;
 
-                    if (index != (motionEvent.pointerCount - 1)) debuglog << ",";
-                    debuglog << " ";
+                    if (index != (motionEvent.pointerCount - 1)) debuglog << "," << std::endl;
+                    debuglog << " " << std::endl;
                     mInputManager->addMouseEvent(Engine::MouseButton::Left,Engine::ButtonState::Repeat, x, y);
                 }
-                debuglog << "Pointer Move";
+                debuglog << "Pointer Move" << std::endl;
                 break;
             default:
                 debuglog << "Unknown MotionEvent Action: " << action;
@@ -218,19 +218,19 @@ void Application::handleInput() {
     // handle input key events.
     for (auto i = 0; i < inputBuffer->keyEventsCount; i++) {
         auto &keyEvent = inputBuffer->keyEvents[i];
-        debuglog << "Key: " << keyEvent.keyCode <<" ";
+        debuglog << "Key: " << keyEvent.keyCode <<" " << std::endl;
         switch (keyEvent.action) {
             case AKEY_EVENT_ACTION_DOWN:
                 mInputManager->addKeyboardEvent(keyEvent.keyCode, Engine::ButtonState::Pressed);
-                debuglog << "Key Down";
+                debuglog << "Key Down" << std::endl;
                 break;
             case AKEY_EVENT_ACTION_UP:
                 mInputManager->addKeyboardEvent(keyEvent.keyCode, Engine::ButtonState::Released);
-                debuglog << "Key Up";
+                debuglog << "Key Up" << std::endl;
                 break;
             case AKEY_EVENT_ACTION_MULTIPLE:
                 // Deprecated since Android API level 29.
-                debuglog << "Multiple Key Actions";
+                debuglog << "Multiple Key Actions" << std::endl;
                 break;
             default:
                 debuglog << "Unknown KeyEvent Action: " << keyEvent.action;

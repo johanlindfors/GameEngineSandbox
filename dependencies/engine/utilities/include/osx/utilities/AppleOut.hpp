@@ -13,7 +13,9 @@ public:
      * Creates a new output stream for logcat
      * @param kLogTag the log tag to output
      */
-    inline AppleOut(const char* kLogTag) : logTag_(kLogTag){}
+    inline AppleOut(const char* kLogTag) : logTag_(kLogTag){
+        std::cout << "INITATED!" << std::endl;
+    }
 
 protected:
     virtual int sync() override {

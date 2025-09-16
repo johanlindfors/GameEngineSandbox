@@ -1,4 +1,4 @@
 #include "utilities/MsftOut.hpp"
 
-MsftOut msftOut("LO ");
+MsftOut msftOut("MO - ");
 std::ostream debuglog(&msftOut);

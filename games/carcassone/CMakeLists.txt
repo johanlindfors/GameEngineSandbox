@@ -18,6 +18,7 @@ set(DEPENDENCIES
     resources
     input
     scenes
+    EnTT::EnTT
 )
 
 if(WINDOWS_STORE)
@@ -63,16 +64,15 @@ if(LINUX)
     list(APPEND DEPENDENCIES 
         GLESv2
         ${GLFW_LIBRARIES}
-        EnTT::EnTT
     )
 endif()
 
 if(OSX)
-    find_package(glfw3 REQUIRED)
+#    find_package(glfw3 REQUIRED)
     find_package(OpenGL REQUIRED)
     list(APPEND DEPENDENCIES 
         OpenGL::GL
-        glfw
+#        glfw
     )
 endif()
 

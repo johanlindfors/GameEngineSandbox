@@ -186,7 +186,7 @@ void BootScene::update(std::shared_ptr<Utilities::IStepTimer> timer)
             mPreviousTaskFinished = false;
             std::function<void()> loadingTask = mLoadingTasks.front();
             mLoadingTasks.pop();
-            mLoaded = to_string(static_cast<int>(mLoadedTasks / static_cast<float>(mTotalTasks) * 100)) + "%";
+            mLoaded = to_string(static_cast<int>(mLoadedTasks / static_cast<float>(mTotalTasks) * 100)) + "%" << std::endl;
             loadingTask();
             this_thread::sleep_for(microseconds(1500));
         }

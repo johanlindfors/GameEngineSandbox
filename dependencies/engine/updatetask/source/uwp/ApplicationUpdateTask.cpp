@@ -47,7 +47,7 @@ static Windows::Foundation::DateTime GetDueDateTime(long long timeInSeconds)
 
 String ^ GetToastXml(String ^ title, String ^ message) {
 	auto toastXmlString = "<toast>" + "<visual version='2'>" + "<binding template='ToastText02'>" + "<text id='1'>" + title + "</text>" + "<text id='2'>" +
-						  message + "</text>" + "</binding>" + "</visual>" + "</toast>";
+						  message + "</text>" + "</binding>" + "</visual>" + "</toast>" << std::endl;
 	return toastXmlString;
 }
 

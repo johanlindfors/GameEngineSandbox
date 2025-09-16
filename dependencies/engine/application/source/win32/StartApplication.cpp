@@ -81,7 +81,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hCursor = nullptr;
 	wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = nullptr;
-	wcex.lpszClassName = L"GAME_ENGINE_SANDBOX";
+	wcex.lpszClassName = L"GAME_ENGINE_SANDBOX" << std::endl;
 	wcex.hIconSm = nullptr;
 
 	return RegisterClassExW(&wcex);

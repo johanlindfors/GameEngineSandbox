@@ -1,9 +1,11 @@
 #include "utilities/GLHelper.hpp"
 #include "utilities/Logger.hpp"
 #include <vector>
-// #define DEBUG 1
-#ifdef DEBUG
-#define TRACE(x) debuglog << x;
+
+#define DEBUG_OPENGL(false);
+
+#if defined(_DEBUG) && (DEBUG_OPENGL == true) 
+#define TRACE(x) debuglog << x << std::endl;
 #else
 #define TRACE(x)       \
 	do                 \
@@ -15,22 +17,21 @@
 
 using namespace std;
 
-static bool DEBUG_OPENGL = false;
 
 namespace Engine
 {
 
 	GLuint compileShader(GLenum type, const string &source)
 	{
-		TRACE("[GLHelper::CompileShader] Compiling shader" << endl);
+		TRACE("[GLHelper::CompileShader] Compiling shader");
 
 		const auto shader = GlCreateShader(type);
 
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileShader] Shader created" << endl;
+		TRACE("[GLHelper::CompileShader] Shader created");
 		const char *sourceArray[1] = {source.c_str()};
 		GlShaderSource(shader, 1, sourceArray, nullptr);
 		GlCompileShader(shader);
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileShader] Shader compiled" << endl;
+		TRACE("[GLHelper::CompileShader] Shader compiled");
 
 		checkOpenGLError();
 
@@ -45,7 +46,7 @@ namespace Engine
 			GLchar *strInfoLog = new GLchar[infoLogLength + 1];
 			GlGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
 
-			if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileShader] Compilation error in shader: '" << strInfoLog << "'" << endl;
+			TRACE("[GLHelper::CompileShader] Compilation error in shader: '" << strInfoLog << "'");
 			delete[] strInfoLog;
 		}
 
@@ -54,23 +55,23 @@ namespace Engine
 
 	GLuint compileProgram(const string &vsSource, const string &fsSource)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileProgram] Creating program" << endl;
+		TRACE("[GLHelper::CompileProgram] Creating program");
 		checkOpenGLError();
 		const auto program = GlCreateProgram();
 		if (program == 0)
 		{
-			if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileProgram] Failed to create program -- should exit!" << endl;
+			TRACE("[GLHelper::CompileProgram] Failed to create program -- should exit!");
 			checkOpenGLError();
 		}
 		else
 		{
-			if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileProgram] Program created" << endl;
+			TRACE("[GLHelper::CompileProgram] Program created");
 		}
 
 		const auto vs = compileShader(GL_VERTEX_SHADER, vsSource);
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileProgram] Vertex shader compiled" << endl;
+		TRACE("[GLHelper::CompileProgram] Vertex shader compiled");
 		const auto fs = compileShader(GL_FRAGMENT_SHADER, fsSource);
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileProgram] Fragment shader compiled" << endl;
+		TRACE("[GLHelper::CompileProgram] Fragment shader compiled");
 
 		if (vs == 0 || fs == 0)
 		{
@@ -87,7 +88,7 @@ namespace Engine
 		GlDeleteShader(fs);
 
 		GlLinkProgram(program);
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileProgram] Program linked" << endl;
+		TRACE("[GLHelper::CompileProgram] Program linked");
 
 		GLint linkStatus;
 		GlGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
@@ -102,7 +103,7 @@ namespace Engine
 			GlGetProgramInfoLog(program, static_cast<GLsizei>(infoLog.size()), nullptr, infoLog.data());
 
 			auto errorMessage = string(infoLog.begin(), infoLog.end());
-			if(DEBUG_OPENGL) debuglog << "[GLHelper::CompileProgram] Program link failed: " << errorMessage.c_str() << endl;
+			TRACE("[GLHelper::CompileProgram] Program link failed: " << errorMessage.c_str());
 		}
 
 		return program;
@@ -115,7 +116,7 @@ namespace Engine
 		GLuint textureId = 0;
 		// Generate a texture object
 		GlGenTextures(1, &textureId);
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GenerateTexture] TextureId: '" << textureId << "'" << endl;
+		TRACE("[GLHelper::GenerateTexture] TextureId: '" << textureId << "'");
 		checkOpenGLError();
 		return textureId;
 	}
@@ -123,7 +124,7 @@ namespace Engine
 	// Need to be called on UI thread
 	void setTexturePixels(int textureIndex, int width, int height, bool hasAlpha, GLubyte *pixels)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::SetTexturePixels]" << endl;
+		TRACE("[GLHelper::SetTexturePixels]");
 		// Bind the texture object
 		GlBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(textureIndex));
 		GlPixelStorei(GL_PACK_ALIGNMENT, 1);
@@ -148,7 +149,7 @@ namespace Engine
 		const auto err = GlGetError();
 		if (err != GL_NO_ERROR)
 		{
-			if(DEBUG_OPENGL) debuglog << "OpenGL error " << err << endl;
+			TRACE("OpenGL error " << err);
 			//exit(1);
 			throw new runtime_error("OpenGL error");
 		}
@@ -156,19 +157,19 @@ namespace Engine
 
 	void GlDeleteBuffers(GLsizei n, const GLuint *buffers)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlDeleteBuffers]" << endl;
+		TRACE("[GLHelper::GlDeleteBuffers]");
 		glDeleteBuffers(n, buffers);
 	}
 
 	void GlDeleteProgram(GLuint program)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlDeleteProgram]" << endl;
+		TRACE("[GLHelper::GlDeleteProgram]");
 		glDeleteProgram(program);
 	}
 
 	void GlDisableVertexAttribArray(GLuint index) 
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlDisableVertexAttribArray]" << endl;
+		TRACE("[GLHelper::GlDisableVertexAttribArray]");
 		glDisableVertexAttribArray(index);
 	}
 
@@ -185,259 +186,259 @@ namespace Engine
 
 	void GlClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlClearColor]" << endl;
+		TRACE("[GLHelper::GlClearColor]");
 		glClearColor(red, green, blue, alpha);
 	}
 
 	void GlClear(GLbitfield mask)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlClear]" << endl;
+		TRACE("[GLHelper::GlClear]");
 		glClear(mask);
 	}
 
 	void GlDisable(GLenum cap)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlDisable]" << endl;
+		TRACE("[GLHelper::GlDisable]");
 		glDisable(cap);
 	}
 
 	void GlActiveTexture(GLenum texture)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlActiveTexture]" << endl;
+		TRACE("[GLHelper::GlActiveTexture]");
 		glActiveTexture(texture);
 	}
 
 	void GlBindTexture(GLenum target, GLuint texture)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlBindTexture]" << endl;
+		TRACE("[GLHelper::GlBindTexture]");
 		glBindTexture(target, texture);
 	}
 
 	void GlEnable(GLenum cap)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlEnable]" << endl;
+		TRACE("[GLHelper::GlEnable]");
 		glEnable(cap);
 	}
 
 	void GlBlendFunc(GLenum sfactor, GLenum dfactor)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlBlendFunc]" << endl;
+		TRACE("[GLHelper::GlBlendFunc]");
 		glBlendFunc(sfactor, dfactor);
 	}
 
 	void GlTexParameteri(GLenum target, GLenum pname, GLint param)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlTexParameteri]" << endl;
+		TRACE("[GLHelper::GlTexParameteri]");
 		glTexParameteri(target, pname, param);
 	}
 
 	void GlBindBuffer(GLenum target, GLuint buffer)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlBindBuffer]" << endl;
+		TRACE("[GLHelper::GlBindBuffer]");
 		glBindBuffer(target, buffer);
 	}
 
 	void GlEnableVertexAttribArray(GLuint index)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlEnableVertexAttribArray]" << endl;
+		TRACE("[GLHelper::GlEnableVertexAttribArray]");
 		glEnableVertexAttribArray(index);
 	}
 
 	void GlVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlVertexAttribPointer" << endl;
+		TRACE("[GLHelper::GlVertexAttribPointer");
 		glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 	}
 
 	void GlDrawElements(GLenum mode, GLsizei count, GLenum type, const void *indices)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlDrawElements]" << endl;
+		TRACE("[GLHelper::GlDrawElements]");
 		glDrawElements(mode, count, type, indices);
 	}
 
 	GLint GlGetAttribLocation(GLuint program, const GLchar *name)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGetAttribLocation]" << endl;
+		TRACE("[GLHelper::GlGetAttribLocation]");
 		return glGetAttribLocation(program, name);
 	}
 
 	void GlGenBuffers(GLsizei n, GLuint *buffers)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGenBuffers]" << endl;
+		TRACE("[GLHelper::GlGenBuffers]");
 		glGenBuffers(n, buffers);
 	}
 
 	void GlBufferData(GLenum target, GLsizeiptr size, const void *data, GLenum usage)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlBufferData]" << endl;
+		TRACE("[GLHelper::GlBufferData]");
 		glBufferData(target, size, data, usage);
 	}
 
 	GLint GlGetUniformLocation(GLuint program, const GLchar *name)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGetUniformLocation]" << endl;
+		TRACE("[GLHelper::GlGetUniformLocation]");
 		return glGetUniformLocation(program, name);
 	}
 
 	void GlUniform1i(GLint location, GLint v0)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlUniform1i]" << endl;
+		TRACE("[GLHelper::GlUniform1i]");
 		glUniform1i(location, v0);
 	}
 
 	void GlUniform2f(GLint location, GLfloat v0, GLfloat v1)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlUniform2f]" << endl;
+		TRACE("[GLHelper::GlUniform2f]");
 		glUniform2f(location, v0, v1);
 	}
 
 	void GlUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlUniform3f]" << endl;
+		TRACE("[GLHelper::GlUniform3f]");
 		glUniform3f(location, v0, v1, v2);
 	}
 
 	void GlUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlUniform4f]" << endl;
+		TRACE("[GLHelper::GlUniform4f]");
 		glUniform4f(location, v0, v1, v2, v3);
 	}
 
 	void GlUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlUniformMatrix4fv]" << endl;
+		TRACE("[GLHelper::GlUniformMatrix4fv]");
 		glUniformMatrix4fv(location, count, transpose, value);
 	}
 
 	void GlUseProgram(GLuint program)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlUseProgram]" << endl;
+		TRACE("[GLHelper::GlUseProgram]");
 		glUseProgram(program);
 	}
 
 	void GlDeleteShader(GLuint shader)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlDeleteShader]" << endl;
+		TRACE("[GLHelper::GlDeleteShader]");
 		glDeleteShader(shader);
 	}
 
 	void GlShaderSource(GLuint shader, GLsizei count, const GLchar *const *string, const GLint *length)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlShaderSource]" << endl;
+		TRACE("[GLHelper::GlShaderSource]");
 		glShaderSource(shader, count, string, length);
 	}
 
 	GLint GlCreateProgram()
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlCreateProgram]" << endl;
+		TRACE("[GLHelper::GlCreateProgram]");
 		return glCreateProgram();
 	}
 
 	GLuint GlCreateShader(GLenum type)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlCreateShader]" << endl;
+		TRACE("[GLHelper::GlCreateShader]");
 		return glCreateShader(type);
 	}
 
 	void GlCompileShader(GLuint shader)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlCompileShader]" << endl;
+		TRACE("[GLHelper::GlCompileShader]");
 		glCompileShader(shader);
 	}
 
 	void GlGetShaderiv(GLuint shader, GLenum pname, GLint *params)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGetShaderiv]" << endl;
+		TRACE("[GLHelper::GlGetShaderiv]");
 		glGetShaderiv(shader, pname, params);
 	}
 
 	void GlGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGetShaderInfoLog]" << endl;
+		TRACE("[GLHelper::GlGetShaderInfoLog]");
 		glGetShaderInfoLog(shader, bufSize, length, infoLog);
 	}
 
 	void GlAttachShader(GLuint program, GLuint shader)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlAttachShader]" << endl;
+		TRACE("[GLHelper::GlAttachShader]");
 		glAttachShader(program, shader);
 	}
 
 	void GlLinkProgram(GLuint program)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlLinkProgram]" << endl;
+		TRACE("[GLHelper::GlLinkProgram]");
 		glLinkProgram(program);
 	}
 
 	void GlGetProgramiv(GLuint program, GLenum pname, GLint *params)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGetProgramiv]" << endl;
+		TRACE("[GLHelper::GlGetProgramiv]");
 		glGetProgramiv(program, pname, params);
 	}
 
 	void GlGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGetProgramInfoLog]" << endl;
+		TRACE("[GLHelper::GlGetProgramInfoLog]");
 		glGetProgramInfoLog(program, bufSize, length, infoLog);
 	}
 
 	void GlGenTextures(GLsizei n, GLuint *textures)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGenTextures]" << endl;
+		TRACE("[GLHelper::GlGenTextures]");
 		glGenTextures(n, textures);
 	}
 
 	void GlPixelStorei(GLenum pname, GLint param)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlPixelStorei]" << endl;
+		TRACE("[GLHelper::GlPixelStorei]");
 		glPixelStorei(pname, param);
 	}
 
 	void GlTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *pixels)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlTexImage2D]" << endl;
+		TRACE("[GLHelper::GlTexImage2D]");
 		glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
 	}
 
 	void GlDeleteTextures(GLsizei n, const GLuint *textures)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlDeleteTextures]" << endl;
+		TRACE("[GLHelper::GlDeleteTextures]");
 		glDeleteTextures(n, textures);
 	}
 
 	GLenum GlGetError()
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGetError]" << endl;
+		TRACE("[GLHelper::GlGetError]");
 		return glGetError();
 	}
 
 	void GlUniform4fv(GLint location, GLsizei count, const GLfloat *value)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlUniform4fv]" << endl;
+		TRACE("[GLHelper::GlUniform4fv]");
 		glUniform4fv(location, count, value);
 	}
 
 	void GlUniform2fv(GLint location, GLsizei count, const GLfloat *value)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlUniform2fv]" << endl;
+		TRACE("[GLHelper::GlUniform2fv]");
 		glUniform2fv(location, count, value);
 	}
 
 	void GlGenVertexArrays(GLsizei n, GLuint *arrays)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlGenVertexArrays]" << endl;
+		TRACE("[GLHelper::GlGenVertexArrays]");
 		glGenVertexArrays(n, arrays);
 	}
 
 	void GlBindVertexArray(GLuint array)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlBindVertexArray]" << endl;
+		TRACE("[GLHelper::GlBindVertexArray]");
 		glBindVertexArray(array);
 	}
 
 	void GlDrawArrays(GLenum mode, GLint first, GLsizei count)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlDrawArrays]" << endl;
+		TRACE("[GLHelper::GlDrawArrays]");
 		glDrawArrays(mode, first, count);
 	}
 
@@ -448,7 +449,7 @@ namespace Engine
 
 	void GlCullFace(GLenum mode)
 	{
-		if(DEBUG_OPENGL) debuglog << "[GlHelper::GlCullFace]" << endl;
+		TRACE("[GlHelper::GlCullFace]");
 		glCullFace(mode);
 	}
 
@@ -514,7 +515,7 @@ namespace Engine
 
 	void GlPolygonMode(GLenum face, GLenum mode) 
 	{
-		if(DEBUG_OPENGL) debuglog << "[GLHelper::GlPolygonMode]" << endl;
+		TRACE("[GLHelper::GlPolygonMode]");
 		glPolygonMode(face, mode);
 	}
 }

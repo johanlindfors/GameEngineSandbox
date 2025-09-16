@@ -21,9 +21,9 @@ std::istringstream extensionStream((const char *) glGetString(s));\
 std::vector<std::string> extensionList(\
         std::istream_iterator<std::string>{extensionStream},\
         std::istream_iterator<std::string>());\
-debuglog << #s":\n";\
+debuglog << #s":\n" << std::endl;\
 for (auto& extension: extensionList) {\
-    debuglog << extension << "\n";\
+    debuglog << extension << "\n" << std::endl;\
 }\
 debuglog << std::endl;\
 }

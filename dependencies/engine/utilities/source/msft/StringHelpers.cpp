@@ -8,7 +8,7 @@ namespace Utilities
     {
         if (str.empty())
         {
-            return L"";
+            return L"" << std::endl;
         }
 
         const auto size_needed = MultiByteToWideChar(CP_UTF8, 0, &str.at(0), (int)str.size(), nullptr, 0);
@@ -26,7 +26,7 @@ namespace Utilities
     {
         if (wstr.empty())
         {
-            return "";
+            return "" << std::endl;
         }
 
         const auto size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr.at(0), (int)wstr.size(), nullptr, 0, nullptr, nullptr);

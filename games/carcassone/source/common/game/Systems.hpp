@@ -22,6 +22,11 @@ struct SpriteSystem
 {
 	int mScreenWidth;
     int mScreenHeight;
+    int mViewOffsetX;
+    int mViewOffsetY;
+    int mMouseMoveOffsetX;
+    int mMouseMoveOffsetY;
+    
 	std::shared_ptr<Engine::TiledSprite> mSprite;
 
     SpriteSystem()
@@ -29,18 +34,26 @@ struct SpriteSystem
     {
         debuglog << "[Spritesystem::SpriteSystem] was created" << std::endl;
         mSprite->tileSize = { 32, 32 };
-        mSprite->size = { 128.0f, 128.0f };
+        mSprite->size = { 64.0f, 64.0f };
     }
 
     void updateScreenSize(int width, int height) {
         mScreenWidth = width;
         mScreenHeight = height;
 
-        mSprite->size = { 128.0f, 128.0f };
+        mSprite->size = { 64.0f, 64.0f };
+        mViewOffsetX = width / 2 - (mSprite->size.width / 2);
+        mViewOffsetY = height / 2 - (mSprite->size.height / 2);
+    }
+
+    void setMouseMoveOffset(int x, int y) {
+        debuglog << "X: " << x << " Y: " << y << std::endl;
+        mMouseMoveOffsetX += x;
+        mMouseMoveOffsetY -= y;
     }
 
     void update(entt::registry& reg) {
-        debuglog << "[SpriteSystem::update]" << std::endl;
+        // debuglog << "[SpriteSystem::update]" << std::endl;
         
         auto view = reg.view<SpriteComponent, PositionComponent>();
         for(auto entity : view) {
@@ -51,7 +64,7 @@ struct SpriteSystem
     }
 
     void render(entt::registry& reg, std::shared_ptr<Engine::IRenderer> renderer) {
-        debuglog << "[SpriteSystem::render]" << std::endl;
+        // debuglog << "[SpriteSystem::render]" << std::endl;
 
         auto spriteRenderer = std::static_pointer_cast<Engine::SpriteRenderer>(renderer);
 
@@ -60,7 +73,12 @@ struct SpriteSystem
             auto sprite = view.get<SpriteComponent>(entity);
             mSprite->texture = sprite.texture;
             mSprite->setFrame(sprite.frame);
-            spriteRenderer->drawSprite(mSprite, sprite.position); 
+            spriteRenderer->drawSprite(mSprite, 
+                { 
+                    sprite.position.x + mViewOffsetX + mMouseMoveOffsetX, 
+                    sprite.position.y + mViewOffsetY + mMouseMoveOffsetY
+                }
+            ); 
         };
     }
 };

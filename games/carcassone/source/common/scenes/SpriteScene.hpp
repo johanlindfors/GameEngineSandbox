@@ -5,12 +5,14 @@
 #include "game/Components.hpp"
 #include "game/Systems.hpp"
 
+
 class IGameStateCallback;
 namespace Engine
 {
     class SpriteRenderer;
     class IInputManager;
     struct TiledSprite;
+    class OrthographicCamera;
 }
 
 namespace Utilities
@@ -25,6 +27,10 @@ namespace Sample
         public:
             SpriteScene() 
                 : mSpriteSystem(std::make_unique<SpriteSystem>())
+                , mMouseDownX(0)
+                , mMouseDownY(0)
+                , mMouseDeltaX(0)
+                , mMouseDeltaY(0)
 	        { id = typeid(SpriteScene).name(); }
             
             // Engine::GameScene
@@ -33,13 +39,18 @@ namespace Sample
             void updateScreenSize(int width, int height) override;
             void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
             void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
-
         private:
             std::shared_ptr<Engine::SpriteRenderer> mRenderer;
             std::shared_ptr<Engine::TiledSprite> mSprite;
             std::shared_ptr<Engine::IInputManager> mInputManager;
+            std::shared_ptr<Engine::OrthographicCamera> mCamera;
 
             entt::registry mRegistry;
             std::unique_ptr<SpriteSystem> mSpriteSystem;
+
+            int mMouseDownX;
+            int mMouseDownY;
+            int mMouseDeltaX;
+            int mMouseDeltaY;
     };
 }
