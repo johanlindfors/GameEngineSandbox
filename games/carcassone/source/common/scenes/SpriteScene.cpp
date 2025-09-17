@@ -35,12 +35,6 @@ void SpriteScene::load()
 
     IOCContainer::instance().register_type<IRenderer>(mRenderer);
 
-    // mSprite = make_shared<TiledSprite>();
-    // mSprite->texture = resourceManager->getTexture( "tiles.png" );
-    // mSprite->tileSize = { 32, 32 };
-    // mSprite->size = { 128.0f, 128.0f };
-    // mSprite->setFrame(1);
-
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
     auto tile = mRegistry.create();
@@ -66,6 +60,7 @@ void SpriteScene::updateScreenSize(int width, int height)
     debuglog << "[SpriteScene::updateScreenSize]" << std::endl;
     mCamera->right = width;
     mCamera->top = height;
+
     mSpriteSystem->updateScreenSize(width, height);
 }
 
@@ -84,24 +79,11 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
         break;
 
         default:
-        // mMouseDeltaX = 0;
-        // mMouseDeltaY = 0;
         mMouseDownX = 0;
         mMouseDownY = 0;
         break;
     }
 
-    if (mouseState.state == ButtonState::Pressed)
-	{
-		// Utilities::Point<int> position = {mouseState.position.x, 505 - mouseState.position.y};
-		// if (position.x > 92 &&
-		// 	position.x < 92 + 104 &&
-		// 	position.y > 176 &&
-		// 	position.y < 176 + 58)
-		// {
-		// 	mGame->goToState(GameState::Instructions);
-		// }
-	}
     mSpriteSystem->update(mRegistry);
 }
 

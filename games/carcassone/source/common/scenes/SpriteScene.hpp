@@ -29,8 +29,6 @@ namespace Sample
                 : mSpriteSystem(std::make_unique<SpriteSystem>())
                 , mMouseDownX(0)
                 , mMouseDownY(0)
-                , mMouseDeltaX(0)
-                , mMouseDeltaY(0)
 	        { id = typeid(SpriteScene).name(); }
             
             // Engine::GameScene
@@ -50,7 +48,5 @@ namespace Sample
 
             int mMouseDownX;
             int mMouseDownY;
-            int mMouseDeltaX;
-            int mMouseDeltaY;
     };
 }

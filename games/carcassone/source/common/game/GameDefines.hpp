@@ -1,9 +1,9 @@
 #pragma once
 
-#define TILE_WIDTH 16
-#define TILE_HEIGHT 16
-#define GAME_WIDTH 28
+#define TILE_WIDTH 32
+#define TILE_HEIGHT 32
+#define GAME_WIDTH 20
 #define SCREEN_WIDTH (GAME_WIDTH * TILE_WIDTH)
-#define GAME_HEIGHT 36
+#define GAME_HEIGHT 20
 #define SCREEN_HEIGHT (GAME_HEIGHT * TILE_HEIGHT)
 #define FRAMES_PER_SECOND 60
