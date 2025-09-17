@@ -128,7 +128,9 @@ void GameLoop::updateWindowSize(int width, int height)
 		auto gameSize = ScreenToGameCoordinatesConverter.getGameSize();
 		width = gameSize.width;
 		height = gameSize.height;
-	} 	
+	} else {
+		ScreenToGameCoordinatesConverter.setGameSize({width, height});
+	}
 	if (mRenderer)
 	{
 		mRenderer->updateWindowSize(width, height);
