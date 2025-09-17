@@ -77,6 +77,17 @@ public:
             }
         });
 
+        glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xpos, double ypos) {
+            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+                auto input = IOCContainer::instance().resolve<IInputManager>();
+                auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
+                auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
+                auto scaledX = xpos * gameAspects.width;
+                auto scaledY = ypos * gameAspects.height;
+                input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
+            }
+        });
+
         glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
             auto input = IOCContainer::instance().resolve<IInputManager>();
             ButtonState state(ButtonState::None);
