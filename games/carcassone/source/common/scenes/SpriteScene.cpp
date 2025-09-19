@@ -25,8 +25,8 @@ void SpriteScene::load()
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 
     resourceManager->loadShader("simple", "simple.vs", "simple.fs");
-    resourceManager->loadTextures({"tiles.png"});
-    mSpriteSystem->setTexture(resourceManager->getTexture("tiles.png"));
+    resourceManager->loadTextures({"tiles_sample.png"});
+    mSpriteSystem->setTexture(resourceManager->getTexture("tiles_sample.png"));
 
     auto config = IOCContainer::instance().resolve<Utilities::Config>();
     mCamera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
@@ -38,26 +38,38 @@ void SpriteScene::load()
 
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
-    placeTile(0, 0, 1);
+    placeTile(0, 0, 25, 0);
 }
 
-void SpriteScene::placeTile(int x, int y, int frame)
+void SpriteScene::placeTile(int x, int y, int frame, int zOrder)
 {
-    auto tile = mRegistry.create();
     auto offset = mSpriteSystem->getViewOffset();
     int xPos = x - offset.x;
     int yPos = y - offset.y;
-    if (xPos >= 0)
-        xPos = (int)((xPos + TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
-    else
-        xPos = (int)((xPos - TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
-    if (yPos >= 0)
-        yPos = (int)((yPos + TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
-    else
-        yPos = (int)((yPos - TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
-    mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
-    mRegistry.emplace<DirectionComponent>(tile, Direction::North);
-    mRegistry.emplace<SpriteComponent>(tile, rand() % 3);
+    xPos = (int)((xPos + TILE_WIDTH / (xPos >= 0 ? 2 : -2)) / TILE_WIDTH);
+    yPos = (int)((yPos + TILE_HEIGHT / (yPos >= 0 ? 2 : -2)) / TILE_HEIGHT);
+
+    bool tileExists = false;
+    auto view = mRegistry.view<SpriteComponent, PositionComponent>();
+    for (auto entity : view)
+    {
+        auto [sprite, position] = view.get(entity);
+        if (position.x == xPos && position.y == yPos)
+        {
+            tileExists = true;
+            mRegistry.replace<SpriteComponent>(entity, frame, zOrder);
+            break;
+        }
+    };
+    if (!tileExists)
+    {
+        auto tile = mRegistry.create();
+        mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
+        mRegistry.emplace<DirectionComponent>(tile, (Direction)(rand() % 4));
+        mRegistry.emplace<SpriteComponent>(tile, frame, zOrder);
+    }
+    auto spriteView = mRegistry.view<SpriteComponent>();
+    debuglog << "[SpriteScene::placeTile] Number of tiles: " << spriteView.size() << std::endl;
 }
 
 void SpriteScene::unload()
@@ -87,7 +99,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
         placeTile(
             translatedCoordinate.x,
             translatedCoordinate.y,
-            1);
+            rand() % 24, 1);
         mMouseDownX = mouseState.position.x;
         mMouseDownY = mouseState.position.y;
         break;

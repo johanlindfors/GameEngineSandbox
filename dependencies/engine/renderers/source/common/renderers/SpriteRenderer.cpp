@@ -87,9 +87,11 @@ void SpriteRenderer::drawSprite(shared_ptr<Sprite> sprite, Point<float> position
     world = glm::translate(world, glm::vec3(position.x, position.y, 0.0f));
     if (sprite->rotation != 0.0f)
     {
-        world = glm::translate(world, glm::vec3(0.5f * sprite->texture.width, 0.5f * sprite->texture.height, 0.0f));
+        world = glm::translate(world, glm::vec3(sprite->rotationCenterPoint.x, sprite->rotationCenterPoint.y, 0.0f));
+        //world = glm::translate(world, glm::vec3(0.5f * sprite->texture.width, 0.5f * sprite->texture.height, 0.0f));
         world = glm::rotate(world, glm::radians(sprite->rotation), glm::vec3(0.0f, 0.0f, 1.0f));
-        world = glm::translate(world, glm::vec3(-0.5f * sprite->texture.width, -0.5f * sprite->texture.height, 0.0f));
+        //world = glm::translate(world, glm::vec3(-0.5f * sprite->texture.width, -0.5f * sprite->texture.height, 0.0f));
+        world = glm::translate(world, glm::vec3(-sprite->rotationCenterPoint.x, -sprite->rotationCenterPoint.y, 0.0f));
     }
     world = glm::scale(world, glm::vec3(sprite->size.width, sprite->size.height, 1.0f));
 

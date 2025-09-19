@@ -38,7 +38,7 @@ namespace Sample
         void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
     private:
-        void placeTile(int x, int y, int tile);
+        void placeTile(int x, int y, int tile, int zOrder);
         std::shared_ptr<Engine::SpriteRenderer> mRenderer;
         std::shared_ptr<Engine::TiledSprite> mSprite;
         std::shared_ptr<Engine::IInputManager> mInputManager;

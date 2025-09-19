@@ -33,7 +33,7 @@ struct SpriteSystem
         : mSprite(std::make_shared<Engine::TiledSprite>())
     {
         debuglog << "[Spritesystem::SpriteSystem] was created" << std::endl;
-        mSprite->tileSize = {TILE_WIDTH, TILE_HEIGHT};
+        mSprite->tileSize = {128, 128};
         mSprite->size = {TILE_WIDTH, TILE_HEIGHT};
     }
 
@@ -74,19 +74,40 @@ struct SpriteSystem
     //     };
     // }
 
+    float directionToAngle(Direction direction)
+    {
+        switch (direction)
+        {
+        case Direction::East:
+            return 90.0f;
+        case Direction::South:
+            return 180.0f;
+        case Direction::West:
+            return 270.0f;
+        case Direction::North:
+        default:
+            return 0.0f;
+        }
+    }
+
     void render(entt::registry &reg, std::shared_ptr<Engine::IRenderer> renderer)
     {
         auto spriteRenderer = std::static_pointer_cast<Engine::SpriteRenderer>(renderer);
 
-        auto view = reg.view<SpriteComponent, PositionComponent>();
+        reg.sort<SpriteComponent>([](const SpriteComponent &lhs, const SpriteComponent &rhs) {
+            return lhs.zOrder < rhs.zOrder;
+        });
+        auto view = reg.view<SpriteComponent, PositionComponent, DirectionComponent>();
         for (auto entity : view)
         {
-            auto [sprite, position] = view.get(entity);
+            auto [sprite, position, direction] = view.get(entity);
             mSprite->texture = mTexture;
             mSprite->setFrame(sprite.frame);
+            mSprite->rotation = directionToAngle(direction.direction);
+            mSprite->rotationCenterPoint = {TILE_WIDTH / 2, TILE_HEIGHT / 2};
             spriteRenderer->drawSprite(mSprite,
-                                       {(float)position.x + mViewOffsetX + mMouseMoveOffsetX,
-                                        (float)position.y + mViewOffsetY + mMouseMoveOffsetY});
+                                       {(float)position.x * TILE_WIDTH+ mViewOffsetX + mMouseMoveOffsetX,
+                                        (float)position.y * TILE_HEIGHT + mViewOffsetY + mMouseMoveOffsetY});
         };
     }
 };

@@ -48,7 +48,7 @@ struct MeepleComponent
 
 enum Direction
 {
-    North,
+    North = 0,
     East,
     South,
     West
@@ -74,4 +74,5 @@ struct BadgeComponent
 struct SpriteComponent
 {
     int frame;
+    int zOrder;
 };

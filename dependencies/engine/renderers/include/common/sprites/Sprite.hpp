@@ -18,6 +18,7 @@ namespace Engine
 		Utilities::Vector2 velocity;
 		Utilities::Size<float> size;
 		float rotation;
+		Utilities::Point<float> rotationCenterPoint;
 		Utilities::Rectangle<float> offset;
 	};
 }
