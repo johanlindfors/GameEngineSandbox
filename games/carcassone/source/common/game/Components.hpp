@@ -58,7 +58,6 @@ struct CloisterComponent { };
 struct BadgeComponent { };
 
 struct SpriteComponent {
-	Engine::Texture2D texture;
-    int frame;
+	int frame;
 	Utilities::Point<float> position;
 };

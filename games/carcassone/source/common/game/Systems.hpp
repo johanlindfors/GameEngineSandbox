@@ -26,7 +26,7 @@ struct SpriteSystem
     int mViewOffsetY;
     int mMouseMoveOffsetX = 0;
     int mMouseMoveOffsetY = 0;
-    
+    Engine::Texture2D mTexture;
 	std::shared_ptr<Engine::TiledSprite> mSprite;
 
     SpriteSystem()
@@ -35,6 +35,11 @@ struct SpriteSystem
         debuglog << "[Spritesystem::SpriteSystem] was created" << std::endl;
         mSprite->tileSize = { TILE_WIDTH, TILE_HEIGHT };
         mSprite->size = { TILE_WIDTH, TILE_HEIGHT };
+    }
+
+    void setTexture(Engine::Texture2D texture)
+    {
+        mTexture = texture;
     }
 
     void updateScreenSize(int width, int height)
@@ -78,7 +83,7 @@ struct SpriteSystem
         auto view = reg.view<SpriteComponent>();
         for(auto entity : view) {
             auto sprite = view.get<SpriteComponent>(entity);
-            mSprite->texture = sprite.texture;
+            mSprite->texture = mTexture;
             mSprite->setFrame(sprite.frame);
             spriteRenderer->drawSprite(mSprite, 
                 { 

@@ -26,7 +26,7 @@ void SpriteScene::load()
     
     resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
     resourceManager->loadTextures({ "tiles.png" });
-    
+    mSpriteSystem->setTexture(resourceManager->getTexture("tiles.png"));
     auto config = IOCContainer::instance().resolve<Utilities::Config>();
     mCamera = make_shared<Engine::OrthographicCamera>( 0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f );
     auto shader = resourceManager->getShader( "simple" );
@@ -53,7 +53,7 @@ void SpriteScene::placeTile(int x, int y, int frame)
     mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
     mRegistry.emplace<DirectionComponent>(tile, Direction::North);
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    mRegistry.emplace<SpriteComponent>(tile, resourceManager->getTexture("tiles.png"), frame, 0.0f, 0.0f);
+    mRegistry.emplace<SpriteComponent>(tile, frame, 0.0f, 0.0f);
 }
 
 void SpriteScene::unload() 
