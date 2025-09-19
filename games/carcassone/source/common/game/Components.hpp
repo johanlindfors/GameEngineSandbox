@@ -2,14 +2,16 @@
 #include "resources/Texture2D.hpp"
 #include "utilities/MathHelper.hpp"
 
-enum TileType {
+enum TileType
+{
     Field,
     Road,
     City,
     River
 };
 
-struct TileTypeComponent {
+struct TileTypeComponent
+{
     TileType north;
     TileType south;
     TileType east;
@@ -17,17 +19,20 @@ struct TileTypeComponent {
     TileType center;
 };
 
-struct PositionComponent {
-	int x;
-	int y;
+struct PositionComponent
+{
+    int x;
+    int y;
 };
 
-enum MeepleStyle {
+enum MeepleStyle
+{
     None = 0,
     Farmer
 };
 
-enum MeepleColor {
+enum MeepleColor
+{
     Red,
     Green,
     Blue,
@@ -35,29 +40,38 @@ enum MeepleColor {
     Black
 };
 
-struct MeepleComponent {
+struct MeepleComponent
+{
     MeepleColor color;
     MeepleStyle style;
 };
 
-enum Direction {
+enum Direction
+{
     North,
     East,
     South,
     West
 };
 
-struct DirectionComponent {
+struct DirectionComponent
+{
     Direction direction;
 };
 
-struct StaticComponent { };
+struct StaticComponent
+{
+};
 
-struct CloisterComponent { };
+struct CloisterComponent
+{
+};
 
-struct BadgeComponent { };
+struct BadgeComponent
+{
+};
 
-struct SpriteComponent {
-	int frame;
-	Utilities::Point<float> position;
+struct SpriteComponent
+{
+    int frame;
 };

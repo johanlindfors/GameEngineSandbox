@@ -19,25 +19,26 @@ using namespace Engine;
 using namespace Utilities;
 using namespace Sample;
 
-void SpriteScene::load() 
+void SpriteScene::load()
 {
     debuglog << "[SpriteScene::load]" << std::endl;
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    
-    resourceManager->loadShader( "simple", "simple.vs", "simple.fs" );
-    resourceManager->loadTextures({ "tiles.png" });
+
+    resourceManager->loadShader("simple", "simple.vs", "simple.fs");
+    resourceManager->loadTextures({"tiles.png"});
     mSpriteSystem->setTexture(resourceManager->getTexture("tiles.png"));
+
     auto config = IOCContainer::instance().resolve<Utilities::Config>();
-    mCamera = make_shared<Engine::OrthographicCamera>( 0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f );
-    auto shader = resourceManager->getShader( "simple" );
-    mRenderer = make_shared<SpriteRenderer>( shader, mCamera );
+    mCamera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
+    auto shader = resourceManager->getShader("simple");
+    mRenderer = make_shared<SpriteRenderer>(shader, mCamera);
     mRenderer->initialize();
 
     IOCContainer::instance().register_type<IRenderer>(mRenderer);
 
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
-    placeTile(0,0,1);
+    placeTile(0, 0, 1);
 }
 
 void SpriteScene::placeTile(int x, int y, int frame)
@@ -46,24 +47,27 @@ void SpriteScene::placeTile(int x, int y, int frame)
     auto offset = mSpriteSystem->getViewOffset();
     int xPos = x - offset.x;
     int yPos = y - offset.y;
-    if(xPos >= 0) xPos = (int)((xPos + TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
-    else xPos = (int)((xPos - TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
-    if(yPos >= 0) yPos = (int)((yPos + TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
-    else yPos = (int)((yPos - TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
+    if (xPos >= 0)
+        xPos = (int)((xPos + TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
+    else
+        xPos = (int)((xPos - TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
+    if (yPos >= 0)
+        yPos = (int)((yPos + TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
+    else
+        yPos = (int)((yPos - TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
     mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
     mRegistry.emplace<DirectionComponent>(tile, Direction::North);
-    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
-    mRegistry.emplace<SpriteComponent>(tile, frame, 0.0f, 0.0f);
+    mRegistry.emplace<SpriteComponent>(tile, rand() % 3);
 }
 
-void SpriteScene::unload() 
+void SpriteScene::unload()
 {
     debuglog << "[SpriteScene::unload]" << std::endl;
     mRenderer.reset();
 }
 
 void SpriteScene::updateScreenSize(int width, int height)
-{ 
+{
     debuglog << "[SpriteScene::updateScreenSize]" << std::endl;
     mCamera->right = width;
     mCamera->top = height;
@@ -74,39 +78,32 @@ void SpriteScene::updateScreenSize(int width, int height)
 void SpriteScene::update(shared_ptr<IStepTimer> timer)
 {
     auto const mouseState = mInputManager->getMouseState();
-	auto translatedCoordinate = mCamera->translateScreenToGameCoordinate(
-        mouseState.position.x, 
-        mouseState.position.y
-    );
-    // if(mouseState.state != ButtonState::None)
-    //     debuglog << "TX: " << translatedCoordinate.x << " TY: " << translatedCoordinate.y << endl;
-    switch (mouseState.state) {
-        case ButtonState::Pressed:
+    auto translatedCoordinate = mCamera->translateScreenToGameCoordinate(
+        mouseState.position.x,
+        mouseState.position.y);
+    switch (mouseState.state)
+    {
+    case ButtonState::Pressed:
         placeTile(
-            translatedCoordinate.x, 
+            translatedCoordinate.x,
             translatedCoordinate.y,
-            1
-        );
+            1);
         mMouseDownX = mouseState.position.x;
-        mMouseDownY = mouseState.position.y;    
-        //debuglog << "TX: " << mouseState.position.x << " TY: " << mouseState.position.y << endl;
+        mMouseDownY = mouseState.position.y;
         break;
-        case ButtonState::Repeat:
+    case ButtonState::Repeat:
         mSpriteSystem->setMouseMoveOffset(
             mMouseDownX != 0 ? mouseState.position.x - mMouseDownX : mMouseDownX,
-            mMouseDownY != 0 ? mouseState.position.y - mMouseDownY : mMouseDownY
-        );
+            mMouseDownY != 0 ? mouseState.position.y - mMouseDownY : mMouseDownY);
         mMouseDownX = mouseState.position.x;
-        mMouseDownY = mouseState.position.y;    
+        mMouseDownY = mouseState.position.y;
         break;
 
-        default:
+    default:
         mMouseDownX = 0;
         mMouseDownY = 0;
         break;
     }
-
-    mSpriteSystem->update(mRegistry);
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)

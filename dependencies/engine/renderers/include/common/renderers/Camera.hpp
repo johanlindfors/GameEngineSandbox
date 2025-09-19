@@ -64,7 +64,7 @@ namespace Engine
         // returns the view matrix calculated using Euler Angles and the LookAt Matrix
         glm::mat4 getViewMatrix()
         {
-            //return glm::lookAt(Position, Position + Front, Up);
+            // return glm::lookAt(Position, Position + Front, Up);
             glm::vec3 zero = {0.0f, 0.0f, 0.0f};
             return glm::lookAt(Position, zero, Up);
         }
@@ -158,13 +158,11 @@ namespace Engine
             return glm::ortho(left, right, bottom, top, zNear, zFar);
         }
 
-        Utilities::Point<float> translateScreenToGameCoordinate(float x, float y) 
+        Utilities::Point<float> translateScreenToGameCoordinate(float x, float y)
         {
             return {
                 x - this->right / 2,
-                this->top / 2 - y
-            };
+                this->top / 2 - y};
         }
     };
-
 }

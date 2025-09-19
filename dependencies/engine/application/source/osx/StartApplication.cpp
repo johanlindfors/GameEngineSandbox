@@ -44,17 +44,19 @@ public:
 
         game->initialize(config);
         debuglog << "[StartOsxApplication] initialized" << std::endl;
-        game->ScreenToGameCoordinatesConverter.setGameSize({width,height});
+        game->ScreenToGameCoordinatesConverter.setGameSize({width, height});
         game->updateWindowSize(width, height);
         debuglog << "[StartOsxApplication] Windows size updated" << std::endl;
 
         glfwSetWindowUserPointer(window, game.get());
-        glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height) {
+        glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height)
+                                  {
             auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
             game->updateWindowSize(width, height);
             GlViewport(0,0,width, height); });
 
-        glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+        glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
+                           {
             auto input = IOCContainer::instance().resolve<IInputManager>();
             ButtonState state(ButtonState::None);
             switch (action) {
@@ -93,7 +95,8 @@ public:
                     break;
             } });
 
-        glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods) {
+        glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods)
+                                   {
             if (button == GLFW_MOUSE_BUTTON_LEFT) {
                 double xpos, ypos;
                 glfwGetCursorPos(window, &xpos, &ypos);
@@ -113,8 +116,9 @@ public:
                     break;
                 }
             } });
-        
-        glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xpos, double ypos) {
+
+        glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xpos, double ypos)
+                                 {
             if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
                 auto input = IOCContainer::instance().resolve<IInputManager>();
                 input->getMouseState();
@@ -123,8 +127,7 @@ public:
                 auto scaledX = xpos * gameAspects.width;
                 auto scaledY = ypos * gameAspects.height;
                 input->addMouseEvent(MouseButton::Left, ButtonState::Repeat, scaledX, scaledY);
-            }
-        });
+            } });
 
         while (!glfwWindowShouldClose(window))
         {

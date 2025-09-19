@@ -5,7 +5,6 @@
 #include "game/Components.hpp"
 #include "game/Systems.hpp"
 
-
 class IGameStateCallback;
 namespace Engine
 {
@@ -20,35 +19,35 @@ namespace Utilities
     class IStepTimer;
 }
 
-namespace Sample 
+namespace Sample
 {
-    class SpriteScene : public Engine::GameScene 
+    class SpriteScene : public Engine::GameScene
     {
-        public:
-            SpriteScene() 
-                : mSpriteSystem(std::make_unique<SpriteSystem>())
-                , mMouseDownX(0)
-                , mMouseDownY(0)
-	        { id = typeid(SpriteScene).name(); }
-            
-            // Engine::GameScene
-            void load() override;
-            void unload() override;
-            void updateScreenSize(int width, int height) override;
-            void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
-            void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
-        private:
+    public:
+        SpriteScene()
+            : mSpriteSystem(std::make_unique<SpriteSystem>()), mMouseDownX(0), mMouseDownY(0)
+        {
+            id = typeid(SpriteScene).name();
+        }
 
-            void placeTile(int x, int y, int tile);
-            std::shared_ptr<Engine::SpriteRenderer> mRenderer;
-            std::shared_ptr<Engine::TiledSprite> mSprite;
-            std::shared_ptr<Engine::IInputManager> mInputManager;
-            std::shared_ptr<Engine::OrthographicCamera> mCamera;
+        // Engine::GameScene
+        void load() override;
+        void unload() override;
+        void updateScreenSize(int width, int height) override;
+        void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
+        void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
-            entt::registry mRegistry;
-            std::unique_ptr<SpriteSystem> mSpriteSystem;
+    private:
+        void placeTile(int x, int y, int tile);
+        std::shared_ptr<Engine::SpriteRenderer> mRenderer;
+        std::shared_ptr<Engine::TiledSprite> mSprite;
+        std::shared_ptr<Engine::IInputManager> mInputManager;
+        std::shared_ptr<Engine::OrthographicCamera> mCamera;
 
-            int mMouseDownX;
-            int mMouseDownY;
+        entt::registry mRegistry;
+        std::unique_ptr<SpriteSystem> mSpriteSystem;
+
+        int mMouseDownX;
+        int mMouseDownY;
     };
 }
