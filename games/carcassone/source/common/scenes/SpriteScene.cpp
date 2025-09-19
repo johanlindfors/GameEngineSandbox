@@ -46,12 +46,10 @@ void SpriteScene::placeTile(int x, int y, int frame)
     auto offset = mSpriteSystem->getViewOffset();
     int xPos = x - offset.x;
     int yPos = y - offset.y;
-    debuglog << "X: " << x << "->" << xPos << " Y: " << y << "->" << yPos << endl;
     if(xPos >= 0) xPos = (int)((xPos + TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
     else xPos = (int)((xPos - TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
     if(yPos >= 0) yPos = (int)((yPos + TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
     else yPos = (int)((yPos - TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
-    debuglog << "X: " << x << "->" << xPos << " Y: " << y << "->" << yPos << endl;
     mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
     mRegistry.emplace<DirectionComponent>(tile, Direction::North);
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
