@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <vector>
+#include <utilities/MathHelper.hpp>
 
 namespace Engine
 {
@@ -155,6 +156,14 @@ namespace Engine
         glm::mat4 getProjectionMatrix()
         {
             return glm::ortho(left, right, bottom, top, zNear, zFar);
+        }
+
+        Utilities::Point<float> translateScreenToGameCoordinate(float x, float y) 
+        {
+            return {
+                x - this->right / 2,
+                this->top / 2 - y
+            };
         }
     };
 

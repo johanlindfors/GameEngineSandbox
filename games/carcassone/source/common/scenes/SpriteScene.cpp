@@ -37,22 +37,31 @@ void SpriteScene::load()
 
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
+    placeTile(0,0,1);
+}
+
+void SpriteScene::placeTile(int x, int y, int frame)
+{
     auto tile = mRegistry.create();
-    mRegistry.emplace<PositionComponent>(tile, 0, 0);
+    auto offset = mSpriteSystem->getViewOffset();
+    int xPos = x - offset.x;
+    int yPos = y - offset.y;
+    debuglog << "X: " << x << "->" << xPos << " Y: " << y << "->" << yPos << endl;
+    if(xPos >= 0) xPos = (int)((xPos + TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
+    else xPos = (int)((xPos - TILE_WIDTH / 2) / TILE_WIDTH) * TILE_WIDTH;
+    if(yPos >= 0) yPos = (int)((yPos + TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
+    else yPos = (int)((yPos - TILE_HEIGHT / 2) / TILE_HEIGHT) * TILE_HEIGHT;
+    debuglog << "X: " << x << "->" << xPos << " Y: " << y << "->" << yPos << endl;
+    mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
     mRegistry.emplace<DirectionComponent>(tile, Direction::North);
-    mRegistry.emplace<SpriteComponent>(tile, resourceManager->getTexture("tiles.png"), 2, 0.0f, 0.0f);
-    
-    auto anotherTile = mRegistry.create();
-    mRegistry.emplace<PositionComponent>(anotherTile, 0, 0);
-    mRegistry.emplace<DirectionComponent>(anotherTile, Direction::North);
-    mRegistry.emplace<SpriteComponent>(anotherTile, resourceManager->getTexture("tiles.png"), 3, 0.0f, 0.0f);
+    auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
+    mRegistry.emplace<SpriteComponent>(tile, resourceManager->getTexture("tiles.png"), frame, 0.0f, 0.0f);
 }
 
 void SpriteScene::unload() 
 {
     debuglog << "[SpriteScene::unload]" << std::endl;
     mRenderer.reset();
-    mSprite.reset();
 }
 
 void SpriteScene::updateScreenSize(int width, int height)
@@ -67,12 +76,27 @@ void SpriteScene::updateScreenSize(int width, int height)
 void SpriteScene::update(shared_ptr<IStepTimer> timer)
 {
     auto const mouseState = mInputManager->getMouseState();
-	switch (mouseState.state) {
+	auto translatedCoordinate = mCamera->translateScreenToGameCoordinate(
+        mouseState.position.x, 
+        mouseState.position.y
+    );
+    // if(mouseState.state != ButtonState::None)
+    //     debuglog << "TX: " << translatedCoordinate.x << " TY: " << translatedCoordinate.y << endl;
+    switch (mouseState.state) {
         case ButtonState::Pressed:
+        placeTile(
+            translatedCoordinate.x, 
+            translatedCoordinate.y,
+            1
+        );
+        mMouseDownX = mouseState.position.x;
+        mMouseDownY = mouseState.position.y;    
+        //debuglog << "TX: " << mouseState.position.x << " TY: " << mouseState.position.y << endl;
+        break;
         case ButtonState::Repeat:
         mSpriteSystem->setMouseMoveOffset(
-            mMouseDownX > 0 ? mouseState.position.x - mMouseDownX : mMouseDownX,
-            mMouseDownX > 0 ? mouseState.position.y - mMouseDownY : mMouseDownY
+            mMouseDownX != 0 ? mouseState.position.x - mMouseDownX : mMouseDownX,
+            mMouseDownY != 0 ? mouseState.position.y - mMouseDownY : mMouseDownY
         );
         mMouseDownX = mouseState.position.x;
         mMouseDownY = mouseState.position.y;    

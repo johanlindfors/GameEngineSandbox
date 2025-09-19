@@ -117,11 +117,12 @@ public:
         glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xpos, double ypos) {
             if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
                 auto input = IOCContainer::instance().resolve<IInputManager>();
+                input->getMouseState();
                 auto game = static_cast<Engine::GameLoop*>(glfwGetWindowUserPointer(window));
                 auto gameAspects = game->ScreenToGameCoordinatesConverter.getAspects();
                 auto scaledX = xpos * gameAspects.width;
                 auto scaledY = ypos * gameAspects.height;
-                input->addMouseEvent(MouseButton::Left, ButtonState::Pressed, scaledX, scaledY);
+                input->addMouseEvent(MouseButton::Left, ButtonState::Repeat, scaledX, scaledY);
             }
         });
 

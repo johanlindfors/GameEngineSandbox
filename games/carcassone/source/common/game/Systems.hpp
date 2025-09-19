@@ -24,8 +24,8 @@ struct SpriteSystem
     int mScreenHeight;
     int mViewOffsetX;
     int mViewOffsetY;
-    int mMouseMoveOffsetX;
-    int mMouseMoveOffsetY;
+    int mMouseMoveOffsetX = 0;
+    int mMouseMoveOffsetY = 0;
     
 	std::shared_ptr<Engine::TiledSprite> mSprite;
 
@@ -33,21 +33,28 @@ struct SpriteSystem
         : mSprite(std::make_shared<Engine::TiledSprite>())
     {
         debuglog << "[Spritesystem::SpriteSystem] was created" << std::endl;
-        mSprite->tileSize = { 32, 32 };
-        mSprite->size = { 64.0f, 64.0f };
+        mSprite->tileSize = { TILE_WIDTH, TILE_HEIGHT };
+        mSprite->size = { TILE_WIDTH, TILE_HEIGHT };
     }
 
-    void updateScreenSize(int width, int height) {
+    void updateScreenSize(int width, int height)
+    {
         mScreenWidth = width;
         mScreenHeight = height;
 
-        mSprite->size = { 64.0f, 64.0f };
+        mSprite->size = { TILE_WIDTH, TILE_HEIGHT };
         mViewOffsetX = width / 2 - (mSprite->size.width / 2);
         mViewOffsetY = height / 2 - (mSprite->size.height / 2);
     }
 
+    Utilities::Point<int> getViewOffset()
+    {
+        return {mMouseMoveOffsetX, mMouseMoveOffsetY};
+    }
+
     void setMouseMoveOffset(int x, int y) {
-        debuglog << "X: " << x << " Y: " << y << std::endl;
+        debuglog << "MX: " << x << " MY: " << y << std::endl;
+    
         mMouseMoveOffsetX += x;
         mMouseMoveOffsetY -= y;
     }

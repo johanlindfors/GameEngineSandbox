@@ -97,7 +97,7 @@ void StepTimer::tick(
 		m_elapsedMicroSeconds -= 1000000;
 		m_framesPerSecond = m_framesThisSecond;
 		m_framesThisSecond = 0;
-		debuglog << "FPS " << m_framesPerSecond << endl;
+		//debuglog << "FPS " << m_framesPerSecond << endl;
 	}
 
 	if (m_isFixedTimeStep)

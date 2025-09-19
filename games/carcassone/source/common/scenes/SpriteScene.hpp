@@ -38,6 +38,8 @@ namespace Sample
             void update(std::shared_ptr<Utilities::IStepTimer> timer) override;
             void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
         private:
+
+            void placeTile(int x, int y, int tile);
             std::shared_ptr<Engine::SpriteRenderer> mRenderer;
             std::shared_ptr<Engine::TiledSprite> mSprite;
             std::shared_ptr<Engine::IInputManager> mInputManager;
