@@ -116,7 +116,8 @@
         "__string": "cpp",
         "cmath": "cpp",
         "regex": "cpp",
-        "__availability": "cpp"
+        "__availability": "cpp",
+        "span": "cpp"
     },
     "cmake.configureOnOpen": true
 }

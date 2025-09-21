@@ -10,7 +10,6 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "resources/IResourceManager.hpp"
 #include "utilities/MathHelper.hpp"
-#include "resources/IResourceManager.hpp"
 #include "utilities/IOC.hpp"
 #include "utilities/Logger.hpp"
 
