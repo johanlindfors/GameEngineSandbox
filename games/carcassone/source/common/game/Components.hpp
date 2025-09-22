@@ -1,5 +1,5 @@
 #pragma once
-#include "resources/Texture2D.hpp"
+// engine
 #include "utilities/MathHelper.hpp"
 
 enum TileType

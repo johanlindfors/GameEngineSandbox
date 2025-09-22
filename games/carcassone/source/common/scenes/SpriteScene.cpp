@@ -1,18 +1,19 @@
 #include "SpriteScene.hpp"
-#include "utilities/IOC.hpp"
-#include "utilities/MathHelper.hpp"
-#include "resources/IResourceManager.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include "utilities/StepTimer.hpp"
-#include "resources/Shader.hpp"
-#include "sprites/TiledSprite.hpp"
+// thirdparty
+// engine
+#include "input/IInputManager.hpp"
 #include "renderers/SpriteRenderer.hpp"
 #include "renderers/Camera.hpp"
-#include "utilities/Config.hpp"
-#include "input/IInputManager.hpp"
+#include "resources/IResourceManager.hpp"
+#include "resources/Shader.hpp"
 #include "scenes/ISceneManager.hpp"
+#include "sprites/TiledSprite.hpp"
+#include "utilities/Config.hpp"
+#include "utilities/IOC.hpp"
 #include "utilities/Logger.hpp"
+#include "utilities/MathHelper.hpp"
+#include "utilities/StepTimer.hpp"
+// game
 
 using namespace std;
 using namespace Engine;
@@ -116,7 +117,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
         mMouseDownY = 0;
         break;
     }
-    
+
     mPositionSystem->update(mRegistry);
 }
 

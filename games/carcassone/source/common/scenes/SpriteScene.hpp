@@ -1,9 +1,11 @@
 #pragma once
+// thirdparty
 #include <memory>
 #include <vector>
-#include "scenes/GameScene.hpp"
+// engine
 #include "game/Components.hpp"
 #include "game/Systems.hpp"
+#include "scenes/GameScene.hpp"
 
 class IGameStateCallback;
 namespace Engine
