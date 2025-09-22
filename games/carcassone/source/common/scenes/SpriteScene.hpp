@@ -25,7 +25,9 @@ namespace Sample
     {
     public:
         SpriteScene()
-            : mSpriteSystem(std::make_unique<SpriteSystem>()), mMouseDownX(0), mMouseDownY(0)
+            : mSpriteSystem(std::make_unique<SpriteSystem>())
+            , mPositionSystem(std::make_unique<PositionSystem>())
+            , mMouseDownX(0), mMouseDownY(0)
         {
             id = typeid(SpriteScene).name();
         }
@@ -46,6 +48,7 @@ namespace Sample
 
         entt::registry mRegistry;
         std::unique_ptr<SpriteSystem> mSpriteSystem;
+        std::unique_ptr<PositionSystem> mPositionSystem;
 
         int mMouseDownX;
         int mMouseDownY;

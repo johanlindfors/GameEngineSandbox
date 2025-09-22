@@ -43,7 +43,7 @@ void SpriteScene::load()
 
 void SpriteScene::placeTile(int x, int y, int frame, int zOrder)
 {
-    auto offset = mSpriteSystem->getViewOffset();
+    auto offset = mPositionSystem->getViewOffset();
     int xPos = x - offset.x;
     int yPos = y - offset.y;
     xPos = (int)((xPos + TILE_WIDTH / (xPos >= 0 ? 2 : -2)) / TILE_WIDTH);
@@ -84,7 +84,7 @@ void SpriteScene::updateScreenSize(int width, int height)
     mCamera->right = width;
     mCamera->top = height;
 
-    mSpriteSystem->updateScreenSize(width, height);
+    mPositionSystem->updateScreenSize(width, height);
 }
 
 void SpriteScene::update(shared_ptr<IStepTimer> timer)
@@ -104,7 +104,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
         mMouseDownY = mouseState.position.y;
         break;
     case ButtonState::Repeat:
-        mSpriteSystem->setMouseMoveOffset(
+        mPositionSystem->setMouseMoveOffset(
             mMouseDownX != 0 ? mouseState.position.x - mMouseDownX : mMouseDownX,
             mMouseDownY != 0 ? mouseState.position.y - mMouseDownY : mMouseDownY);
         mMouseDownX = mouseState.position.x;
@@ -116,6 +116,8 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
         mMouseDownY = 0;
         break;
     }
+    
+    mPositionSystem->update(mRegistry);
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)

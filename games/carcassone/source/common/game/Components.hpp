@@ -75,4 +75,5 @@ struct SpriteComponent
 {
     int frame;
     int zOrder;
+    Utilities::Point<float> position{0, 0};
 };

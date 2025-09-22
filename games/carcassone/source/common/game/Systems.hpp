@@ -17,7 +17,8 @@
 #include "game/Components.hpp"
 #include "game/GameDefines.hpp"
 
-struct SpriteSystem
+
+struct PositionSystem
 {
     int mScreenWidth;
     int mScreenHeight;
@@ -25,6 +26,41 @@ struct SpriteSystem
     int mViewOffsetY;
     int mMouseMoveOffsetX = 0;
     int mMouseMoveOffsetY = 0;
+
+    void updateScreenSize(int width, int height)
+    {
+        mScreenWidth = width;
+        mScreenHeight = height;
+
+        mViewOffsetX = width / 2 - (TILE_WIDTH / 2);
+        mViewOffsetY = height / 2 - (TILE_HEIGHT / 2);
+    }
+
+    Utilities::Point<int> getViewOffset()
+    {
+        return {mMouseMoveOffsetX, mMouseMoveOffsetY};
+    }
+
+    void setMouseMoveOffset(int x, int y)
+    {
+        mMouseMoveOffsetX += x;
+        mMouseMoveOffsetY -= y;
+    }
+
+    void update(entt::registry &reg)
+    {
+        auto view = reg.view<PositionComponent, SpriteComponent>();
+        for (auto entity : view)
+        {
+            auto [position, sprite] = view.get(entity);
+            sprite.position.x = (float)position.x * TILE_WIDTH + mViewOffsetX + mMouseMoveOffsetX;
+            sprite.position.y = (float)position.y * TILE_HEIGHT + mViewOffsetY + mMouseMoveOffsetY;
+        };
+    }
+};
+
+struct SpriteSystem
+{
     Engine::Texture2D mTexture;
     std::shared_ptr<Engine::TiledSprite> mSprite;
 
@@ -40,38 +76,6 @@ struct SpriteSystem
     {
         mTexture = texture;
     }
-
-    void updateScreenSize(int width, int height)
-    {
-        mScreenWidth = width;
-        mScreenHeight = height;
-
-        mSprite->size = {TILE_WIDTH, TILE_HEIGHT};
-        mViewOffsetX = width / 2 - (mSprite->size.width / 2);
-        mViewOffsetY = height / 2 - (mSprite->size.height / 2);
-    }
-
-    Utilities::Point<int> getViewOffset()
-    {
-        return {mMouseMoveOffsetX, mMouseMoveOffsetY};
-    }
-
-    void setMouseMoveOffset(int x, int y)
-    {
-        mMouseMoveOffsetX += x;
-        mMouseMoveOffsetY -= y;
-    }
-
-    // void update(entt::registry &reg)
-    // {
-    //     auto view = reg.view<SpriteComponent, PositionComponent>();
-    //     for (auto entity : view)
-    //     {
-    //         auto [sprite, position] = view.get(entity);
-    //         sprite.position.x = static_cast<float>(position.x);// * mScreenWidth / SCREEN_WIDTH);
-    //         sprite.position.y = static_cast<float>(position.y);// * mScreenHeight / SCREEN_HEIGHT);
-    //     };
-    // }
 
     float directionToAngle(Direction direction)
     {
@@ -104,9 +108,7 @@ struct SpriteSystem
             mSprite->setFrame(sprite.frame);
             mSprite->rotation = directionToAngle(direction.direction);
             mSprite->rotationCenterPoint = {TILE_WIDTH / 2, TILE_HEIGHT / 2};
-            spriteRenderer->drawSprite(mSprite,
-                                       {(float)position.x * TILE_WIDTH+ mViewOffsetX + mMouseMoveOffsetX,
-                                        (float)position.y * TILE_HEIGHT + mViewOffsetY + mMouseMoveOffsetY});
+            spriteRenderer->drawSprite(mSprite, sprite.position);
         };
     }
 };
