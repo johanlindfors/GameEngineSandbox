@@ -39,10 +39,17 @@ void SpriteScene::load()
 
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
-    placeTile(0, 0, 25, 0);
+    placeStartTile();
 }
 
-void SpriteScene::placeTile(int x, int y, int frame, int zOrder)
+void SpriteScene::placeStartTile()
+{
+    auto view = mRegistry.view<StartComponent>();
+    auto entity = view.front();
+    mRegistry.emplace<PositionComponent>(entity, 0, 0);
+}
+
+void SpriteScene::placeTile(int x, int y, int frame)
 {
     auto offset = mPositionSystem->getViewOffset();
     int xPos = x - offset.x;
@@ -58,7 +65,7 @@ void SpriteScene::placeTile(int x, int y, int frame, int zOrder)
         if (position.x == xPos && position.y == yPos)
         {
             tileExists = true;
-            mRegistry.replace<SpriteComponent>(entity, frame, zOrder);
+            mRegistry.replace<SpriteComponent>(entity, frame);
             break;
         }
     };
@@ -67,7 +74,7 @@ void SpriteScene::placeTile(int x, int y, int frame, int zOrder)
         auto tile = mRegistry.create();
         mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
         mRegistry.emplace<DirectionComponent>(tile, (Direction)(rand() % 4));
-        mRegistry.emplace<SpriteComponent>(tile, frame, zOrder);
+        mRegistry.emplace<SpriteComponent>(tile, frame);
     }
     auto spriteView = mRegistry.view<SpriteComponent>();
     debuglog << "[SpriteScene::placeTile] Number of tiles: " << spriteView.size() << std::endl;
@@ -100,7 +107,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
         placeTile(
             translatedCoordinate.x,
             translatedCoordinate.y,
-            rand() % 24, 1);
+            rand() % 24);
         mMouseDownX = mouseState.position.x;
         mMouseDownY = mouseState.position.y;
         break;

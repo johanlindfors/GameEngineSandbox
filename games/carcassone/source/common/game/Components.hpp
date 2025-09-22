@@ -13,8 +13,8 @@ enum TileType
 struct TileTypeComponent
 {
     TileType north;
-    TileType south;
     TileType east;
+    TileType south;
     TileType west;
     TileType center;
 };
@@ -23,6 +23,14 @@ struct PositionComponent
 {
     int x;
     int y;
+};
+
+struct StartComponent
+{
+};
+
+struct EndComponent
+{
 };
 
 enum MeepleStyle
@@ -74,6 +82,5 @@ struct BadgeComponent
 struct SpriteComponent
 {
     int frame;
-    int zOrder;
     Utilities::Point<float> position{0, 0};
 };
