@@ -4,7 +4,10 @@
 #include <vector>
 // engine
 #include "game/Components.hpp"
-#include "game/Systems.hpp"
+#include "game/systems/DirectionSystem.hpp"
+#include "game/systems/PositionSystem.hpp"
+#include "game/systems/TileSystem.hpp"
+#include "game/systems/SpriteSystem.hpp"
 #include "scenes/GameScene.hpp"
 
 class IGameStateCallback;
