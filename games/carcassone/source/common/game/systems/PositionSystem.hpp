@@ -1,13 +1,7 @@
 #pragma once
 // thirdparty
 #include <entt/entity/registry.hpp>
-#include <memory>
-#include <random>
-
 // engine
-#include "utilities/MathHelper.hpp"
-#include "utilities/Logger.hpp"
-
 // game
 #include "game/Components.hpp"
 #include "game/GameDefines.hpp"
