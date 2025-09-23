@@ -50,6 +50,7 @@ void SpriteScene::prepareValidMoves()
 
     auto placedTilesView = mRegistry.view<PositionComponent>();
     debuglog << "[SpriteScene::prepareValidMoves] Number of tiles on board: " << placedTilesView.size() << std::endl;
+
     for (auto entity : placedTilesView)
     {
         auto position = placedTilesView.get<PositionComponent>(entity);
@@ -58,7 +59,7 @@ void SpriteScene::prepareValidMoves()
             {position.x + 1, position.y},
             {position.x, position.y - 1},
             {position.x - 1, position.y}};
- 
+
         for (auto dir : directions)
         {
             if (isAvaiableMove(dir.first, dir.second, 0))
@@ -88,9 +89,9 @@ bool SpriteScene::isAvaiableMove(int x, int y, int tile)
 
 void SpriteScene::placeStartTile()
 {
-    auto view = mRegistry.view<StartComponent>();
-    auto entity = view.front();
-    mRegistry.emplace<PositionComponent>(entity, 0, 0);
+    auto tile = mTileSystem->getNextTile(mRegistry);
+    mRegistry.emplace<PositionComponent>(tile, 0, 0);
+    mRegistry.erase<StartComponent>(tile);
 }
 
 bool SpriteScene::isValidMove(int x, int y)
@@ -118,10 +119,9 @@ void SpriteScene::placeTile(int x, int y, int frame)
     if (isValidMove(xPos, yPos))
     {
         debuglog << "[SpriteScene::placeTile] Valid position!" << std::endl;
-        auto tile = mRegistry.create();
+        auto tile = mTileSystem->getNextTile(mRegistry);
         mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
-        mRegistry.emplace<DirectionComponent>(tile, (Direction)(rand() % 4));
-        mRegistry.emplace<SpriteComponent>(tile, frame);
+        mRegistry.replace<DirectionComponent>(tile, (Direction)(rand() % 4));
 
         prepareValidMoves();
     }
@@ -145,7 +145,7 @@ void SpriteScene::updateScreenSize(int width, int height)
 }
 
 void SpriteScene::update(shared_ptr<IStepTimer> timer)
-{    
+{
     auto const mouseState = mInputManager->getMouseState();
     auto translatedCoordinate = mCamera->translateScreenToGameCoordinate(
         mouseState.position.x,

@@ -25,6 +25,11 @@ struct PositionComponent
     int y;
 };
 
+struct RandomComponent
+{
+    int index;
+};
+
 struct ValidMoveComponent
 {
     int x;

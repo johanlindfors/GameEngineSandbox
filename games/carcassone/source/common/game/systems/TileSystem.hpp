@@ -2,6 +2,7 @@
 // thirdparty
 #include <entt/entity/registry.hpp>
 // engine
+#include "utilities/Logger.hpp"
 // game
 #include "game/Components.hpp"
 #include "game/GameDefines.hpp"
@@ -364,6 +365,21 @@ struct TileSystem
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<EndComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 99);
+    }
+
+    entt::entity getNextTile(entt::registry &reg) 
+    {
+        auto view = reg.view<StartComponent>();
+        auto entity = view.front();
+        if( entity != entt::null)
+        {
+            return entity;
+        }  
+        
+        auto tilesToPlaceView = reg.view<TileTypeComponent>(entt::exclude<PositionComponent>);
+        debuglog << "[TileSystem::getNextTile] Number of tiles left to place: " << tilesToPlaceView.size_hint() << std::endl;
+
+        return tilesToPlaceView.front();
     }
 
     void update(entt::registry &reg)
