@@ -82,6 +82,10 @@ struct StaticComponent
 {
 };
 
+struct RiverExpansionComponent
+{
+};
+
 struct CloisterComponent
 {
 };

@@ -9,8 +9,11 @@
 
 struct TileSystem
 {
+    bool mRiverExpansionEnabled;
+
     TileSystem(entt::registry &reg, bool useRiverExpansion = false)
     {
+        mRiverExpansionEnabled = useRiverExpansion;
         // ...
         // .⌂.
         // ...
@@ -96,7 +99,7 @@ struct TileSystem
             auto tile = reg.create();
             reg.emplace<TileTypeComponent>(tile, City, Road, Field, Road, Road);
             reg.emplace<DirectionComponent>(tile, Direction::North);
-            if (placeStartTile && !useRiverExpansion)
+            if (placeStartTile && !mRiverExpansionEnabled)
             {
                 reg.emplace<StartComponent>(tile);
                 placeStartTile = false;
@@ -274,7 +277,7 @@ struct TileSystem
         reg.emplace<BadgeComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 21);
 
-        if (!useRiverExpansion)
+        if (!mRiverExpansionEnabled)
             return;
 
         // ... river source
@@ -283,6 +286,7 @@ struct TileSystem
         tile = reg.create();
         reg.emplace<TileTypeComponent>(tile, Field, River, Field, Field, River);
         reg.emplace<DirectionComponent>(tile, Direction::North);
+        reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<StartComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 27);
 
@@ -292,6 +296,7 @@ struct TileSystem
         tile = reg.create();
         reg.emplace<TileTypeComponent>(tile, City, River, City, River, River);
         reg.emplace<DirectionComponent>(tile, Direction::North);
+        reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 99);
 
         // ...
@@ -302,6 +307,7 @@ struct TileSystem
             auto tile = reg.create();
             reg.emplace<TileTypeComponent>(tile, Field, River, Field, River, River);
             reg.emplace<DirectionComponent>(tile, Direction::North);
+            reg.emplace<RiverExpansionComponent>(tile);
             reg.emplace<SpriteComponent>(tile, 99);
         }
 
@@ -311,6 +317,7 @@ struct TileSystem
         tile = reg.create();
         reg.emplace<TileTypeComponent>(tile, River, River, Road, Road, Road);
         reg.emplace<DirectionComponent>(tile, Direction::North);
+        reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 99);
 
         // ... 2st
@@ -321,6 +328,7 @@ struct TileSystem
             auto tile = reg.create();
             reg.emplace<TileTypeComponent>(tile, Field, Field, River, River, River);
             reg.emplace<DirectionComponent>(tile, Direction::North);
+            reg.emplace<RiverExpansionComponent>(tile);
             reg.emplace<SpriteComponent>(tile, 99);
         }
 
@@ -330,6 +338,7 @@ struct TileSystem
         tile = reg.create();
         reg.emplace<TileTypeComponent>(tile, City, River, Road, River, Road);
         reg.emplace<DirectionComponent>(tile, Direction::North);
+        reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 99);
 
         // #@. 1st
@@ -338,6 +347,7 @@ struct TileSystem
         tile = reg.create();
         reg.emplace<TileTypeComponent>(tile, River, River, City,City, City);
         reg.emplace<DirectionComponent>(tile, Direction::North);
+        reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 99);
 
         // .║. 1st
@@ -346,6 +356,7 @@ struct TileSystem
         tile = reg.create();
         reg.emplace<TileTypeComponent>(tile, Road, River, Road, River, Road);
         reg.emplace<DirectionComponent>(tile, Direction::North);
+        reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 99);
 
         // ... 1st
@@ -354,6 +365,7 @@ struct TileSystem
         tile = reg.create();
         reg.emplace<TileTypeComponent>(tile, Field, River, Road, River, Field);
         reg.emplace<DirectionComponent>(tile, Direction::North);
+        reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<CloisterComponent>(tile);
         reg.emplace<SpriteComponent>(tile, 99);
 
@@ -363,23 +375,39 @@ struct TileSystem
         tile = reg.create();
         reg.emplace<TileTypeComponent>(tile, Field, Field, Field, River, River);
         reg.emplace<DirectionComponent>(tile, Direction::North);
+        reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<EndComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 99);
+        reg.emplace<SpriteComponent>(tile, 27);
     }
 
     entt::entity getNextTile(entt::registry &reg) 
     {
-        auto view = reg.view<StartComponent>();
-        auto entity = view.front();
-        if( entity != entt::null)
+        auto entity = reg.view<StartComponent>().front();
+        if(entity != entt::null)
         {
             return entity;
-        }  
+        }
         
-        auto tilesToPlaceView = reg.view<TileTypeComponent>(entt::exclude<PositionComponent>);
-        debuglog << "[TileSystem::getNextTile] Number of tiles left to place: " << tilesToPlaceView.size_hint() << std::endl;
+        if(mRiverExpansionEnabled)
+        {
+            return getNextRiverTile(reg);
+        }
 
-        return tilesToPlaceView.front();
+        // TODO: Replace with randomness
+        return reg.view<TileTypeComponent>(entt::exclude<PositionComponent>).front();
+    }
+
+    entt::entity getNextRiverTile(entt::registry &reg) 
+    {
+        auto tilesToPlaceView = reg.view<RiverExpansionComponent>(entt::exclude<PositionComponent, EndComponent>);
+        auto riverTile = tilesToPlaceView.front();
+        if(riverTile == entt::null)
+        {
+            mRiverExpansionEnabled = false;
+            // TODO: Replace with randomness
+            riverTile = reg.view<RiverExpansionComponent, EndComponent>().front();
+        }
+        return riverTile;
     }
 
     void update(entt::registry &reg)

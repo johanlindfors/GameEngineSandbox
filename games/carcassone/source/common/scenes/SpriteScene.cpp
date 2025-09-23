@@ -125,8 +125,11 @@ void SpriteScene::placeTile(int x, int y, int frame)
 
         prepareValidMoves();
     }
-    auto spriteView = mRegistry.view<SpriteComponent>();
-    debuglog << "[SpriteScene::placeTile] Number of tiles: " << spriteView.size() << std::endl;
+    // int count = 0;
+    // mRegistry.view<SpriteComponent>(entt::exclude<ValidMoveComponent>).each([&count](auto entity) {
+    //     count+=1;
+    // });
+    // debuglog << "[SpriteScene::placeTile] Number of tiles: " << count << std::endl;
 }
 
 void SpriteScene::unload()

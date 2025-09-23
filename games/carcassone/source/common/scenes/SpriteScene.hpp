@@ -32,7 +32,7 @@ namespace Sample
         SpriteScene()
             : mSpriteSystem(std::make_unique<SpriteSystem>())
             , mPositionSystem(std::make_unique<PositionSystem>())
-            , mTileSystem(std::make_unique<TileSystem>(mRegistry, false))
+            , mTileSystem(std::make_unique<TileSystem>(mRegistry, true))
             , mDirectionSystem(std::make_unique<DirectionSystem>())
             , mMouseDownX(0), mMouseDownY(0)
         {
