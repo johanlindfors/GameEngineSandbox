@@ -50,7 +50,7 @@ namespace Sample
         void prepareValidMoves();
         bool isAvaiableMove(int x, int y, int tile);
         bool isValidMove(int x, int y);
-        void placeTile(int x, int y, int tile);
+        void placeTile(int x, int y);
         void placeStartTile();
         std::shared_ptr<Engine::SpriteRenderer> mRenderer;
         std::shared_ptr<Engine::TiledSprite> mSprite;
@@ -58,6 +58,7 @@ namespace Sample
         std::shared_ptr<Engine::OrthographicCamera> mCamera;
 
         entt::registry mRegistry;
+        entt::entity mCurrentTile;
         std::unique_ptr<SpriteSystem> mSpriteSystem;
         std::unique_ptr<PositionSystem> mPositionSystem;
         std::unique_ptr<TileSystem> mTileSystem;
@@ -65,5 +66,6 @@ namespace Sample
 
         int mMouseDownX;
         int mMouseDownY;
+        Utilities::Point<float> mCurrentTilePosition;
     };
 }

@@ -39,6 +39,8 @@ void SpriteScene::load()
 
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
+    mCurrentTilePosition = { TILE_WIDTH / 2, mCamera->top - TILE_HEIGHT * 1.5f };
+
     placeStartTile();
     prepareValidMoves();
 }
@@ -92,6 +94,7 @@ void SpriteScene::placeStartTile()
     auto tile = mTileSystem->getNextTile(mRegistry);
     mRegistry.emplace<PositionComponent>(tile, 0, 0);
     mRegistry.erase<StartComponent>(tile);
+    mCurrentTile = mTileSystem->getNextTile(mRegistry);
 }
 
 bool SpriteScene::isValidMove(int x, int y)
@@ -108,7 +111,7 @@ bool SpriteScene::isValidMove(int x, int y)
     return false;
 }
 
-void SpriteScene::placeTile(int x, int y, int frame)
+void SpriteScene::placeTile(int x, int y)
 {
     auto offset = mPositionSystem->getViewOffset();
     int xPos = x - offset.x;
@@ -119,11 +122,11 @@ void SpriteScene::placeTile(int x, int y, int frame)
     if (isValidMove(xPos, yPos))
     {
         debuglog << "[SpriteScene::placeTile] Valid position!" << std::endl;
-        auto tile = mTileSystem->getNextTile(mRegistry);
-        mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
-        mRegistry.replace<DirectionComponent>(tile, (Direction)(rand() % 4));
+        mRegistry.emplace<PositionComponent>(mCurrentTile, xPos, yPos);
+        mRegistry.replace<DirectionComponent>(mCurrentTile, (Direction)(rand() % 4));
 
         prepareValidMoves();
+        mCurrentTile = mTileSystem->getNextTile(mRegistry);
     }
     // int count = 0;
     // mRegistry.view<SpriteComponent>(entt::exclude<ValidMoveComponent>).each([&count](auto entity) {
@@ -145,6 +148,7 @@ void SpriteScene::updateScreenSize(int width, int height)
     mCamera->top = height;
 
     mPositionSystem->updateScreenSize(width, height);
+    mCurrentTilePosition = { TILE_WIDTH / 2, mCamera->top - TILE_HEIGHT * 1.5f };
 }
 
 void SpriteScene::update(shared_ptr<IStepTimer> timer)
@@ -156,10 +160,6 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
     switch (mouseState.state)
     {
     case ButtonState::Pressed:
-        placeTile(
-            translatedCoordinate.x,
-            translatedCoordinate.y,
-            rand() % 24);
         mMouseDownX = mouseState.position.x;
         mMouseDownY = mouseState.position.y;
         break;
@@ -170,6 +170,10 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
         mMouseDownX = mouseState.position.x;
         mMouseDownY = mouseState.position.y;
         break;
+    case ButtonState::Released:
+        placeTile(
+            translatedCoordinate.x,
+            translatedCoordinate.y);
 
     default:
         mMouseDownX = 0;
@@ -187,5 +191,5 @@ void SpriteScene::draw(shared_ptr<IRenderer> renderer)
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
 
-    mSpriteSystem->render(mRegistry, mRenderer);
+    mSpriteSystem->render(mRegistry, mRenderer, mCurrentTile, mCurrentTilePosition);
 }

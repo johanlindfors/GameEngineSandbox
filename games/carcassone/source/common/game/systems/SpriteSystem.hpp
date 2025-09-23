@@ -7,6 +7,7 @@
 #include "renderers/SpriteRenderer.hpp"
 #include "sprites/TiledSprite.hpp"
 #include "utilities/Logger.hpp"
+#include "utilities/MathHelper.hpp"
 
 // game
 #include "game/Components.hpp"
@@ -30,7 +31,7 @@ struct SpriteSystem
         mSprite->texture = texture;
     }
 
-    void render(entt::registry &reg, std::shared_ptr<Engine::IRenderer> renderer)
+    void render(entt::registry &reg, std::shared_ptr<Engine::IRenderer> renderer, entt::entity currentTile, Utilities::Point<float> currentTilePosition)
     {
         auto spriteRenderer = std::static_pointer_cast<Engine::SpriteRenderer>(renderer);
 
@@ -50,5 +51,10 @@ struct SpriteSystem
             mSprite->setFrame(sprite.frame);
             spriteRenderer->drawSprite(mSprite, sprite.position);
         };
+
+        // TODO: Draw next tile
+        auto sprite = reg.view<SpriteComponent>().get<SpriteComponent>(currentTile);
+        mSprite->setFrame(sprite.frame);
+        spriteRenderer->drawSprite(mSprite, currentTilePosition);
     }
 };
