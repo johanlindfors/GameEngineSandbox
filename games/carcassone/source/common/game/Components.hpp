@@ -25,6 +25,12 @@ struct PositionComponent
     int y;
 };
 
+struct ValidMoveComponent
+{
+    int x;
+    int y;
+};
+
 struct StartComponent
 {
 };
@@ -82,5 +88,6 @@ struct BadgeComponent
 struct SpriteComponent
 {
     int frame;
+    float rotation;
     Utilities::Point<float> position{0, 0};
 };

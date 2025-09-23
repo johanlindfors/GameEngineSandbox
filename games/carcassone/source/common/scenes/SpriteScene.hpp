@@ -29,7 +29,8 @@ namespace Sample
         SpriteScene()
             : mSpriteSystem(std::make_unique<SpriteSystem>())
             , mPositionSystem(std::make_unique<PositionSystem>())
-            , mTileSystem(std::make_unique<TileSystem>(mRegistry, true))
+            , mTileSystem(std::make_unique<TileSystem>(mRegistry, false))
+            , mDirectionSystem(std::make_unique<DirectionSystem>())
             , mMouseDownX(0), mMouseDownY(0)
         {
             id = typeid(SpriteScene).name();
@@ -43,6 +44,9 @@ namespace Sample
         void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
     private:
+        void prepareValidMoves();
+        bool isAvaiableMove(int x, int y, int tile);
+        bool isValidMove(int x, int y);
         void placeTile(int x, int y, int tile);
         void placeStartTile();
         std::shared_ptr<Engine::SpriteRenderer> mRenderer;
@@ -54,6 +58,7 @@ namespace Sample
         std::unique_ptr<SpriteSystem> mSpriteSystem;
         std::unique_ptr<PositionSystem> mPositionSystem;
         std::unique_ptr<TileSystem> mTileSystem;
+        std::unique_ptr<DirectionSystem> mDirectionSystem;
 
         int mMouseDownX;
         int mMouseDownY;

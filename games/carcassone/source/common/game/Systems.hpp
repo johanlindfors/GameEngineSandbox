@@ -414,12 +414,49 @@ struct PositionSystem
 
     void update(entt::registry &reg)
     {
-        auto view = reg.view<PositionComponent, SpriteComponent>();
-        for (auto entity : view)
+        auto placedTilesView = reg.view<PositionComponent, SpriteComponent>();
+        for (auto entity : placedTilesView)
         {
-            auto [position, sprite] = view.get(entity);
+            auto [position, sprite] = placedTilesView.get(entity);
             sprite.position.x = (float)position.x * TILE_WIDTH + mViewOffsetX + mMouseMoveOffsetX;
             sprite.position.y = (float)position.y * TILE_HEIGHT + mViewOffsetY + mMouseMoveOffsetY;
+        };
+
+        auto validMovesView = reg.view<ValidMoveComponent, SpriteComponent>();
+        for (auto entity : validMovesView)
+        {
+            auto [validMove, sprite] = validMovesView.get(entity);
+            sprite.position.x = (float)validMove.x * TILE_WIDTH + mViewOffsetX + mMouseMoveOffsetX;
+            sprite.position.y = (float)validMove.y * TILE_HEIGHT + mViewOffsetY + mMouseMoveOffsetY;
+        };
+    }
+};
+
+struct DirectionSystem
+{
+    float directionToAngle(Direction direction)
+    {
+        switch (direction)
+        {
+        case Direction::East:
+            return 90.0f;
+        case Direction::South:
+            return 180.0f;
+        case Direction::West:
+            return 270.0f;
+        case Direction::North:
+        default:
+            return 0.0f;
+        }
+    }
+
+    void update(entt::registry &reg)
+    {
+        auto view = reg.view<DirectionComponent, SpriteComponent>();
+        for (auto entity : view)
+        {
+            auto [direction, sprite] = view.get(entity);
+            sprite.rotation = directionToAngle(direction.direction);
         };
     }
 };
@@ -442,34 +479,27 @@ struct SpriteSystem
         mTexture = texture;
     }
 
-    float directionToAngle(Direction direction)
-    {
-        switch (direction)
-        {
-        case Direction::East:
-            return 90.0f;
-        case Direction::South:
-            return 180.0f;
-        case Direction::West:
-            return 270.0f;
-        case Direction::North:
-        default:
-            return 0.0f;
-        }
-    }
-
     void render(entt::registry &reg, std::shared_ptr<Engine::IRenderer> renderer)
     {
         auto spriteRenderer = std::static_pointer_cast<Engine::SpriteRenderer>(renderer);
 
-        auto view = reg.view<SpriteComponent, PositionComponent, DirectionComponent>();
-        for (auto entity : view)
+        auto placedTilesView = reg.view<SpriteComponent, PositionComponent>();
+        for (auto entity : placedTilesView)
         {
-            auto [sprite, position, direction] = view.get(entity);
+            auto sprite = placedTilesView.get<SpriteComponent>(entity);
             mSprite->texture = mTexture;
             mSprite->setFrame(sprite.frame);
-            mSprite->rotation = directionToAngle(direction.direction);
+            mSprite->rotation = sprite.rotation;
             mSprite->rotationCenterPoint = {TILE_WIDTH / 2, TILE_HEIGHT / 2};
+            spriteRenderer->drawSprite(mSprite, sprite.position);
+        };
+
+        auto validMovesView = reg.view<SpriteComponent, ValidMoveComponent>();
+        for (auto entity : validMovesView)
+        {
+            auto sprite = validMovesView.get<SpriteComponent>(entity);
+            mSprite->texture = mTexture;
+            mSprite->setFrame(sprite.frame);
             spriteRenderer->drawSprite(mSprite, sprite.position);
         };
     }

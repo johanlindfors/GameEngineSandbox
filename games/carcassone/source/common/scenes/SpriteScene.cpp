@@ -40,6 +40,50 @@ void SpriteScene::load()
     mInputManager = IOCContainer::instance().resolve<IInputManager>();
 
     placeStartTile();
+    prepareValidMoves();
+}
+
+void SpriteScene::prepareValidMoves()
+{
+    auto validMovesView = mRegistry.view<ValidMoveComponent>();
+    mRegistry.destroy(validMovesView.begin(), validMovesView.end());
+
+    auto placedTilesView = mRegistry.view<PositionComponent>();
+    debuglog << "[SpriteScene::prepareValidMoves] Number of tiles on board: " << placedTilesView.size() << std::endl;
+    for (auto entity : placedTilesView)
+    {
+        auto position = placedTilesView.get<PositionComponent>(entity);
+        std::vector<std::pair<int, int>> directions = {
+            {position.x, position.y + 1},
+            {position.x + 1, position.y},
+            {position.x, position.y - 1},
+            {position.x - 1, position.y}};
+ 
+        for (auto dir : directions)
+        {
+            if (isAvaiableMove(dir.first, dir.second, 0))
+            {
+                auto validMove = mRegistry.create();
+                mRegistry.emplace<ValidMoveComponent>(validMove, dir.first, dir.second);
+                mRegistry.emplace<SpriteComponent>(validMove, 24);
+            }
+        }
+    }
+    debuglog << "[SpriteScene::isValidMove] Number of validMoves on board: " << validMovesView.size() << std::endl;
+}
+
+bool SpriteScene::isAvaiableMove(int x, int y, int tile)
+{
+    auto placedTilesView = mRegistry.view<PositionComponent>();
+    for (auto entity : placedTilesView)
+    {
+        auto [position] = placedTilesView.get(entity);
+        if (position.x == x && position.y == y)
+        {
+            return false;
+        }
+    };
+    return true;
 }
 
 void SpriteScene::placeStartTile()
@@ -47,6 +91,20 @@ void SpriteScene::placeStartTile()
     auto view = mRegistry.view<StartComponent>();
     auto entity = view.front();
     mRegistry.emplace<PositionComponent>(entity, 0, 0);
+}
+
+bool SpriteScene::isValidMove(int x, int y)
+{
+    auto validMovesView = mRegistry.view<ValidMoveComponent>();
+    for (auto entity : validMovesView)
+    {
+        auto [position] = validMovesView.get(entity);
+        if (position.x == x && position.y == y)
+        {
+            return true;
+        }
+    };
+    return false;
 }
 
 void SpriteScene::placeTile(int x, int y, int frame)
@@ -57,24 +115,15 @@ void SpriteScene::placeTile(int x, int y, int frame)
     xPos = (int)((xPos + TILE_WIDTH / (xPos >= 0 ? 2 : -2)) / TILE_WIDTH);
     yPos = (int)((yPos + TILE_HEIGHT / (yPos >= 0 ? 2 : -2)) / TILE_HEIGHT);
 
-    bool tileExists = false;
-    auto view = mRegistry.view<SpriteComponent, PositionComponent>();
-    for (auto entity : view)
+    if (isValidMove(xPos, yPos))
     {
-        auto [sprite, position] = view.get(entity);
-        if (position.x == xPos && position.y == yPos)
-        {
-            tileExists = true;
-            mRegistry.replace<SpriteComponent>(entity, frame);
-            break;
-        }
-    };
-    if (!tileExists)
-    {
+        debuglog << "[SpriteScene::placeTile] Valid position!" << std::endl;
         auto tile = mRegistry.create();
         mRegistry.emplace<PositionComponent>(tile, xPos, yPos);
         mRegistry.emplace<DirectionComponent>(tile, (Direction)(rand() % 4));
         mRegistry.emplace<SpriteComponent>(tile, frame);
+
+        prepareValidMoves();
     }
     auto spriteView = mRegistry.view<SpriteComponent>();
     debuglog << "[SpriteScene::placeTile] Number of tiles: " << spriteView.size() << std::endl;
@@ -96,7 +145,7 @@ void SpriteScene::updateScreenSize(int width, int height)
 }
 
 void SpriteScene::update(shared_ptr<IStepTimer> timer)
-{
+{    
     auto const mouseState = mInputManager->getMouseState();
     auto translatedCoordinate = mCamera->translateScreenToGameCoordinate(
         mouseState.position.x,
@@ -126,6 +175,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
     }
 
     mPositionSystem->update(mRegistry);
+    mDirectionSystem->update(mRegistry);
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)
