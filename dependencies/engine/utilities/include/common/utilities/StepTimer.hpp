@@ -60,7 +60,7 @@ namespace Utilities
 			return m_elapsedMicroSeconds;
 		}
 
-		unsigned int getDeltaMicroSeconds() const
+		unsigned int getDeltaMicroSeconds()
 		{
 			return m_delta;
 		}

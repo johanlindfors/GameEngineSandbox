@@ -138,6 +138,12 @@ namespace Utilities
             T y;
         };
 
+        // Overloading "==" operator
+        bool operator==(Point<T> const &point) const
+        {
+            return x == point.x && y == point.y;
+        }
+
         // Overloading "+" operator
         Point<T> operator+(Point<T> const &point)
         {
@@ -149,6 +155,7 @@ namespace Utilities
         {
             return Point<T>{x + vec.x, y + vec.y};
         }
+
     };
 
     template <typename T>

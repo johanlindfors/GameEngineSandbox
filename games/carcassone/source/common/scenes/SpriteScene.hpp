@@ -34,7 +34,7 @@ namespace Sample
             , mPositionSystem(std::make_unique<PositionSystem>())
             , mTileSystem(std::make_unique<TileSystem>(mRegistry, true))
             , mDirectionSystem(std::make_unique<DirectionSystem>())
-            , mMouseDownX(0), mMouseDownY(0)
+            , mMouseDownX(0), mMouseDownY(0), mLastButtonPressedTime(0)
         {
             id = typeid(SpriteScene).name();
         }
@@ -47,6 +47,7 @@ namespace Sample
         void draw(std::shared_ptr<Engine::IRenderer> renderer) override;
 
     private:
+        Utilities::Point<int> translateGameToGameBoardCoordinate(int x, int y);
         void prepareValidMoves();
         bool isAvaiableMove(int x, int y, int tile);
         bool isValidMove(int x, int y);
@@ -67,5 +68,7 @@ namespace Sample
         int mMouseDownX;
         int mMouseDownY;
         Utilities::Point<float> mCurrentTilePosition;
+        double mLastButtonPressedTime;
+        Utilities::Point<int> mLastPressedCell{0, 0};
     };
 }

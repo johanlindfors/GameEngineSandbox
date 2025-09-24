@@ -116,13 +116,12 @@ void SpriteScene::placeTile(int x, int y)
     auto offset = mPositionSystem->getViewOffset();
     int xPos = x - offset.x;
     int yPos = y - offset.y;
-    xPos = (int)((xPos + TILE_WIDTH / (xPos >= 0 ? 2 : -2)) / TILE_WIDTH);
-    yPos = (int)((yPos + TILE_HEIGHT / (yPos >= 0 ? 2 : -2)) / TILE_HEIGHT);
+    auto result = translateGameToGameBoardCoordinate(xPos, yPos);
 
-    if (isValidMove(xPos, yPos))
+    if (isValidMove(result.x, result.y))
     {
         debuglog << "[SpriteScene::placeTile] Valid position!" << std::endl;
-        mRegistry.emplace<PositionComponent>(mCurrentTile, xPos, yPos);
+        mRegistry.emplace<PositionComponent>(mCurrentTile, result.x, result.y);
         mRegistry.replace<DirectionComponent>(mCurrentTile, (Direction)(rand() % 4));
 
         prepareValidMoves();
@@ -151,18 +150,39 @@ void SpriteScene::updateScreenSize(int width, int height)
     mCurrentTilePosition = { TILE_WIDTH / 2, mCamera->top - TILE_HEIGHT * 1.5f };
 }
 
+Point<int> SpriteScene::translateGameToGameBoardCoordinate(int x, int y)
+{
+    return {(int)((x + TILE_WIDTH / (x >= 0 ? 2 : -2)) / TILE_WIDTH),
+            (int)((y + TILE_HEIGHT / (y >= 0 ? 2 : -2)) / TILE_HEIGHT)};
+}
+
 void SpriteScene::update(shared_ptr<IStepTimer> timer)
 {
+    mLastButtonPressedTime += timer->getDeltaMicroSeconds() / 1000;
+    
     auto const mouseState = mInputManager->getMouseState();
+    
     auto translatedCoordinate = mCamera->translateScreenToGameCoordinate(
         mouseState.position.x,
         mouseState.position.y);
+    auto pressedCell = translateGameToGameBoardCoordinate(
+            static_cast<int>(translatedCoordinate.x),
+            static_cast<int>(translatedCoordinate.y));
     switch (mouseState.state)
     {
     case ButtonState::Pressed:
+        debuglog << "[SpriteScene::update] Elapsed seconds: " << mLastButtonPressedTime << std::endl;
+        if(mLastButtonPressedTime < 250 && pressedCell == mLastPressedCell) {
+            placeTile(
+                translatedCoordinate.x,
+                translatedCoordinate.y);
+        }
         mMouseDownX = mouseState.position.x;
         mMouseDownY = mouseState.position.y;
+        mLastButtonPressedTime = 0;
+        mLastPressedCell = pressedCell;
         break;
+
     case ButtonState::Repeat:
         mPositionSystem->setMouseMoveOffset(
             mMouseDownX != 0 ? mouseState.position.x - mMouseDownX : mMouseDownX,
@@ -170,12 +190,9 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
         mMouseDownX = mouseState.position.x;
         mMouseDownY = mouseState.position.y;
         break;
-    case ButtonState::Released:
-        placeTile(
-            translatedCoordinate.x,
-            translatedCoordinate.y);
 
-    default:
+    case ButtonState::Released:
+    case ButtonState::None:
         mMouseDownX = 0;
         mMouseDownY = 0;
         break;
@@ -183,6 +200,9 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
 
     mPositionSystem->update(mRegistry);
     mDirectionSystem->update(mRegistry);
+    if(mLastButtonPressedTime > 2000) {
+        mLastButtonPressedTime -= 1000;
+    }
 }
 
 void SpriteScene::draw(shared_ptr<IRenderer> renderer)

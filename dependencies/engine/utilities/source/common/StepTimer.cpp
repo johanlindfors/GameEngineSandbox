@@ -88,16 +88,17 @@ void StepTimer::tick(
 
 	m_delta = delta;
 	m_elapsedMicroSeconds += static_cast<unsigned int>(delta);
-	m_elapsedSeconds += static_cast<double>(delta / 1000000.0);
+	//m_elapsedSeconds += static_cast<double>(m_delta / 1000000.0);
 	m_frameCount++;
 	m_framesThisSecond++;
 
 	if (m_elapsedMicroSeconds >= 1000000)
 	{
 		m_elapsedMicroSeconds -= 1000000;
+		m_elapsedSeconds++;
 		m_framesPerSecond = m_framesThisSecond;
 		m_framesThisSecond = 0;
-		//debuglog << "FPS " << m_framesPerSecond << endl;
+		debuglog << "FPS " << m_framesPerSecond << endl;
 	}
 
 	if (m_isFixedTimeStep)
