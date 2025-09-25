@@ -21,7 +21,7 @@ struct SpriteSystem
         : mSprite(std::make_shared<Engine::TiledSprite>())
     {
         debuglog << "[Spritesystem::SpriteSystem] was created" << std::endl;
-        mSprite->tileSize = {128, 128};
+        mSprite->tileSize = {32, 32};
         mSprite->size = {TILE_WIDTH, TILE_HEIGHT};
         mSprite->rotationCenterPoint = {TILE_WIDTH / 2, TILE_HEIGHT / 2};
     }

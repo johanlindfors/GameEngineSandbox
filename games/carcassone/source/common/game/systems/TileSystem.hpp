@@ -288,7 +288,7 @@ struct TileSystem
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<StartComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 27);
+        reg.emplace<SpriteComponent>(tile, 24);
 
         // ###
         // @@@ 1st
@@ -297,7 +297,7 @@ struct TileSystem
         reg.emplace<TileTypeComponent>(tile, City, River, City, River, River);
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<RiverExpansionComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 99);
+        reg.emplace<SpriteComponent>(tile, 25);
 
         // ...
         // @@@ 2st
@@ -308,7 +308,7 @@ struct TileSystem
             reg.emplace<TileTypeComponent>(tile, Field, River, Field, River, River);
             reg.emplace<DirectionComponent>(tile, Direction::North);
             reg.emplace<RiverExpansionComponent>(tile);
-            reg.emplace<SpriteComponent>(tile, 99);
+            reg.emplace<SpriteComponent>(tile, 26);
         }
 
         // .@. 1st
@@ -318,7 +318,7 @@ struct TileSystem
         reg.emplace<TileTypeComponent>(tile, River, River, Road, Road, Road);
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<RiverExpansionComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 99);
+        reg.emplace<SpriteComponent>(tile, 27);
 
         // ... 2st
         // @@.
@@ -329,7 +329,7 @@ struct TileSystem
             reg.emplace<TileTypeComponent>(tile, Field, Field, River, River, River);
             reg.emplace<DirectionComponent>(tile, Direction::North);
             reg.emplace<RiverExpansionComponent>(tile);
-            reg.emplace<SpriteComponent>(tile, 99);
+            reg.emplace<SpriteComponent>(tile, 28);
         }
 
         // ### 1st
@@ -339,7 +339,7 @@ struct TileSystem
         reg.emplace<TileTypeComponent>(tile, City, River, Road, River, Road);
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<RiverExpansionComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 99);
+        reg.emplace<SpriteComponent>(tile, 29);
 
         // #@. 1st
         // ##@
@@ -348,7 +348,7 @@ struct TileSystem
         reg.emplace<TileTypeComponent>(tile, River, River, City,City, City);
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<RiverExpansionComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 99);
+        reg.emplace<SpriteComponent>(tile, 30);
 
         // .║. 1st
         // @║@
@@ -357,7 +357,7 @@ struct TileSystem
         reg.emplace<TileTypeComponent>(tile, Road, River, Road, River, Road);
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<RiverExpansionComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 99);
+        reg.emplace<SpriteComponent>(tile, 31);
 
         // ... 1st
         // @⌂@
@@ -367,7 +367,7 @@ struct TileSystem
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<CloisterComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 99);
+        reg.emplace<SpriteComponent>(tile, 32);
 
         // ... lake
         // @@.
@@ -377,7 +377,7 @@ struct TileSystem
         reg.emplace<DirectionComponent>(tile, Direction::North);
         reg.emplace<RiverExpansionComponent>(tile);
         reg.emplace<EndComponent>(tile);
-        reg.emplace<SpriteComponent>(tile, 27);
+        reg.emplace<SpriteComponent>(tile, 33);
     }
 
     entt::entity getNextTile(entt::registry &reg) 

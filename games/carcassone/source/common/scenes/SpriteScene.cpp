@@ -26,8 +26,8 @@ void SpriteScene::load()
     auto resourceManager = IOCContainer::instance().resolve<IResourceManager>();
 
     resourceManager->loadShader("simple", "simple.vs", "simple.fs");
-    resourceManager->loadTextures({"tiles_sample.png"});
-    mSpriteSystem->setTexture(resourceManager->getTexture("tiles_sample.png"));
+    resourceManager->loadTextures({"tiles.png"});
+    mSpriteSystem->setTexture(resourceManager->getTexture("tiles.png"));
 
     auto config = IOCContainer::instance().resolve<Utilities::Config>();
     mCamera = make_shared<Engine::OrthographicCamera>(0.0f, config->width, 0.0f, config->height, -1.0f, 1.0f);
@@ -68,7 +68,7 @@ void SpriteScene::prepareValidMoves()
             {
                 auto validMove = mRegistry.create();
                 mRegistry.emplace<ValidMoveComponent>(validMove, dir.first, dir.second);
-                mRegistry.emplace<SpriteComponent>(validMove, 24);
+                mRegistry.emplace<SpriteComponent>(validMove, 63);
             }
         }
     }
