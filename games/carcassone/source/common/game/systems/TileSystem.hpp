@@ -380,9 +380,36 @@ struct TileSystem
         reg.emplace<SpriteComponent>(tile, 33);
     }
 
+    entt::entity getNextRiverTile(entt::registry &reg) 
+    {
+        entt::entity entity = entt::null;
+        int tilesToPlace = 0;
+        auto tilesToPlaceView = reg.view<RiverExpansionComponent>(entt::exclude<PositionComponent, EndComponent>);
+        for(auto tile: tilesToPlaceView) {
+            tilesToPlace++;
+        }
+        int random_tile = rand() % tilesToPlace;
+        int counter = 0;
+        if( tilesToPlace > 0) {
+            for(auto tile: tilesToPlaceView) {
+                if(counter++ == random_tile) {
+                    debuglog << "Selected tile " << random_tile << " of " << tilesToPlace << " remaining." << std::endl;
+                    entity = tile;
+                    break;
+                }
+            }
+        } else {
+            debuglog << "Selected the end river tile!" << std::endl;
+            // No more river tiles to place, disable river expansion and return the end tile
+            mRiverExpansionEnabled = false;
+            entity = reg.view<RiverExpansionComponent, EndComponent>().front();
+        }
+        return entity;
+    }
+
     entt::entity getNextTile(entt::registry &reg) 
     {
-        auto entity = reg.view<StartComponent>().front();
+        entt::entity entity = reg.view<StartComponent>().front();
         if(entity != entt::null)
         {
             return entity;
@@ -393,21 +420,26 @@ struct TileSystem
             return getNextRiverTile(reg);
         }
 
-        // TODO: Replace with randomness
-        return reg.view<TileTypeComponent>(entt::exclude<PositionComponent>).front();
-    }
-
-    entt::entity getNextRiverTile(entt::registry &reg) 
-    {
-        auto tilesToPlaceView = reg.view<RiverExpansionComponent>(entt::exclude<PositionComponent, EndComponent>);
-        auto riverTile = tilesToPlaceView.front();
-        if(riverTile == entt::null)
-        {
-            mRiverExpansionEnabled = false;
-            // TODO: Replace with randomness
-            riverTile = reg.view<RiverExpansionComponent, EndComponent>().front();
+        int tilesToPlace = 0;
+        auto tilesToPlaceView = reg.view<TileTypeComponent>(entt::exclude<PositionComponent, EndComponent>);
+        for(auto tile: tilesToPlaceView) {
+            tilesToPlace++;
         }
-        return riverTile;
+        if(tilesToPlace > 1)
+        {
+            int random_tile = rand() % tilesToPlace;
+            int counter = 0;
+            for(auto tile: tilesToPlaceView) {
+                if(counter++ == random_tile) {
+                    debuglog << "Selected tile " << random_tile << " of " << tilesToPlace << " remaining.\n";
+                    entity = tile;
+                    break;
+                }
+            }
+        } else {
+            entity = tilesToPlaceView.front();
+        }
+        return entity;
     }
 
     void update(entt::registry &reg)

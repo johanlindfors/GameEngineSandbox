@@ -51,7 +51,7 @@ void SpriteScene::prepareValidMoves()
     mRegistry.destroy(validMovesView.begin(), validMovesView.end());
 
     auto placedTilesView = mRegistry.view<PositionComponent>();
-    debuglog << "[SpriteScene::prepareValidMoves] Number of tiles on board: " << placedTilesView.size() << std::endl;
+    //debuglog << "[SpriteScene::prepareValidMoves] Number of tiles on board: " << placedTilesView.size() << std::endl;
 
     for (auto entity : placedTilesView)
     {
@@ -72,7 +72,7 @@ void SpriteScene::prepareValidMoves()
             }
         }
     }
-    debuglog << "[SpriteScene::isValidMove] Number of validMoves on board: " << validMovesView.size() << std::endl;
+    //debuglog << "[SpriteScene::isValidMove] Number of validMoves on board: " << validMovesView.size() << std::endl;
 }
 
 bool SpriteScene::isAvaiableMove(int x, int y, int tile)
@@ -120,7 +120,7 @@ void SpriteScene::placeTile(int x, int y)
 
     if (isValidMove(result.x, result.y))
     {
-        debuglog << "[SpriteScene::placeTile] Valid position!" << std::endl;
+        //debuglog << "[SpriteScene::placeTile] Valid position!" << std::endl;
         mRegistry.emplace<PositionComponent>(mCurrentTile, result.x, result.y);
         mRegistry.replace<DirectionComponent>(mCurrentTile, (Direction)(rand() % 4));
 
@@ -171,7 +171,7 @@ void SpriteScene::update(shared_ptr<IStepTimer> timer)
     switch (mouseState.state)
     {
     case ButtonState::Pressed:
-        debuglog << "[SpriteScene::update] Elapsed seconds: " << mLastButtonPressedTime << std::endl;
+        //debuglog << "[SpriteScene::update] Elapsed seconds: " << mLastButtonPressedTime << std::endl;
         if(mLastButtonPressedTime < 250 && pressedCell == mLastPressedCell) {
             placeTile(
                 translatedCoordinate.x,
