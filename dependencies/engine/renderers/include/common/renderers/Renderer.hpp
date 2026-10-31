@@ -11,6 +11,7 @@ namespace Engine
     class Renderer : public IRenderer
     {
     public:
+        Renderer();
         Renderer(std::shared_ptr<Engine::Shader> shader);
         ~Renderer();
         virtual void initialize();
