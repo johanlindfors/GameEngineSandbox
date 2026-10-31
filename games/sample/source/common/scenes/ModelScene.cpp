@@ -14,7 +14,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "input/IInputManager.hpp"
 #include "scenes/ISceneManager.hpp"
-#include "SpriteScene.hpp"
+#include "AudioScene.hpp"
 
 using namespace std;
 using namespace Engine;
@@ -77,7 +77,7 @@ void ModelScene::update(shared_ptr<IStepTimer> timer)
     mInputManager->update();
     if (mouseState.state == ButtonState::Pressed)
     {
-        mSceneManager->addScene(make_shared<SpriteScene>());
+        mSceneManager->addScene(make_shared<AudioScene>());
         mSceneManager->removeScene(typeid(ModelScene));
     }
 

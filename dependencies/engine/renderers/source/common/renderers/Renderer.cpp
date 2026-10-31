@@ -9,6 +9,8 @@
 using namespace std;
 using namespace Engine;
 
+Renderer::Renderer() {}
+
 Renderer::Renderer(
     shared_ptr<Shader> shader)
     : mShader(shader) {}
@@ -16,7 +18,9 @@ Renderer::Renderer(
 Renderer::~Renderer()
 {
     debuglog << "[Renderer::~Renderer]" << endl;
-	mShader.reset();
+    if (mShader) {
+        mShader.reset();
+    }
 }
 
 void Renderer::initialize()

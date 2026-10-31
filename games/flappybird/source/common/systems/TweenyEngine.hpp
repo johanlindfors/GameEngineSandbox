@@ -3,7 +3,7 @@
 #include "utilities/IStepTimer.hpp"
 #include <vector>
 #include <memory>
-#include "tweeny.h"
+#include <tweeny/tweeny.h>
 #include <functional>
 
 class TweenyEngine : public Utilities::ITweenEngine

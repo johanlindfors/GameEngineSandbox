@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <stdint.h>
 
 namespace Utilities
 {

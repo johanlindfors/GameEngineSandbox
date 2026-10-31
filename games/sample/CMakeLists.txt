@@ -17,6 +17,7 @@ set(DEPENDENCIES
     renderers
     resources
     input
+    audio
     scenes
 )
 
