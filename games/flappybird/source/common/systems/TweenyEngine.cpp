@@ -2,50 +2,43 @@
 #include "utilities/IStepTimer.hpp"
 
 using namespace tweeny;
-using tweeny::easing;
+using namespace tweeny::easing;
 
 void TweenyEngine::add(float original, float target, std::function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce)
 {
-    tweeny::tween<int> tween;
-    if (bounce)
-    {
-        tween = tweeny::from(static_cast<int>(original)).to(static_cast<int>(target)).during(durationInMilliseconds).via(easing::elasticOut);
-    }
-    else
-    {
-        tween = tweeny::from(static_cast<int>(original)).to(static_cast<int>(target)).during(durationInMilliseconds).via(easing::linear);
-    }
-    tween.onStep([=](tweeny::tween<int> &tween, int value)
-                 { 
+    auto tween = tweeny::from(static_cast<int>(original))
+        .to(static_cast<int>(target))
+        .during(durationInMilliseconds)
+        .via(tweeny::easing::byName(bounce ? "elasticOut" : "linear"))
+        .build();
+    tween.on(tweeny::event::step, [=](auto &tween){ 
+        auto value = tween.peek();
         setter(value);
         if(tween.progress() >= 1.0f){
-            return true;
+            return tweeny::event::response::unsubscribe;
         }
-        return false; });
+        return tweeny::event::response::ok; }
+    );
 
     mTweenies.push_back(tween);
 }
 
 void TweenyEngine::add(float original, float target, std::function<void(float)> setter, unsigned int durationInMilliseconds, bool bounce, std::function<void()> onCompleteCallback)
 {
-    tweeny::tween<int> tween;
+    auto tween = tweeny::from(static_cast<int>(original))
+        .to(static_cast<int>(target))
+        .during(durationInMilliseconds)
+        .via(tweeny::easing::byName(bounce ? "elasticOut" : "linear"))
+        .build();
     
-    if (bounce)
-    {
-        tween = tweeny::from(static_cast<int>(original)).to(static_cast<int>(target)).during(durationInMilliseconds).via(easing::elasticOut);
-    }
-    else
-    {
-        tween = tweeny::from(static_cast<int>(original)).to(static_cast<int>(target)).during(durationInMilliseconds).via(easing::linear);
-    }
-    tween.onStep([=](tweeny::tween<int> &tween, int value)
-                 { 
+    tween.on(tweeny::event::step, [=](auto &tween){ 
+        auto value = tween.peek();
         setter(value);
         if(tween.progress() >= 1.0f){
             onCompleteCallback();
-            return true;
+            return tweeny::event::response::unsubscribe;
         }
-        return false; });
+        return tweeny::event::response::ok; });
 
     mTweenies.push_back(tween);
 }
